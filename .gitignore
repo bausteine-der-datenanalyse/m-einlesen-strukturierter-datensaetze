@@ -1,0 +1,18 @@
+# Ignore mac files
+.DS_Store
+
+# Ignore Jupyter Cache
+.jupyter_cache/
+
+# Ignore quarto build data
+/.quarto/
+
+# Ignore Latex generated files
+.bcf
+.log
+.toc
+.tex
+.aux
+
+# Ignore VS Code configuration
+.vscode/

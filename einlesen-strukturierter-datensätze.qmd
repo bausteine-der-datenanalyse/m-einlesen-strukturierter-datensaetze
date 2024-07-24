@@ -1,0 +1,89 @@
+---
+# Metadaten / meta data
+title: "Methodenbaustein Einlesen strukturierter Datensätze"
+author:
+  - Lukas Arnold
+  - Simone Arnold
+  - Florian Bagemihl
+  - Matthias Baitsch
+  - Marc Fehr
+  - Maik Poetzsch
+  - Sebastian Seipel
+date: today # "2024-03-05" Jahr-Monat-Tag / year-month-day
+
+## Spracheinstellungen / language settings
+lang: de
+language:
+  de:
+    crossref-imp-title: "Definition"
+    crossref-imp-prefix: "Definition"
+    crossref-lst-title: "Code-Block"
+    crossref-lst-prefix: "Code-Block"
+    crossref-nte-title: "Beispiel"
+    crossref-nte-prefix: "Beispiel"
+    crossref-tip-title: "Tipp"
+    crossref-tip-prefix: "Tipp"
+    crossref-wrn-title: "Hinweis"
+    crossref-wrn-prefix: "Hinweis"
+
+## Formatoption / formating options
+format:
+  html:
+    default-image-extension: svg
+    code-copy: true # hover is default
+#  pdf:
+#    cite-method: biblatex
+#    biblio-title: Quellen
+#    default-image-extension: pdf # Vektorgrafiken werden als PDF eingebunden / vector grafics are embedded as PDF
+execute:
+  cache: true # remove when document is finished as cache: true can cause issues from time to time
+
+## Inhaltsverzeichnis / table of contents
+toc: true
+number-sections: true
+number-depth: 2
+
+## Bibliographie / bibliography
+bibliography: bibliography.bib
+biblio-style: authoryear
+
+## Objekteinstellungen / object options
+cap-location: bottom
+fig-align: center
+
+### Grafiken von R oder Matplotlib / Figures from R or Matplotlib
+# Empfehlung von / suggestion from https://r4ds.hadley.nz/quarto#sec-figures
+fig-width: 6
+fig-asp: 0.618
+---
+
+::: {.border #Lizenz}
+
+:::: {layout="[20, 80]"}
+![](skript/00-bilder/CC-BY.svg)
+
+Bausteine Computergestützter Datenanalyse von Lukas Arnold, Simone Arnold, Florian Bagemihl, Matthias Baitsch, Marc Fehr, Maik Poetzsch und Sebastian Seipel. Methodenbaustein Einlesen strukturierter Datensätze von Maik Poetzsch ist lizensiert unter [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de). Das Werk ist abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/m-Einlesen-strukturierter-Datens-tze). Ausgenommen von der Lizenz sind alle Logos und anders gekennzeichneten Inhalte. 2024
+
+::::
+
+Zitiervorschlag
+
+Arnold, Lukas, Simone Arnold, Matthias Baitsch, Marc Fehr, Maik Poetzsch, und Sebastian Seipel. 2024. „Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze“. <https://github.com/bausteine-der-datenanalyse/m-Einlesen-strukturierter-Datens-tze>.
+
+BibTeX-Vorlage
+
+```
+@misc{BCD-a-ernergiedatenanalyse-2024,
+ title={Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze},
+ author={Arnold, Lukas and Arnold, Simone and Baitsch, Matthias and Fehr, Marc and Poetzsch, Maik and Seipel, Sebastian},
+ year={2024},
+ url={https://github.com/bausteine-der-datenanalyse/m-Einlesen-strukturierter-Datens-tze}} 
+```
+
+:::
+
+{{< pagebreak >}}
+
+{{< include _voraussetzungen.md >}}
+
+{{< include _lernziele.md >}}
