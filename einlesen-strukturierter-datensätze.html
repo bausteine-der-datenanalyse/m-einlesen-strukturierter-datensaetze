@@ -27,7 +27,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="einlesen-strukturierter-datensätze_files/libs/clipboard/clipboard.min.js"></script>
@@ -54,6 +108,25 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#voraussetzungen" id="toc-voraussetzungen" class="nav-link active" data-scroll-target="#voraussetzungen"><span class="header-section-number">1</span> Voraussetzungen</a></li>
   <li><a href="#lernziele" id="toc-lernziele" class="nav-link" data-scroll-target="#lernziele"><span class="header-section-number">2</span> Lernziele</a></li>
+  <li><a href="#einleitung" id="toc-einleitung" class="nav-link" data-scroll-target="#einleitung"><span class="header-section-number">3</span> Einleitung</a></li>
+  <li><a href="#grundlagen-merkmale-von-datensätzen" id="toc-grundlagen-merkmale-von-datensätzen" class="nav-link" data-scroll-target="#grundlagen-merkmale-von-datensätzen"><span class="header-section-number">4</span> Grundlagen: Merkmale von Datensätzen</a>
+  <ul class="collapse">
+  <li><a href="#technisches-format" id="toc-technisches-format" class="nav-link" data-scroll-target="#technisches-format">Technisches Format</a></li>
+  <li><a href="#struktur" id="toc-struktur" class="nav-link" data-scroll-target="#struktur">Struktur</a></li>
+  </ul></li>
+  <li><a href="#merkmale-von-datensätzen" id="toc-merkmale-von-datensätzen" class="nav-link" data-scroll-target="#merkmale-von-datensätzen"><span class="header-section-number">5</span> Merkmale von Datensätzen</a>
+  <ul class="collapse">
+  <li><a href="#struktur-1" id="toc-struktur-1" class="nav-link" data-scroll-target="#struktur-1"><span class="header-section-number">5.1</span> Struktur</a></li>
+  <li><a href="#datentyp" id="toc-datentyp" class="nav-link" data-scroll-target="#datentyp"><span class="header-section-number">5.2</span> Datentyp</a></li>
+  <li><a href="#metadaten" id="toc-metadaten" class="nav-link" data-scroll-target="#metadaten"><span class="header-section-number">5.3</span> Metadaten</a></li>
+  <li><a href="#fehlende-werte" id="toc-fehlende-werte" class="nav-link" data-scroll-target="#fehlende-werte"><span class="header-section-number">5.4</span> fehlende Werte</a></li>
+  </ul></li>
+  <li><a href="#eindimensionale-datensätze" id="toc-eindimensionale-datensätze" class="nav-link" data-scroll-target="#eindimensionale-datensätze"><span class="header-section-number">6</span> Eindimensionale Datensätze</a></li>
+  <li><a href="#strategien-der-fehlersuche-und-bereinigung" id="toc-strategien-der-fehlersuche-und-bereinigung" class="nav-link" data-scroll-target="#strategien-der-fehlersuche-und-bereinigung"><span class="header-section-number">7</span> Strategien der Fehlersuche und Bereinigung</a></li>
+  <li><a href="#programme" id="toc-programme" class="nav-link" data-scroll-target="#programme"><span class="header-section-number">8</span> Programme</a></li>
+  <li><a href="#pfade" id="toc-pfade" class="nav-link" data-scroll-target="#pfade"><span class="header-section-number">9</span> Pfade</a></li>
+  <li><a href="#das-wichtigste-vielleicht-als-video" id="toc-das-wichtigste-vielleicht-als-video" class="nav-link" data-scroll-target="#das-wichtigste-vielleicht-als-video"><span class="header-section-number">10</span> Das Wichtigste (vielleicht als Video)</a></li>
+  <li><a href="#lernzielkontrolle" id="toc-lernzielkontrolle" class="nav-link" data-scroll-target="#lernzielkontrolle"><span class="header-section-number">11</span> Lernzielkontrolle</a></li>
   </ul>
 </nav>
 </div>
@@ -84,7 +157,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">24. Juli 2024</p>
+      <p class="date">31. Juli 2024</p>
     </div>
   </div>
   
@@ -113,7 +186,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Zitiervorschlag</p>
 <p>Arnold, Lukas, Simone Arnold, Matthias Baitsch, Marc Fehr, Maik Poetzsch, und Sebastian Seipel. 2024. „Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze“. <a href="https://github.com/bausteine-der-datenanalyse/m-Einlesen-strukturierter-Datens-tze" class="uri">https://github.com/bausteine-der-datenanalyse/m-Einlesen-strukturierter-Datens-tze</a>.</p>
 <p>BibTeX-Vorlage</p>
-<pre><code>@misc{BCD-a-ernergiedatenanalyse-2024,
+<pre><code>@misc{BCD-m-einlesen-strukturierter-datensätze-2024,
  title={Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze},
  author={Arnold, Lukas and Arnold, Simone and Baitsch, Matthias and Fehr, Marc and Poetzsch, Maik and Seipel, Sebastian},
  year={2024},
@@ -126,7 +199,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li><p>Werkzeugbaustein Python</p>
 <ul>
-<li>…</li>
+<li>Modul os</li>
 </ul></li>
 </ul>
 <p>Im Baustein werden <strong>XY</strong> Daten verwendet.</p>
@@ -135,8 +208,702 @@ ul.task-list li input[type="checkbox"] {
 <h1 data-number="2"><span class="header-section-number">2</span> Lernziele</h1>
 <p>In diesen Baustein lernen Sie …</p>
 </section>
+<section id="einleitung" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Einleitung</h1>
+<p>Am Beginn der Datenanalyse steht das Einlesen von Daten aus Dateien oder aus Datenbanken, um diese für die Auswertung verfügbar zu machen. In der Praxis ist das Einlesen von Daten alles andere als trivial. 2016 stellte eine Studie fest, dass ein Fünftel aller wissenschaftlichen Artikel im Bereich der Genetik auf der Grundlage von durch die Tabellenkalkulation Excel verfälschten Daten durchgeführt wurde (<span class="citation" data-cites="Ziemann-2016">(<a href="#ref-Ziemann-2016" role="doc-biblioref">Ziemann, Eren, und El-Osta 2016</a>)</span>). Genbezeichnungen wie “MARCH1” wurden fälschlicherweise in ein Datumsformat umgewandelt. 2021 wurde diese Schätzung des Anteils betroffener Arbeiten sogar auf 30 Prozent angehoben. (<a href="https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html">heise online</a>)</p>
+<div>
 
-</main>
+</div>
+<div class="border quarto-layout-panel" data-layout="[[5, 90, 5], [1], [1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: flex-start;">
+<p>“Tidy datasets are all alike, but every messy dataset is messy in its own way.” Hadley Wickham</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p><span class="citation" data-cites="R-for-Data-Science">(<a href="#ref-R-for-Data-Science" role="doc-biblioref">Wickham, Çetinkaya-Rundel, und Grolemund 2023, Kap. 5</a> Data tidying)</span></p>
+</div>
+</div>
+</div>
+<p>Häufig werden Daten nicht selbst erstellt, sondern von externen Quellen bezogenen, sodass das Format und der innere Aufbau von Datensätzen nicht selbst bestimmt werden können. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit, die durch spezialisierte Pakete ergänzt werden können.</p>
+<p>Die praktischen Herausforderungen der Datenanalyse beschränken sich jedoch nicht nur auf technische Aspekte. Oftmals bereitet der innere Aufbau von Datensätzen die größten Schwierigkeiten. Dasu und Johnson schreiben:</p>
+<div>
+
+</div>
+<div class="border quarto-layout-panel" data-layout="[[5, 90, 5], [1], [1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: flex-start;">
+<p>“Unfortunately, the data set is usually dirty, composed of many tables, and has unknown properties. Before any results can be produced, the data must be cleaned and explored—often a long and difficult task. […] In our experience, the tasks of exploratory data mining and data cleaning constitute 80% of the effort that determines 80% of the value of the ultimate data mining results.”</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>(<span class="citation" data-cites="Dasu-Johnson-2003">(<a href="#ref-Dasu-Johnson-2003" role="doc-biblioref">Dasu und Johnson 2003</a>)</span>, S. ix)</p>
+</div>
+</div>
+</div>
+<p>Ein wichtiger Bestandteil des Einlesens strukturierter Datensätze besteht deshalb darin, Fehler im Datensatz zu suchen und ggf. zu bereinigen. Unter dem Begriff des Einlesens strukturierter Datensätze wird der gesamte Prozess des Einlesens, der Fehlersuche und -korrektur und des Abspeicherns in für die weitere Bearbeitung geeigneter Form gefasst.</p>
+</section>
+<section id="grundlagen-merkmale-von-datensätzen" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Grundlagen: Merkmale von Datensätzen</h1>
+<p>Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen diskutiert, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen <strong>und den Umgang der in der Basis von Python bzw. R enthaltenen Werkzeuge zu vermitteln</strong>.</p>
+<div id="imp-Datensatz" class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition&nbsp;1: Datensatz
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ein Datensatz ist eine Sammlung zusammengehöriger Daten. Datensätze enthalten einer oder mehreren Variablen zugeordnete Werte. Jeder Datensatz besitzt ein technisches Format, eine Struktur, mindestens eine Variable und mindestens einen Wert.</p>
+</div>
+</div>
+<section id="technisches-format" class="level3">
+<h3 class="anchored" data-anchor-id="technisches-format">Technisches Format</h3>
+<p>Das technische Format gibt vor, mit welchen Mitteln Daten eingelesen, bearbeitet und gespeichert werden können. Einige Beispiele sind:</p>
+<ul>
+<li><p>Druckerzeugnis, z. B. Telefonbuch: manuelles Ablesen von Name und Telefonnummer, irreversible Bearbeitung per Stift</p></li>
+<li><p>Lochkarte, z. B. Parkschein: Lesegerät erkennt Lochung und gewährt eine Freistunde, irreversible Bearbeitung mit Stanzgerät</p></li>
+<li><p>Textdatei, z. B. Einwohnerzahl nach Bundesländern: Kann mit einer Vielzahl von Computerprogrammen wie Texteditor, Tabellenkalkulationsprogramm oder Programmierumgebung eingelesen, bearbeitet und gespeichert werden.</p></li>
+<li><p>Hierarchical Data Format HDF5, z. B. räumliche Daten zur Blitzdichte: benötigt spezialisierte Programme oder Pakete</p></li>
+</ul>
+</section>
+<section id="struktur" class="level3">
+<h3 class="anchored" data-anchor-id="struktur">Struktur</h3>
+<p><strong>Diesen Teil als seperates .md Dokument einbinden, dann kann das im w-Python rezykliert werden. Hier anmerken, dass man den Teil überspringen kann, wenn man bereits Daten mit base-Python oder base-R eingelesen bzw. w-Python bearbeitet hat.</strong></p>
+<p>Datensätze speichern Daten in einer definierten n-dimensionalen Struktur. Die einfachste Form sind eindimensionale Datensätze, die in einer <strong>Liste</strong> Werte einer einzigen Variablen zuordnen. Eindimensionale Datensätze verfügen lediglich über einen Achse: den Index, über den Elemente angesprochen werden können.</p>
+<div class="border">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="skript/00-bilder/eindimensionaler-datensatz-slicing-mf-mp.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>eindimensionale Datensätze</figcaption>
+</figure>
+</div>
+<p>slicing von Marc Fehr ist lizensiert unter <a href="https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file">CC-BY-4.0</a> und abrufbar auf <a href="https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen">GitHub</a>. Die Grafik wurde auf den gezeigten Teil beschnitten und die obenstehende Beschriftung entfernt. 2024</p>
+</div>
+<p>&nbsp;</p>
+<p>Beispiele eindimensionaler Datensätze sind ein Einkaufszettel oder die Urliste eines Würfelexperiments. Über den Index kann beispielsweise das Würfelergebnis an der Indexposition 2 ausgegeben werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( <span class="op">*</span>( Augen <span class="op">:=</span> [<span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>] ) )</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6 2 1 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Das Würfelergebnis an Indexposition 2 lautet: </span><span class="sc">{</span>Augen[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Das Würfelergebnis an Indexposition 2 lautet: 1</code></pre>
+</div>
+</div>
+<p><strong>Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Sie sollen die Dateien auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.</strong></p>
+<div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Daten</th>
+<th>Dateiname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Würfelergebnisse Maya</td>
+<td>dice-maya.txt</td>
+</tr>
+<tr class="even">
+<td>Würfelergebnisse Hans</td>
+<td>dice-hans.txt</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>&nbsp;</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Dateien auslesen mit Python</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">R</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p><strong>Border + Quellennachweis Simone Arnold: Vorlesung Datenanalyse mit Python. 03 Funktionen. Fachhochschule Dortmund</strong></p>
+<p>Um auf eine Datei zuzugreifen, muss diese fürs Lesen oder Schreiben geöffnet werden. Dazu wird in Python die Funktion <a href="https://docs.python.org/3/library/functions.html#open">open</a> verwendet. Diese nimmt zwei Argumente, den Pfad der Datei und den Zugriffsmodus, an und liefert ein <a href="https://docs.python.org/3/glossary.html#term-file-object">Dateiobjekt</a> zurück. Aus diesem Objekt werden dann die Inhalte der Datei ausgelesen.</p>
+<p><strong>Dateipfad</strong></p>
+<p>Der lokale Dateipfad wird ausgehend vom aktuellen Arbeitsverzeichnis angegeben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pfad_maya <span class="op">=</span> <span class="st">"skript/01-daten/dice-maya.txt"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pfad_hans <span class="op">=</span> <span class="st">"skript/01-daten/dice-hans.txt"</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tip-wd-Python" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;1: Arbeitsverzeichnis in Python ermitteln
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Modul os mittels <code>os.getcwd()</code> ermittelt werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><strong>Zugriffsmodus</strong></p>
+<p>Als Zugriffsmodus stehen unter anderem folgende Optionen zur Verfügung:</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 78%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modus</th>
+<th>Beschreibung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>r</code></td>
+<td>lesender Zugriff</td>
+</tr>
+<tr class="even">
+<td><code>w</code></td>
+<td>Schreibzugriff, Datei wird überschrieben</td>
+</tr>
+<tr class="odd">
+<td><code>x</code></td>
+<td>Erzeugt die Datei, Fehlermeldung, wenn die Datei bereits existiert</td>
+</tr>
+<tr class="even">
+<td><code>a</code></td>
+<td>Schreibzugriff, Inhalte werden angehängt</td>
+</tr>
+<tr class="odd">
+<td><code>b</code></td>
+<td>Binärmodus (z. B. für Grafiken)</td>
+</tr>
+<tr class="even">
+<td><code>t</code></td>
+<td>Textmodus, default</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Die Zugriffsmodi können auch kombiniert werden. Weitere Informationen dazu finden Sie in der <a href="https://docs.python.org/3/library/functions.html#open">Dokumentation</a>. Sofern nicht im Binärmodus auf Dateien zugegriffen wird, liefert die Funktion open den Dateiinhalt als string zurück.</p>
+<p>Im Lesemodus wird ein Datenobjekt erzeugt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>daten_maya <span class="op">=</span> <span class="bu">open</span>(pfad_maya, mode <span class="op">=</span> <span class="st">'r'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;_io.TextIOWrapper name='skript/01-daten/dice-maya.txt' mode='r' encoding='cp65001'&gt;</code></pre>
+</div>
+</div>
+<p><strong>Daten ausgeben</strong></p>
+<p>Wenn das Datenobjekt <code>daten_maya</code> der Funktion <code>print()</code> übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. cp65001 ist in Windows (dem Betriebssystem, auf dem dieser Baustein erstellt wurde) eine Kodierung für UTF-8. Sollte dies nicht automatisch erfolgen, kann eine Kodierung in UTF-8 auch mit dem Argument <code>encoding='UTF-8'</code> übergeben werden. Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dateipfad: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>name<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Dateiname: </span><span class="sc">{</span>os<span class="sc">.</span>path<span class="sc">.</span>basename(daten_maya.name)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Datei ist geschlossen: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>closed<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Zugriffsmodus: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>mode<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Dateipfad: skript/01-daten/dice-maya.txt
+Dateiname: dice-maya.txt
+Datei ist geschlossen: False
+Zugriffsmodus: r</code></pre>
+</div>
+</div>
+<p>Um den Dateiinhalt auszugeben, kann die Datei mit einer Schleife zeilenweise durchlaufen und ausgegeben werden. (Die Datei daten_maya hat nur eine Zeile.)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> zeile <span class="kw">in</span> daten_maya:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Inhalt Zeile </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">, mit </span><span class="sc">{</span><span class="bu">len</span>(zeile)<span class="sc">}</span><span class="ss"> Zeichen:"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(zeile)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    i <span class="op">+=</span> <span class="dv">1</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Inhalt Zeile 0, mit 28 Zeichen:
+"5", "6", "2", "1", "4", "5"</code></pre>
+</div>
+</div>
+<p>Dies ist jedoch für größere Dateien nicht sonderlich praktikabel. Die Ausgabe einzelner Zeilen mit der Funktion <code>print()</code> kann aber nützlich sein, um die genaue Formatierung der Zeichenkette zu prüfen. In diesem Fall hat Maya ihre Daten in Anführungszeichen gesetzt und mit einem Komma voneinander getrennt.</p>
+<div id="tip-zeilenweise" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;2: Daten kontrollieren
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Beim Einlesen goßer Datensätze sollten nicht nur die erste(n) Zeile(n) des Datensatzes, sondern auch Ausschnitte aus der Mitte und dem Ende kontrolliert werden. Dies hilft, Fehler etwa bei der Umwandlung von Dezimal- und Tausendertrennzeichen, des Datumsformats oder eine unerwartete Anzahl fehlender Werte und sonstige Auffälligkeiten zu identifizieren.</p>
+</div>
+</div>
+</div>
+<p><strong>Daten einlesen</strong></p>
+<p>Um den gesamten Inhalt einer Datei einzulesen, kann die Methode <a href="https://docs.python.org/3/tutorial/inputoutput.html">datenobjekt.read()</a> verwendet werden. Die Methode hat als optionales Argument <code>.read(size)</code>. size wird als Ganzzahl übergeben und entsprechend viele Zeichen (im Binärmodus entsprechend viele Bytes) werden ggf. bis zum Dateiende ausgelesen.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> daten_maya.read()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"len(augen_maya): </span><span class="sc">{</span><span class="bu">len</span>(augen_maya)<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Inhalt der Datei augen_maya:</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>len(augen_maya): 0
+
+Inhalt der Datei augen_maya:</code></pre>
+</div>
+</div>
+<p>Das hat offensichtlich nicht geklappt, der ausgelesene Dateiinhalt ist leer! Der Grund dafür ist, dass beim Lesen (und beim Schreiben) einer Datei der Dateizeiger die Datei durchläuft. Nachdem die Datei daten_maya im Abschnitt “Daten ausgeben” zeilenweise ausgegeben wurde, steht der Dateizeiger am Ende der Datei.</p>
+<div id="wrn-Dateizeiger" class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis&nbsp;1: Dateizeiger in Python
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Wird eine Datei zeilenweise oder mit der Methode <code>.read()</code> ausgelesen, wird der Dateizeiger um die angegebene Zeichenzahl bzw. bis ans Ende der Datei bewegt. Wird beispielsweise ein Datensatz ‘daten’ geöffnet und mit der Methode <code>daten.read(3)</code> die ersten drei Zeichen ausgelesen, bewegt sich der Dateizeiger von der Indexposition 0 zur Indexposition 3 (bzw. steht jeweils davor).</p>
+<div id="fig-Dateizeiger" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-Dateizeiger-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="skript/00-bilder/indexposition-0.png" class="img-fluid figure-img" alt="Dargestellt ist ein in fünf Blöcke unterteilter Streifen, der einen eindimensionalen Datensatz repräsentiert. Die Blöcke sind entlang der 0. Achse von links nach rechts mit 0 bis 4 beschriftet. Oberhalb steht links vom Block Null ein Pfeil mit der Beschriftung Indexposition Null"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><img src="skript/00-bilder/indexposition-3.png" class="img-fluid figure-img" alt="Dargestellt ist der gleiche Streifen. Oberhalb steht links vom Block drei ein Pfeil mit der Beschriftung Indexposition drei"></p>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-Dateizeiger-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Abbildung&nbsp;1: Bewegung des Dateizeigers beim Auslesen von drei Zeichen
+</figcaption>
+</figure>
+</div>
+<p>Die Methode <code>daten.tell()</code> gibt zurück, an welcher Position sich der Dateizeiger befindet.</p>
+<p>Mit der Methode <code>daten.seek(offset, whence = 0)</code> wird der Zeiger an eine bestimmte Position gesetzt. Die Methode akzeptiert das Argument offset (Versatz) und das optionale Argument whence (woher), dessen Standardwert 0 (Dateianfang) ist. Für Zugriffe <strong>im Binärmodus</strong> (<code>open(pfad, mode = 'rb')</code>) kann das Argument whence außerdem die Werte 1 (aktuelle Position) oder 2 (Dateiende) annehmen.</p>
+<ul>
+<li><p><code>daten.seek(0, 0)</code> bezeichnet den Dateianfang</p></li>
+<li><p><code>daten.seek(0, 1)</code> bezeichnet die aktuelle Position in der Datei</p></li>
+<li><p><code>daten.seek(0, 2)</code> bezeichnet das Dateiende</p></li>
+<li><p><code>daten.seek(-3, 2)</code> bezeichnet das dritte Zeichen vor dem Dateiende</p></li>
+</ul>
+</div>
+</div>
+<p>Wird der Dateizeiger mit der Methode <code>datenobjekt.seek(0)</code> an den Dateianfang gestellt, gelingt das Auslesen der Datei.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Position des Dateizeigers vor dem Zurücksetzen auf 0: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>tell()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>daten_maya.seek(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Position des Dateizeigers nach dem Zurücksetzen auf 0: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>tell()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> daten_maya.read()</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Inhalt des Objekts augen_maya:</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Position des Dateizeigers vor dem Zurücksetzen auf 0: 28
+Position des Dateizeigers nach dem Zurücksetzen auf 0: 0
+Inhalt des Objekts augen_maya:
+"5", "6", "2", "1", "4", "5"</code></pre>
+</div>
+</div>
+<p><strong>Geben Sie aus dem Datenobjekt daten_maya mit den Methoden .seek() und .read() die Zahlen and zweiter und dritter Stelle, also 6 und 2, aus.</strong></p>
+<div id="tip-Musterlösung-Zeigerposition" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;3: Musterlösung Dateizeiger bewegen
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>daten_maya.seek(<span class="dv">6</span>, <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya.read(<span class="dv">1</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>daten_maya.tell()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>7</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>daten_maya.seek(daten_maya.tell() <span class="op">+</span> <span class="dv">4</span>, <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya.read(<span class="dv">1</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Um Mayas Würfelergebnisse zu addieren, müssen die Zahlen extrahiert und in Ganzzahlen umgewandelt werden, da im Textmodus stets strings zurückgegeben werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(augen_maya))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'str'&gt;</code></pre>
+</div>
+</div>
+<p>Dazu werden mit der Methode <code>str.strip(")</code> das führende und abschließende Anführungszeichen entfernt sowie anschließend mit der Methode <code>str.split('", "')</code> der String in eine Liste aufgeteilt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"augen_maya:</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> augen_maya.strip(<span class="st">'"'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">augen_maya.strip('</span><span class="ch">\"</span><span class="ss">'):</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> augen_maya.split(<span class="st">'", "'</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">augen_maya.split('</span><span class="ch">\"</span><span class="ss">, </span><span class="ch">\"</span><span class="ss">'):</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>augen_maya_int <span class="op">=</span> []</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> augen_maya:</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>  augen_maya_int.append(<span class="bu">int</span>(i))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">augen_maya_int:</span><span class="ch">\n</span><span class="sc">{</span>augen_maya_int<span class="sc">}</span><span class="ch">\t\t</span><span class="ss">Summe Augen: </span><span class="sc">{</span><span class="bu">sum</span>(augen_maya_int)<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>augen_maya:
+"5", "6", "2", "1", "4", "5"
+
+augen_maya.strip('"'):
+5", "6", "2", "1", "4", "5
+
+augen_maya.split('", "'):
+['5', '6', '2', '1', '4', '5']
+
+augen_maya_int:
+[5, 6, 2, 1, 4, 5]      Summe Augen: 23</code></pre>
+</div>
+</div>
+<p><strong>Datei schließen</strong></p>
+<p>Nach dem Zugriff auf die Datei, muss diese wieder geschlossen werden, um diese für andere Programme freizugeben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>daten_maya.close()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="wrn-Schreiboperationen" class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis&nbsp;2: Schreiboperationen mit Python
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Das Schließen einer Datei ist besonders für Schreiboperationen auf Datenobjekten wichtig. Andernfalls kann es passieren, dass Inhalte mit <code>datenobjekt.write()</code> nicht vollständig auf den Datenträger geschrieben werden. Siehe dazu die <a href="https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files">Dokumentation</a>.</p>
+</div>
+</div>
+<p><strong>Welche Augenzahl hat Hans erreicht?</strong></p>
+<p><strong>Die Musterlösung kann Marc machen</strong></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>https://stat.ethz.ch/Teaching/WBL/R-Einstieg/Daten_Einlesen_mit_R.pdf</p>
+<p>R-Befehl geeignet für wichtige Argumente<br>
+read.table() .txt .dat header=TRUE/FALSE, sep= , dec= , fill=TRUE<br>
+read.csv() .csv header=TRUE/FALSE, sep= , dec=<br>
+scan() .txt .dat . . . file= , what= , header=T/F, sep= , skip= , fill=T/F</p>
+<div id="tip-wd-R" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;4: Arbeitsverzeichnis in R ermitteln
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Befehl <code>getwd()</code> ermittelt werden.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">getwd</span>())</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Die meisten Datensätze sind zweidimensional. Die Werte sind in einer aus Zeilen und Spalten bestehenden <strong>Matrix</strong> organisiert. Typischerweise entspricht jede Spalte einer <strong>Variablen</strong>, und jede Zeile einer <strong>Beobachtung</strong>. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Geburtstag</th>
+<th>Lieblingsfarbe</th>
+<th>Summe Augen</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hans</td>
+<td>26.02.</td>
+<td>rosa</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Elke</td>
+<td>14.03.</td>
+<td>rosa</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td>Jean</td>
+<td>30.12.</td>
+<td>blau</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>Maya</td>
+<td>07.09.</td>
+<td>gelb</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+<p><strong>To Do: png verwenden, fig-alt</strong></p>
+<div class="border">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="skript/00-bilder/slicing_mf_mp.svg" class="img-fluid figure-img"></p>
+<figcaption>n-dimensionale Datensätze</figcaption>
+</figure>
+</div>
+<p>slicing von Marc Fehr ist lizensiert unter <a href="https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file">CC-BY-4.0</a> und abrufbar auf <a href="https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen">GitHub</a>. 2024</p>
+</div>
+<p>Kasten Unterschied Format und Struktur, sieht man gut am long- und wide-Format –&gt; potenzielle Begriffskollission zwischen technischem Format und long- und wide-Format</p>
+<p>Datensätze können auch drei- oder mehrdimensional aufgebaut sein.</p>
+<p>Mehrdimensional: z. B. Messung an verschiedenen Zeitpunkten oder an verschiedenen Orten 2 Tabellen nebeneinander: Würfelergebnisse und eine Lieblingsfarbe haben sich geändert</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Messung 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Messung 2</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Geburtstag</th>
+<th>Lieblingsfarbe</th>
+<th>Summe Augen</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hans</td>
+<td>26.02.</td>
+<td>rosa</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<td>Elke</td>
+<td>14.03.</td>
+<td>rosa</td>
+<td>22</td>
+</tr>
+<tr class="odd">
+<td>Jean</td>
+<td>30.12.</td>
+<td>blau</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>Maya</td>
+<td>07.09.</td>
+<td>gelb</td>
+<td>17</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<table class="table">
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Geburtstag</th>
+<th>Lieblingsfarbe</th>
+<th>Summe Augen</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hans</td>
+<td>26.02.</td>
+<td>rosa</td>
+<td>14</td>
+</tr>
+<tr class="even">
+<td>Elke</td>
+<td>14.03.</td>
+<td>rosa</td>
+<td>9</td>
+</tr>
+<tr class="odd">
+<td>Jean</td>
+<td>30.12.</td>
+<td>blau</td>
+<td>21</td>
+</tr>
+<tr class="even">
+<td>Maya</td>
+<td>07.09.</td>
+<td>gelb</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Wir können uns eine vierte Dimension für diese Daten vorstellen, die die Person codiert, die die Messung beaufsichtigt und den Teildatensatz erstellt hat. Format, Struktur, Variablen, Werte.</p>
+<p>Format und Struktur: Unterschied</p>
+<p>Hinweiskasten zum Unterschied von Format und Struktur Datensätze unterscheiden sich hinsichtlich ihres Formats (Format unterscheidet sich von Dimensionalität dadurch: Ein dreidimensionaler Datensatz kann in einer Tabellenkalkulation gespeichert in Form einer Matrix (dim = 2) gespeichert werden, die dritte Dimension wird über die Anzahl der Tabellenblätter abgebildet. Es ist aber auch möglich, dreidimensionale Daten in einer einfachen Textdatei zu speichern. data =[ [[1, 2, 3], [2, 3, 1], [3, 2, 1]], [Liegestütze, Kniebeuge, Hock-Streck-Sprünge], [morgens, mittags, abends], [Claus, Petra, Hans]]), ihrer Struktur, d</p>
+<p>Zusätzlich B</p>
+<p>Tidy Data</p>
+<p>Datensätze bestehen aus mindestens einer Variablen, mindestens einem Wert und entweder aus einem Index oder einer Anzahl von Beobachtungen.</p>
+<p>Variable, Wert und Beobachtungen ausführen nach Wickham 2014 Tidy Data, S. 3 https://vita.had.co.nz/papers/tidy-data.pdf</p>
+<p>Index selbst formulieren: (Wenn Werte keinem Merkmalsträger zugeordnet sind, haben Sie einfach nur einen Index, z. B. Wert an Position 2)</p>
+<p>besteht aus mindestens einer Variablen, mindestens einem Wert und können außerdem auch Beobachtungen enthalten. Beobachtungen</p>
+<p>Außerdem</p>
+<p>:::</p>
+</section>
+</section>
+<section id="merkmale-von-datensätzen" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Merkmale von Datensätzen</h1>
+<section id="struktur-1" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="struktur-1"><span class="header-section-number">5.1</span> Struktur</h2>
+<p>Datensätze sind Objekte mit einer definierten Struktur. 1-dimensional, 2-dimensional, mehrdimensional</p>
+</section>
+<section id="datentyp" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="datentyp"><span class="header-section-number">5.2</span> Datentyp</h2>
+<p>numerisch, character, factor, boolean, datetime usw. …</p>
+</section>
+<section id="metadaten" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="metadaten"><span class="header-section-number">5.3</span> Metadaten</h2>
+</section>
+<section id="fehlende-werte" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="fehlende-werte"><span class="header-section-number">5.4</span> fehlende Werte</h2>
+<p>nix, NA, NaN, –, -1</p>
+</section>
+</section>
+<section id="eindimensionale-datensätze" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Eindimensionale Datensätze</h1>
+<p>: man muss nur das Trennzeichen kennen Semikolon Komma: “1”, “2”, “2,5”</p>
+<p>masked Arrays</p>
+<p>eindimensionaler Datensatz: Urliste von Ergebnissen eines Münzwurfs. Woraus besteht ein Datensatz?</p>
+<p>Dazu gehört die Trennung von Rohdaten, Metadaten, Grafiken und anderer gestalterische Elemente.</p>
+<p>disziplinäre Konventionen und persönliche Vorlieben (z. B. zur Kennzeichnung fehlender oder ungültiger Werte) ein “NA” führt leicht dazu, dass ein numerischer Datensatz als Zeichenkette erkannt wird.</p>
+<p>Jeder Datensatz ist anders</p>
+<p>oder Zitat von Hadley Wickham Techniken werden in diesem Baustein vermittelt</p>
+<p>Dafür gibt es spezialisierte Pakete.</p>
+<p>Das</p>
+<p>Lesen, bearbeiten, speichern</p>
+<p>technisch: Dateiformate, Dateigröße von wenigen Kilobyte bis mehreren hundert Megabyte oder mehr.</p>
+<p>Nicht nur gibt es viele Dateiformate, in denen</p>
+<p>eindimensionale Daten: Einkaufszettel - eine einfache Liste</p>
+<p>Trennzeichen Komma, Semikolon, Tab</p>
+<p>Viele unterschiedliche Datenformate von einer einfachen, mit dem Editor Textdatei, über CSV bis hin zu spezialisierten Datencontainern.</p>
+</section>
+<section id="strategien-der-fehlersuche-und-bereinigung" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Strategien der Fehlersuche und Bereinigung</h1>
+<div>
+
+</div>
+<div class="border quarto-layout-panel" data-layout="[[5, 90, 5], [1], [1]]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: flex-start;">
+<p>“everybody I know has war stories about cleaning up lousy datasets”<br>
+Nicholas J. Cox</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
+<p>Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <a href="https://www.jstatsoft.org/article/view/v011b09/30" class="uri">https://www.jstatsoft.org/article/view/v011b09/30</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="programme" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Programme</h1>
+<p>https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html</p>
+</section>
+<section id="pfade" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Pfade</h1>
+<p>Dateipfad feststellen (lokal, im Internet), durch Verzeichnisse navigieren</p>
+<ul>
+<li><p>slash / und backslash nach Betriebssystem (Win, Linux, Mac) und Programmiersprache (Python und R)</p></li>
+<li><p>Inhalt (gerne abwechslungsreich gestalten)</p>
+<ul>
+<li><p>Theorie</p></li>
+<li><p>Beispiele</p></li>
+<li><p>Übungen</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="das-wichtigste-vielleicht-als-video" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Das Wichtigste (vielleicht als Video)</h1>
+</section>
+<section id="lernzielkontrolle" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Lernzielkontrolle</h1>
+<ul>
+<li><p>Kompetenzquiz (ggf. aufklappbarer Callout Block, Textverweis für PDF, polierte Lösungen evntl. via Lumi später entscheiden)</p></li>
+<li><p>Übungsaufgaben (kleine Projekte)</p></li>
+<li><p>Prüfungsaufgaben (ohne Lösungen)</p></li>
+</ul>
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">Literatur</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Dasu-Johnson-2003" class="csl-entry" role="listitem">
+Dasu, Tamraparni, und Theodore Johnson. 2003. <span>„Exploratory Data Mining and Data Cleaning“</span>. Hoboken; New Jersey.: John Wiley &amp; Sons, Inc. 2003. <a href="hhttps://download.e-bookshelf.de/download/0000/5837/88/L-G-0000583788-0002360584.pdf">hhttps://download.e-bookshelf.de/download/0000/5837/88/L-G-0000583788-0002360584.pdf</a>.
+</div>
+<div id="ref-R-for-Data-Science" class="csl-entry" role="listitem">
+Wickham, Hadley, Mine Çetinkaya-Rundel, und Garrett Grolemund. 2023. <span>„R for data science: Import, tidy, transform, visualize, and model data“</span>. Beijing; Boston; Farnham; Sebastopol; Tokyo: O’Reilly. 2023. <a href="https://r4ds.hadley.nz/">https://r4ds.hadley.nz/</a>.
+</div>
+<div id="ref-Ziemann-2016" class="csl-entry" role="listitem">
+Ziemann, Mark, Yotam Eren, und Assam El-Osta. 2016. <span>„Gene name errors are widespread in the scientific literature“</span>. <em>Genome Biol.</em> 17 (1).
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
