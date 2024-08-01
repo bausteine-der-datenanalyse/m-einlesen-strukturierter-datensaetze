@@ -7,6 +7,9 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   inkscape:export-filename="slicing_mf_mp.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -414,7 +417,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.72448596"
-     inkscape:cx="1115.9637"
+     inkscape:cx="696.3558"
      inkscape:cy="306.42416"
      inkscape:document-units="mm"
      inkscape:current-layer="g5814"
@@ -481,9 +484,9 @@
          transform="translate(-8.1010259,3.0248726)"><tspan
            x="11.707031"
            y="101.63143"
-           id="tspan2529"><tspan
+           id="tspan510"><tspan
              style="font-size:7.05556px"
-             id="tspan2527">0. Achse </tspan></tspan></text>
+             id="tspan508">0. Achse </tspan></tspan></text>
       <path
          style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend)"
          d="M 3.7375608,96.375695 H 25.447817"
@@ -521,11 +524,11 @@
            transform="translate(129.27848,-49.132646)"><tspan
              x="20.223087"
              y="92.001953"
-             id="tspan2535"><tspan
+             id="tspan516"><tspan
                style="text-orientation:sideways"
-               id="tspan2531">0. Achse</tspan><tspan
+               id="tspan512">0. Achse</tspan><tspan
                style="text-orientation:upright"
-               id="tspan2533"> </tspan></tspan></text>
+               id="tspan514"> </tspan></tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-9)"
            d="m 157.78914,42.923699 v 21.7104"
@@ -537,9 +540,9 @@
            transform="translate(158.04317,2.9364998)"><tspan
              x="11.707031"
              y="101.63143"
-             id="tspan2539"><tspan
+             id="tspan520"><tspan
                style="font-size:7.05556px"
-               id="tspan2537">1. Achse </tspan></tspan></text>
+               id="tspan518">1. Achse </tspan></tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-8)"
            d="m 170.4251,96.375695 h 21.71028"
@@ -793,14 +796,14 @@
            xml:space="preserve"
            id="text2107-3-3"
            style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2109-5-50);display:inline;fill:#000000;fill-opacity:1;stroke:none"
-           transform="rotate(-133.49174,210.05522,20.136553)"><tspan
+           transform="rotate(-133.49174,199.48417,18.189549)"><tspan
              x="18.01825"
              y="92.001953"
-             id="tspan2545"><tspan
+             id="tspan526"><tspan
                style="font-size:7.05556px;writing-mode:tb-rl;text-orientation:sideways"
-               id="tspan2541">0. Achse</tspan><tspan
+               id="tspan522">0. Achse</tspan><tspan
                style="font-size:7.05556px;writing-mode:tb-rl;text-orientation:upright"
-               id="tspan2543"> </tspan></tspan></text>
+               id="tspan524"> </tspan></tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-9-6)"
            d="M 371.17596,90.777995 386.92627,75.835814"
@@ -853,14 +856,14 @@
            xml:space="preserve"
            id="text2107-3-0"
            style="font-style:normal;font-weight:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect2109-5-9);display:inline;fill:#000000;fill-opacity:1;stroke:none"
-           transform="translate(233.66459,-45.1327)"><tspan
+           transform="translate(253.02027,-49.880319)"><tspan
              x="20.223087"
              y="92.001953"
-             id="tspan2551"><tspan
+             id="tspan532"><tspan
                style="writing-mode:tb-rl;text-orientation:sideways"
-               id="tspan2547">1. Achse</tspan><tspan
+               id="tspan528">1. Achse</tspan><tspan
                style="writing-mode:tb-rl;text-orientation:upright"
-               id="tspan2549"> </tspan></tspan></text>
+               id="tspan530"> </tspan></tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-9-67)"
            d="m 284.26026,43.091303 v 21.7104"
@@ -894,9 +897,9 @@
            transform="translate(282.75549,3.0150056)"><tspan
              x="11.707031"
              y="101.63143"
-             id="tspan2555"><tspan
+             id="tspan536"><tspan
                style="font-size:7.05556px"
-               id="tspan2553">2. Achse </tspan></tspan></text>
+               id="tspan534">2. Achse </tspan></tspan></text>
         <path
            style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:3;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Mend-8-0)"
            d="M 295.13742,96.4542 H 316.8477"

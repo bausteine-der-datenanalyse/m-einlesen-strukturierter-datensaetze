@@ -5,4 +5,6 @@ Die Bearbeitungszeit dieses Bausteins beträgt circa **Platzhalter**. Für die B
 
   - Modul os
 
+  - Modul Pandas
+
 Im Baustein werden **XY** Daten verwendet.
