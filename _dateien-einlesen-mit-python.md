@@ -1,25 +1,8 @@
-# Daten einlesen mit Python und R
-
-**Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Sie sollen die Dateien auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.**
-
-::: {}
-| Daten | Dateiname |
-|---|------|
-| Würfelergebnisse Maya | dice-maya.txt |
-| Würfelergebnisse Hans | dice-hans.txt|
-
-:::
-
-&nbsp;
-
-::: {.panel-tabset}
-
-## Dateien auslesen mit Python
 **Border + Quellennachweis Simone Arnold: Vorlesung Datenanalyse mit Python. 03 Funktionen. Fachhochschule Dortmund**
 
 Um auf eine Datei zuzugreifen, muss diese fürs Lesen oder Schreiben geöffnet werden. Dazu wird in Python die Funktion [open](https://docs.python.org/3/library/functions.html#open) verwendet. Diese nimmt zwei Argumente, den Pfad der Datei und den Zugriffsmodus, an und liefert ein [Dateiobjekt](https://docs.python.org/3/glossary.html#term-file-object) zurück. Aus diesem Objekt werden dann die Inhalte der Datei ausgelesen.
 
-**Dateipfad**
+#### Dateipfad
 
 Der lokale Dateipfad wird ausgehend vom aktuellen Arbeitsverzeichnis angegeben.
 
@@ -43,7 +26,7 @@ print(os.getcwd())
 
 ::::
 
-**Zugriffsmodus**
+#### Zugriffsmodus
 
 Als Zugriffsmodus stehen unter anderem folgende Optionen zur Verfügung:
 
@@ -58,7 +41,7 @@ Als Zugriffsmodus stehen unter anderem folgende Optionen zur Verfügung:
 
 &nbsp;
 
-Die Zugriffsmodi können auch kombiniert werden. Weitere Informationen dazu finden Sie in der [Dokumentation](https://docs.python.org/3/library/functions.html#open). Sofern nicht im Binärmodus auf Dateien zugegriffen wird, liefert die Funktion open den Dateiinhalt als string zurück. 
+Die Zugriffsmodi können auch kombiniert werden. Weitere Informationen dazu finden Sie in der [Dokumentation](https://docs.python.org/3/library/functions.html#open). Sofern nicht im Binärmodus auf Dateien zugegriffen wird, liefert die Funktion `open()` den Dateiinhalt als string zurück. 
 
 Im Lesemodus wird ein Datenobjekt erzeugt. 
 
@@ -68,7 +51,7 @@ daten_maya = open(pfad_maya, mode = 'r')
 print(daten_maya)
 ```
 
-**Daten ausgeben**
+#### Daten ausgeben
 
 Wenn das Datenobjekt `daten_maya` der Funktion `print()` übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. cp65001 ist in Windows (dem Betriebssystem, auf dem dieser Baustein erstellt wurde) eine Kodierung für UTF-8. Sollte dies nicht automatisch erfolgen, kann eine Kodierung in UTF-8 auch mit dem Argument `encoding='UTF-8'` übergeben werden. Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
 
@@ -82,7 +65,7 @@ print(f"Dateipfad: {daten_maya.name}\n"
 
 ```
 
-Um den Dateiinhalt auszugeben, kann die Datei mit einer Schleife zeilenweise durchlaufen und ausgegeben werden. (Die Datei daten_maya hat nur eine Zeile.) 
+Um den Dateiinhalt auszugeben, kann das Datenobjekt mit einer Schleife zeilenweise durchlaufen und ausgegeben werden. (Die Datei dice-maya hat nur eine Zeile.) 
 
 ``` {python}
 
@@ -103,8 +86,7 @@ Beim Einlesen goßer Datensätze sollten nicht nur die erste(n) Zeile(n) des Dat
 
 ::::
 
-**Daten einlesen**
-
+#### Daten einlesen
 Um den gesamten Inhalt einer Datei einzulesen, kann die Methode [datenobjekt.read()](https://docs.python.org/3/tutorial/inputoutput.html) verwendet werden. Die Methode hat als optionales Argument `.read(size)`. size wird als Ganzzahl übergeben und entsprechend viele Zeichen (im Binärmodus entsprechend viele Bytes) werden ggf. bis zum Dateiende ausgelesen.
 
 ``` {python}
@@ -118,7 +100,7 @@ print(f"len(augen_maya): {len(augen_maya)}\n\n"
 
 Das hat offensichtlich nicht geklappt, der ausgelesene Dateiinhalt ist leer! Der Grund dafür ist, dass beim Lesen (und beim Schreiben) einer Datei der Dateizeiger die Datei durchläuft. Nachdem die Datei daten_maya im Abschnitt "Daten ausgeben" zeilenweise ausgegeben wurde, steht der Dateizeiger am Ende der Datei.
 
-::::{#wrn-Dateizeiger .callout-warning appearance="simple"}
+:::: {#wrn-Dateizeiger .callout-warning appearance="simple"}
 ## Dateizeiger in Python
 
 Wird eine Datei zeilenweise oder mit der Methode `.read()` ausgelesen, wird der Dateizeiger um die angegebene Zeichenzahl bzw. bis ans Ende der Datei bewegt. Wird beispielsweise ein Datensatz 'daten' geöffnet und mit der Methode `daten.read(3)` die ersten drei Zeichen ausgelesen, bewegt sich der Dateizeiger von der Indexposition 0 zur Indexposition 3 (bzw. steht jeweils davor).
@@ -203,10 +185,10 @@ augen_maya_int = []
 for i in augen_maya:
   augen_maya_int.append(int(i))
 
-print(f"\naugen_maya_int:\n{augen_maya_int}\t\tSumme Augen: {sum(augen_maya_int)}")
+print(f"\naugen_maya_int:\n{augen_maya_int}\nSumme Augen: {sum(augen_maya_int)}")
 ```
 
-**Datei schließen**
+#### Datei schließen
 
 Nach dem Zugriff auf die Datei, muss diese wieder geschlossen werden, um diese für andere Programme freizugeben.
 ``` {python}
@@ -214,37 +196,11 @@ Nach dem Zugriff auf die Datei, muss diese wieder geschlossen werden, um diese f
 daten_maya.close()
 ```
 
-::::{#wrn-Schreiboperationen .callout-warning appearance="simple"}
+:::: {#wrn-Schreiboperationen .callout-warning appearance="simple"}
 # Schreiboperationen mit Python
 
 Das Schließen einer Datei ist besonders für Schreiboperationen auf Datenobjekten wichtig. Andernfalls kann es passieren, dass Inhalte mit `datenobjekt.write()` nicht vollständig auf den Datenträger geschrieben werden. Siehe dazu die [Dokumentation](https://docs.python.org/3/tutorial/inputoutput.html#reading-and-writing-files).
+
 ::::
 
 
-
-**Welche Augenzahl hat Hans erreicht?**
-
-**Die Musterlösung kann Marc machen**
-
-## R
-https://stat.ethz.ch/Teaching/WBL/R-Einstieg/Daten_Einlesen_mit_R.pdf
-
-R-Befehl geeignet für wichtige Argumente  
-read.table() .txt .dat header=TRUE/FALSE, sep= , dec= , fill=TRUE  
-read.csv() .csv header=TRUE/FALSE, sep= , dec=  
-scan() .txt .dat . . . file= , what= , header=T/F, sep= , skip= , fill=T/F
-
-
-:::: {#tip-wd-R .callout-tip collapse="false"}
-## Arbeitsverzeichnis in R ermitteln
-Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Befehl `getwd()` ermittelt werden.
-
-```{r}
-#| output: FALSE
-#| results: hold # process code first, then print output
-
-print(getwd())
-```
-::::
-
-::: 

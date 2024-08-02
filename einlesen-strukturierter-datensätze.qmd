@@ -138,7 +138,7 @@ Ein Datensatz ist eine Sammlung zusammengehöriger Daten. Datensätze enthalten 
 
 :::
 
-### Technisches Format
+## Technisches Format
 Das technische Format gibt vor, mit welchen Mitteln Daten eingelesen, bearbeitet und gespeichert werden können. Einige Beispiele sind:
 
   - Druckerzeugnis, z. B. Telefonbuch: manuelles Ablesen von Name und Telefonnummer, irreversible Bearbeitung per Stift
@@ -149,7 +149,7 @@ Das technische Format gibt vor, mit welchen Mitteln Daten eingelesen, bearbeitet
   
   - Hierarchical Data Format HDF5, z. B. räumliche Daten zur Blitzdichte: benötigt spezialisierte Programme oder Pakete
 
-### Struktur
+## Struktur
 Datensätze speichern Daten in einer definierten n-dimensionalen Struktur.
 
 ::: {.border}
@@ -158,7 +158,7 @@ Datensätze speichern Daten in einer definierten n-dimensionalen Struktur.
 slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file) und abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen). 2024
 :::
 
-#### Eindimensionale Datensätze
+### Eindimensionale Datensätze
 Die einfachste Form sind eindimensionale Datensätze, die in einer **Liste** Werte einer einzigen Variablen zuordnen. Eindimensionale Datensätze verfügen lediglich über eine Achse: den Index, über den Elemente angesprochen werden können.
 
 ::: {.border}
@@ -179,16 +179,36 @@ print(f"Das Würfelergebnis an Indexposition 2 lautet: {Augen[2]}")
 ```
 
 
-#### Zweidimensionale Datensätze
+### Übung: eindimensionale Daten einlesen mit Python
+
+**Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Sie sollen die Dateien auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.**
+
+| Daten | Dateiname |
+|---|------|
+| Würfelergebnisse Maya | dice-maya.txt |
+| Würfelergebnisse Hans | dice-hans.txt|
+
+&nbsp;
+
+{{< include _dateien-einlesen-mit-python.md >}}
+
+
+**Welche Augenzahl hat Hans erreicht?**
+
+**Die Musterlösung kann Marc machen**
+
+### Zweidimensionale Datensätze
 Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix**.
 
 ::: {.border}
-![zweidimensionaler Datensatz](skript/00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt=""}
+![zweidimensionaler Datensatz](skript/00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt="Dargestellt ist ein zweidimensionaler Block, der einen zweidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die zwei Achsen. Die nullte Achse entspricht der Länge (von oben nach unten) und die erste Achse der Breite des Datensatzes."}
 
 slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file) und abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen). Die Grafik wurde auf den gezeigten Teil beschnitten und die obenstehende Beschriftung entfernt. 2024
 :::
 
-Die meisten Datensätze sind zweidimensional. Typischerweise entspricht jede Spalte einer **Variablen**, und jede Zeile einer **Beobachtung**. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. 
+&nbsp;
+
+Die meisten Datensätze sind zweidimensional. Typischerweise entspricht jede Spalte einer **Variablen**, und jede Zeile einer **Beobachtung**. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. [@Wickham-2014, S. 3]
 
 ``` {python}
 import pandas as pd
@@ -197,6 +217,8 @@ messung1 = pd.DataFrame({'Name': ['Hans', 'Elke', 'Jean', 'Maya'], 'Geburtstag':
 
 messung1
 ```
+
+&nbsp;
 
 Über die Angabe der Indizes entlang der 0. und der 1. Achse kann die Summe der gewürfelten Augen einer Person ausgegeben werden. 
 
@@ -212,17 +234,20 @@ Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei e
 print(f"Jean würfelte {messung1['Summe Augen'][2]} Augen")
 ```
 
-##### long- und wide-Format
-Zweidimensionale Datensätze werden zumeist wie gezeigt in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.
+### long- und wide-Format
+Zweidimensionale Datensätze werden zumeist in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.
 
-Eine andere Art Daten zu organisieren und über Daten nachzudenken ist die Darstellung im long-Format. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden für diese erhoben?
+Eine andere Art Daten zu organisieren und über Daten nachzudenken, ist die Darstellung im long-Format. Einige Programme und Pakete erfordern Daten im long-Format oder profitieren zumindest davon beispielsweise bei der Erstellung von Grafiken. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden für diese erhoben?
 
 ``` {python}
+#| echo: false
 
 messung1
 ```
 
-Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind, für die die Variablen Geburtstag, Würfelfarbe und Summe Augen erhoben wurden. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei erhobene Merkmale, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, eine zweite Person mit dem Namen Hans hätte auch gewürfelt. Die Würfelergebnisse der Personen mit dem Namen Hans können nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
+&nbsp;
+
+Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, eine zweite Person mit dem Namen Hans hätte auch gewürfelt. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans könnten nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
 
 ``` {python}
 messung1 = pd.DataFrame({'Name': ['Hans', 'Elke', 'Jean', 'Maya', 'Hans'], 'Geburtstag': ['26.02.', '14.03.', '30.12.', '07.09.', '11.11.'], 'Würfelfarbe': ['rosa', 'rosa', 'blau', 'gelb', 'rosa'], 'Summe Augen': [12, 17, 8, 23, 7]})
@@ -230,7 +255,9 @@ messung1 = pd.DataFrame({'Name': ['Hans', 'Elke', 'Jean', 'Maya', 'Hans'], 'Gebu
 messung1
 ```
 
-Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables, kurz: measure vars oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Dabei wird angegeben, welche Spalten identifizierende Variablen sind. 
+&nbsp;
+
+Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables, kurz: measure vars oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Das Modul Pandas bietet die Funktion `pd.melt(frame, id_vars = None)`. Diese erwartet einen DataFrame. Im optionalen Argument `id_vars` wird angegeben, welche Spalten die identifizierenden Variablen sind.
 
 ``` {python}
 
@@ -239,9 +266,11 @@ messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])
 messung1_long
 ```
 
+&nbsp;
+
 Im long-Format werden die gemessenen Variablen in der Spalte variable aufgeführt und deren Wert in der Spalte value eingetragen. Mit jeder zusätzlich erhobenen Variablen wird der Datensatz länger.
 
-Wenn Sie die Unterscheidung von identifizierenden und gemessenen Variablen zu Ende denken, kann der Variablenname selbst als eine identifizierende Variable für die Ausprägung in der Spalte value aufgefasst werden. Ein Datensatz kann als eine Struktur verstanden werden, die genau eine gemessene Variable, nämlich value, und eine Anzahl identifizierender Variablen besitzt. Dies kann im long-Format wie folgt ausgedrückt werden.
+Wenn Sie die Unterscheidung von identifizierenden und gemessenen Variablen zu Ende denken, kann der Variablenname selbst als eine identifizierende Variable für den Wert in der Spalte value aufgefasst werden. Ein Datensatz kann als eine Struktur verstanden werden, die genau eine gemessene Variable, nämlich value, und eine Anzahl identifizierender Variablen besitzt. Dies kann im long-Format wie folgt dargestellt werden.
 
 ``` {python}
 #| output: false
@@ -262,11 +291,13 @@ messung1_all_id
 
 ```
 
-![](skript/00-bilder/5f489ffabc91dec1ec2192dc4e993e00.jpg){width="60%"}
+![](skript/00-bilder/5f489ffabc91dec1ec2192dc4e993e00.jpg){width="90%"} 
+
+<!-- wow kommt wieder weg ;-) -->
 
 ::: 
 
-Werden beim melting keine id_vars angegeben, werden alle Spalten als gemessene Variablen behandelt.
+Auch der umgekehrte Fall ist möglich: Werden beim melting keine id_vars angegeben, werden alle Spalten als gemessene Variablen behandelt.
 
 ``` {python}
 
@@ -276,45 +307,80 @@ messung1_no_id
 
 ```
 
-Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. 
+&nbsp;
+
+Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. Die Pandas Funktion `pd.pivot(data, columns, index)` nimmt einen melted DataFrame entgegen und konveriert diesen aus den einzigartigen Werten in columns (= Spaltennamen des DataFrame im wide-Format) und den einzigartigen Werten in index (= Zeilenindex des DataFrame im wide-Format). Wird keine Spalte für index übergeben, wird der bestehende Index des melted DataFrame verwendet (der mit 20 Zeilen natürlich viel zu lang ist.) Da das Objekt messung1_no_id keine geeignete Indexspalte besitzt, muss diese vor dem casting erzeugt werden. Dies ist mit der Methode `messung1_no_id.groupby('variable').cumcount()` möglich, die die Anzahl jeder Ausprägung in der übergebenen Spalte bei 0 beginnend durchzählt. (Ein direktes Ersetzen des Index ist auf diese Weise nicht möglich, da der Index des an `pd.pivot(data, columns, index)` übergebenen DataFrame keine Doppelungen enthalten darf.)
 
 ``` {python}
-## pd.pivot() benutzt einen bestehenden Index, den es nicht gibt, deshalb muss man einen reinbasteln.  
-## Das ersetzen des bestehenden Index funktioniert nicht, weil der Index sich bei pd.pivot() nicht wiederholen darf
-## messung1_no_id.index = list(range(0, 4)) * 5 # geht nicht
-## in messung1_no_id eine zusätzliche Spalte für den Index einführen, der für jede Kombination von variable eindeutig ist. Hierfür können wir cumcount aus pandas verwenden, um eine Spalte mit einem laufenden Index für jede variable Gruppierung zu erstellen.
+# pd.pivot() benötigt einen Index oder benutzt den bestehenden Index, des melted_df, der zu lang ist
+# Deshalb eine zusätzliche Spalte in messung1_no_id einfügen
+## 'händisch': messung1_no_id['new_index'] = list(range(0, 5)) * 4 
+## allgemein: messung1_no_id['new_index'] = messung1_no_id.groupby('variable').cumcount()
 
-messung1_no_id['ID'] = messung1_no_id.groupby('variable').cumcount()
+# Spalte new_index einfügen
+messung1_no_id['new_index'] = messung1_no_id.groupby('variable').cumcount()
+print (f"Der Datensatz im long-Format mit zusätzlicher Spalte:\n{messung1_no_id}")
 
-print (messung1_no_id)
+# casting
+messung1_cast = pd.pivot(messung1_no_id, index = 'new_index', columns = 'variable', values = 'value')
+print(f"\nDer Datensatz im wide-Format:\n{messung1_cast}")
 
-messung1_cast = pd.pivot(messung1_no_id, index = 'ID', columns = 'variable', values = 'value')
-
-print(messung1_cast)
-
+# Spalten anordnen, Index zurücksetzen
+messung1_cast = messung1_cast[['Name', 'Geburtstag', 'Würfelfarbe', 'Summe Augen']]
 messung1_cast.reset_index(drop = True, inplace = True)
+messung1_cast.rename_axis(None, axis = 1, inplace = True)
 
+print(f"\nDer Datensatz im wide-Format mit zurückgesetztem Index:\n\n{messung1_cast}")
+```
+
+&nbsp;
+
+### Übung: zweidimensionale Daten im long- und wide-Format
+Oben wurde das Objekt messung_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt. **Benutzen Sie die Methode** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
+
+``` {python}
+#| echo: false
+
+messung1_long
+```
+
+
+:::{#tip-pivoting .callout-tip collapse="true"}
+## Musterlösung zweidimensionale im long- und wide-Format
+
+``` {python}
+
+# Spalte new_index einfügen
+messung1_long['new_index'] = messung1_long.groupby('variable').cumcount()
+
+# casting
+messung1_long_cast = pd.pivot(messung1_long, index = 'new_index', columns = 'variable', values = 'value')
+
+# Spalten anordnen, Index zurücksetzen
+messung1_long_cast = messung1_cast[['Name', 'Geburtstag', 'Würfelfarbe', 'Summe Augen']]
+messung1_long_cast.reset_index(drop = True, inplace = True)
+messung1_long_cast.rename_axis(None, axis = 1, inplace = True)
+
+messung1_long_cast
 
 ```
 
-melt und cast
 
-Selbst value wird in diesem Sinn zu einer beschreibenden Variablen für die Spalte value.
+:::
 
-Unterscheidung von id-variables und gemessene Variablen
-
-Quelle eine andere Art Daten zu organisieren und über Daten nachzudenken
-
-
-
-
-Gar nicht so eindeutig... ist Name unsere Beobachtung oder ist Name eine Variable für die Beobachung 0, 1, 2 und 4?
-**ergänzen: long- und wide-Format reshape2**
-
-
-
-#### Drei- und mehrdimensionale Datensätze
+### Drei- und mehrdimensionale Datensätze
 Datensätze können auch drei- oder mehrdimensional aufgebaut sein.
+
+::: {.border}
+
+![dreidimensionale Datensätze](skript/00-bilder/dreidimensionaler-datensatz-slicing-mf-mp.png){width="50%" fig-alt="Dargestellt ist ein dreidimensionaler Block, der einen dreidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die drei Achsen. Die nullte Achse entspricht der Tiefe, die erste Achse der Länge (von oben nach unten) und die zweite Achse der Breite des Datensatzes."}
+
+slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file) und abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen). Die Grafik wurde auf den gezeigten Teil beschnitten und die obenstehende Beschriftung entfernt. 2024
+:::
+
+&nbsp;
+
+hierhier: Beispiele für drei- und mehrdimensionale Daten.
 
 Mehrdimensional: z. B. Messung an verschiedenen Zeitpunkten oder an verschiedenen Orten
 2 Tabellen nebeneinander: Würfelergebnisse und eine Würfelfarbe haben sich geändert
@@ -349,26 +415,6 @@ Kasten Unterschied Format und Struktur, sieht man gut am long- und wide-Format -
 Hinweiskasten zum Unterschied von Format und Struktur
 Datensätze unterscheiden sich hinsichtlich ihres Formats (Format unterscheidet sich von Dimensionalität dadurch: Ein dreidimensionaler Datensatz kann in einer Tabellenkalkulation gespeichert in Form einer Matrix (dim = 2) gespeichert werden, die dritte Dimension wird über die Anzahl der Tabellenblätter abgebildet. Es ist aber auch möglich, dreidimensionale Daten in einer einfachen Textdatei zu speichern. data =[ [[1, 2, 3], [2, 3, 1], [3, 2, 1]], [Liegestütze, Kniebeuge, Hock-Streck-Sprünge], [morgens, mittags, abends], [Claus, Petra, Hans]]), ihrer Struktur, d
 
-Zusätzlich B
-
-Tidy Data
-
-
-Datensätze bestehen aus mindestens einer Variablen, mindestens einem Wert und entweder aus einem Index oder einer Anzahl von Beobachtungen.
-
-Variable, Wert und Beobachtungen ausführen nach Wickham 2014 Tidy Data, S. 3 https://vita.had.co.nz/papers/tidy-data.pdf
-
-Index selbst formulieren: (Wenn Werte keinem Merkmalsträger zugeordnet sind, haben Sie einfach nur einen Index, z. B. Wert an Position 2)
-
-
-
-besteht aus mindestens einer Variablen, mindestens einem Wert und können außerdem auch Beobachtungen enthalten. Beobachtungen 
-
-
-
-Außerdem 
-
-:::
 
 # Struktur
 Datensätze sind Objekte mit einer definierten Struktur. 1-dimensional, 2-dimensional, mehrdimensional
@@ -391,7 +437,6 @@ Dazu gehört die Trennung von Rohdaten, Metadaten, Grafiken und anderer gestalte
 disziplinäre Konventionen und persönliche Vorlieben (z. B. zur Kennzeichnung fehlender oder ungültiger Werte)
 ein "NA" führt leicht dazu, dass ein numerischer Datensatz als Zeichenkette erkannt wird.
 
-{{< include _daten-einlesen-mit-python-und-r.md >}}
 
 # Strategien der Fehlersuche und Bereinigung
 
