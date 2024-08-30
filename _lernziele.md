@@ -1,6 +1,8 @@
 # Lernziele
-In diesen Baustein lernen Sie ...
+In diesem Baustein lernen Sie ...
 
-- einlesen, bearbeiten und speichern n-dimensionaler Datensätze
+- Datensätze unterschiedlicher Struktur und Formate einzulesen, zu bearbeiten und zu speichern. 
 
-- Datensätze im long- und wide-Format
+- den Unterschied zwischen identifizierenden und gemessenen Variablen kennen sowie Datensätze ins long- und wide-Format zu konvertieren.
+
+- ... **ergänzen**: Strategien der Fehlersuche und - bereinigung

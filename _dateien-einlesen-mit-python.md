@@ -1,9 +1,8 @@
 **Border + Quellennachweis Simone Arnold: Vorlesung Datenanalyse mit Python. 03 Funktionen. Fachhochschule Dortmund**
 
-Um auf eine Datei zuzugreifen, muss diese fürs Lesen oder Schreiben geöffnet werden. Dazu wird in Python die Funktion [open](https://docs.python.org/3/library/functions.html#open) verwendet. Diese nimmt zwei Argumente, den Pfad der Datei und den Zugriffsmodus, an und liefert ein [Dateiobjekt](https://docs.python.org/3/glossary.html#term-file-object) zurück. Aus diesem Objekt werden dann die Inhalte der Datei ausgelesen.
+Um mit Python auf eine Datei zuzugreifen, muss diese fürs Lesen oder Schreiben geöffnet werden. Dazu wird in Python die Funktion [open](https://docs.python.org/3/library/functions.html#open) verwendet. Diese nimmt zwei Argumente, den Pfad der Datei und den Zugriffsmodus, an und liefert ein [Dateiobjekt](https://docs.python.org/3/glossary.html#term-file-object) zurück. Aus dem Dateiobjekt werden dann die Inhalte der Datei ausgelesen.
 
 #### Dateipfad
-
 Der lokale Dateipfad wird ausgehend vom aktuellen Arbeitsverzeichnis angegeben.
 
 ``` {python}
@@ -14,8 +13,8 @@ pfad_hans = "skript/01-daten/dice-hans.txt"
 ```
 
 :::: {#tip-wd-Python .callout-tip collapse="false"}
-## Arbeitsverzeichnis in Python ermitteln
-Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Modul os mittels `os.getcwd()` ermittelt werden.
+## Arbeitsverzeichnis in Python ermitteln und wechseln
+Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Modul os mittels `os.getcwd()` ermittelt werden (hier ohne Ausgabe). Mit `os.chdir('neuer_pfad')` kann das Arbeitsverzeichnis ggf. gewechselt werden. Die korrekte Formatierung des Pfads erkennen Sie an der Ausgabe von `os.getcwd()`.
 
 ``` {python}
 #| output: false
@@ -27,7 +26,6 @@ print(os.getcwd())
 ::::
 
 #### Zugriffsmodus
-
 Als Zugriffsmodus stehen unter anderem folgende Optionen zur Verfügung:
 
 | Modus | Beschreibung |
@@ -51,9 +49,7 @@ daten_maya = open(pfad_maya, mode = 'r')
 print(daten_maya)
 ```
 
-#### Daten ausgeben
-
-Wenn das Datenobjekt `daten_maya` der Funktion `print()` übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. cp65001 ist in Windows (dem Betriebssystem, auf dem dieser Baustein erstellt wurde) eine Kodierung für UTF-8. Sollte dies nicht automatisch erfolgen, kann eine Kodierung in UTF-8 auch mit dem Argument `encoding='UTF-8'` übergeben werden. Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
+Wenn das Datenobjekt `daten_maya` der Funktion `print()` übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. cp65001 **möp: da steht jetzt cp1252...** ist in Windows (dem Betriebssystem, auf dem dieser Baustein erstellt wurde) eine Kodierung für UTF-8. Sollte dies nicht automatisch erfolgen, kann eine Kodierung in UTF-8 auch mit dem Argument `encoding='UTF-8'` übergeben werden. Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
 
 ``` {python}
 
@@ -65,6 +61,7 @@ print(f"Dateipfad: {daten_maya.name}\n"
 
 ```
 
+#### Daten ausgeben
 Um den Dateiinhalt auszugeben, kann das Datenobjekt mit einer Schleife zeilenweise durchlaufen und ausgegeben werden. (Die Datei dice-maya hat nur eine Zeile.) 
 
 ``` {python}
@@ -153,8 +150,6 @@ print(f"Inhalt des Objekts augen_maya:\n{augen_maya}")
 daten_maya.seek(6, 0);
 print(daten_maya.read(1))
 
-daten_maya.tell()
-
 daten_maya.seek(daten_maya.tell() + 4, 0);
 print(daten_maya.read(1))
 ```
@@ -168,7 +163,7 @@ Um Mayas Würfelergebnisse zu addieren, müssen die Zahlen extrahiert und in Gan
 print(type(augen_maya))
 ```
 
-Dazu werden mit der Methode `str.strip(")` das führende und abschließende Anführungszeichen entfernt sowie anschließend mit der Methode `str.split('", "')` der String in eine Liste aufgeteilt.
+Dazu werden mit der Methode `str.strip(")` das führende und abschließende Anführungszeichen entfernt sowie anschließend mit der Methode `str.split('", "')` der String in eine Liste aufgeteilt. Anschließend werden die Listenelemente in Ganzzahlen umgewandelt und summiert.
 
 ``` {python}
 #| results: hold
@@ -185,7 +180,7 @@ augen_maya_int = []
 for i in augen_maya:
   augen_maya_int.append(int(i))
 
-print(f"\naugen_maya_int:\n{augen_maya_int}\nSumme Augen: {sum(augen_maya_int)}")
+print(f"\naugen_maya_int:\n{augen_maya_int}\n\nSumme Augen: {sum(augen_maya_int)}")
 ```
 
 #### Datei schließen
@@ -203,4 +198,14 @@ Das Schließen einer Datei ist besonders für Schreiboperationen auf Datenobjekt
 
 ::::
 
+### Übung eindimensionale Datensätze
 
+**Welche Augenzahl hat Hans erreicht?**
+
+**Die Musterlösung kann Marc machen**
+
+::: {#tip-Musterlösung-Augenzahlvergleich .callout-tip collapse="true"}
+## Musterlösung Augenzahlvergleich
+Musterlösung von Marc
+
+:::

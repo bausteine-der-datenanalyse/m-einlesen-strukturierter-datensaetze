@@ -90,46 +90,30 @@ BibTeX-Vorlage
 
 # Einleitung
 
-Am Beginn der Datenanalyse steht das Einlesen von Daten aus Dateien oder aus Datenbanken, um diese für die Auswertung verfügbar zu machen. In der Praxis ist das Einlesen von Daten alles andere als trivial. 2016 stellte eine Studie fest, dass ein Fünftel aller wissenschaftlichen Artikel im Bereich der Genetik auf der Grundlage von durch die Tabellenkalkulation Excel verfälschten Daten durchgeführt wurde ([@Ziemann-2016]). Genbezeichnungen wie "MARCH1" wurden fälschlicherweise in ein Datumsformat umgewandelt. 2021 wurde diese Schätzung des Anteils betroffener Arbeiten sogar auf 30 Prozent angehoben. ([heise online](https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html))
+2016 stellte eine Studie fest, dass ein Fünftel aller wissenschaftlichen Artikel im Bereich der Genetik auf der Grundlage von durch die Tabellenkalkulation Excel verfälschten Daten durchgeführt wurde [@Ziemann-2016]. Genbezeichnungen wie "MARCH1" wurden fälschlicherweise in ein Datumsformat umgewandelt. 2021 wurde diese Schätzung des Anteils betroffener Arbeiten sogar auf 30 Prozent angehoben. ([heise online](https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html))
 
-::: {.border layout="[[5, 90, 5], [1], [1]]"}
+Am Beginn der computergestützten Datenanalyse steht das Einlesen von Daten aus Dateien. In der Praxis ist das Einlesen von Daten alles andere als trivial. Daten werden in einer Vielzahl von Dateiformaten gespeichert. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, offenen und proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in speziell für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit, die durch spezialisierte Pakete ergänzt werden können.
 
-&nbsp;
+Die praktischen Herausforderungen der Datenanalyse beschränken sich jedoch nicht nur auf technische Aspekte. Oftmals bereitet der innere Aufbau von Datensätzen die größten Schwierigkeiten. Ein wichtiger Bestandteil des Einlesens strukturierter Datensätze besteht deshalb darin, Fehler im Datensatz zu suchen und ggf. zu bereinigen. Dasu und Johnson schreiben: 
 
-“Tidy datasets are all alike, but every messy dataset is messy in its own way.”  Hadley Wickham
-
-&nbsp;
-
-&nbsp;
-
-[@R-for-Data-Science, Kapitel 5 Data tidying]
-
-:::
-
-Häufig werden Daten nicht selbst erstellt, sondern von externen Quellen bezogenen, sodass das Format und der innere Aufbau von Datensätzen nicht selbst bestimmt werden können. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit, die durch spezialisierte Pakete ergänzt werden können.
-
-Die praktischen Herausforderungen der Datenanalyse beschränken sich jedoch nicht nur auf technische Aspekte. Oftmals bereitet der innere Aufbau von Datensätzen die größten Schwierigkeiten. Dasu und Johnson schreiben: 
-
-::: {.border layout="[[5, 90, 5], [1], [1]]"}
+::: {.border layout="[5, 90, 5]"}
 
 &nbsp;
 
 "Unfortunately, the data set is usually dirty, composed of many tables, and has unknown properties. Before any results can be produced, the data must be cleaned and explored—often a long and
 difficult task. [...] In our experience, the tasks of exploratory data mining and data cleaning constitute 80% of the effort that determines 80% of the value of the ultimate data
-mining results."
+mining results." (@Dasu-Johnson-2003, S. ix)
 
 &nbsp;
-
-&nbsp;
-
-([@Dasu-Johnson-2003], S. ix)
 
 :::
 
-Ein wichtiger Bestandteil des Einlesens strukturierter Datensätze besteht deshalb darin, Fehler im Datensatz zu suchen und ggf. zu bereinigen. Unter dem Begriff des Einlesens strukturierter Datensätze wird der gesamte Prozess des Einlesens, der Fehlersuche und -korrektur und des Abspeicherns in für die weitere Bearbeitung geeigneter Form gefasst.
+&nbsp;
+
+Das Einlesen strukturierter Datensätze umfasst somit den gesamten Prozess des technischen Zugriffs auf Dateien, der Organisation, Fehlersuche und -korrektur sowie des Abspeicherns der Daten in einer für die weitere Bearbeitung geeigneten Form.
 
 # Grundlagen: Merkmale von Datensätzen
-Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen diskutiert, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen **und den Umgang der in der Basis von Python bzw. R enthaltenen Werkzeuge zu vermitteln**.
+Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen behandelt, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen und den Umgang der in der Basis von Python enthaltenen Werkzeuge zu vermitteln.
 
 ::: {#imp-Datensatz .callout-important}
 ## Datensatz
@@ -139,7 +123,7 @@ Ein Datensatz ist eine Sammlung zusammengehöriger Daten. Datensätze enthalten 
 :::
 
 ## Technisches Format
-Das technische Format gibt vor, mit welchen Mitteln Daten eingelesen, bearbeitet und gespeichert werden können. Einige Beispiele sind:
+Das technische Format eines Datensatzes gibt vor, mit welchen Mitteln Daten eingelesen, bearbeitet und gespeichert werden können. Einige Beispiele sind:
 
   - Druckerzeugnis, z. B. Telefonbuch: manuelles Ablesen von Name und Telefonnummer, irreversible Bearbeitung per Stift
   
@@ -179,9 +163,8 @@ print(f"Das Würfelergebnis an Indexposition 2 lautet: {Augen[2]}")
 ```
 
 
-### Übung: eindimensionale Daten einlesen mit Python
-
-**Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Sie sollen die Dateien auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.**
+### Eindimensionale Daten einlesen mit Python
+Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Wir wollen mit die Dateien mit Python auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.
 
 | Daten | Dateiname |
 |---|------|
@@ -192,13 +175,8 @@ print(f"Das Würfelergebnis an Indexposition 2 lautet: {Augen[2]}")
 
 {{< include _dateien-einlesen-mit-python.md >}}
 
-
-**Welche Augenzahl hat Hans erreicht?**
-
-**Die Musterlösung kann Marc machen**
-
 ### Zweidimensionale Datensätze
-Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix**.
+Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**.  Matritzen enthalten nur einen Datentyp (bspw. Zahlen), Dataframes können unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte).
 
 ::: {.border}
 ![zweidimensionaler Datensatz](skript/00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt="Dargestellt ist ein zweidimensionaler Block, der einen zweidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die zwei Achsen. Die nullte Achse entspricht der Länge (von oben nach unten) und die erste Achse der Breite des Datensatzes."}
@@ -208,7 +186,7 @@ slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bauste
 
 &nbsp;
 
-Die meisten Datensätze sind zweidimensional. Typischerweise entspricht jede Spalte einer **Variablen**, und jede Zeile einer **Beobachtung**. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. [@Wickham-2014, S. 3]
+Die meisten Datensätze sind zweidimensional. Typischerweise entspricht jede Spalte einer **Variablen** und jede Zeile einer **Beobachtung**. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. [@Wickham-2014, S. 3]
 
 ``` {python}
 import pandas as pd
@@ -247,7 +225,7 @@ messung1
 
 &nbsp;
 
-Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, eine zweite Person mit dem Namen Hans hätte auch gewürfelt. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans könnten nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
+Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, eine zweite Person mit dem Namen Hans hätte auch gewürfelt. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
 
 ``` {python}
 messung1 = pd.DataFrame({'Name': ['Hans', 'Elke', 'Jean', 'Maya', 'Hans'], 'Geburtstag': ['26.02.', '14.03.', '30.12.', '07.09.', '11.11.'], 'Würfelfarbe': ['rosa', 'rosa', 'blau', 'gelb', 'rosa'], 'Summe Augen': [12, 17, 8, 23, 7]})
@@ -309,21 +287,26 @@ messung1_no_id
 
 &nbsp;
 
-Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. Die Pandas Funktion `pd.pivot(data, columns, index)` nimmt einen melted DataFrame entgegen und konveriert diesen aus den einzigartigen Werten in columns (= Spaltennamen des DataFrame im wide-Format) und den einzigartigen Werten in index (= Zeilenindex des DataFrame im wide-Format). Wird keine Spalte für index übergeben, wird der bestehende Index des melted DataFrame verwendet (der mit 20 Zeilen natürlich viel zu lang ist.) Da das Objekt messung1_no_id keine geeignete Indexspalte besitzt, muss diese vor dem casting erzeugt werden. Dies ist mit der Methode `messung1_no_id.groupby('variable').cumcount()` möglich, die die Anzahl jeder Ausprägung in der übergebenen Spalte bei 0 beginnend durchzählt. (Ein direktes Ersetzen des Index ist auf diese Weise nicht möglich, da der Index des an `pd.pivot(data, columns, index)` übergebenen DataFrame keine Doppelungen enthalten darf.)
+Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. Die Pandas Funktion `pd.pivot(data, columns, index)` nimmt einen melted DataFrame entgegen und konveriert diesen aus den einzigartigen Werten in columns (= Spaltennamen des DataFrame im wide-Format) und den einzigartigen Werten in index (= Zeilenindex des DataFrame im wide-Format). Wird der Funktion keine Spalte für index übergeben, wird der bestehende Index des melted DataFrame verwendet (der mit 20 Zeilen natürlich viel zu lang ist.) Da das Objekt messung1_no_id keine geeignete Indexspalte besitzt, muss diese vor dem casting erzeugt werden. Dies ist mit der Methode `messung1_no_id.groupby('variable').cumcount()` möglich, die die Anzahl jeder Ausprägung in der übergebenen Spalte bei 0 beginnend durchzählt. (Ein direktes Ersetzen des Index ist auf diese Weise nicht möglich, da der Index des an `pd.pivot(data, columns, index)` übergebenen DataFrames keine Doppelungen enthalten darf.)
 
 ``` {python}
 # pd.pivot() benötigt einen Index oder benutzt den bestehenden Index, des melted_df, der zu lang ist
 # Deshalb eine zusätzliche Spalte in messung1_no_id einfügen
-## 'händisch': messung1_no_id['new_index'] = list(range(0, 5)) * 4 
+## einfach: messung1_no_id['new_index'] = list(range(0, 5)) * 4 
 ## allgemein: messung1_no_id['new_index'] = messung1_no_id.groupby('variable').cumcount()
 
 # Spalte new_index einfügen
 messung1_no_id['new_index'] = messung1_no_id.groupby('variable').cumcount()
-print (f"Der Datensatz im long-Format mit zusätzlicher Spalte:\n{messung1_no_id}")
+print (f"Der Datensatz im long-Format mit zusätzlicher Spalte new_index:\n{messung1_no_id}")
 
 # casting
 messung1_cast = pd.pivot(messung1_no_id, index = 'new_index', columns = 'variable', values = 'value')
 print(f"\nDer Datensatz im wide-Format:\n{messung1_cast}")
+```
+
+Das Ergebnis entspricht noch nicht dem ursprünglichen Datensatz im wide-Format. Um das Ausgangsformat wiederherzustellen, müssen die Spalten in die ursprüngliche Reihenfolge gebracht sowie der Index und dessen Beschriftung zurückgesetzt werden.
+
+```{python}
 
 # Spalten anordnen, Index zurücksetzen
 messung1_cast = messung1_cast[['Name', 'Geburtstag', 'Würfelfarbe', 'Summe Augen']]
@@ -331,12 +314,12 @@ messung1_cast.reset_index(drop = True, inplace = True)
 messung1_cast.rename_axis(None, axis = 1, inplace = True)
 
 print(f"\nDer Datensatz im wide-Format mit zurückgesetztem Index:\n\n{messung1_cast}")
+
 ```
 
-&nbsp;
-
-### Übung: zweidimensionale Daten im long- und wide-Format
-Oben wurde das Objekt messung_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt. **Benutzen Sie die Methode** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
+### Übung: zweidimensionale Datensätze
+Oben wurde das Objekt messung1_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt.  
+**Benutzen Sie die Funktion** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
 
 ``` {python}
 #| echo: false
@@ -346,7 +329,7 @@ messung1_long
 
 
 :::{#tip-pivoting .callout-tip collapse="true"}
-## Musterlösung zweidimensionale im long- und wide-Format
+## Musterlösung zweidimensionale Datensätze
 
 ``` {python}
 
@@ -369,62 +352,47 @@ messung1_long_cast
 :::
 
 ### Drei- und mehrdimensionale Datensätze
-Datensätze können auch drei- oder mehrdimensional aufgebaut sein.
+Drei- oder mehrdimensionale Datensätze organisieren komplexe Datenstrukturen in sogenannten **Arrays**. Beispielsweise ist eine Excel-Datei mit mehreren Arbeitsblättern für jährlich erhobene Umfragedaten ein 3-dimensionales Array (Arbeitsblätter, Zeilen, Spalten). Insbesondere Sensordaten liegen häufig in mehrdimensionalen Strukturen vor. 
 
 ::: {.border}
 
 ![dreidimensionale Datensätze](skript/00-bilder/dreidimensionaler-datensatz-slicing-mf-mp.png){width="50%" fig-alt="Dargestellt ist ein dreidimensionaler Block, der einen dreidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die drei Achsen. Die nullte Achse entspricht der Tiefe, die erste Achse der Länge (von oben nach unten) und die zweite Achse der Breite des Datensatzes."}
 
 slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file) und abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen). Die Grafik wurde auf den gezeigten Teil beschnitten und die obenstehende Beschriftung entfernt. 2024
+
 :::
 
 &nbsp;
 
-hierhier: Beispiele für drei- und mehrdimensionale Daten.
+**Hier könnte man eine Liste aus einer .JPEG in ein NumPy-Array umwandeln und als Bild darstellen.**  
+**optional: Exkurs JSON**
 
-Mehrdimensional: z. B. Messung an verschiedenen Zeitpunkten oder an verschiedenen Orten
-2 Tabellen nebeneinander: Würfelergebnisse und eine Würfelfarbe haben sich geändert
+Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die in den Folgenden Abschnitten werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit [@sec-metadaten] dokumentiert werden können. Beispielsweise kann der Wert "1" eine Zahl, den Monat Januar, ein Zeichen, einen Wahrheitswert oder die Ausprägung einer kategorialen Variablen (eines Faktors [**Faktor in R und Kategorie in [Pandas](https://pandas.pydata.org/docs/user_guide/categorical.html)**]) repräsentieren. 
 
+# Datentyp {#sec-datentyp}
 
+Unterstützte Datentypen sind ein wichtiges Merkmal von Datensätzen. Datentypen bestimmen darüber, welche Operationen zulässig sind (z. B. datetime-Operationen). 
 
-::: {layout-ncol="[50, -10, 50]"}
+  - unterstützte Datentypen in Python von Simone bzw. von der Python Doku...
 
-| Messung 1 | Geburtstag | Würfelfarbe | Summe Augen |
-|----|------|------|------|
-|  Hans | 26.02. | rosa | 12 |
-| Elke | 14.03. | rosa | 22 |
-| Jean | 30.12. | blau | 8 |
-| Maya | 07.09. | gelb | 17 |
+NumPy-Array: numerische Datentypen --> hier reicht ein Querverweis auf den w-NumPy
 
-| Messung 2 | Geburtstag | Würfelfarbe | Summe Augen |
-|----|------|------|------|
-|  Hans | 26.02. | rosa | 14 |
-| Elke | 14.03. | rosa | 9 |
-| Jean | 30.12. | rosa | 21 |
-| Maya | 07.09. | gelb | 13 |
+Pandas.DataFrame: Vielzahl von Datentypen --> hier reicht ein Querverweis auf den w-Pandas
+numerisch, character, category, boolean, datetime usw. ... 
 
-:::
+Ein wichtiger Datentyp: nichts bzw. fehlende Werte
 
-Wir können uns eine vierte Dimension für diese Daten vorstellen, die die Person codiert, die die Messung beaufsichtigt und den Teildatensatz erstellt hat.
-Format, Struktur, Variablen, Werte.
+Korrektes Verwalten von Datentypen hilft unter anderem Fehler zu vermeiden. [0, 1, 2] ist eine korrekte numerische Liste, enthielte als Liste von Wahrheitswerten jedoch einen Datenfehler. 
 
-Format und Struktur: Unterschied
+  - typischer Fehler beim Einlesen von Datensätzen: Datum wird nicht erkannt, numerische Spalten werden wegen fehlender Werte falsch eingelesen. 
 
-Kasten Unterschied Format und Struktur, sieht man gut am long- und wide-Format --> potenzielle Begriffskollission zwischen technischem Format und long- und wide-Format
+ 
+# Metadaten {#sec-metadaten}
+gute Überleitung: Man muss wie gesagt wissen, wie 
 
-Hinweiskasten zum Unterschied von Format und Struktur
-Datensätze unterscheiden sich hinsichtlich ihres Formats (Format unterscheidet sich von Dimensionalität dadurch: Ein dreidimensionaler Datensatz kann in einer Tabellenkalkulation gespeichert in Form einer Matrix (dim = 2) gespeichert werden, die dritte Dimension wird über die Anzahl der Tabellenblätter abgebildet. Es ist aber auch möglich, dreidimensionale Daten in einer einfachen Textdatei zu speichern. data =[ [[1, 2, 3], [2, 3, 1], [3, 2, 1]], [Liegestütze, Kniebeuge, Hock-Streck-Sprünge], [morgens, mittags, abends], [Claus, Petra, Hans]]), ihrer Struktur, d
+# fehlende Werte {#sec-missing}
+Unterstützen nicht alle Datensatzformate explizit, ist aber eine wichtige Funktion
 
-
-# Struktur
-Datensätze sind Objekte mit einer definierten Struktur. 1-dimensional, 2-dimensional, mehrdimensional
-
-# Datentyp
-numerisch, character, factor, boolean, datetime usw. ... 
-
-# Metadaten
-
-# fehlende Werte
 nix, NA, NaN, --, -1
 
 masked Arrays
@@ -440,6 +408,18 @@ ein "NA" führt leicht dazu, dass ein numerischer Datensatz als Zeichenkette erk
 
 # Strategien der Fehlersuche und Bereinigung
 
+## Fehlersuche
+::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+&nbsp;
+
+:::
+
+## Fehlerbereinigung
 ::: {.border layout="[[5, 90, 5], [1], [1]]"}
 
 &nbsp;
