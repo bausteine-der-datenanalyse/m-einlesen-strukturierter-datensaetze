@@ -1,4 +1,4 @@
-**Border + Quellennachweis Simone Arnold: Vorlesung Datenanalyse mit Python. 03 Funktionen. Fachhochschule Dortmund**
+::: {.border}
 
 Um mit Python auf eine Datei zuzugreifen, muss diese fürs Lesen oder Schreiben geöffnet werden. Dazu wird in Python die Funktion [open](https://docs.python.org/3/library/functions.html#open) verwendet. Diese nimmt zwei Argumente, den Pfad der Datei und den Zugriffsmodus, an und liefert ein [Dateiobjekt](https://docs.python.org/3/glossary.html#term-file-object) zurück. Aus dem Dateiobjekt werden dann die Inhalte der Datei ausgelesen.
 
@@ -49,7 +49,15 @@ daten_maya = open(pfad_maya, mode = 'r')
 print(daten_maya)
 ```
 
-Wenn das Datenobjekt `daten_maya` der Funktion `print()` übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. cp65001 **möp: da steht jetzt cp1252...** ist in Windows (dem Betriebssystem, auf dem dieser Baustein erstellt wurde) eine Kodierung für UTF-8. Sollte dies nicht automatisch erfolgen, kann eine Kodierung in UTF-8 auch mit dem Argument `encoding='UTF-8'` übergeben werden. Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
+Wenn das Datenobjekt `daten_maya` der Funktion `print()` übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. Sollte die Enkodierung nicht automatisch als UTF-8 erkannt werden, kann diese mit dem Argument `encoding = 'UTF-8'` übergeben werden. 
+
+``` {python}
+
+daten_maya = open(pfad_maya, mode = 'r', encoding = 'UTF-8')
+print(daten_maya)
+```
+
+Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
 
 ``` {python}
 
@@ -204,8 +212,12 @@ Das Schließen einer Datei ist besonders für Schreiboperationen auf Datenobjekt
 
 **Die Musterlösung kann Marc machen**
 
-::: {#tip-Musterlösung-Augenzahlvergleich .callout-tip collapse="true"}
+:::: {#tip-Musterlösung-Augenzahlvergleich .callout-tip collapse="true"}
 ## Musterlösung Augenzahlvergleich
 Musterlösung von Marc
+
+::::
+
+[@Arnold-2023-funktionen-module-dateien]
 
 :::

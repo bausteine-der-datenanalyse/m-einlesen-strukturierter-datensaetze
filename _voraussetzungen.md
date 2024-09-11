@@ -7,4 +7,6 @@ Die Bearbeitungszeit dieses Bausteins beträgt circa **Platzhalter**. Für die B
 
   - Modul Pandas
 
+  - Modul Matplotlib
+
 Im Baustein werden **XY** Daten verwendet.

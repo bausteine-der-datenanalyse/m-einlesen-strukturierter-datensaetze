@@ -92,9 +92,9 @@ BibTeX-Vorlage
 
 2016 stellte eine Studie fest, dass ein Fünftel aller wissenschaftlichen Artikel im Bereich der Genetik auf der Grundlage von durch die Tabellenkalkulation Excel verfälschten Daten durchgeführt wurde [@Ziemann-2016]. Genbezeichnungen wie "MARCH1" wurden fälschlicherweise in ein Datumsformat umgewandelt. 2021 wurde diese Schätzung des Anteils betroffener Arbeiten sogar auf 30 Prozent angehoben. ([heise online](https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html))
 
-Am Beginn der computergestützten Datenanalyse steht das Einlesen von Daten aus Dateien. In der Praxis ist das Einlesen von Daten alles andere als trivial. Daten werden in einer Vielzahl von Dateiformaten gespeichert. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, offenen und proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in speziell für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit, die durch spezialisierte Pakete ergänzt werden können.
+Am Beginn der computergestützten Datenanalyse steht das Einlesen von Daten aus Dateien. In der Praxis ist das Einlesen von Daten alles andere als trivial. Daten werden in einer Vielzahl von Dateiformaten gespeichert. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, offenen und proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in speziell für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit. Spezialisierte Pakete ergänzen den Werkzeugkasten.
 
-Die praktischen Herausforderungen der Datenanalyse beschränken sich jedoch nicht nur auf technische Aspekte. Oftmals bereitet der innere Aufbau von Datensätzen die größten Schwierigkeiten. Ein wichtiger Bestandteil des Einlesens strukturierter Datensätze besteht deshalb darin, Fehler im Datensatz zu suchen und ggf. zu bereinigen. Dasu und Johnson schreiben: 
+Die praktischen Herausforderungen der Datenanalyse beschränken sich jedoch nicht nur auf technische Aspekte. Oftmals bereitet der innere Aufbau von Datensätzen die größten Schwierigkeiten. Ein wichtiger Bestandteil des Einlesens strukturierter Datensätze besteht darin, Fehler im Datensatz zu suchen und ggf. zu bereinigen. Dasu und Johnson schreiben: 
 
 ::: {.border layout="[5, 90, 5]"}
 
@@ -176,7 +176,7 @@ Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse 
 {{< include _dateien-einlesen-mit-python.md >}}
 
 ### Zweidimensionale Datensätze
-Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**.  Matritzen enthalten nur einen Datentyp (bspw. Zahlen), Dataframes können unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte).
+Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe** (**Hinweis: das ist die Terminologie in R, in Python ist das nicht so einfach. Es gibt das Modul array**). Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Pyhton stellt das Modul Pandas die DataFrame-Struktur bereit. **hier Querverweis auf w-Pandas** 
 
 ::: {.border}
 ![zweidimensionaler Datensatz](skript/00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt="Dargestellt ist ein zweidimensionaler Block, der einen zweidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die zwei Achsen. Die nullte Achse entspricht der Länge (von oben nach unten) und die erste Achse der Breite des Datensatzes."}
@@ -215,7 +215,7 @@ print(f"Jean würfelte {messung1['Summe Augen'][2]} Augen")
 ### long- und wide-Format
 Zweidimensionale Datensätze werden zumeist in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.
 
-Eine andere Art Daten zu organisieren und über Daten nachzudenken, ist die Darstellung im long-Format. Einige Programme und Pakete erfordern Daten im long-Format oder profitieren zumindest davon beispielsweise bei der Erstellung von Grafiken. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden für diese erhoben?
+Eine andere Art Daten zu organisieren und über Daten nachzudenken, ist die Darstellung im long-Format. Einige Programme und Pakete erfordern Daten im long-Format oder profitieren zumindest davon beispielsweise bei der Erstellung von Grafiken. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden erhoben?
 
 ``` {python}
 #| echo: false
@@ -225,7 +225,7 @@ messung1
 
 &nbsp;
 
-Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, eine zweite Person mit dem Namen Hans hätte auch gewürfelt. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
+Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, es gäbe eine zweite Person mit dem Namen Hans. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.
 
 ``` {python}
 messung1 = pd.DataFrame({'Name': ['Hans', 'Elke', 'Jean', 'Maya', 'Hans'], 'Geburtstag': ['26.02.', '14.03.', '30.12.', '07.09.', '11.11.'], 'Würfelfarbe': ['rosa', 'rosa', 'blau', 'gelb', 'rosa'], 'Summe Augen': [12, 17, 8, 23, 7]})
@@ -259,6 +259,9 @@ messung1_all_id
 
 ```
 
+In dieser Darstellung wird beispielsweise der erste Wert 12 durch Name = Hans, Geburtstag = 26.02., Würfelfarbe = rosa und variable = Summe Augen identifiziert.
+
+
 ::: {layout="[70, 30]"}
 ``` {python}
 #| echo: false
@@ -274,6 +277,14 @@ messung1_all_id
 <!-- wow kommt wieder weg ;-) -->
 
 ::: 
+
+**Was passiert, wenn auch die Variable `Summe Augen` dem Argument `id_vars` übergeben wird?**
+
+::: {#tip-Antwort-all-id .callout-tip collapse="true"}
+## Antwort
+
+Der Befehl `messung1_all_id = pd.melt(messung1, id_vars = ['Name', 'Geburtstag', 'Würfelfarbe', 'Summe Augen'])` produziert einen leeren Dataframe, weil keine gemessenen Werte verbleiben.
+:::
 
 Auch der umgekehrte Fall ist möglich: Werden beim melting keine id_vars angegeben, werden alle Spalten als gemessene Variablen behandelt.
 
@@ -317,7 +328,7 @@ print(f"\nDer Datensatz im wide-Format mit zurückgesetztem Index:\n\n{messung1_
 
 ```
 
-### Übung: zweidimensionale Datensätze
+### Übung zweidimensionale Datensätze
 Oben wurde das Objekt messung1_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt.  
 **Benutzen Sie die Funktion** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
 
@@ -352,10 +363,9 @@ messung1_long_cast
 :::
 
 ### Drei- und mehrdimensionale Datensätze
-Drei- oder mehrdimensionale Datensätze organisieren komplexe Datenstrukturen in sogenannten **Arrays**. Beispielsweise ist eine Excel-Datei mit mehreren Arbeitsblättern für jährlich erhobene Umfragedaten ein 3-dimensionales Array (Arbeitsblätter, Zeilen, Spalten). Insbesondere Sensordaten liegen häufig in mehrdimensionalen Strukturen vor. 
+Drei- oder mehrdimensionale Datensätze organisieren komplexe Datenstrukturen in sogenannten **Arrays**. Arrays sind n-dimensionale Datenstrukturen und damit zugleich ein Oberbegriff für eine Vielzahl von Datenstrukturen. So ist eine Liste ein eindimensionales Array, eine Matrix ein zweidimensionales Array und eine Excel-Datei mit mehreren Arbeitsblättern für jährlich erhobene Umfragedaten ein 3-dimensionales Array (Arbeitsblätter, Zeilen, Spalten). Arrays sind insbesondere für höherdimensionale Datenstrukturen von Bedeutung. Beispielsweise liegen Sensordaten häufig in mehrdimensionalen Strukturen vor. Abhängig vom verwendeten Modul können Arrays ein oder mehrer Datentypen enthalten.
 
 ::: {.border}
-
 ![dreidimensionale Datensätze](skript/00-bilder/dreidimensionaler-datensatz-slicing-mf-mp.png){width="50%" fig-alt="Dargestellt ist ein dreidimensionaler Block, der einen dreidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die drei Achsen. Die nullte Achse entspricht der Tiefe, die erste Achse der Länge (von oben nach unten) und die zweite Achse der Breite des Datensatzes."}
 
 slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen#CC-BY-4.0-1-ov-file) und abrufbar auf [GitHub](https://github.com/bausteine-der-datenanalyse/w-python-numpy-grundlagen). Die Grafik wurde auf den gezeigten Teil beschnitten und die obenstehende Beschriftung entfernt. 2024
@@ -364,52 +374,346 @@ slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bauste
 
 &nbsp;
 
-**Hier könnte man eine Liste aus einer .JPEG in ein NumPy-Array umwandeln und als Bild darstellen.**  
-**optional: Exkurs JSON**
+Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die in den Folgenden Abschnitten behandelt werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit Metadaten (siehe @sec-metadaten) dokumentiert werden können.
 
-Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die in den Folgenden Abschnitten werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit [@sec-metadaten] dokumentiert werden können. Beispielsweise kann der Wert "1" eine Zahl, den Monat Januar, ein Zeichen, einen Wahrheitswert oder die Ausprägung einer kategorialen Variablen (eines Faktors [**Faktor in R und Kategorie in [Pandas](https://pandas.pydata.org/docs/user_guide/categorical.html)**]) repräsentieren. 
+**optional: Exkurs JSON <https://docs.python.org/3/tutorial/inputoutput.html>**
 
-# Datentyp {#sec-datentyp}
+### Bilddaten einlesen
 
-Unterstützte Datentypen sind ein wichtiges Merkmal von Datensätzen. Datentypen bestimmen darüber, welche Operationen zulässig sind (z. B. datetime-Operationen). 
+::: {.border}
+Digitale Bilder liegen in Form eines dreidimensionalen Datensatzes vor. In Zeilen und Spalten liegen für jeden Pixel Farbwerte (Rot, Grün, Blau) und gegebenenfalls ein Alphawert vor (Rot, Grün, Blau, Alpha). Die Farbwerte liegen entweder im Bereich von 0 bis 1 oder von 0 bis 255 (8-Bit).
 
-  - unterstützte Datentypen in Python von Simone bzw. von der Python Doku...
+```
+# Farbwerte für einen Pixel
+[Rotwert, Grünwert, Blauwert]
 
-NumPy-Array: numerische Datentypen --> hier reicht ein Querverweis auf den w-NumPy
+# Eine Bildzeile mit drei Pixeln
+[[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]]
 
-Pandas.DataFrame: Vielzahl von Datentypen --> hier reicht ein Querverweis auf den w-Pandas
-numerisch, character, category, boolean, datetime usw. ... 
+# Ein Bild aus drei Zeilen und Spalten
+[[[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]],
+[[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]],
+[[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]]]
+```
 
-Ein wichtiger Datentyp: nichts bzw. fehlende Werte
+Bilddateien können mit der Funktion `plt.imread()` aus dem Modul `matplotlib.pyplot` eingelesen werden. 
 
-Korrektes Verwalten von Datentypen hilft unter anderem Fehler zu vermeiden. [0, 1, 2] ist eine korrekte numerische Liste, enthielte als Liste von Wahrheitswerten jedoch einen Datenfehler. 
+:::: {.border}
+``` {python}
+import matplotlib.pyplot as plt
 
-  - typischer Fehler beim Einlesen von Datensätzen: Datum wird nicht erkannt, numerische Spalten werden wegen fehlender Werte falsch eingelesen. 
+logo = plt.imread(fname = 'skript/00-bilder/python-logo-and-wordmark-cc0-tm.png')
 
- 
-# Metadaten {#sec-metadaten}
-gute Überleitung: Man muss wie gesagt wissen, wie 
+plt.imshow(logo)
 
-# fehlende Werte {#sec-missing}
-Unterstützen nicht alle Datensatzformate explizit, ist aber eine wichtige Funktion
+```
 
-nix, NA, NaN, --, -1
+Python Logo von Python Software Foundation steht unter der [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html). Die Wort-Bild-Marke ist markenrechtlich geschützt: <https://www.python.org/psf/trademarks/>. Das Werk ist abrufbar auf [wikimedia](https://de.m.wikipedia.org/wiki/Datei:Python_logo_and_wordmark.svg). 2008
 
-masked Arrays
+:::: 
 
-eindimensionaler Datensatz: Urliste von Ergebnissen eines Münzwurfs.
-Woraus besteht ein Datensatz?
+&nbsp;
 
-Dazu gehört die Trennung von Rohdaten, Metadaten, Grafiken und anderer gestalterische Elemente. 
+Die Struktur des Datensatzes kann mit dem Attribut `.shape` abgerufen werden.
 
-disziplinäre Konventionen und persönliche Vorlieben (z. B. zur Kennzeichnung fehlender oder ungültiger Werte)
-ein "NA" führt leicht dazu, dass ein numerischer Datensatz als Zeichenkette erkannt wird.
+``` {python}
+print(type(logo), "\n")
 
+print(logo.shape)
+
+```
+
+Die Daten wurden als NumPy.ndarray eingelesen. Das Logo hat 144 Zeilen, 486 Spalten und liegt im RGBA-Farbraum vor. Ein Ausschnitt der Daten sieht so aus:
+
+``` {python}
+print(logo[50:52, 50:52, : ])
+
+```
+
+### Übung dreidimensionale Datensätze
+Über den Index der dritten Dimension können die Farbkanäle Rot, Grün und Blau ausgewählt und mit der Funktion `plt.imshow(cmap = 'Greys_r')` einzeln dargestellt werden. Das Argument `cmap = 'Greys_r'` weist die Funktion an, die invertierte Grauskala benutzen. Dadurch werden hohe Farbwerte hell und niedrige Farbwerte dunkel dargestellt. **Versuchen Sie es einmal.**
+
+
+:::: {#tip-logo .callout-tip collapse="true"}
+## Musterlösung dreidimensionale Datensätze
+``` {python}
+
+kanal = ["Rotkanal", "Grünkanal", "Blaukanal"]
+
+plt.figure(figsize = (9, 6))
+# plt.suptitle('Farbkanäle des Pythonlogos')
+
+for i in range(3):
+
+  plt.subplot(1, 4, i + 1)
+  plt.imshow(logo[ :, :, i], cmap = 'Greys_r')
+  plt.title(label = kanal[i])
+
+plt.colorbar(shrink = 0.15)
+
+plt.tight_layout()
+plt.show()
+
+```
+
+::::
+
+[@Arnold-2023-numpy-dateien]
+
+:::
+
+## Datentyp {#sec-datentyp}
+
+Der Datentyp gibt an, wie die in einem Datensatz einhaltenen Werte von Python interpretiert werden sollen. Beispielsweise kann der Wert "1" ein Zeichen, eine Ganzzahl, einen Wahrheitswert, den Monat Januar oder die Ausprägung einer kategorialen Variablen repräsentieren. Python unterstützt als vielseitig einsetzbare Programmiersprache zahlreiche Datentypen, die den Kategorien: numerics, sequences, mappings, classes, instances and exceptions zugeordnet sind. Nähere Informationen dazu finden Sie in der [Dokumentation](https://docs.python.org/3/library/stdtypes.html).
+
+::: {.border}
+![Datentypen in Python](skript/00-bilder/python3-standard-type-hierarchy.png){width="60%" fig-alt="Dargestellt ist eine Kategorisierung der Standardtypen in Python. Die Kategorisierung ist nicht vollständig deckungsgleich zu den in der Dokumentation genannten Kategorien von Datentypen. Der Typ None für Nullwerte hat keine weitere Unterteilung. Die Kategorie Numbers unterteilt sich in Zahlenwerte (Ganzzahlen, boolsche Wahrheitswerte), reele Zahlen (floats) und komplexe Zahlen. Die Kategorie Sequences unterteilt sich in Unveränderliche (Strings, Tuple, Bytes) und Veränderliche (Listen, Byte Arrays). Die Kategorie Set Types unterteilt sich in Sets (Mengen) und Frozen Sets. Die Kategorie Mappings enthält Dictionaries (Wörterbücher). Die Kategorie Callable umfasst FUnktionen, Methoden und Klassen. Außerdem gibt es die Kategorie Module."}
+
+Python 3. The standard type hierarchy. von Максим Пе ist lizensiert unter [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de) und abrufbar auf [wikimedia](https://commons.wikimedia.org/wiki/File:Python_3._The_standard_type_hierarchy.png). 2018
+:::
+
+&nbsp;
+
+Durch Module werden weitere Datentypen hinzugefügt. In der Datenanalyse häufig verwendete Datentypen sind:
+
+  - Zahlen: Ganzzahl, Fließkommazahlen
+
+  - Wahrheitswerte
+
+  - Zeichenketten
+
+  - Datums- und Uhrzeitangaben
+
+  - Kategorie<!-- Faktor in R--> (aus dem Modul [Pandas](https://pandas.pydata.org/docs/user_guide/categorical.html))
+
+Python enthält Funktionen, um den Datentyp eines Werts zu bestimmen und ggf. umzuwandeln. Einige dieser Funktionen werden exemplarisch vorgestellt.
+
+``` {python}
+a = 67 
+print(a, type(a))
+
+b = a + 1.8
+print(b, type(b), "\n")
+
+print(f"Umwandlung in Ganzzahlen mit int(): {( a := int(a) ), (b := int(b) )} - Beachten Sie das Abschneiden der Nachkommastelle.\n")
+
+print(f"Umwandlung in ASCII-Zeichen mit chr(): {( a := chr(a) ), ( b := chr(b) )}\n")
+
+print(f"Umwandlung in Zahlen mit ord(): {( a := ord(a) ), ( b := ord(b) )}\n")
+
+print(f"Umwandlung in Fließkommazahlen mit float(): {( a := float(a) ), ( b := float(b) )}\n")
+
+print(f"Umwandlung in Zeichen mit str(): {( a := str(a) ), ( b:= str(b) )}\n")
+
+print(f"Umwandlung in Wahrheitswerte mit bool(): {bool(a), bool(b)}")
+
+``` 
+
+Der Datentyp bestimmt zum einen den zulässigen Wertebereich einer Variablen. Beispielsweise sind 0 und 13 zulässige Ganzzahlen, aber keine gültigen Kodierungen des Monats. Zum anderen definiert der Datentyp, welche Operationen mit den Werten zulässig sind und wie diese von Python ausgeführt werden. Dies betrifft Operatoren und Funktionen.
+
+:::{#nte-operation-nach-datentyp .callout-note}
+# Datentypabhängige Operationen und Funktionen
+
+``` {python}
+# Der Operator + bewirkt die Addition von Zahlen
+print(1 + 13)
+
+# Der Operator + bewirkt auch das Verketten von strings
+print(str(1) + str(13))
+
+```
+
+Die Sortierfunktion arbeitet abhängig vom Datentyp.
+``` {python}
+
+# Liste von Monatskürzeln erstellen
+dates = pd.Series([ '07.06.2000', '12.01.2000', '11.02.2000', '04.09.2000', '10.03.2000', '03.10.2000', '09.04.2000', '08.05.2000', '06.07.2000', '05.08.2000', '02.11.2000', '01.12.2000'])
+dates = pd.to_datetime(dates, format = '%d.%m.%Y');
+
+print(f"Eine unsortierte Liste von Monatskürzeln:\n{list(dates.dt.strftime("%b"))}")
+
+print(f"\nDie Liste alphabetisch sortiert:\n{sorted(list(dates.dt.strftime("%b")))}")
+
+print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.strftime("%b"))}")
+
+```
+
+:::
+
+Deshalb ist es beim Einlesen von Datensätzen wichtig, die korrekte Erkennung der Datentypen zu kontrollieren bzw. aktiv zu steuern. 
+
+**TO DO: Tipps für Strategien der Fehlersuche und -bereinigung sammeln**
+**Strategien der Fehlersuche und -bereinigung: Korrektes Einlesen der Datentypen prüfen (bspw. nicht erkanntes Datetime führt nicht zu einer Fehlermeldung, sondern zum Einlesen als object) bzw. diese explizit spezifizieren, da Operationen auch mit falschen Datentypen fehlerfrei ausgeführt werden können. Listen haben in Python keinen Datentyp, man muss jedes Element prüfen!**
+**Strategien der Fehlersuche und -bereinigung: Einhaltung des zulässigen Wertebereichs überprüfen (mit .describe) --> guter Anfang, um Fehler im Datensatz zu finden (bspw. darf es keinen Monat 0 oder 13 geben).**
+
+### Fehlende Werte {#sec-missing}
+Ein besonderer Datentyp ist der zur Repräsentation fehlender Werte. In Python wird zwischen nicht existenten und nicht definierten Werten unterschieden.
+
+#### Nullwert None
+Der sogenannte Nullwert in Python ist `None`. `None` ist sowohl ein Objekt, als auch ein Datentyp der Klasse 'NoneType'.
+
+``` {python}
+test = None
+print(type(test))
+
+```
+
+`None` repräsentiert nicht existente Werte und Objekte. Leere Objekte gehören nicht zum Datentyp `None`.
+
+``` {python}
+leere_liste = []
+leere_liste == None
+```
+
+`None` kann Funktionen als Argument übergeben oder von diesen als Rückgabewert ausgegeben werden. Operationen sind mit `None` jedoch nicht möglich. 
+``` {python}
+# Operationen mit None führen zu Fehlermeldungen
+def my_plusone(item):
+    try:
+      result = item + 1
+    except TypeError as error:
+       print("Der übergebene Wert führt zu der Fehlermeldung:\n", error)
+    else:
+      return result
+
+my_plusone(None)
+```
+
+Eine Ausnahme ist die Umwandlung in eine Zeichenkette.
+``` {python}
+# Eine Ausnahme ist die Umwandlung in strings
+a = None
+print("\nprint(a) gibt den Nullwert zurück:\n", a, sep = "")
+
+print("\nstr(a) gibt eine Zeichenkette zurück:")
+str(a)
+
+```
+
+**Strategien der Fehlersuche und -bereinigung: Variablen mit Datentyp Zeichenkette (oder die als solche eingelesen werden) nach "None" durchsuchen.**
+
+#### NaN
+Um mit fehlenden Werten innerhalb eines Datensatzes arbeiten zu können, gibt es den Wert `NaN`, der zur Klasse der Fließkommazahlen gehört. `NaN` steht für Not a Number und repräsentiert undefinierte oder nicht darstellbare Werte. Beispielsweise berechnet die Methode `pd.diff()` die Differenz jedes Werts zu seinem Vorgänger. Da der erste Wert keinen Vorgänger hat, wird `NaN` erzeugt.
+
+``` {python}
+my_series = pd.Series([1, 2, 4, 8])
+my_series.diff()
+```
+
+Anders als `None` ist `NaN` kein Standardschlüsselwort in Python. Der Wert `NaN` wird erzeugt mit `float('nan')` oder `float('NaN')`, die Groß- und Kleinschreibung spielt keine Rolle. Die Module math und NumPy bieten mit `math.nan` und `np.nan` ebenfalls Funktionen, um `NaN` zu erzeugen.
+
+``` {python}
+test = float('NaN')
+print(type(test))
+
+```
+
+Mit dem Wert 'NaN' können Operationen ausgeführt werden. Das Ergebnis ist `NaN`.
+``` {python}
+print(my_plusone(float('NaN')))
+```
+
+Als Platzhalter für fehlende Werte beeinträchtigt `NaN` Berechnungen nicht.
+``` {python}
+daten_mit_nan = pd.Series([1, 2, float('NaN'), 4])
+print(daten_mit_nan + 1)
+print("\nSumme des Datensates:", daten_mit_nan.sum())
+```
+
+### Fehlende Werte in der Praxis
+`None` und `NaN` sind pythonspezifische Repräsentationen für nicht existente oder nicht definierte Werte. In der Praxis werden fehlende Werte in Datensätzen auf unterschiedliche Weise gekennzeichnet. 
+
+In Datensätzen übliche Werte sind:
+
+  - kein Eintrag, beispielsweise in kommaseparierten Dateien eine leere Zeichenkette `""`
+
+  - definierte Zeichenfolge: `NA` (in der Programmiersprache R), `NULL` (in der Datenbanksprache SQL), `.` (in der Statistik-Software Stata)
+  
+  - (mehrere) manuell gewählte Zeichen oder Ziffern außerhalb des zulässigen Wertebereichs wie -1, -88, -99 (häufig bei Umfragedaten)
+
+Die Art der Kennzeichnung ist jeweils mit Vor- und Nachtteilen verbunden. Eine definierte Zeichenfolge für fehlende Werte hilft dabei, Lücken im Datensatz von Fehlern bei der Datenerfassung zu unterscheiden. Dazu ist eine definierte Zeichenfolge wie "NA" besser als eine leere Zeichenkette geeignet, führt aber auch leicht dazu, dass ein numerischer Datensatz als Zeichenkette erkannt wird. Manuell gewählte Werte erlauben es, bei der automatischen Auswertung eines Datensatzes abhängig von der Situation ein bestimmtes Verhalten für jede Variable festzulegen (z. B. Unterscheidung von nicht zutreffend, Aussage verweigert, weiß nicht, Interview abgebrochen keine Antwort).
+
+**Fehlersuche und -bereinigung: Man sollte sich über die im Dateiformat gängige Kennzeichnung fehlender Werte bewusstsein bzw. sich informieren. Hilfreich ist außerdem die Kenntnis disziplinärer Konventionen.**
+
+## Metadaten {#sec-metadaten}
+Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben beispielsweise an:
+
+  - welche Datentypen ein Datensatz enthält,
+
+  - verwendete Kodierschemen, Skalen oder mimimal und maximal zulässige Werte,
+
+  - die Bedingungen, unter denen die Daten erhoben wurden,
+
+  - Herkunft der Daten,
+
+  - Beziehungen zwischen Variablen und Datensätzen,
+  
+  - urheberrechtliche Informationen und Lizenzhinweise.
+
+(vgl. [The HDF Group Help Desk](https://docs.hdfgroup.org/archive/support/HDF5/doc/Advanced/HDF5_Metadata/index.html))
+
+Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (**Beispiel: SMARD-Daten**), in Spaltenbeschriftungen (**Beispiel: Zeitzone im österreichischen Strommarktdatensatz**), in zusätzlichen Tabellenblättern (**Beispiel besorgen**) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) **Koske et al. aus der Diss**.
+
+**Fehlersuche und -vermeidung: Datensätze und, sofern vorhanden Begleitmaterialien, erst einmal angucken (Dateiname, ggf. Tabellenblätter und Spaltenbeschriftungen mit einem Tabellenkalkulationsprogramm kontrollieren.)**
+
+# Das Modul Pandas
+Das Modul Pandas bietet die DataFrame-Struktur und kann unterschiedliche Datentypen verwalten. Mit diesem Modul werden typische Probleme illustriert und Strategien der Fehlersuche und -behebung vorgestellt.
+Pandas.DataFrame: Vielzahl von Datentypen numerisch, character, category, boolean, datetime usw. ... --> hier reicht ein Querverweis auf den w-Pandas
+
+## Fehlende Werte in Pandas finden, löschen, erzeugen, ersetzen
+Datentypen prüfen geht mit Pandas ziemlich einfach:
+
+pandas.describe()
+pandas.info() [ist das aus Pandas?]
+pandas.dtypes()
+pandas.columns()
+
+You can use methods like pd.isnull(), pd.dropna(), and pd.fillna() to detect, remove, and replace missing values.
+
+**Mit Pandas den Datensatz messung1 einlesen, und Datum korrekt identifizieren. --> besser die SMART-Datensätze nehmen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
+
+Das Modul Pandas wandelt None automatisch in NaN um. Als Datentyp des Objekts wird deshalb Fließkommazahl erkannt:
+``` {python}
+pd_series_with_none = pd.Series([1, 2, None, 4])
+pd_series_with_none
+```
+
+**Hinweis: `dtype=object` erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, `dtype=object` ist eine Liste von Zeigern auf Objekte im Speicher.**
+
+# Das Modul NumPy
+NumPy wandelt None nicht automatisch in NaN um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
+
+
+## Fehlende Werte in NumPy finden, löschen, erzeugen, ersetzen
+
+``` {python}
+import numpy as np
+
+np_array_with_none = np.array([1, 2, None, 4])
+np_array_with_none
+```
+
+masked Arrays in NumPy
+
+NumPy.nan??? np.isnan(), np.argwhere() findet den index (erster Index mit min())
+
+# Datumsformat
+Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
+
+Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
+
+naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
+
+**Fehlersuche und -bereinigung: Kalender prüfen**
+
+Asien unterschiedlich. Ohne Kalender keine Angabe des Datums möglich.
+
+# Räumliche Daten
+netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
 
 # Strategien der Fehlersuche und Bereinigung
 
-## Fehlersuche
-::: {.border layout="[5, 90, 5]"}
+::: {.border layout="[[5, 90, 5], [1], [5, 90, 5], [1], [1]]"}
 
 &nbsp;
 
@@ -417,10 +721,7 @@ ein "NA" führt leicht dazu, dass ein numerischer Datensatz als Zeichenkette erk
 
 &nbsp;
 
-:::
-
-## Fehlerbereinigung
-::: {.border layout="[[5, 90, 5], [1], [1]]"}
+&nbsp;
 
 &nbsp;
 
@@ -429,21 +730,16 @@ Nicholas J. Cox
 
 &nbsp;
 
-&nbsp; 
+&nbsp;
 
 Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
 
 :::
 
-# Programme
-https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html
+## Fehlende Werte finden, löschen, erzeugen, ersetzen
+**Das gehört eher zu Strategien der Fehlersuche und Bereinigung, weil man erst mit describe() und anderen Funktionen einen Überblick über die verwendeten Zeichen zur Kennzeichnung fehlender Werte gewinnen muss (None und NaN ist nicht alles).**
 
-# Pfade
-Dateipfad feststellen (lokal, im Internet), durch Verzeichnisse navigieren 
-
-  * slash / und backslash nach Betriebssystem (Win, Linux, Mac) und Programmiersprache (Python und R)
-
-* Inhalt (gerne abwechslungsreich gestalten)
+Inhalt (gerne abwechslungsreich gestalten)
 
   * Theorie
 
