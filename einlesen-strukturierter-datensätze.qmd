@@ -620,6 +620,30 @@ print(daten_mit_nan + 1)
 print("\nSumme des Datensates:", daten_mit_nan.sum())
 ```
 
+:::{#wrn-logicbasepython .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None` und `NaN`. 
+
+``` {python}
+bool(None)
+```
+
+``` {python}
+bool(float('NaN'))
+```
+
+``` {python}
+None == None
+```
+
+``` {python}
+float('NaN') == float('NaN')
+
+```
+
+:::
+
 ### Fehlende Werte in der Praxis
 `None` und `NaN` sind pythonspezifische Repräsentationen für nicht existente oder nicht definierte Werte. In der Praxis werden fehlende Werte in Datensätzen auf unterschiedliche Weise gekennzeichnet. 
 
@@ -656,17 +680,301 @@ Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit i
 
 **Fehlersuche und -vermeidung: Datensätze und, sofern vorhanden Begleitmaterialien, erst einmal angucken (Dateiname, ggf. Tabellenblätter und Spaltenbeschriftungen mit einem Tabellenkalkulationsprogramm kontrollieren.)**
 
-# Das Modul Pandas
+# Strukturierte Datensätze einlesen: die Module NumPy, Pandas und glob
+
+Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. Ob Sie mit NumPy oder mit Pandas arbeiten, hängt von dem vorliegenden Datensatz und persönlichen Präferenzen ab. In den folgenden Abschnitten werden beide Module behandelt.
+
+Eine kurze Übersicht der Vor- und Nachteile:
+
+  * NumPy: n-dimensionale Array-Struktur mit Unterstützung der am häufigsten verwendeten Datentypen sowie zahlreicher numerischer Formate für spezialisierte wissenschaftliche Berechnungen ([siehe Dokumentation](https://numpy.org/devdocs/reference/arrays.scalars.html)). Ein Array kann immer nur einen Datentyp haben und die Größe von Arrays ist unveränderlich. Dafür werden Operationen etwas schneller als in der DataFrame-Struktur von Pandas ausgeführt.  
+  **Querverweis auf w-NumPy**
+
+    - Spaltennamen sind mit einem strukturierten dtype möglich ([siehe Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names))
+
+  * Pandas: 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von Spalten- und Indexbeschriftungen.  
+  **Querverweis auf w-Pandas**
+
+    - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
+
+**ergänzen: kurze Erläuterung zum Modul glob**
+
+## Datentypen
+NumPy unterstützt folgende Datentypen:
+
+|      Datentyp NumPy-Array  |      Datentyp in Python |
+|---|---|
+|     int_    |     int    |
+|     double    |     float    |
+|     cdouble    |     complex    |
+|     bytes_    |     bytes    |
+|     str_    |     str    |
+|     bool_    |     bool    |
+|     datetime64    |     datetime.datetime    |
+|     timedelta64    |     datetime.timedelta    |
+
+[Dokumentation NumPy](https://numpy.org/devdocs/reference/arrays.scalars.html)
+
+In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas führt aber auch einige zusätzliche Datentypen ein. Eine vollständige Liste finden Sie in der [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/arrays.html). Die wichtigsten zusätzlichen Datentypen sind:
+
+  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `CategoricalDtype`
+
+  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `DatetimeTZDtype`
+
+  - [Timedelta](https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta) um Unterschiede zwischen zwei Daten oder Uhrzeiten darzustellen (kein eigener Datentyp)
+
+**To Do: eventuell in Extrakasten erklären : Nummern und chr-Codes für die Datentypen.**
+
+## Dateien lesen und schreiben
+In den Werkzeugbaustein NumPy (**hier Querverweis auf w-NumPy**) und Pandas (**hier Querverweis auf w-Pandas**) haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
+
+**to do: Pandas**
+
+::: {.panel-tabset}
+## NumPy
+In NumPy können Dateien mit der Funktion `np.loadtxt()` gelesen und mit der Funktion `np.savetxt()` geschrieben werden. 
+
+  - `np.loadtxt(fname = data.txt, delimiter = ";", skiprows= #Reihen)`  
+  **Hier könnte man noch comments = '#' ergänzen - Zeichen mit dem der Beginn eines Kommentars markiert ist**
+
+  - `np.savetxt(fname = dateipfad, X = daten, header = kommentar, fmt='%5.2f')`
+
+**Hier ergänzen: Umgang mit Kommentaren und dtype --> das macht für NumPy nur zu Kontrollzwecken Sinn**
+
+## Pandas
+I/O-Pandas: https://pandas.pydata.org/docs/user_guide/io.html
+
+::: 
+
+## Umgang mit fehlenden Werten
+
+### NumPy
+Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen zu Fehlern führen.
+
+Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
+``` {python}
+import numpy as np
+
+dateipfad = 'skript/01-daten/TC01.csv'
+daten_ohne_fehlende_werte = np.loadtxt(dateipfad)
+
+print("Daten:", daten_ohne_fehlende_werte)
+print("Struktur:", daten_ohne_fehlende_werte.shape)
+
+```
+
+Angenommen, Sie haben eine zweite Messung durchgeführt und möchten die Differenz beider Datensätze berechnen. In der zweiten Messung haben Sensorfehler zu fehlenden Werten geführt, die mit '--' markiert sind. Die Funktion `np.loadtxt()` kann jedoch mit fehlenden Werten nicht umgehen und gibt eine Fehlermeldung zurück. 
+
+``` {python}
+
+dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
+
+try:
+  daten_double_hypen = np.loadtxt(dateipfad)
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '--':", daten_double_hypen) 
+  
+```
+
+#### Die Funktion np.genfromtxt()
+Um Datensätze mit fehlenden Werten einzulesen, wird die Funktion `np.genfromtxt(fname, delimiter = None, missing_values = None, filling_values = None)` verwendet. Dieses durchläuft den Datensatz `fname` in zwei Schleifen, weshalb die Funktion langsamer als `np.loadtxt()` ist. Die erste Schleife teilt den Datensatz zeilenweise am optional übergebenen Trennzeichen `delimiter` in eine Zeichenfolge auf. Die zweite Schleife konvertiert jede Zeichenkette in den passenden Datentyp. Mit den optionalen Argumenten `missing_values` und `filling_values` können der Funktion Zeichenfolgen übergeben werden, mit der fehlende Werte markiert sind bzw. ersetzt werden sollen. [NumPy Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html)
+
+``` {python}
+
+dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
+daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', filling_values = np.nan)
+
+print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
+print("Struktur:", daten_double_hypen.shape)
+
+```
+
+Durch die Umwandlung fehlender Werte in NaN, sind Operationen mit gleichlangen NumPy-Arrays möglich.
+
+``` {python}
+daten_differenz = daten_ohne_fehlende_werte - daten_double_hypen
+print(daten_differenz)
+```
+
+Die Funktion `np.genfromtxt()` kann beliebige Zeichenketten als fehlenden Wert verarbeiten. Lediglich leere Zellen können problematisch sein, da deren Inhalt `'\n'` als Zeilentrenner verarbeitet wird. **testen, ob das auch bei mehrspaltiger Datei auftritt.**
+
+:::{#nte-npgenfromtxt .callout-note collapse="true"}
+## Leere Zellen mit np.genfromtxt()
+
+Enthält eine Datei leere Zellen, können diese nicht eingelesen werden, da diese automatisch übersprungen werden.
+``` {python}
+
+# Datei ohne Markierung fehlender Werte
+dateipfad = 'skript/01-daten/TC01_empty_lines.csv'
+daten_empty_lines = np.genfromtxt(dateipfad, missing_values = '', filling_values = np.nan) 
+
+print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
+print("Struktur:", daten_empty_lines.shape)
+
+```
+
+Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlemeldung.
+
+``` {python}
+
+try:
+  result = daten_ohne_fehlende_werte - daten_empty_lines
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(result)
+
+```
+
+In diesem Fall muss auf die Stringbearbeitung aus der Python-Basis zurückgegriffen werden. Die bearbeitete Liste kann wie gewohnt mit `np.genfromtxt()` eingelesen werden.
+
+``` {python}
+
+# Einlesen über Datenobjekt
+datenobjekt_empty_lines = open(dateipfad, 'r', encoding = 'utf-8')
+daten_empty_lines = datenobjekt_empty_lines.readlines()
+datenobjekt_empty_lines.close()
+
+print("Das ausgelesene Datenobjekt (Ausschnitt):\n", daten_empty_lines[0:10])
+
+# Stringbearbeitung mit replace('\n', '')
+for i in range(len(daten_empty_lines)):
+
+  if daten_empty_lines[i] == '\n':
+    daten_empty_lines[i] = 'platzhalter'
+  else:
+    daten_empty_lines[i] = daten_empty_lines[i].replace('\n', '')
+
+print("\nNach der Stringbearbeitung (Ausschnitt):\n", daten_empty_lines[0:10])
+
+# Einlesen mit np.genfromtxt
+daten_empty_lines = np.genfromtxt(daten_empty_lines, missing_values = 'platzhalter', filling_values = np.nan)
+print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
+print("Struktur:", daten_empty_lines.shape)
+```
+
+:::
+
+#### Fehlende Werte in NumPy erzeugen, prüfen, finden, ersetzen, löschen
+Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
+
+  - `np.nan` erzeugt einen fehlenden Wert.
+
+  - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype = bool zurück.
+
+  - `np.nonzero(np.isnan(array))` gibt ein eindimensionales Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' zurück.
+
+  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument nan übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große sowie -np.inf durch große negative Zahlen.)
+
+  - `np.delete(arr = array, obj)` gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert `NaN` werden so gelöscht: `np.delete(array, obj = np.nonzero(np.isnan(array)))`  
+  **Hier Hinweis auf masked arrays: "Often it is preferable to use a boolean mask" [NumPy Dokumentation](https://numpy.org/doc/stable/reference/generated/numpy.delete.html)**  
+  **"Masked arrays are arrays that may have missing or invalid entries. The numpy.ma module provides a nearly work-alike replacement for numpy that supports data arrays with masks." [NumPy Dokumentation](https://numpy.org/doc/stable/reference/maskedarray.html)**
+
+NumPy wandelt `None` nicht automatisch in `NaN` um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus **stimmt das immer?**:
+
+``` {python}
+import numpy as np
+
+np_array_with_none = np.array([1, 2, None, 4])
+print(np_array_with_none)
+
+```
+
+**Aber wie löst man das?**
+
+**Kleine Aufgabe zwischendurch: Die Funktion `np.argwhere(np.array == np.nan)` soll die Indizes der Elemente zurückgeben, die den Wert np.nan haben. Warum ist die Liste immer leer?**  
+
+
+#### Funktionen mit fehlenden Werten
+hierhier
+Problem: Operationen mit NaN sind immer NaN.
+```
+nansum()
+nanmax()
+nanmin()
+nanargmax()
+nanargmin()
+```
+
+::: {#tip-argwhere .callout-tip collapse="true"}
+## Antwort
+Die logische Abfrage np.nan == np.nan ist immer False - siehe @wrn-logicbasepython.
+
+Eine Möglichkeit wäre: `np.argwhere(np.isnan(array))`, das die Indexposition der Elemente mit dem Wert `np.nan` zurückgibt. Allerdings ist der Output der Funktion nicht direkt geeignet, um damit Arraybereiche auszuwählen. Die Funktion gibt ein zweidimensionales Array der Form (N, array.ndim) zurück. N ist die Anzahl der Werte, die nicht Null sind und array.ndim die Anzahl der Dimensionen des Eingabe-Arrays.
+
+:::
+
+#### Fehlende Werte in NumPy maskieren
+<https://numpy.org/doc/stable/reference/maskedarray.html>
+
+... können auch mit genfromtxt erzeugt werden
+`usemask`
+We may also want to keep track of the occurrence of missing data by constructing a boolean mask, with True entries where data was missing and False otherwise. To do that, we just have to set the optional argument usemask to True (the default is False). The output array will then be a MaskedArray.
+
+
+### Zugriff auf mehrere lokale Dateien: Modul glob
+Das Modul glob
+
+## Datentypen erkennen und festlegen
+
+### NumPy
+
+### Pandas
+
+
+
+# Datensätze organisieren
+In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturierter Datensätze behandelt und Werkzeuge aus den Modulen NumPy und Pandas vorgestellen, um Probleme zu identifizieren und zu beheben. Dazu wird einführend mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.
+
+## Tidy data
+**Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python [und den fehlenden Spaltenbeschriftungen in Numpy])**
+
+::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+&nbsp;
+
+:::
+
+Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+:::{#imp-tidy-data .callout-important}
+## tidy data
+
+:::: {.border}
+
+Das System tidy data besteht aus drei Regeln:
+
+1. Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.
+
+2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
+
+3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert.
+
+[@R-for-Data-Science, Kapitel 5 Data tidying]
+::::
+:::
+
+Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Wenn die Datenanalyse mit einer anderen Struktur leichter durchgeführt werden kann, dann ist das in Ordnung. 
+
+## Das Modul Pandas
 Das Modul Pandas bietet die DataFrame-Struktur und kann unterschiedliche Datentypen verwalten. Mit diesem Modul werden typische Probleme illustriert und Strategien der Fehlersuche und -behebung vorgestellt.
 Pandas.DataFrame: Vielzahl von Datentypen numerisch, character, category, boolean, datetime usw. ... --> hier reicht ein Querverweis auf den w-Pandas
 
-## Fehlende Werte in Pandas finden, löschen, erzeugen, ersetzen
+### in Pandas 
 Datentypen prüfen geht mit Pandas ziemlich einfach:
 
 pandas.describe()
 pandas.info() [ist das aus Pandas?]
 pandas.dtypes()
 pandas.columns()
+
+df.count() # count of non-missing values in each column
+df.count(axis='columns') # count of non-missing values in each row
 
 You can use methods like pd.isnull(), pd.dropna(), and pd.fillna() to detect, remove, and replace missing values.
 
@@ -679,23 +987,6 @@ pd_series_with_none
 ```
 
 **Hinweis: `dtype=object` erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, `dtype=object` ist eine Liste von Zeigern auf Objekte im Speicher.**
-
-# Das Modul NumPy
-NumPy wandelt None nicht automatisch in NaN um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
-
-
-## Fehlende Werte in NumPy finden, löschen, erzeugen, ersetzen
-
-``` {python}
-import numpy as np
-
-np_array_with_none = np.array([1, 2, None, 4])
-np_array_with_none
-```
-
-masked Arrays in NumPy
-
-NumPy.nan??? np.isnan(), np.argwhere() findet den index (erster Index mit min())
 
 # Datumsformat
 Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
@@ -713,15 +1004,7 @@ netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Varia
 
 # Strategien der Fehlersuche und Bereinigung
 
-::: {.border layout="[[5, 90, 5], [1], [5, 90, 5], [1], [1]]"}
-
-&nbsp;
-
-“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
-
-&nbsp;
-
-&nbsp;
+::: {.border layout="[[5, 90, 5], [1], [1]]"}
 
 &nbsp;
 
@@ -735,9 +1018,6 @@ Nicholas J. Cox
 Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
 
 :::
-
-## Fehlende Werte finden, löschen, erzeugen, ersetzen
-**Das gehört eher zu Strategien der Fehlersuche und Bereinigung, weil man erst mit describe() und anderen Funktionen einen Überblick über die verwendeten Zeichen zur Kennzeichnung fehlender Werte gewinnen muss (None und NaN ist nicht alles).**
 
 Inhalt (gerne abwechslungsreich gestalten)
 

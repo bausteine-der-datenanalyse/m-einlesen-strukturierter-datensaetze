@@ -5,4 +5,6 @@ In diesem Baustein lernen Sie ...
 
 - den Unterschied zwischen identifizierenden und gemessenen Variablen kennen sowie Datensätze ins long- und wide-Format zu konvertieren.
 
-- ... **ergänzen**: Strategien der Fehlersuche und - bereinigung
+- das System tidy data kennen.
+
+- typische Probleme beim Einlesen von Datensätzen und Strategien zu deren Lösung kennen.

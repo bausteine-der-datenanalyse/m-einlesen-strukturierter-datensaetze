@@ -132,20 +132,32 @@ div.csl-indent {
   </ul></li>
   <li><a href="#sec-metadaten" id="toc-sec-metadaten" class="nav-link" data-scroll-target="#sec-metadaten"><span class="header-section-number">4.4</span> Metadaten</a></li>
   </ul></li>
-  <li><a href="#das-modul-pandas" id="toc-das-modul-pandas" class="nav-link" data-scroll-target="#das-modul-pandas"><span class="header-section-number">5</span> Das Modul Pandas</a>
+  <li><a href="#strukturierte-datensätze-einlesen-die-module-numpy-pandas-und-glob" id="toc-strukturierte-datensätze-einlesen-die-module-numpy-pandas-und-glob" class="nav-link" data-scroll-target="#strukturierte-datensätze-einlesen-die-module-numpy-pandas-und-glob"><span class="header-section-number">5</span> Strukturierte Datensätze einlesen: die Module NumPy, Pandas und glob</a>
   <ul class="collapse">
-  <li><a href="#fehlende-werte-in-pandas-finden-löschen-erzeugen-ersetzen" id="toc-fehlende-werte-in-pandas-finden-löschen-erzeugen-ersetzen" class="nav-link" data-scroll-target="#fehlende-werte-in-pandas-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">5.1</span> Fehlende Werte in Pandas finden, löschen, erzeugen, ersetzen</a></li>
+  <li><a href="#datentypen" id="toc-datentypen" class="nav-link" data-scroll-target="#datentypen"><span class="header-section-number">5.1</span> Datentypen</a></li>
+  <li><a href="#dateien-lesen-und-schreiben" id="toc-dateien-lesen-und-schreiben" class="nav-link" data-scroll-target="#dateien-lesen-und-schreiben"><span class="header-section-number">5.2</span> Dateien lesen und schreiben</a></li>
+  <li><a href="#umgang-mit-fehlenden-werten" id="toc-umgang-mit-fehlenden-werten" class="nav-link" data-scroll-target="#umgang-mit-fehlenden-werten"><span class="header-section-number">5.3</span> Umgang mit fehlenden Werten</a>
+  <ul class="collapse">
+  <li><a href="#numpy-1" id="toc-numpy-1" class="nav-link" data-scroll-target="#numpy-1">NumPy</a></li>
+  <li><a href="#zugriff-auf-mehrere-lokale-dateien-modul-glob" id="toc-zugriff-auf-mehrere-lokale-dateien-modul-glob" class="nav-link" data-scroll-target="#zugriff-auf-mehrere-lokale-dateien-modul-glob">Zugriff auf mehrere lokale Dateien: Modul glob</a></li>
   </ul></li>
-  <li><a href="#das-modul-numpy" id="toc-das-modul-numpy" class="nav-link" data-scroll-target="#das-modul-numpy"><span class="header-section-number">6</span> Das Modul NumPy</a>
+  <li><a href="#datentypen-erkennen-und-festlegen" id="toc-datentypen-erkennen-und-festlegen" class="nav-link" data-scroll-target="#datentypen-erkennen-und-festlegen"><span class="header-section-number">5.4</span> Datentypen erkennen und festlegen</a>
   <ul class="collapse">
-  <li><a href="#fehlende-werte-in-numpy-finden-löschen-erzeugen-ersetzen" id="toc-fehlende-werte-in-numpy-finden-löschen-erzeugen-ersetzen" class="nav-link" data-scroll-target="#fehlende-werte-in-numpy-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">6.1</span> Fehlende Werte in NumPy finden, löschen, erzeugen, ersetzen</a></li>
+  <li><a href="#numpy-2" id="toc-numpy-2" class="nav-link" data-scroll-target="#numpy-2">NumPy</a></li>
+  <li><a href="#pandas-1" id="toc-pandas-1" class="nav-link" data-scroll-target="#pandas-1">Pandas</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#datensätze-organisieren" id="toc-datensätze-organisieren" class="nav-link" data-scroll-target="#datensätze-organisieren"><span class="header-section-number">6</span> Datensätze organisieren</a>
+  <ul class="collapse">
+  <li><a href="#tidy-data" id="toc-tidy-data" class="nav-link" data-scroll-target="#tidy-data"><span class="header-section-number">6.1</span> Tidy data</a></li>
+  <li><a href="#das-modul-pandas" id="toc-das-modul-pandas" class="nav-link" data-scroll-target="#das-modul-pandas"><span class="header-section-number">6.2</span> Das Modul Pandas</a>
+  <ul class="collapse">
+  <li><a href="#in-pandas" id="toc-in-pandas" class="nav-link" data-scroll-target="#in-pandas">in Pandas</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#datumsformat" id="toc-datumsformat" class="nav-link" data-scroll-target="#datumsformat"><span class="header-section-number">7</span> Datumsformat</a></li>
   <li><a href="#räumliche-daten" id="toc-räumliche-daten" class="nav-link" data-scroll-target="#räumliche-daten"><span class="header-section-number">8</span> Räumliche Daten</a></li>
-  <li><a href="#strategien-der-fehlersuche-und-bereinigung" id="toc-strategien-der-fehlersuche-und-bereinigung" class="nav-link" data-scroll-target="#strategien-der-fehlersuche-und-bereinigung"><span class="header-section-number">9</span> Strategien der Fehlersuche und Bereinigung</a>
-  <ul class="collapse">
-  <li><a href="#fehlende-werte-finden-löschen-erzeugen-ersetzen" id="toc-fehlende-werte-finden-löschen-erzeugen-ersetzen" class="nav-link" data-scroll-target="#fehlende-werte-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">9.1</span> Fehlende Werte finden, löschen, erzeugen, ersetzen</a></li>
-  </ul></li>
+  <li><a href="#strategien-der-fehlersuche-und-bereinigung" id="toc-strategien-der-fehlersuche-und-bereinigung" class="nav-link" data-scroll-target="#strategien-der-fehlersuche-und-bereinigung"><span class="header-section-number">9</span> Strategien der Fehlersuche und Bereinigung</a></li>
   <li><a href="#das-wichtigste-vielleicht-als-video" id="toc-das-wichtigste-vielleicht-als-video" class="nav-link" data-scroll-target="#das-wichtigste-vielleicht-als-video"><span class="header-section-number">10</span> Das Wichtigste (vielleicht als Video)</a></li>
   <li><a href="#lernzielkontrolle" id="toc-lernzielkontrolle" class="nav-link" data-scroll-target="#lernzielkontrolle"><span class="header-section-number">11</span> Lernzielkontrolle</a></li>
   </ul>
@@ -178,7 +190,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Veröffentlichungsdatum</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">11. September 2024</p>
+      <p class="date">13. September 2024</p>
     </div>
   </div>
   
@@ -226,6 +238,11 @@ div.csl-indent {
 </ul></li>
 </ul>
 <p>Im Baustein werden <strong>XY</strong> Daten verwendet.</p>
+<p>Querverweis auf:</p>
+<ul>
+<li><p>w-NumPy</p></li>
+<li><p>w-Pandas</p></li>
+</ul>
 </section>
 <section id="lernziele" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Lernziele</h1>
@@ -233,7 +250,8 @@ div.csl-indent {
 <ul>
 <li><p>Datensätze unterschiedlicher Struktur und Formate einzulesen, zu bearbeiten und zu speichern.</p></li>
 <li><p>den Unterschied zwischen identifizierenden und gemessenen Variablen kennen sowie Datensätze ins long- und wide-Format zu konvertieren.</p></li>
-<li><p>… <strong>ergänzen</strong>: Strategien der Fehlersuche und - bereinigung</p></li>
+<li><p>das System tidy data kennen.</p></li>
+<li><p>typische Probleme beim Einlesen von Datensätzen und Strategien zu deren Lösung kennen.</p></li>
 </ul>
 </section>
 <section id="einleitung" class="level1" data-number="3">
@@ -312,7 +330,7 @@ Definition&nbsp;1: Datensatz
 </div>
 <p>&nbsp;</p>
 <p>Beispiele eindimensionaler Datensätze sind ein Einkaufszettel oder die Urliste eines Würfelexperiments. Über den Index kann beispielsweise das Würfelergebnis an der Indexposition 2 ausgegeben werden.</p>
-<div id="5694176b" class="cell" data-execution_count="1">
+<div id="a2b87431" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( <span class="op">*</span>( Augen <span class="op">:=</span> [<span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>] ) )</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Das Würfelergebnis an Indexposition 2 lautet: </span><span class="sc">{</span>Augen[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -349,7 +367,7 @@ Das Würfelergebnis an Indexposition 2 lautet: 1</code></pre>
 <section id="dateipfad" class="level4">
 <h4 class="anchored" data-anchor-id="dateipfad">Dateipfad</h4>
 <p>Der lokale Dateipfad wird ausgehend vom aktuellen Arbeitsverzeichnis angegeben.</p>
-<div id="24de15ab" class="cell" data-execution_count="2">
+<div id="2eb88c9d" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfad_maya <span class="op">=</span> <span class="st">"skript/01-daten/dice-maya.txt"</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pfad_hans <span class="op">=</span> <span class="st">"skript/01-daten/dice-hans.txt"</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -366,7 +384,7 @@ Tipp&nbsp;1: Arbeitsverzeichnis in Python ermitteln und wechseln
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Der Pfad des aktuellen Arbeitsverzeichnisses kann mit dem Modul os mittels <code>os.getcwd()</code> ermittelt werden (hier ohne Ausgabe). Mit <code>os.chdir('neuer_pfad')</code> kann das Arbeitsverzeichnis ggf. gewechselt werden. Die korrekte Formatierung des Pfads erkennen Sie an der Ausgabe von <code>os.getcwd()</code>.</p>
-<div id="48729a08" class="cell" data-execution_count="3">
+<div id="b2649330" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(os.getcwd())</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -418,7 +436,7 @@ Tipp&nbsp;1: Arbeitsverzeichnis in Python ermitteln und wechseln
 <p>&nbsp;</p>
 <p>Die Zugriffsmodi können auch kombiniert werden. Weitere Informationen dazu finden Sie in der <a href="https://docs.python.org/3/library/functions.html#open">Dokumentation</a>. Sofern nicht im Binärmodus auf Dateien zugegriffen wird, liefert die Funktion <code>open()</code> den Dateiinhalt als string zurück.</p>
 <p>Im Lesemodus wird ein Datenobjekt erzeugt.</p>
-<div id="6567bb2b" class="cell" data-execution_count="4">
+<div id="fb1a7bd8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>daten_maya <span class="op">=</span> <span class="bu">open</span>(pfad_maya, mode <span class="op">=</span> <span class="st">'r'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -426,7 +444,7 @@ Tipp&nbsp;1: Arbeitsverzeichnis in Python ermitteln und wechseln
 </div>
 </div>
 <p>Wenn das Datenobjekt <code>daten_maya</code> der Funktion <code>print()</code> übergeben wird, gibt Python die Klasse des Objekts zurück, in diesem Fall also _io.TextIOWrapper. Diese Klasse stammt aus dem Modul io und ist für das Lesen und Schreiben von Textdateien zuständig. Ebenfalls werden der Dateipfad, der Zugriffsmodus und die Enkodierung der Datei ausgegeben. Sollte die Enkodierung nicht automatisch als UTF-8 erkannt werden, kann diese mit dem Argument <code>encoding = 'UTF-8'</code> übergeben werden.</p>
-<div id="90b1de36" class="cell" data-execution_count="5">
+<div id="c38cbb1e" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>daten_maya <span class="op">=</span> <span class="bu">open</span>(pfad_maya, mode <span class="op">=</span> <span class="st">'r'</span>, encoding <span class="op">=</span> <span class="st">'UTF-8'</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -434,7 +452,7 @@ Tipp&nbsp;1: Arbeitsverzeichnis in Python ermitteln und wechseln
 </div>
 </div>
 <p>Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.</p>
-<div id="547a70b3" class="cell" data-execution_count="6">
+<div id="a45d29b2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dateipfad: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>name<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Dateiname: </span><span class="sc">{</span>os<span class="sc">.</span>path<span class="sc">.</span>basename(daten_maya.name)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"Datei ist geschlossen: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>closed<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
@@ -450,7 +468,7 @@ Zugriffsmodus: r</code></pre>
 <section id="daten-ausgeben" class="level4">
 <h4 class="anchored" data-anchor-id="daten-ausgeben">Daten ausgeben</h4>
 <p>Um den Dateiinhalt auszugeben, kann das Datenobjekt mit einer Schleife zeilenweise durchlaufen und ausgegeben werden. (Die Datei dice-maya hat nur eine Zeile.)</p>
-<div id="7dfdf6f9" class="cell" data-execution_count="7">
+<div id="4e92e980" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> zeile <span class="kw">in</span> daten_maya:</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Inhalt Zeile </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">, mit </span><span class="sc">{</span><span class="bu">len</span>(zeile)<span class="sc">}</span><span class="ss"> Zeichen:"</span>)</span>
@@ -482,7 +500,7 @@ Tipp&nbsp;2: Daten kontrollieren
 <section id="daten-einlesen" class="level4">
 <h4 class="anchored" data-anchor-id="daten-einlesen">Daten einlesen</h4>
 <p>Um den gesamten Inhalt einer Datei einzulesen, kann die Methode <a href="https://docs.python.org/3/tutorial/inputoutput.html">datenobjekt.read()</a> verwendet werden. Die Methode hat als optionales Argument <code>.read(size)</code>. size wird als Ganzzahl übergeben und entsprechend viele Zeichen (im Binärmodus entsprechend viele Bytes) werden ggf. bis zum Dateiende ausgelesen.</p>
-<div id="244e8604" class="cell" data-execution_count="8">
+<div id="a060aaa7" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> daten_maya.read()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"len(augen_maya): </span><span class="sc">{</span><span class="bu">len</span>(augen_maya)<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">"</span></span>
@@ -534,7 +552,7 @@ Abbildung&nbsp;1: Bewegung des Dateizeigers beim Auslesen von drei Zeichen
 </div>
 </div>
 <p>Wird der Dateizeiger mit der Methode <code>datenobjekt.seek(0)</code> an den Dateianfang gestellt, gelingt das Auslesen der Datei.</p>
-<div id="036aa64e" class="cell" data-results="hold" data-execution_count="9">
+<div id="d3efc858" class="cell" data-results="hold" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Position des Dateizeigers vor dem Zurücksetzen auf 0: </span><span class="sc">{</span>daten_maya<span class="sc">.</span>tell()<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>daten_maya.seek(<span class="dv">0</span>)<span class="op">;</span></span>
@@ -563,7 +581,7 @@ Tipp&nbsp;3: Musterlösung Dateizeiger bewegen
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="35cf128c" class="cell" data-execution_count="10">
+<div id="f743d4a3" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>daten_maya.seek(<span class="dv">6</span>, <span class="dv">0</span>)<span class="op">;</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_maya.read(<span class="dv">1</span>))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -578,14 +596,14 @@ Tipp&nbsp;3: Musterlösung Dateizeiger bewegen
 </div>
 </div>
 <p>Um Mayas Würfelergebnisse zu addieren, müssen die Zahlen extrahiert und in Ganzzahlen umgewandelt werden, da im Textmodus stets strings zurückgegeben werden.</p>
-<div id="4288eff8" class="cell" data-execution_count="11">
+<div id="8a64edc8" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(augen_maya))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'str'&gt;</code></pre>
 </div>
 </div>
 <p>Dazu werden mit der Methode <code>str.strip(")</code> das führende und abschließende Anführungszeichen entfernt sowie anschließend mit der Methode <code>str.split('", "')</code> der String in eine Liste aufgeteilt. Anschließend werden die Listenelemente in Ganzzahlen umgewandelt und summiert.</p>
-<div id="8d564fc9" class="cell" data-results="hold" data-execution_count="12">
+<div id="1c51172c" class="cell" data-results="hold" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"augen_maya:</span><span class="ch">\n</span><span class="sc">{</span>augen_maya<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>augen_maya <span class="op">=</span> augen_maya.strip(<span class="st">'"'</span>)</span>
@@ -619,7 +637,7 @@ Summe Augen: 23</code></pre>
 <section id="datei-schließen" class="level4">
 <h4 class="anchored" data-anchor-id="datei-schließen">Datei schließen</h4>
 <p>Nach dem Zugriff auf die Datei, muss diese wieder geschlossen werden, um diese für andere Programme freizugeben.</p>
-<div id="797cd001" class="cell" data-execution_count="13">
+<div id="b6ca0d14" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>daten_maya.close()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="wrn-Schreiboperationen" class="callout callout-style-simple callout-warning callout-titled">
@@ -674,13 +692,13 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 </div>
 <p>&nbsp;</p>
 <p>Die meisten Datensätze sind zweidimensional. Typischerweise entspricht jede Spalte einer <strong>Variablen</strong> und jede Zeile einer <strong>Beobachtung</strong>. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. <span class="citation" data-cites="Wickham-2014">(<a href="#ref-Wickham-2014" role="doc-biblioref">Wickham 2014, 3</a>)</span></p>
-<div id="e8a518e5" class="cell" data-execution_count="14">
+<div id="32de41ef" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>messung1 <span class="op">=</span> pd.DataFrame({<span class="st">'Name'</span>: [<span class="st">'Hans'</span>, <span class="st">'Elke'</span>, <span class="st">'Jean'</span>, <span class="st">'Maya'</span>], <span class="st">'Geburtstag'</span>: [<span class="st">'26.02.'</span>, <span class="st">'14.03.'</span>, <span class="st">'30.12.'</span>, <span class="st">'07.09.'</span>], <span class="st">'Würfelfarbe'</span>: [<span class="st">'rosa'</span>, <span class="st">'rosa'</span>, <span class="st">'blau'</span>, <span class="st">'gelb'</span>], <span class="st">'Summe Augen'</span>: [<span class="dv">17</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">23</span>]})</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>messung1</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="68">
 <div>
 <div>
 
@@ -733,14 +751,14 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 </div>
 <p>&nbsp;</p>
 <p>Über die Angabe der Indizes entlang der 0. und der 1. Achse kann die Summe der gewürfelten Augen einer Person ausgegeben werden.</p>
-<div id="af19c27a" class="cell" data-execution_count="15">
+<div id="3690aac1" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Jean würfelte </span><span class="sc">{</span>messung1<span class="sc">.</span>iloc[<span class="dv">2</span>, <span class="dv">3</span>]<span class="sc">}</span><span class="ss"> Augen"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jean würfelte 8 Augen</code></pre>
 </div>
 </div>
 <p>Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei einem eindimensionalen Datensatz den Wert an einer Indexposition aufzurufen.</p>
-<div id="b61a0bc8" class="cell" data-execution_count="16">
+<div id="6863ec14" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Jean würfelte </span><span class="sc">{</span>messung1[<span class="st">'Summe Augen'</span>][<span class="dv">2</span>]<span class="sc">}</span><span class="ss"> Augen"</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jean würfelte 8 Augen</code></pre>
@@ -751,8 +769,8 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 <h3 class="anchored" data-anchor-id="long--und-wide-format">long- und wide-Format</h3>
 <p>Zweidimensionale Datensätze werden zumeist in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.</p>
 <p>Eine andere Art Daten zu organisieren und über Daten nachzudenken, ist die Darstellung im long-Format. Einige Programme und Pakete erfordern Daten im long-Format oder profitieren zumindest davon beispielsweise bei der Erstellung von Grafiken. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden erhoben?</p>
-<div id="495dca41" class="cell" data-execution_count="17">
-<div class="cell-output cell-output-display" data-execution_count="17">
+<div id="4f2a02f2" class="cell" data-execution_count="17">
+<div class="cell-output cell-output-display" data-execution_count="71">
 <div>
 <div>
 
@@ -805,11 +823,11 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 </div>
 <p>&nbsp;</p>
 <p>Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, es gäbe eine zweite Person mit dem Namen Hans. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.</p>
-<div id="e383dd02" class="cell" data-execution_count="18">
+<div id="790cec9e" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>messung1 <span class="op">=</span> pd.DataFrame({<span class="st">'Name'</span>: [<span class="st">'Hans'</span>, <span class="st">'Elke'</span>, <span class="st">'Jean'</span>, <span class="st">'Maya'</span>, <span class="st">'Hans'</span>], <span class="st">'Geburtstag'</span>: [<span class="st">'26.02.'</span>, <span class="st">'14.03.'</span>, <span class="st">'30.12.'</span>, <span class="st">'07.09.'</span>, <span class="st">'11.11.'</span>], <span class="st">'Würfelfarbe'</span>: [<span class="st">'rosa'</span>, <span class="st">'rosa'</span>, <span class="st">'blau'</span>, <span class="st">'gelb'</span>, <span class="st">'rosa'</span>], <span class="st">'Summe Augen'</span>: [<span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">7</span>]})</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>messung1</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell-output cell-output-display" data-execution_count="72">
 <div>
 <div>
 
@@ -869,11 +887,11 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 </div>
 <p>&nbsp;</p>
 <p>Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables, kurz: measure vars oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Das Modul Pandas bietet die Funktion <code>pd.melt(frame, id_vars = None)</code>. Diese erwartet einen DataFrame. Im optionalen Argument <code>id_vars</code> wird angegeben, welche Spalten die identifizierenden Variablen sind.</p>
-<div id="ecc55daf" class="cell" data-execution_count="19">
+<div id="7e423ecc" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>messung1_long <span class="op">=</span> pd.melt(messung1, id_vars <span class="op">=</span> [<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>])</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>messung1_long</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="73">
 <div>
 <div>
 
@@ -969,7 +987,7 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 <p>&nbsp;</p>
 <p>Im long-Format werden die gemessenen Variablen in der Spalte variable aufgeführt und deren Wert in der Spalte value eingetragen. Mit jeder zusätzlich erhobenen Variablen wird der Datensatz länger.</p>
 <p>Wenn Sie die Unterscheidung von identifizierenden und gemessenen Variablen zu Ende denken, kann der Variablenname selbst als eine identifizierende Variable für den Wert in der Spalte value aufgefasst werden. Ein Datensatz kann als eine Struktur verstanden werden, die genau eine gemessene Variable, nämlich value, und eine Anzahl identifizierender Variablen besitzt. Dies kann im long-Format wie folgt dargestellt werden.</p>
-<div id="6ebe267e" class="cell" data-execution_count="20">
+<div id="91a28865" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>messung1_all_id <span class="op">=</span> pd.melt(messung1, id_vars <span class="op">=</span> [<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>, <span class="st">'Würfelfarbe'</span>])</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>messung1_all_id</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -980,8 +998,8 @@ Tipp&nbsp;4: Musterlösung Augenzahlvergleich
 </div>
 <div class="quarto-layout-panel" data-layout="[70, 30]">
 <div class="quarto-layout-row">
-<div id="b86d401a" class="cell quarto-layout-cell" data-execution_count="21" style="flex-basis: 70.0%;justify-content: center;">
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="e0e8cf0d" class="cell quarto-layout-cell" data-execution_count="21" style="flex-basis: 70.0%;justify-content: center;">
+<div class="cell-output cell-output-display" data-execution_count="75">
 <div>
 <div>
 
@@ -1073,11 +1091,11 @@ Tipp&nbsp;5: Antwort
 </div>
 </div>
 <p>Auch der umgekehrte Fall ist möglich: Werden beim melting keine id_vars angegeben, werden alle Spalten als gemessene Variablen behandelt.</p>
-<div id="4f92d7d3" class="cell" data-execution_count="22">
+<div id="3f591bac" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>messung1_no_id <span class="op">=</span> pd.melt(messung1)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>messung1_no_id</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="76">
 <div>
 <div>
 
@@ -1200,7 +1218,7 @@ Tipp&nbsp;5: Antwort
 </div>
 <p>&nbsp;</p>
 <p>Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. Die Pandas Funktion <code>pd.pivot(data, columns, index)</code> nimmt einen melted DataFrame entgegen und konveriert diesen aus den einzigartigen Werten in columns (= Spaltennamen des DataFrame im wide-Format) und den einzigartigen Werten in index (= Zeilenindex des DataFrame im wide-Format). Wird der Funktion keine Spalte für index übergeben, wird der bestehende Index des melted DataFrame verwendet (der mit 20 Zeilen natürlich viel zu lang ist.) Da das Objekt messung1_no_id keine geeignete Indexspalte besitzt, muss diese vor dem casting erzeugt werden. Dies ist mit der Methode <code>messung1_no_id.groupby('variable').cumcount()</code> möglich, die die Anzahl jeder Ausprägung in der übergebenen Spalte bei 0 beginnend durchzählt. (Ein direktes Ersetzen des Index ist auf diese Weise nicht möglich, da der Index des an <code>pd.pivot(data, columns, index)</code> übergebenen DataFrames keine Doppelungen enthalten darf.)</p>
-<div id="25d56654" class="cell" data-execution_count="23">
+<div id="ccf4dc81" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.pivot() benötigt einen Index oder benutzt den bestehenden Index, des melted_df, der zu lang ist</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Deshalb eine zusätzliche Spalte in messung1_no_id einfügen</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">## einfach: messung1_no_id['new_index'] = list(range(0, 5)) * 4 </span></span>
@@ -1248,7 +1266,7 @@ new_index
 </div>
 </div>
 <p>Das Ergebnis entspricht noch nicht dem ursprünglichen Datensatz im wide-Format. Um das Ausgangsformat wiederherzustellen, müssen die Spalten in die ursprüngliche Reihenfolge gebracht sowie der Index und dessen Beschriftung zurückgesetzt werden.</p>
-<div id="5e37b82b" class="cell" data-execution_count="24">
+<div id="ecc547f7" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalten anordnen, Index zurücksetzen</span></span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>messung1_cast <span class="op">=</span> messung1_cast[[<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>, <span class="st">'Würfelfarbe'</span>, <span class="st">'Summe Augen'</span>]]</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>messung1_cast.reset_index(drop <span class="op">=</span> <span class="va">True</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
@@ -1272,8 +1290,8 @@ Der Datensatz im wide-Format mit zurückgesetztem Index:
 <h3 class="anchored" data-anchor-id="übung-zweidimensionale-datensätze">Übung zweidimensionale Datensätze</h3>
 <p>Oben wurde das Objekt messung1_long mit dem Befehl <code>messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])</code> angelegt.<br>
 <strong>Benutzen Sie die Funktion</strong> <code>df.cast()</code>, <strong>um den Datensatz messung1 wieder ins wide-Format zu transformieren.</strong></p>
-<div id="c01528f6" class="cell" data-execution_count="25">
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="2344e5f9" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="79">
 <div>
 <div>
 
@@ -1378,7 +1396,7 @@ Tipp&nbsp;6: Musterlösung zweidimensionale Datensätze
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="b463f376" class="cell" data-execution_count="26">
+<div id="c66dcedb" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalte new_index einfügen</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>messung1_long[<span class="st">'new_index'</span>] <span class="op">=</span> messung1_long.groupby(<span class="st">'variable'</span>).cumcount()</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1391,7 +1409,7 @@ Tipp&nbsp;6: Musterlösung zweidimensionale Datensätze
 <span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>messung1_long_cast.rename_axis(<span class="va">None</span>, axis <span class="op">=</span> <span class="dv">1</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>messung1_long_cast</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
+<div class="cell-output cell-output-display" data-execution_count="80">
 <div>
 <div>
 
@@ -1485,7 +1503,7 @@ Tipp&nbsp;6: Musterlösung zweidimensionale Datensätze
 [[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]]]</code></pre>
 <p>Bilddateien können mit der Funktion <code>plt.imread()</code> aus dem Modul <code>matplotlib.pyplot</code> eingelesen werden.</p>
 <div class="border">
-<div id="7d45ff38" class="cell" data-execution_count="27">
+<div id="a4234444" class="cell" data-execution_count="27">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>logo <span class="op">=</span> plt.imread(fname <span class="op">=</span> <span class="st">'skript/00-bilder/python-logo-and-wordmark-cc0-tm.png'</span>)</span>
@@ -1503,7 +1521,7 @@ Tipp&nbsp;6: Musterlösung zweidimensionale Datensätze
 </div>
 <p>&nbsp;</p>
 <p>Die Struktur des Datensatzes kann mit dem Attribut <code>.shape</code> abgerufen werden.</p>
-<div id="4ec39b7d" class="cell" data-execution_count="28">
+<div id="48a525a7" class="cell" data-execution_count="28">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(logo), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(logo.shape)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1514,7 +1532,7 @@ Tipp&nbsp;6: Musterlösung zweidimensionale Datensätze
 </div>
 </div>
 <p>Die Daten wurden als NumPy.ndarray eingelesen. Das Logo hat 144 Zeilen, 486 Spalten und liegt im RGBA-Farbraum vor. Ein Ausschnitt der Daten sieht so aus:</p>
-<div id="e2337043" class="cell" data-execution_count="29">
+<div id="ae3e6c51" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(logo[<span class="dv">50</span>:<span class="dv">52</span>, <span class="dv">50</span>:<span class="dv">52</span>, : ])</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[[0.21568628 0.44705883 0.63529414 1.        ]
@@ -1539,7 +1557,7 @@ Tipp&nbsp;7: Musterlösung dreidimensionale Datensätze
 </div>
 <div id="callout-10" class="callout-10-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="5f9f19a9" class="cell" data-execution_count="30">
+<div id="c2db2d37" class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>kanal <span class="op">=</span> [<span class="st">"Rotkanal"</span>, <span class="st">"Grünkanal"</span>, <span class="st">"Blaukanal"</span>]</span>
 <span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize <span class="op">=</span> (<span class="dv">9</span>, <span class="dv">6</span>))</span>
@@ -1593,7 +1611,7 @@ Tipp&nbsp;7: Musterlösung dreidimensionale Datensätze
 <li><p>Kategorie<!-- Faktor in R--> (aus dem Modul <a href="https://pandas.pydata.org/docs/user_guide/categorical.html">Pandas</a>)</p></li>
 </ul>
 <p>Python enthält Funktionen, um den Datentyp eines Werts zu bestimmen und ggf. umzuwandeln. Einige dieser Funktionen werden exemplarisch vorgestellt.</p>
-<div id="736cb8cf" class="cell" data-execution_count="31">
+<div id="33449ed0" class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">67</span> </span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a, <span class="bu">type</span>(a))</span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1639,7 +1657,7 @@ Beispiel&nbsp;1: Datentypabhängige Operationen und Funktionen
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<div id="b5fa80c4" class="cell" data-execution_count="32">
+<div id="a65022b9" class="cell" data-execution_count="32">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Der Operator + bewirkt die Addition von Zahlen</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">13</span>)</span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1651,7 +1669,7 @@ Beispiel&nbsp;1: Datentypabhängige Operationen und Funktionen
 </div>
 </div>
 <p>Die Sortierfunktion arbeitet abhängig vom Datentyp.</p>
-<div id="b8312a14" class="cell" data-execution_count="33">
+<div id="3e5b966a" class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste von Monatskürzeln erstellen</span></span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.Series([ <span class="st">'07.06.2000'</span>, <span class="st">'12.01.2000'</span>, <span class="st">'11.02.2000'</span>, <span class="st">'04.09.2000'</span>, <span class="st">'10.03.2000'</span>, <span class="st">'03.10.2000'</span>, <span class="st">'09.04.2000'</span>, <span class="st">'08.05.2000'</span>, <span class="st">'06.07.2000'</span>, <span class="st">'05.08.2000'</span>, <span class="st">'02.11.2000'</span>, <span class="st">'01.12.2000'</span>])</span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.to_datetime(dates, <span class="bu">format</span> <span class="op">=</span> <span class="st">'</span><span class="sc">%d</span><span class="st">.%m.%Y'</span>)<span class="op">;</span></span>
@@ -1682,7 +1700,7 @@ Die Liste als datetime-Objekt sortiert:
 <section id="nullwert-none" class="level4">
 <h4 class="anchored" data-anchor-id="nullwert-none">Nullwert None</h4>
 <p>Der sogenannte Nullwert in Python ist <code>None</code>. <code>None</code> ist sowohl ein Objekt, als auch ein Datentyp der Klasse ‘NoneType’.</p>
-<div id="6856bd7b" class="cell" data-execution_count="34">
+<div id="c406f4d9" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(test))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1690,15 +1708,15 @@ Die Liste als datetime-Objekt sortiert:
 </div>
 </div>
 <p><code>None</code> repräsentiert nicht existente Werte und Objekte. Leere Objekte gehören nicht zum Datentyp <code>None</code>.</p>
-<div id="4b0c6ea8" class="cell" data-execution_count="35">
+<div id="e2d0cdc9" class="cell" data-execution_count="35">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>leere_liste <span class="op">=</span> []</span>
 <span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>leere_liste <span class="op">==</span> <span class="va">None</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="35">
+<div class="cell-output cell-output-display" data-execution_count="89">
 <pre><code>False</code></pre>
 </div>
 </div>
 <p><code>None</code> kann Funktionen als Argument übergeben oder von diesen als Rückgabewert ausgegeben werden. Operationen sind mit <code>None</code> jedoch nicht möglich.</p>
-<div id="ba0b3b39" class="cell" data-execution_count="36">
+<div id="c98cbb49" class="cell" data-execution_count="36">
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Operationen mit None führen zu Fehlermeldungen</span></span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_plusone(item):</span>
 <span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
@@ -1715,7 +1733,7 @@ Die Liste als datetime-Objekt sortiert:
 </div>
 </div>
 <p>Eine Ausnahme ist die Umwandlung in eine Zeichenkette.</p>
-<div id="11df6bae" class="cell" data-execution_count="37">
+<div id="c8ebbc54" class="cell" data-execution_count="37">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eine Ausnahme ist die Umwandlung in strings</span></span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">print(a) gibt den Nullwert zurück:</span><span class="ch">\n</span><span class="st">"</span>, a, sep <span class="op">=</span> <span class="st">""</span>)</span>
@@ -1729,7 +1747,7 @@ None
 
 str(a) gibt eine Zeichenkette zurück:</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="37">
+<div class="cell-output cell-output-display" data-execution_count="91">
 <pre><code>'None'</code></pre>
 </div>
 </div>
@@ -1738,10 +1756,10 @@ str(a) gibt eine Zeichenkette zurück:</code></pre>
 <section id="nan" class="level4">
 <h4 class="anchored" data-anchor-id="nan">NaN</h4>
 <p>Um mit fehlenden Werten innerhalb eines Datensatzes arbeiten zu können, gibt es den Wert <code>NaN</code>, der zur Klasse der Fließkommazahlen gehört. <code>NaN</code> steht für Not a Number und repräsentiert undefinierte oder nicht darstellbare Werte. Beispielsweise berechnet die Methode <code>pd.diff()</code> die Differenz jedes Werts zu seinem Vorgänger. Da der erste Wert keinen Vorgänger hat, wird <code>NaN</code> erzeugt.</p>
-<div id="09c87ffe" class="cell" data-execution_count="38">
+<div id="36956dec" class="cell" data-execution_count="38">
 <div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>my_series <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>])</span>
 <span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>my_series.diff()</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div class="cell-output cell-output-display" data-execution_count="92">
 <pre><code>0    NaN
 1    1.0
 2    2.0
@@ -1750,7 +1768,7 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>Anders als <code>None</code> ist <code>NaN</code> kein Standardschlüsselwort in Python. Der Wert <code>NaN</code> wird erzeugt mit <code>float('nan')</code> oder <code>float('NaN')</code>, die Groß- und Kleinschreibung spielt keine Rolle. Die Module math und NumPy bieten mit <code>math.nan</code> und <code>np.nan</code> ebenfalls Funktionen, um <code>NaN</code> zu erzeugen.</p>
-<div id="9add8929" class="cell" data-execution_count="39">
+<div id="de347cfd" class="cell" data-execution_count="39">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>test <span class="op">=</span> <span class="bu">float</span>(<span class="st">'NaN'</span>)</span>
 <span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(test))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1758,14 +1776,14 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>Mit dem Wert ‘NaN’ können Operationen ausgeführt werden. Das Ergebnis ist <code>NaN</code>.</p>
-<div id="3a6dca7a" class="cell" data-execution_count="40">
+<div id="7f8bb208" class="cell" data-execution_count="40">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(my_plusone(<span class="bu">float</span>(<span class="st">'NaN'</span>)))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>nan</code></pre>
 </div>
 </div>
 <p>Als Platzhalter für fehlende Werte beeinträchtigt <code>NaN</code> Berechnungen nicht.</p>
-<div id="333494d8" class="cell" data-execution_count="41">
+<div id="4748d836" class="cell" data-execution_count="41">
 <div class="sourceCode cell-code" id="cb67"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>daten_mit_nan <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="bu">float</span>(<span class="st">'NaN'</span>), <span class="dv">4</span>])</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_mit_nan <span class="op">+</span> <span class="dv">1</span>)</span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Summe des Datensates:"</span>, daten_mit_nan.<span class="bu">sum</span>())</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1777,6 +1795,46 @@ dtype: float64</code></pre>
 dtype: float64
 
 Summe des Datensates: 7.0</code></pre>
+</div>
+</div>
+<div id="wrn-logicbasepython" class="callout callout-style-simple callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Hinweis&nbsp;3: Achtung Logik!
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Die logische Abfrage fehlender Werte unterscheidet sich für <code>None</code> und <code>NaN</code>.</p>
+<div id="f8b76da2" class="cell" data-execution_count="42">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="va">None</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="96">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="40698501" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="bu">bool</span>(<span class="bu">float</span>(<span class="st">'NaN'</span>))</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="97">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="762c869e" class="cell" data-execution_count="44">
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="va">None</span> <span class="op">==</span> <span class="va">None</span></span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="98">
+<pre><code>True</code></pre>
+</div>
+</div>
+<div id="8c81ebe3" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="bu">float</span>(<span class="st">'NaN'</span>) <span class="op">==</span> <span class="bu">float</span>(<span class="st">'NaN'</span>)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="99">
+<pre><code>False</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -1806,23 +1864,371 @@ Summe des Datensates: 7.0</code></pre>
 <li><p>urheberrechtliche Informationen und Lizenzhinweise.</p></li>
 </ul>
 <p>(vgl. <a href="https://docs.hdfgroup.org/archive/support/HDF5/doc/Advanced/HDF5_Metadata/index.html">The HDF Group Help Desk</a>)</p>
-<p>Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (<strong>Beispiel: SMARD-Daten</strong>), in Spaltenbeschriftungen (<strong>Beispiel: Zeitzone im österreichischen Strommarktdatensatz</strong>), in zusätzlichen Tabellenblättern (<strong>SHILLER-DATA?!</strong>) oder in separaten Dokumenten (die man nicht immer hat).</p>
+<p>Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (<strong>Beispiel: SMARD-Daten</strong>), in Spaltenbeschriftungen (<strong>Beispiel: Zeitzone im österreichischen Strommarktdatensatz</strong>), in zusätzlichen Tabellenblättern (<strong>Beispiel besorgen</strong>) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) <strong>Koske et al.&nbsp;aus der Diss</strong>.</p>
+<p><strong>Fehlersuche und -vermeidung: Datensätze und, sofern vorhanden Begleitmaterialien, erst einmal angucken (Dateiname, ggf. Tabellenblätter und Spaltenbeschriftungen mit einem Tabellenkalkulationsprogramm kontrollieren.)</strong></p>
 </section>
 </section>
-<section id="das-modul-pandas" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Das Modul Pandas</h1>
+<section id="strukturierte-datensätze-einlesen-die-module-numpy-pandas-und-glob" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Strukturierte Datensätze einlesen: die Module NumPy, Pandas und glob</h1>
+<p>Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. Ob Sie mit NumPy oder mit Pandas arbeiten, hängt von dem vorliegenden Datensatz und persönlichen Präferenzen ab. In den folgenden Abschnitten werden beide Module behandelt.</p>
+<p>Eine kurze Übersicht der Vor- und Nachteile:</p>
+<ul>
+<li><p>NumPy: n-dimensionale Array-Struktur mit Unterstützung der am häufigsten verwendeten Datentypen sowie zahlreicher numerischer Formate für spezialisierte wissenschaftliche Berechnungen (<a href="https://numpy.org/devdocs/reference/arrays.scalars.html">siehe Dokumentation</a>). Ein Array kann immer nur einen Datentyp haben und die Größe von Arrays ist unveränderlich. Dafür werden Operationen etwas schneller als in der DataFrame-Struktur von Pandas ausgeführt.<br>
+<strong>Querverweis auf w-NumPy</strong></p>
+<ul>
+<li>Spaltennamen sind mit einem strukturierten dtype möglich (<a href="https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names">siehe Dokumentation</a>)</li>
+</ul></li>
+<li><p>Pandas: 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von Spalten- und Indexbeschriftungen.<br>
+<strong>Querverweis auf w-Pandas</strong></p>
+<ul>
+<li>dreidimensionale DataFrames sind mit einem Multiindex möglich –&gt; das widerspricht aber dem Konzept von Tidy Data</li>
+</ul></li>
+</ul>
+<p><strong>ergänzen: kurze Erläuterung zum Modul glob</strong></p>
+<section id="datentypen" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="datentypen"><span class="header-section-number">5.1</span> Datentypen</h2>
+<p>NumPy unterstützt folgende Datentypen:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Datentyp NumPy-Array</th>
+<th>Datentyp in Python</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>int_</td>
+<td>int</td>
+</tr>
+<tr class="even">
+<td>double</td>
+<td>float</td>
+</tr>
+<tr class="odd">
+<td>cdouble</td>
+<td>complex</td>
+</tr>
+<tr class="even">
+<td>bytes_</td>
+<td>bytes</td>
+</tr>
+<tr class="odd">
+<td>str_</td>
+<td>str</td>
+</tr>
+<tr class="even">
+<td>bool_</td>
+<td>bool</td>
+</tr>
+<tr class="odd">
+<td>datetime64</td>
+<td>datetime.datetime</td>
+</tr>
+<tr class="even">
+<td>timedelta64</td>
+<td>datetime.timedelta</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://numpy.org/devdocs/reference/arrays.scalars.html">Dokumentation NumPy</a></p>
+<p>In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas führt aber auch einige zusätzliche Datentypen ein. Eine vollständige Liste finden Sie in der <a href="https://pandas.pydata.org/docs/reference/arrays.html">Pandas Dokumentation</a>. Die wichtigsten zusätzlichen Datentypen sind:</p>
+<ul>
+<li><p><a href="https://pandas.pydata.org/docs/user_guide/categorical.html">Kategorie</a> <code>CategoricalDtype</code></p></li>
+<li><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp">Zeitzonenbewusstes Datumsformat</a> <code>DatetimeTZDtype</code></p></li>
+<li><p><a href="https://pandas.pydata.org/docs/reference/api/pandas.Timedelta.html#pandas.Timedelta">Timedelta</a> um Unterschiede zwischen zwei Daten oder Uhrzeiten darzustellen (kein eigener Datentyp)</p></li>
+</ul>
+<p><strong>To Do: eventuell in Extrakasten erklären : Nummern und chr-Codes für die Datentypen.</strong></p>
+</section>
+<section id="dateien-lesen-und-schreiben" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="dateien-lesen-und-schreiben"><span class="header-section-number">5.2</span> Dateien lesen und schreiben</h2>
+<p>In den Werkzeugbaustein NumPy (<strong>hier Querverweis auf w-NumPy</strong>) und Pandas (<strong>hier Querverweis auf w-Pandas</strong>) haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.</p>
+<p><strong>to do: Pandas</strong></p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">NumPy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Pandas</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<p>In NumPy können Dateien mit der Funktion <code>np.loadtxt()</code> gelesen und mit der Funktion <code>np.savetxt()</code> geschrieben werden.</p>
+<ul>
+<li><p><code>np.loadtxt(fname = data.txt, delimiter = ";", skiprows= #Reihen)</code><br>
+<strong>Hier könnte man noch comments = ‘#’ ergänzen - Zeichen mit dem der Beginn eines Kommentars markiert ist</strong></p></li>
+<li><p><code>np.savetxt(fname = dateipfad, X = daten, header = kommentar, fmt='%5.2f')</code></p></li>
+</ul>
+<p><strong>Hier ergänzen: Umgang mit Kommentaren und dtype –&gt; das macht für NumPy nur zu Kontrollzwecken Sinn</strong></p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>I/O-Pandas: https://pandas.pydata.org/docs/user_guide/io.html</p>
+</div>
+</div>
+</div>
+</section>
+<section id="umgang-mit-fehlenden-werten" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="umgang-mit-fehlenden-werten"><span class="header-section-number">5.3</span> Umgang mit fehlenden Werten</h2>
+<section id="numpy-1" class="level3">
+<h3 class="anchored" data-anchor-id="numpy-1">NumPy</h3>
+<p>Die NumPy-Funktion <code>np.loadtxt()</code> wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen zu Fehlern führen.</p>
+<p>Folgende Datei ist Ihnen aus dem w-NumPy bekannt.</p>
+<div id="6710d5d0" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'skript/01-daten/TC01.csv'</span></span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>daten_ohne_fehlende_werte <span class="op">=</span> np.loadtxt(dateipfad)</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Daten:"</span>, daten_ohne_fehlende_werte)</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Struktur:"</span>, daten_ohne_fehlende_werte.shape)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Daten: [20.1 20.1 20.1 ... 24.3 24.2 24.2]
+Struktur: (1513,)</code></pre>
+</div>
+</div>
+<p>Angenommen, Sie haben eine zweite Messung durchgeführt und möchten die Differenz beider Datensätze berechnen. In der zweiten Messung haben Sensorfehler zu fehlenden Werten geführt, die mit ‘–’ markiert sind. Die Funktion <code>np.loadtxt()</code> kann jedoch mit fehlenden Werten nicht umgehen und gibt eine Fehlermeldung zurück.</p>
+<div id="d80c5c23" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'skript/01-daten/TC01_double_hyphen.csv'</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>  daten_double_hypen <span class="op">=</span> np.loadtxt(dateipfad)</span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> error:</span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"Die Eingabe führt zu der Fehlermeldung:</span><span class="ch">\n</span><span class="st">"</span>, error)</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"Daten mit fehlenden Werten '--':"</span>, daten_double_hypen) </span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Die Eingabe führt zu der Fehlermeldung:
+ could not convert string '--' to float64 at row 1, column 1.</code></pre>
+</div>
+</div>
+<section id="die-funktion-np.genfromtxt" class="level4">
+<h4 class="anchored" data-anchor-id="die-funktion-np.genfromtxt">Die Funktion np.genfromtxt()</h4>
+<p>Um Datensätze mit fehlenden Werten einzulesen, wird die Funktion <code>np.genfromtxt(fname, delimiter = None, missing_values = None, filling_values = None)</code> verwendet. Dieses durchläuft den Datensatz <code>fname</code> in zwei Schleifen, weshalb die Funktion langsamer als <code>np.loadtxt()</code> ist. Die erste Schleife teilt den Datensatz zeilenweise am optional übergebenen Trennzeichen <code>delimiter</code> in eine Zeichenfolge auf. Die zweite Schleife konvertiert jede Zeichenkette in den passenden Datentyp. Mit den optionalen Argumenten <code>missing_values</code> und <code>filling_values</code> können der Funktion Zeichenfolgen übergeben werden, mit der fehlende Werte markiert sind bzw. ersetzt werden sollen. <a href="https://numpy.org/doc/stable/user/basics.io.genfromtxt.html">NumPy Dokumentation</a></p>
+<div id="01f424e0" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'skript/01-daten/TC01_double_hyphen.csv'</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>daten_double_hypen <span class="op">=</span> np.genfromtxt(dateipfad, missing_values <span class="op">=</span> <span class="st">'--'</span>, filling_values <span class="op">=</span> np.nan)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Daten mit fehlenden Werten '--':"</span>, daten_double_hypen)</span>
+<span id="cb81-5"><a href="#cb81-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Struktur:"</span>, daten_double_hypen.shape)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Daten mit fehlenden Werten '--': [20.1  nan 20.1 ... 24.3 24.2 24.2]
+Struktur: (1513,)</code></pre>
+</div>
+</div>
+<p>Durch die Umwandlung fehlender Werte in NaN, sind Operationen mit gleichlangen NumPy-Arrays möglich.</p>
+<div id="943150de" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>daten_differenz <span class="op">=</span> daten_ohne_fehlende_werte <span class="op">-</span> daten_double_hypen</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(daten_differenz)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[ 0. nan  0. ...  0.  0.  0.]</code></pre>
+</div>
+</div>
+<p>Die Funktion <code>np.genfromtxt()</code> kann beliebige Zeichenketten als fehlenden Wert verarbeiten. Lediglich leere Zellen können problematisch sein, da deren Inhalt <code>'\n'</code> als Zeilentrenner verarbeitet wird. <strong>testen, ob das auch bei mehrspaltiger Datei auftritt.</strong></p>
+<div id="nte-npgenfromtxt" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Beispiel&nbsp;2: Leere Zellen mit np.genfromtxt()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Enthält eine Datei leere Zellen, können diese nicht eingelesen werden, da diese automatisch übersprungen werden.</p>
+<div id="b4b88924" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datei ohne Markierung fehlender Werte</span></span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'skript/01-daten/TC01_empty_lines.csv'</span></span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>daten_empty_lines <span class="op">=</span> np.genfromtxt(dateipfad, missing_values <span class="op">=</span> <span class="st">''</span>, filling_values <span class="op">=</span> np.nan) </span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Daten mit fehlenden Werten '':"</span>, daten_empty_lines)</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Struktur:"</span>, daten_empty_lines.shape)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Daten mit fehlenden Werten '': [20.1 20.1 20.1 ... 24.3 24.2 24.2]
+Struktur: (1511,)</code></pre>
+</div>
+</div>
+<p>Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlemeldung.</p>
+<div id="1480ba27" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb87"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> daten_ohne_fehlende_werte <span class="op">-</span> daten_empty_lines</span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> error:</span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"Die Eingabe führt zu der Fehlermeldung:</span><span class="ch">\n</span><span class="st">"</span>, error)</span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(result)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Die Eingabe führt zu der Fehlermeldung:
+ operands could not be broadcast together with shapes (1513,) (1511,) </code></pre>
+</div>
+</div>
+<p>In diesem Fall muss auf die Stringbearbeitung aus der Python-Basis zurückgegriffen werden. Die bearbeitete Liste kann wie gewohnt mit <code>np.genfromtxt()</code> eingelesen werden.</p>
+<div id="e6131ab1" class="cell" data-execution_count="52">
+<div class="sourceCode cell-code" id="cb89"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Einlesen über Datenobjekt</span></span>
+<span id="cb89-2"><a href="#cb89-2" aria-hidden="true" tabindex="-1"></a>datenobjekt_empty_lines <span class="op">=</span> <span class="bu">open</span>(dateipfad, <span class="st">'r'</span>, encoding <span class="op">=</span> <span class="st">'utf-8'</span>)</span>
+<span id="cb89-3"><a href="#cb89-3" aria-hidden="true" tabindex="-1"></a>daten_empty_lines <span class="op">=</span> datenobjekt_empty_lines.readlines()</span>
+<span id="cb89-4"><a href="#cb89-4" aria-hidden="true" tabindex="-1"></a>datenobjekt_empty_lines.close()</span>
+<span id="cb89-5"><a href="#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Das ausgelesene Datenobjekt (Ausschnitt):</span><span class="ch">\n</span><span class="st">"</span>, daten_empty_lines[<span class="dv">0</span>:<span class="dv">10</span>])</span>
+<span id="cb89-7"><a href="#cb89-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-8"><a href="#cb89-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Stringbearbeitung mit replace('\n', '')</span></span>
+<span id="cb89-9"><a href="#cb89-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(daten_empty_lines)):</span>
+<span id="cb89-10"><a href="#cb89-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-11"><a href="#cb89-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> daten_empty_lines[i] <span class="op">==</span> <span class="st">'</span><span class="ch">\n</span><span class="st">'</span>:</span>
+<span id="cb89-12"><a href="#cb89-12" aria-hidden="true" tabindex="-1"></a>    daten_empty_lines[i] <span class="op">=</span> <span class="st">'platzhalter'</span></span>
+<span id="cb89-13"><a href="#cb89-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb89-14"><a href="#cb89-14" aria-hidden="true" tabindex="-1"></a>    daten_empty_lines[i] <span class="op">=</span> daten_empty_lines[i].replace(<span class="st">'</span><span class="ch">\n</span><span class="st">'</span>, <span class="st">''</span>)</span>
+<span id="cb89-15"><a href="#cb89-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-16"><a href="#cb89-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Nach der Stringbearbeitung (Ausschnitt):</span><span class="ch">\n</span><span class="st">"</span>, daten_empty_lines[<span class="dv">0</span>:<span class="dv">10</span>])</span>
+<span id="cb89-17"><a href="#cb89-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-18"><a href="#cb89-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Einlesen mit np.genfromtxt</span></span>
+<span id="cb89-19"><a href="#cb89-19" aria-hidden="true" tabindex="-1"></a>daten_empty_lines <span class="op">=</span> np.genfromtxt(daten_empty_lines, missing_values <span class="op">=</span> <span class="st">'platzhalter'</span>, filling_values <span class="op">=</span> np.nan)</span>
+<span id="cb89-20"><a href="#cb89-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Daten mit fehlenden Werten '':"</span>, daten_empty_lines)</span>
+<span id="cb89-21"><a href="#cb89-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Struktur:"</span>, daten_empty_lines.shape)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Das ausgelesene Datenobjekt (Ausschnitt):
+ ['# Temperatur in C\n', '20.1\n', '\n', '20.1\n', '20.1\n', '20.1\n', '\n', '20.1\n', '20.1\n', '20.1\n']
+
+Nach der Stringbearbeitung (Ausschnitt):
+ ['# Temperatur in C', '20.1', 'platzhalter', '20.1', '20.1', '20.1', 'platzhalter', '20.1', '20.1', '20.1']
+
+Daten mit fehlenden Werten '': [20.1  nan 20.1 ... 24.3 24.2 24.2]
+Struktur: (1513,)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="fehlende-werte-in-numpy-erzeugen-prüfen-finden-ersetzen-löschen" class="level4">
+<h4 class="anchored" data-anchor-id="fehlende-werte-in-numpy-erzeugen-prüfen-finden-ersetzen-löschen">Fehlende Werte in NumPy erzeugen, prüfen, finden, ersetzen, löschen</h4>
+<p>Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.</p>
+<ul>
+<li><p><code>np.nan</code> erzeugt einen fehlenden Wert.</p></li>
+<li><p><code>np.isnan()</code> prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype = bool zurück.</p></li>
+<li><p><code>np.nonzero(np.isnan(array))</code> gibt ein eindimensionales Array mit den Indexpositionen der Elemente mit dem Wert ‘NaN’ zurück.</p></li>
+<li><p><code>nan_to_num(x = array, nan = 0.0)</code> ersetzt im Array x <code>NaN</code> durch den Wert 0.0 oder durch den im Argument nan übergebenen Wert. (Hinweis: <code>nan_to_num()</code> ersetzt standardmäßig auch np.inf durch große sowie -np.inf durch große negative Zahlen.)</p></li>
+<li><p><code>np.delete(arr = array, obj)</code> gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert <code>NaN</code> werden so gelöscht: <code>np.delete(array, obj = np.nonzero(np.isnan(array)))</code><br>
+<strong>Hier Hinweis auf masked arrays: “Often it is preferable to use a boolean mask” <a href="https://numpy.org/doc/stable/reference/generated/numpy.delete.html">NumPy Dokumentation</a></strong><br>
+<strong>“Masked arrays are arrays that may have missing or invalid entries. The numpy.ma module provides a nearly work-alike replacement for numpy that supports data arrays with masks.” <a href="https://numpy.org/doc/stable/reference/maskedarray.html">NumPy Dokumentation</a></strong></p></li>
+</ul>
+<p>NumPy wandelt <code>None</code> nicht automatisch in <code>NaN</code> um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt <code>dtype=object</code> aus <strong>stimmt das immer?</strong>:</p>
+<div id="14f48707" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>np_array_with_none <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np_array_with_none)</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1 2 None 4]</code></pre>
+</div>
+</div>
+<p><strong>Aber wie löst man das?</strong></p>
+<p><strong>Kleine Aufgabe zwischendurch: Die Funktion <code>np.argwhere(np.array == np.nan)</code> soll die Indizes der Elemente zurückgeben, die den Wert np.nan haben. Warum ist die Liste immer leer?</strong></p>
+</section>
+<section id="funktionen-mit-fehlenden-werten" class="level4">
+<h4 class="anchored" data-anchor-id="funktionen-mit-fehlenden-werten">Funktionen mit fehlenden Werten</h4>
+<p>hierhier Problem: Operationen mit NaN sind immer NaN.</p>
+<pre><code>nansum()
+nanmax()
+nanmin()
+nanargmax()
+nanargmin()</code></pre>
+<div id="tip-argwhere" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;8: Antwort
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Die logische Abfrage np.nan == np.nan ist immer False - siehe <a href="#wrn-logicbasepython" class="quarto-xref">Hinweis&nbsp;3</a>.</p>
+<p>Eine Möglichkeit wäre: <code>np.argwhere(np.isnan(array))</code>, das die Indexposition der Elemente mit dem Wert <code>np.nan</code> zurückgibt. Allerdings ist der Output der Funktion nicht direkt geeignet, um damit Arraybereiche auszuwählen. Die Funktion gibt ein zweidimensionales Array der Form (N, array.ndim) zurück. N ist die Anzahl der Werte, die nicht Null sind und array.ndim die Anzahl der Dimensionen des Eingabe-Arrays.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="fehlende-werte-in-numpy-maskieren" class="level4">
+<h4 class="anchored" data-anchor-id="fehlende-werte-in-numpy-maskieren">Fehlende Werte in NumPy maskieren</h4>
+<p><a href="https://numpy.org/doc/stable/reference/maskedarray.html" class="uri">https://numpy.org/doc/stable/reference/maskedarray.html</a></p>
+<p>… können auch mit genfromtxt erzeugt werden <code>usemask</code> We may also want to keep track of the occurrence of missing data by constructing a boolean mask, with True entries where data was missing and False otherwise. To do that, we just have to set the optional argument usemask to True (the default is False). The output array will then be a MaskedArray.</p>
+</section>
+</section>
+<section id="zugriff-auf-mehrere-lokale-dateien-modul-glob" class="level3">
+<h3 class="anchored" data-anchor-id="zugriff-auf-mehrere-lokale-dateien-modul-glob">Zugriff auf mehrere lokale Dateien: Modul glob</h3>
+<p>Das Modul glob</p>
+</section>
+</section>
+<section id="datentypen-erkennen-und-festlegen" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="datentypen-erkennen-und-festlegen"><span class="header-section-number">5.4</span> Datentypen erkennen und festlegen</h2>
+<section id="numpy-2" class="level3">
+<h3 class="anchored" data-anchor-id="numpy-2">NumPy</h3>
+</section>
+<section id="pandas-1" class="level3">
+<h3 class="anchored" data-anchor-id="pandas-1">Pandas</h3>
+</section>
+</section>
+</section>
+<section id="datensätze-organisieren" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Datensätze organisieren</h1>
+<p>In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturierter Datensätze behandelt und Werkzeuge aus den Modulen NumPy und Pandas vorgestellen, um Probleme zu identifizieren und zu beheben. Dazu wird einführend mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.</p>
+<section id="tidy-data" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="tidy-data"><span class="header-section-number">6.1</span> Tidy data</h2>
+<p><strong>Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python [und den fehlenden Spaltenbeschriftungen in Numpy])</strong></p>
+<div>
+
+</div>
+<div class="border quarto-layout-panel" data-layout="[5, 90, 5]">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: flex-start;">
+<p>“Tidy datasets are all alike, but every messy dataset is messy in its own way.” <span class="citation" data-cites="R-for-Data-Science">(<a href="#ref-R-for-Data-Science" role="doc-biblioref">Wickham, Çetinkaya-Rundel, und Grolemund 2023, Kap. 5</a> Data tidying)</span></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
+<p>&nbsp;</p>
+</div>
+</div>
+</div>
+<p>Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. <span class="citation" data-cites="R-for-Data-Science">(<a href="#ref-R-for-Data-Science" role="doc-biblioref">Wickham, Çetinkaya-Rundel, und Grolemund 2023, Kap. 5</a> Data tidying)</span></p>
+<div id="imp-tidy-data" class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Definition&nbsp;2: tidy data
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<div class="border">
+<p>Das System tidy data besteht aus drei Regeln:</p>
+<ol type="1">
+<li><p>Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.</p></li>
+<li><p>Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.</p></li>
+<li><p>Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert.</p></li>
+</ol>
+<p><span class="citation" data-cites="R-for-Data-Science">(<a href="#ref-R-for-Data-Science" role="doc-biblioref">Wickham, Çetinkaya-Rundel, und Grolemund 2023, Kap. 5</a> Data tidying)</span></p>
+</div>
+</div>
+</div>
+<p>Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Wenn die Datenanalyse mit einer anderen Struktur leichter durchgeführt werden kann, dann ist das in Ordnung.</p>
+</section>
+<section id="das-modul-pandas" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="das-modul-pandas"><span class="header-section-number">6.2</span> Das Modul Pandas</h2>
 <p>Das Modul Pandas bietet die DataFrame-Struktur und kann unterschiedliche Datentypen verwalten. Mit diesem Modul werden typische Probleme illustriert und Strategien der Fehlersuche und -behebung vorgestellt. Pandas.DataFrame: Vielzahl von Datentypen numerisch, character, category, boolean, datetime usw. … –&gt; hier reicht ein Querverweis auf den w-Pandas</p>
-<section id="fehlende-werte-in-pandas-finden-löschen-erzeugen-ersetzen" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="fehlende-werte-in-pandas-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">5.1</span> Fehlende Werte in Pandas finden, löschen, erzeugen, ersetzen</h2>
+<section id="in-pandas" class="level3">
+<h3 class="anchored" data-anchor-id="in-pandas">in Pandas</h3>
 <p>Datentypen prüfen geht mit Pandas ziemlich einfach:</p>
 <p>pandas.describe() pandas.info() [ist das aus Pandas?] pandas.dtypes() pandas.columns()</p>
+<p>df.count() # count of non-missing values in each column df.count(axis=‘columns’) # count of non-missing values in each row</p>
 <p>You can use methods like pd.isnull(), pd.dropna(), and pd.fillna() to detect, remove, and replace missing values.</p>
 <p><strong>Mit Pandas den Datensatz messung1 einlesen, und Datum korrekt identifizieren. –&gt; besser die SMART-Datensätze nehmen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material</strong></p>
 <p>Das Modul Pandas wandelt None automatisch in NaN um. Als Datentyp des Objekts wird deshalb Fließkommazahl erkannt:</p>
-<div id="179e0db6" class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>pd_series_with_none <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>pd_series_with_none</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="42">
+<div id="a88ab9b8" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>pd_series_with_none <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>pd_series_with_none</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="108">
 <pre><code>0    1.0
 1    2.0
 2    NaN
@@ -1832,23 +2238,6 @@ dtype: float64</code></pre>
 </div>
 <p><strong>Hinweis: <code>dtype=object</code> erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, <code>dtype=object</code> ist eine Liste von Zeigern auf Objekte im Speicher.</strong></p>
 </section>
-</section>
-<section id="das-modul-numpy" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Das Modul NumPy</h1>
-<p>NumPy wandelt None nicht automatisch in NaN um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt <code>dtype=object</code> aus:</p>
-<section id="fehlende-werte-in-numpy-finden-löschen-erzeugen-ersetzen" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="fehlende-werte-in-numpy-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">6.1</span> Fehlende Werte in NumPy finden, löschen, erzeugen, ersetzen</h2>
-<div id="a19dc549" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>np_array_with_none <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="va">None</span>, <span class="dv">4</span>])</span>
-<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>np_array_with_none</span></code><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="43">
-<pre><code>array([1, 2, None, 4], dtype=object)</code></pre>
-</div>
-</div>
-<p>masked Arrays in NumPy</p>
-<p>NumPy.nan??? np.isnan(), np.argwhere() findet den index (erster Index mit min())</p>
 </section>
 </section>
 <section id="datumsformat" class="level1" data-number="7">
@@ -1868,23 +2257,7 @@ dtype: float64</code></pre>
 <div>
 
 </div>
-<div class="border quarto-layout-panel" data-layout="[[5, 90, 5], [1], [5, 90, 5], [1], [1]]">
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
-<p>&nbsp;</p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: flex-start;">
-<p>“Tidy datasets are all alike, but every messy dataset is messy in its own way.” <span class="citation" data-cites="R-for-Data-Science">(<a href="#ref-R-for-Data-Science" role="doc-biblioref">Wickham, Çetinkaya-Rundel, und Grolemund 2023, Kap. 5</a> Data tidying)</span></p>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
-<p>&nbsp;</p>
-</div>
-</div>
-<div class="quarto-layout-row">
-<div class="quarto-layout-cell" style="flex-basis: 100.0%;justify-content: flex-start;">
-<p>&nbsp;</p>
-</div>
-</div>
+<div class="border quarto-layout-panel" data-layout="[[5, 90, 5], [1], [1]]">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 5.0%;justify-content: flex-start;">
 <p>&nbsp;</p>
@@ -1908,16 +2281,12 @@ Nicholas J. Cox</p>
 </div>
 </div>
 </div>
-<section id="fehlende-werte-finden-löschen-erzeugen-ersetzen" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="fehlende-werte-finden-löschen-erzeugen-ersetzen"><span class="header-section-number">9.1</span> Fehlende Werte finden, löschen, erzeugen, ersetzen</h2>
-<p><strong>Das gehört eher zu Strategien der Fehlersuche und Bereinigung, weil man erst mit describe() und anderen Funktionen einen Überblick über die verwendeten Zeichen zur Kennzeichnung fehlender Werte gewinnen muss (None und NaN ist nicht alles).</strong></p>
 <p>Inhalt (gerne abwechslungsreich gestalten)</p>
 <ul>
 <li><p>Theorie</p></li>
 <li><p>Beispiele</p></li>
 <li><p>Übungen</p></li>
 </ul>
-</section>
 </section>
 <section id="das-wichtigste-vielleicht-als-video" class="level1" data-number="10">
 <h1 data-number="10"><span class="header-section-number">10</span> Das Wichtigste (vielleicht als Video)</h1>
