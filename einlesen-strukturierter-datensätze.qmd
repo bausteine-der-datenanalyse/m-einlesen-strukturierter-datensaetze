@@ -112,6 +112,29 @@ mining results." (@Dasu-Johnson-2003, S. ix)
 
 Das Einlesen strukturierter Datensätze umfasst somit den gesamten Prozess des technischen Zugriffs auf Dateien, der Organisation, Fehlersuche und -korrektur sowie des Abspeicherns der Daten in einer für die weitere Bearbeitung geeigneten Form.
 
+In der praktischen Datenanalyse helfen zwei einfache Tipps beim Einlesen strukturierter Datensätze:
+
+::: {#tip-editor .callout-tip collapse="false"}
+**Schauen Sie sich Ihre Daten an, bevor Sie diese mit Python einlesen!** Dafür reicht häufig ein gewöhnlicher Texteditor oder ein Tabellenkalkulationsprogramm. Ein kurzer Blick genügt, um die verwendeten Zeichentrenner, Tausendertrennzeichen, Datumsformate, die Kodierung fehlender Werte und die Unicode-Kodierung (wie UTF-8) zu identifizieren.
+:::
+  
+Dies ist aber nicht immer möglich, beispielsweise wenn Ihr Datensatz aus hunderten Spalten und Zehntausenden Zeilen besteht. Dieser Baustein vermittelt deshalb die Handwerkszeuge, um Datensätze ausschließlich mit den in Python verfügbaren Mitteln einzulesen.
+
+Es ist nicht erforderlich, die Besonderheiten aller hier vorgestellten Pakete und Funktionen auswendig zu beherrschen. Dafür ist das Themenfeld zu komplex und nicht selten ändert sich das Verhalten von Funktionen mit der weiterentwicklung der Programmiersprache. Die hier vorgestellten Besonderheiten von Funktionen sollten Sie allerdings einmal gehört haben, um einen mentalen Anknüpfungspunkt zu haben, wenn Sie in der Praxis auf Probleme stoßen.
+
+::: {#tip-dokumentation .callout-tip collapse="false"}
+**Benutzen Sie die Dokumentation!** Auf diese Weise erhalten Sie einen vollständigen Überblick über standardmäßig gesetzten und optional verfügbaren Parameter. Außerdem erkennen Sie Änderungen in der Programmausführung und vermeiden so unerwartete Fehler.
+
+:::: {layout="[1, 1]"}
+
+![Neuerung in Python](skript/00-bilder/added-in-pyhton.png){fig-alt="Hinweis auf eine Neuerung in Python"}
+
+![Abkündigung in Python](skript/00-bilder/deprecated-in-python.png){fig-alt="Hinweis auf eine Abkündigung in Python"}
+
+::::
+
+:::
+
 # Grundlagen: Merkmale von Datensätzen
 Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen behandelt, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen und den Umgang der in der Basis von Python enthaltenen Werkzeuge zu vermitteln.
 
@@ -460,7 +483,7 @@ Möglicherweise wundern Sie sich, warum der Bildhintergrund in jedem Farbkanal s
 
 ::::: {#tip-logo .callout-tip collapse="true"}
 ## Erklärung Bildhintergrund
-Der Bildhintergrund hat in allen Kanälen, auch im Alphakanal, den Farbwert 0. Dieser Teil des Bildes ist deshalb vollständig transparent und wird vom Hintergrund der Internetseite ausgefüllt. Dies ist aber bei einem weißen Hintergrund nicht zu erkennen.
+Der Bildhintergrund hat in allen Kanälen, auch im Alphakanal, den Farbwert 0. Dieser Teil des Bildes ist deshalb vollständig transparent und wird vom Hintergrund der Internetseite ausgefüllt. Der Bildhintergrund des Logos wirkt deshalb weiß.
 
 ``` {python}
 #| fig-cap: Alphakanal des Pythonlogos
@@ -621,7 +644,7 @@ my_series = pd.Series([1, 2, 4, 8])
 my_series.diff()
 ```
 
-Anders als `None` ist `NaN` kein Standardschlüsselwort in Python. Der Wert `NaN` wird erzeugt mit `float('nan')` oder `float('NaN')`, die Groß- und Kleinschreibung spielt keine Rolle. Die Module math und NumPy bieten mit `math.nan` und `np.nan` ebenfalls Funktionen, um `NaN` zu erzeugen.
+Anders als `None` ist `NaN` kein Standardschlüsselwort in Python. Der Wert `NaN` wird erzeugt mit `float('nan')` oder `float('NaN')`, die Groß- und Kleinschreibung spielt keine Rolle. `NaN` hat also den Datentyp Fließkommazahl. Die Module math und NumPy bieten mit `math.nan` und `np.nan` ebenfalls Funktionen, um `NaN` zu erzeugen.
 
 ``` {python}
 test = float('NaN')
@@ -629,12 +652,12 @@ print(type(test))
 
 ```
 
-Mit dem Wert 'NaN' können Operationen ausgeführt werden. Das Ergebnis ist `NaN`.
+Mit dem Wert 'NaN' können Operationen ausgeführt werden. Das Ergebnis ist immer `NaN`.
 ``` {python}
 print(my_plusone(float('NaN')))
 ```
 
-Als Platzhalter für fehlende Werte beeinträchtigt `NaN` Berechnungen nicht.
+Viele **alle?!** Funktionen können mit `NaN` als Platzhalter für fehlende Werte umgehen.
 ``` {python}
 daten_mit_nan = pd.Series([1, 2, float('NaN'), 4])
 print(daten_mit_nan + 1)
@@ -647,20 +670,18 @@ print("\nSumme des Datensates:", daten_mit_nan.sum())
 Die logische Abfrage fehlender Werte unterscheidet sich für `None` und `NaN`. 
 
 ``` {python}
-bool(None)
+bool_values = [None, float('NaN')]
+
+for element in bool_values:
+  bool_value = bool(element)
+  print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
+Dies gilt auch für den logischen Identitätsabgleich.
 ``` {python}
-bool(float('NaN'))
-```
-
-``` {python}
-None == None
-```
-
-``` {python}
-float('NaN') == float('NaN')
-
+for element in bool_values:
+  result = element == element
+  print("Identität von", element, "ist", result)
 ```
 
 :::
@@ -697,12 +718,12 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
 (vgl. [The HDF Group Help Desk](https://docs.hdfgroup.org/archive/support/HDF5/doc/Advanced/HDF5_Metadata/index.html))
 
-Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (**Beispiel: SMARD-Daten**), in Spaltenbeschriftungen (**Beispiel: Zeitzone im österreichischen Strommarktdatensatz**), in zusätzlichen Tabellenblättern (**Beispiel besorgen**) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) **Koske et al. aus der Diss**.
+Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (**Beispiel: SMARD-Daten**), in Spaltenbeschriftungen (**Beispiel: Zeitzone im österreichischen Strommarktdatensatz**), in zusätzlichen Tabellenblättern (**Beispiel besorgen**) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) **DWD-Daten von Jean-Luca**.
 
 **Fehlersuche und -vermeidung: Datensätze und, sofern vorhanden Begleitmaterialien, erst einmal angucken (Dateiname, ggf. Tabellenblätter und Spaltenbeschriftungen mit einem Tabellenkalkulationsprogramm kontrollieren.)**
 
 # Strukturierte Datensätze einlesen: die Module NumPy und Pandas
-Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. Ob Sie mit NumPy oder mit Pandas arbeiten, hängt von dem vorliegenden Datensatz und persönlichen Präferenzen ab. In den folgenden Abschnitten werden beide Module behandelt.
+Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. In den folgenden Abschnitten werden beide Module behandelt.
 
 Eine kurze Übersicht der Vor- und Nachteile:
 
@@ -716,12 +737,22 @@ Eine kurze Übersicht der Vor- und Nachteile:
 
     - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
 
-Für beide Module haben sich Kürzel etabliert:
+Für beide Module haben sich diese Kürzel etabliert:
 
 ``` {python}
 import numpy as np
 import pandas as pd
 ```
+
+::: {#tip-pypandas .callout-tip collapse="false"}
+## Arbeiten mit NumPy und Pandas
+Ob Sie mit NumPy oder mit Pandas arbeiten, hängt von dem vorliegenden Datensatz und persönlichen Präferenzen ab. 
+
+Das Paket Pandas erlaubt es, Daten aus verschiedenen Quellen wie CSV-Dateien oder Excel-Tabellen und mit unterschiedlichen Datentypen in einen DataFrame zu laden. Anschließend können diese mit wenigen Befehlen untersucht und umstrukturiert werden. Komplexe Operationen wie das Umformen von Datensätzen, das Gruppieren und Aggregieren von Daten sowie das Filtern und Sortieren sind effizient möglich.
+
+Bis auf wenige Ausnahmen sind Pandas und NumPy zueinander kompatibel. Es spricht nichts dagegen, Ihre Daten mit Pandas vorzubereiten und anschließend mit NumPy auszuwerten.
+
+:::
 
 ## Datentypen
 NumPy unterstützt folgende Datentypen:
@@ -786,6 +817,32 @@ In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und 
 ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html))
 ::::
 ::: 
+
+
+## Datentypen erkennen und festlegen
+hierhier
+
+### NumPy
+numpy.loadtxt(fname, dtype=<class 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None, unpack=False, ndmin=0, encoding=None, max_rows=None, *, quotechar=None, like=None)
+
+np.dtype
+np.astype()
+
+### Pandas 
+Datentypen prüfen geht mit Pandas ziemlich einfach:
+
+pandas.describe()
+pandas.info()
+pandas.dtypes()
+pandas.columns()
+
+df.count() # count of non-missing values in each column
+df.count(axis='columns') # count of non-missing values in each row
+
+Tipp: Spalten immer einen Datentyp zuweisen, auch wenn sie als object eingelesen werden. Wenn es nicht klappt, weiß man, dass Fehler in den Daten sind.
+
+### Aufgabe Datentypen
+**Installierte_Erzeugungsleistung_202301010000_202401010000_Jahr.csv einlesen: zwei Datumsspalten, Rest als Integer (abschneiden der Nachkommastellen).**
 
 ## Umgang mit fehlenden Werten
 
@@ -929,7 +986,7 @@ Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
 
   - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück.
 
-  - `np.nonzero(np.isnan(array))` gibt ein eindimensionales Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' zurück.
+  - `np.nonzero(np.isnan(array))` gibt ein Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' zurück.
 
   - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große positive sowie -np.inf durch große negative Zahlen.)
 
@@ -985,15 +1042,56 @@ print(f"kumulierte NaN-Summe des Arrays:\n{np.nancumsum(np_array_with_nan)}\n")
 Die Pandas-Funktionen zum Lesen von Dateien können mit fehlenden Werten umgehen. Standardmäßig werden folgende Werte als fehlende Werte erkannt:  
 `['-1.#IND', '1.#QNAN', '1.#IND', '-1.#QNAN', '#N/A N/A', '#N/A', 'N/A', 'n/a', 'NA', '<NA>', '#NA', 'NULL', 'null', 'NaN', '-NaN', 'nan', '-nan', 'None', '']`
 
-Weitere Werte können mit dem Argument `na_values = []` als fehlende Werte definiert werden. Mit dem Argument `keep_default_na = False` kann festgelegt werden, dass ausschließlich die in `na_values = []` übergebenen Werte als fehlende Werte interpretiert werden sollen. Standardmäßig werden mit dem Argument `na_filter = True` auch leere Zellen als NA eingelesen. ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html#io-navaluesconst))  
-**testen**  
-**Es gibt auch das Argument `skip_blank_lines=True`** 
+Weitere Werte können mit dem Argument `na_values = []` als fehlende Werte definiert werden. Mit dem Argument `keep_default_na = False` kann festgelegt werden, dass ausschließlich die in `na_values = []` übergebenen Werte als fehlende Werte interpretiert werden sollen. Standardmäßig werden mit dem Argument `na_filter = True` auch leere Zellen als NA eingelesen. Vollständig leere Zeilen werden jedoch standardmäßig übersprungen. Dies kann mit dem Argument `skip_blank_lines = False` geändert werden. ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html#io-navaluesconst))  
+
+Fehlende Werte können mit dem Argument `na_values = []` spezifiziert werden.
+``` {python}
+dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
+
+try:
+  daten_double_hypen = pd.read_csv(dateipfad, na_values = ['--'])
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '--':\n", daten_double_hypen, daten_double_hypen.shape) 
+
+```
+
+**merken: das Objekt wird als object eingelesen, dass wird gleich überprüft.**
+
+Mit dem Argument `skip_blank_lines = False` werden leere Zeilen ebenfalls eingelesen. 
+``` {python}
+dateipfad = 'skript/01-daten/TC01_empty_lines.csv'
+
+try:
+  daten_empty_lines = pd.read_csv(dateipfad, skip_blank_lines = False)
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '':\n", daten_empty_lines, daten_empty_lines.shape) 
+
+```
 
 Pandas verwendet abhängig vom Datentyp verschiedene Werte zur Kennzeichnung fehlender Werte.
 
   - `numpy.nan` für NumPy-Datentypen. Hierbei wird der Datentyp automatisch in `np.float64` oder `object` konvertiert.
 
-  - `NA` für Zeichenketten und Ganzzahlen. Der Datentyp bleibt erhalten. `NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein erweiterter Pandas Dateityp benötigt (siehe das folgende Beispiel).
+  - `NA` für Zeichenketten und Ganzzahlen. Der Datentyp bleibt erhalten.
+
+Einlesen der Datei TC01_empty_lines.csv als string:
+``` {python}
+dateipfad = 'skript/01-daten/TC01_empty_lines.csv'
+
+try:
+  daten_empty_lines = pd.read_csv(dateipfad, skip_blank_lines = False, dtype = 'string')
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '':\n", daten_empty_lines, daten_empty_lines.shape) 
+
+```
+
+`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein erweiterter Pandas Dateityp benötigt (siehe das folgende Beispiel).
 
 ::: {#nte-pdNA .callout-note collapse="true"}
 ## pd.Series mit np.nan und pd.NA
@@ -1085,7 +1183,6 @@ else:
 
 **Fehlersuche und -bereinigung: abhängig vom verwendeten Paket die benutzten Datentypen prüfen**
 
-
 :::{#wrn-logicpandas .callout-warning appearance="simple" collapse="false"}
 ## Achtung Logik!
 
@@ -1101,11 +1198,11 @@ for element in bool_values:
   except TypeError as error:
       print(error)
   else:
-    print(element, bool_value)
+    print("Wahrheitswert von", element, "ist", bool_value)
 
 ```
 
-Dies gilt auch für den Identitätsabgleich.
+Dies gilt auch für den logischen Identitätsabgleich.
 ``` {python}
 
 bool_values = [None, float('NaN'), pd.NA]
@@ -1116,118 +1213,69 @@ for element in bool_values:
   except TypeError as error:
       print(error)
   else:
-    print(element, result)
+    print("Identität von", element, "ist", result)
 
 ```
 
 ::: 
 
-
-https://pandas.pydata.org/docs/user_guide/missing_data.html
-
-
+([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/missing_data.html))
 
 #### Fehlende Werte in Pandas erzeugen, prüfen, finden, ersetzen, löschen
-Das Modul Pandas bietet wie das Modul NumPy verschiedene Funktionen, um mit fehlenden Werten zu arbeiten.
+Das Modul Pandas wandelt `None` automatisch in `NaN` um. Das Modul Pandas bietet wie das Modul NumPy verschiedene Funktionen, um mit fehlenden Werten zu arbeiten.
 
-  - erzeugen: `pd.NA` - hier kommt es auf die Groß- und Kleinschreibung an. pd.na funktioniert nicht
+  - `pd.NA` erzeugt einen fehlenden Wert (Groß- und Kleinschreibung beachten: `pd.na` funktioniert nicht)
   
-  - fehlende Werte prüfen: pd.isnull(), isna(), notna(). isna() und notna() erkennen auch `None` als fehlenden Wert.
+  - Die Funktionen `pd.isnull()` und `pd.isna()` prüfen auf einen fehlenden Wert und geben einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück. Die Funktionen `pd.notna()` und `pd.notnull()` prüfen den umgekehrten Fall.
 
-  - fehlende Werte finden: ?!
+  - Die Methode `pd.isna().nonzero()` verwendet die NumPy-Funktion `np.nonzero` und gibt ein Array mit den Indexpositionen der Elemente mit fehlenden Werten zurück.
 
-  - ersetzen: pd.fillna(), pd.ffill(), pd.bfill() 
+  - `pd.Series.fillna(value = 0)` ersetzt fehlende Werte mit dem im Argument `value` übergebenen Wert. Die Methoden `pd.ffill()` und `pd.bfill()` ersetzen fehlende Werte mit dem letzten bzw. dem nächsten gültigen Wert. Die Methode `pd.Series.interpolate()` ersetzt fehlende Werte durch Interpolation, wofür ein Datentyp definiert sein muss (`dtype = object` funktioniert nicht). Standardmäßig wird linear interpoliert, es stehen aber verschiedene Methoden zur Verfügung (siehe [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/api/pandas.Series.interpolate.html))
 
-  - löschen: pd.dropna()
-
-
-Das Modul Pandas wandelt None automatisch in NaN um. Als Datentyp des Objekts wird deshalb Fließkommazahl erkannt:
-``` {python}
-pd_series_with_none = pd.Series([1, 2, None, 4])
-pd_series_with_none
-```
-
+  - Die Methode `pd.Series.dropna()` gibt eine neue (kürzere) Series ohne fehlende Wert zurück.
 
 #### Operationen mit fehlenden Werten
-In general, missing values propagate in operations involving NA. When one of the operands is unknown, the outcome of the operation is also unknown.
+Operationen mit `pd.NA` ergeben in der Regel `pd.NA`. Es gibt jedoch einige Ausnahmen:
 
-For example, NA propagates in arithmetic operations, similarly to np.nan:
+``` {python}
+print(pd.NA ** 0)
+print(1 ** pd.NA)
 
-1 + pd.NA
-Out[25]: <NA>
+```
 
-1 * pd.NA
-Out[26]: <NA>
+Die Methode `pd.Series.sum()` behandelt `pd.NA` als 0, die Methode `pd.Series.prod()` als 1.
+``` {python}
+print(pd.Series([pd.NA]).sum())
+print(pd.Series([pd.NA]).prod())
 
-There are a few special cases when the result is known, even when one of the operands is NA.
+```
 
-pd.NA ** 0
-Out[27]: 1
+Reduzierende Methoden wie `pd.Series.min()` oder `pd.Series.mean()` sowie zusammenfassende Methoden wie `pd.Series.cumsum()` oder `pd.Series.cumprod()` überspringen `pd.NA`.
+``` {python}
+print(pd.Series([pd.NA]).min())
+print(pd.Series([pd.NA]).mean())
+print(pd.Series([pd.NA]).cumsum())
+print(pd.Series([pd.NA]).cumprod())
+```
 
-1 ** pd.NA
-Out[28]: 1
+Das Verhalten von Methoden wie `pd.Series.sum()` und von Methoden wie `pd.Series.min()` hat für Datenreihen einen vergleichbaren Effekt, produziert für einzelne Werte jedoch unterschiedliche Ergebnisse.
 
-An exception on this basic propagation rule are reductions (such as the mean or the minimum), where pandas defaults to skipping missing values. See the calculation section for more.
-
-
-
-pandas.NA implements NumPy’s __array_ufunc__ protocol. Most ufuncs work with NA, and generally return NA:
-
-When summing data, NA values or empty data will be treated as zero.
-
-pd.Series([np.nan]).sum()
-Out[75]: 0.0
-
-pd.Series([], dtype="float64").sum()
-Out[76]: 0.0
-
-When taking the product, NA values or empty data will be treated as 1.
-
-pd.Series([np.nan]).prod()
-Out[77]: 1.0
-
-pd.Series([], dtype="float64").prod()
-Out[78]: 1.0
-
-
-
-Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna
+eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna**
 
 https://pandas.pydata.org/docs/user_guide/missing_data.html 
 
 ### Aufgabe fehlende Werte
-**Aufgabe von Jean-Luca: Bestimmen Sie die Kodierung fehlender Werte**
+**Aufgabe von Gianluca: Bestimmen Sie die Kodierung fehlender Werte und ersetzen Sie diese durch `np.nan` bzw. `pd.NA`. Wie viele Werte wurden ersetzt?**  
+produkt_st_stunde_20230831_20240630_01303.txt
 
   - mit Pandas geht das ganz leicht mit (.describe)
 
-  - wie ginge es mit NumPy?! Oder sollte das Ziel sein, dass beide Pakete sich gut ergänzen?  
-  "Numpy arrays are specifically used when complex scientific computation has to be performed whereas DataFrames are used mostly in data pre-processing." Das, Adrita 2022: Difference Between Pandas Dataframe and Numpy Arrays <https://www.askpython.com/python/pandas-dataframe-vs-numpy-arrays>
+  - wie ginge es mit NumPy?! **Tipp ist, dass sich beide Pakete ergänzen.  **
 
 Datensatz vom Deutschen Wetterdienst Solarstrahlung (global/diffus) und der atmosphärischen Gegenstrahlung für Deutschland (Kodierung fehlender Werte mit -999) `produkt_st_stunde_20230831_20240630_01303.txt` 
 
-## Datentypen erkennen und festlegen
-
-### NumPy
-np.dtype
-np.astype()
-
-### Pandas 
-Datentypen prüfen geht mit Pandas ziemlich einfach:
-
-pandas.describe()
-pandas.info()
-pandas.dtypes()
-pandas.columns()
-
-df.count() # count of non-missing values in each column
-df.count(axis='columns') # count of non-missing values in each row
-
-
 # Zugriff auf mehrere lokale Dateien: Modul glob
 Das Modul glob
-
-
-
 
 # Datensätze organisieren
 In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturierter Datensätze behandelt und Werkzeuge aus den Modulen NumPy und Pandas vorgestellen, um Probleme zu identifizieren und zu beheben. Dazu wird einführend mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.
@@ -1322,6 +1370,12 @@ Nicholas J. Cox
 Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
 
 :::
+
+## Werte plausibilisieren
+1. zulässigen Wertebereich prüfen
+
+2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen
+Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
 
 # Spezialformate
 
