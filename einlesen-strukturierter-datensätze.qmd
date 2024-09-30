@@ -362,7 +362,7 @@ messung1_long
 ```
 
 
-:::{#tip-pivoting .callout-tip collapse="true"}
+::: {#tip-pivoting .callout-tip collapse="true"}
 ## Musterlösung zweidimensionale Datensätze
 
 ``` {python}
@@ -555,7 +555,7 @@ print(f"Umwandlung in Wahrheitswerte mit bool(): {bool(a), bool(b)}")
 
 Der Datentyp bestimmt zum einen den zulässigen Wertebereich einer Variablen. Beispielsweise sind 0 und 13 zulässige Ganzzahlen, aber keine gültigen Kodierungen des Monats. Zum anderen definiert der Datentyp, welche Operationen mit den Werten zulässig sind und wie diese von Python ausgeführt werden. Dies betrifft Operatoren und Funktionen.
 
-:::{#nte-operation-nach-datentyp .callout-note}
+::: {#nte-operation-nach-datentyp .callout-note}
 # Datentypabhängige Operationen und Funktionen
 
 ``` {python}
@@ -664,7 +664,7 @@ print(daten_mit_nan + 1)
 print("\nSumme des Datensates:", daten_mit_nan.sum())
 ```
 
-:::{#wrn-logicbasepython .callout-warning appearance="simple" collapse="false"}
+::: {#wrn-logicbasepython .callout-warning appearance="simple" collapse="false"}
 ## Achtung Logik!
 
 Die logische Abfrage fehlender Werte unterscheidet sich für `None` und `NaN`. 
@@ -742,6 +742,9 @@ Für beide Module haben sich diese Kürzel etabliert:
 ``` {python}
 import numpy as np
 import pandas as pd
+
+# Deklarieren der Anzahl der Nachkommastellen
+pd.set_option("display.precision", 2)
 ```
 
 ::: {#tip-pypandas .callout-tip collapse="false"}
@@ -772,11 +775,9 @@ NumPy unterstützt folgende Datentypen:
 
 In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas führt aber auch einige zusätzliche Datentypen ein. Eine vollständige Liste finden Sie in der [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/arrays.html). Die wichtigsten zusätzlichen Datentypen sind:
 
-  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `CategoricalDtype`
+  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `dtype = category`
 
-  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `DatetimeTZDtype`
-
-**To Do: eventuell in Extrakasten erklären : Nummern und chr-Codes für die Datentypen.**
+  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `DatetimeTZDtype` **wie heißt der Datentyp?!**
 
 ## Dateien lesen und schreiben
 In den Werkzeugbaustein NumPy und Pandas haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
@@ -818,31 +819,184 @@ In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und 
 ::::
 ::: 
 
-
 ## Datentypen erkennen und festlegen
-hierhier
+Der Datentyp bestimmt, wie bereits ausgeführt, den zulässigen Wertebereich einer Variablen, zulässige Operationen und die Ausführung von Operatoren und Funktionen in Python. Die Module NumPy und Pandas bieten eine Reihe von Funktionen, um den Datentyp von Variablen zu kontrollieren und festzulegen. 
+
+**ergänzen: Datumsformat Hinweis auf Zeitreihen [@sec-zeitreihen]**
 
 ### NumPy
-numpy.loadtxt(fname, dtype=<class 'float'>, comments='#', delimiter=None, converters=None, skiprows=0, usecols=None, unpack=False, ndmin=0, encoding=None, max_rows=None, *, quotechar=None, like=None)
+Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argument `dtype` festgelegt werden `np.loadtxt(fname = data.txt, dtype = 'float'`. Das Argument `dtype` akzeptiert die Angabe eines Datentyps sowie Schlüsselwörter oder Kürzel. Weiter Informationen erhalten Sie in der [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.dtypes.html).
 
-np.dtype
-np.astype()
+| Datentyp | Schlüsselwort | Kürzel | dtype |
+|---|---|---|---|
+| Fließkommazahl | float | f8 | float64 |
+| Ganzzahl | int | i | int32 |
+| Wahrheitswert | bool | ? | bool |
+| Datum | datetime64 | M | datetime64 |
+| Zeichenkette | str | U | U + Ziffer zur Angabe der benötigten Bytes |
 
-### Pandas 
-Datentypen prüfen geht mit Pandas ziemlich einfach:
+Der Datentyp eines Arrays kann mit der Methode `np.dtype` bestimmt werden. Der Datentyp eines Objekts kann mit der Methode `np.array = np.array.astype()` geändert werden.
 
-pandas.describe()
-pandas.info()
-pandas.dtypes()
-pandas.columns()
 
-df.count() # count of non-missing values in each column
-df.count(axis='columns') # count of non-missing values in each row
+Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
 
-Tipp: Spalten immer einen Datentyp zuweisen, auch wenn sie als object eingelesen werden. Wenn es nicht klappt, weiß man, dass Fehler in den Daten sind.
+``` {python}
+dateipfad = 'skript/01-daten/TC01.csv'
+daten = np.loadtxt(dateipfad)
+```
+
+**Prüfen Sie den dtype der Datei und legen Sie eine Kopie des Objekts mit Dateityp Ganzzahl an. Wie kann überprüft werden, ob bei der Umwandlung in Ganzzahlen Nachkommastellen abgeschnitten wurden?**
+
+::: {#tip-numpydatentyp .callout-tip collapse="true"}
+## Musterlösung Datentypumwandlung
+
+``` {python}
+# Ausgabe des Datentyps
+print(daten.dtype)
+
+# Umwandlung in Ganzzahl
+daten_int = daten.astype('int')
+
+# Prüfen auf Datenverlust
+prüfsumme = daten - daten_int
+print(f"Differenz daten - daten_int: {prüfsumme.sum()}")
+
+```
+
+:::
+
+### Pandas
+Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisiert. Den Funktionen zum Einlesen von Daten kann mit dem Argument `dtype` der Datentyp übergeben werden. Für mehrere Spalten ist dies in Form eines Dictionaries in der Form `{'Spaltenname': 'dtype'}` möglich.  
+Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit 'pd.Series = pd.Series.astype()' geändert werden.
+
+#### Vitamin C bei Meerschweinchen
+In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Ein Ausschnitt der Messdaten ist in der Datei ToothGrowth-sample.csv gespeichert (Crampton 1947.)
+
+::: {.border}
+Crampton, E. W. 1947. „THE GROWTH OF THE ODONTOBLASTS OF THE INCISOR TOOTH AS A CRITERION OF THE VITAMIN C INTAKE OF THE GUINEA PIG“. The Journal of Nutrition 33 (5): 491–504. <https://doi.org/10.1093/jn/33.5.491> 
+:::
+
+&nbsp;
+
+ **Lesen Sie die Datei wie folgt ein:**
+
+  - Die Spaltenbeschriftung der 1. Spalte soll mit der Beschriftung 'ID' ersetzt werden (ohne Anführungszeichen).
+  
+  - Die Spalten len und dose sollen mit geeigneten numerischen Datentypen, die Spalte supp als Kategorie eingelesen werden.
+
+::: {#tip-meerschweinchen .callout-tip collapse="true"}
+## Musterlösung Meerschweinchen
+``` {python}
+dateipfad = "skript/01-daten/ToothGrowth.csv"
+meerschweinchen = pd.read_csv(filepath_or_buffer = dateipfad, sep = ',', header = 0, \
+  names = ['ID', 'len', 'supp', 'dose'], dtype = {'ID': 'int', 'len': 'float', 'dose': 'float', 'supp': 'category'})
+
+# Ausgabe jedes sechsten Werts
+meerschweinchen.iloc[meerschweinchen.index % 6 == 0]
+```
+
+``` {python}
+print(meerschweinchen.dtypes)
+```
+
+:::
+
+#### Nützliche Funktionen
+Pandas bietet einige praktische Funktionen, um den Aufbau eines Datensatzes zu beschreiben.
+
+Das Attribut `.columns` gibt die Spaltenbeschriftungen als Liste zurück. Ebenfalls ist darüber ein Schreibzugriff möglich.
+``` {python}
+print(meerschweinchen.columns)
+meerschweinchen.columns = ['ID', 'Länge', 'Verabreichung', 'Dosis']
+```
+
+Die Methode `pd.DataFrame.describe()` erzeugt eine beschreibende Statistik für einen DataFrame. Standardmäßig werden alle numerischen Spalten berücksichtigt. Mit dem Argument `include` können die zu berücksichtigenden Spalten vorgegeben werden. 'all' berücksichtigt alle Spalten, was nicht unbedingt sinnvoll ist. Alternativ kann eine Liste zu berücksichtigender Datentypen übergeben werden. Das Argument `exclude` schließt auf die gleiche Weise Datentypen von der Ausgabe aus.
+
+``` {python}
+print(meerschweinchen.describe(), "\n")
+
+print(meerschweinchen.describe(include = 'all'), "\n")
+
+print(meerschweinchen.describe(include = ['float']), "\n")
+```
+
+Die Methode `pd.DataFrame.count()` zählt alle vorhandenen Werte in jeder Spalte (oder in jeder Zeile mit `pd.DataFrame.count(axis = 'columns')`).
+``` {python}
+meerschweinchen.count(axis = 'rows') # der Standardwert von axis ist 'rows'
+```
+
+Die Methode `pd.DataFrame.info()` erzeugt eine Beschreibung des Datensatzes. 
+``` {python}
+meerschweinchen.info()
+```
+
+Die Methode `pd.unique()` listet alle einzigartigen Werte auf.
+``` {python}
+meerschweinchen['Dosis'].unique()
+```
+
+::: {#tip-pandasinfo .callout-tip collapse="false"}
+## Nützliche Funktionen
+Tipp: Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrollieren. Machen Sie sich die Verwendung von `pd.dtypes` oder `pd.DataFrame.info()` zur Angewohnheit. 
+:::
 
 ### Aufgabe Datentypen
-**Installierte_Erzeugungsleistung_202301010000_202401010000_Jahr.csv einlesen: zwei Datumsspalten, Rest als Integer (abschneiden der Nachkommastellen).**
+Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.
+
+**hierhier Daten nachweisen**
+
+Electricity Prices: table_531.xlsx Tabellenblatt "5.3.1 (excl. taxes)" einlesen
+Department for Energy Security & Net Zero 2024: Energy Prices International Comparisons.
+Industrial electricity prices in the IEA. https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls 30.09.2024 
+
+  - falls die Übung überhaupt relevant ist - sollten alles Floats sein, außer die letzten beiden Spalten Integer
+
+Überleitung: Eine als string eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind.
+
+**ergänzen: np.nonzero() gibt ein tuple zurück, dass man zu einer Liste auflösen muss, um auf die Werte zuzugreifen: `indexposition = np.nonzero(taxes['Republic of Türkiye'] == '..')[0].tolist()`**
+
+::: {#tip-taxes .callout-tip collapse="true"}
+## Musterlösung taxes
+``` {python}
+dateipfad = 'skript/01-daten/table_531.xlsx'
+
+taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
+  header = 8)
+
+taxes.dtypes
+
+```
+
+``` {python}
+# Werte in Spalte 'Republic of Türkiye' ansehen
+taxes['Republic of Türkiye'].unique()
+
+```
+
+``` {python}
+# Variante 1: '..' als fehlenden Wert deklarieren
+# taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
+#   header = 8, na_values = ['..'])
+
+# Variante 2: Index des Werts bestimmen und mit np.NaN überschreiben
+## chained gibt es die Fehlermeldung
+## deprecated: df["col"][row_indexer] = value
+## Use `df.loc[row_indexer, "col"] = values` instead
+# taxes['Republic of Türkiye'].iloc[ indexposition ] = np.NaN
+
+## unchained ist es schwierig
+indexposition = np.nonzero(taxes['Republic of Türkiye'] == '..')[0].tolist()
+print(indexposition)
+
+
+taxes.loc[ indexposition, 'Republic of Türkiye' ] = np.NaN
+
+taxes['Republic of Türkiye'] = taxes['Republic of Türkiye'].astype('float64')
+
+taxes.dtypes
+```
+
+:::
 
 ## Umgang mit fehlenden Werten
 
@@ -855,7 +1009,7 @@ dateipfad = 'skript/01-daten/TC01.csv'
 daten_ohne_fehlende_werte = np.loadtxt(dateipfad)
 
 print("Daten:", daten_ohne_fehlende_werte)
-print("Struktur:", daten_ohne_fehlende_werte.shape)
+print("Struktur:", daten_ohne_fehlende_werte.shape, "dtype:", daten_ohne_fehlende_werte.dtype)
 
 ```
 
@@ -870,7 +1024,7 @@ try:
 except ValueError as error:
   print("Die Eingabe führt zu der Fehlermeldung:\n", error)
 else:
-  print("Daten mit fehlenden Werten '--':", daten_double_hypen) 
+  print("Daten mit fehlenden Werten '--':", daten_double_hypen, "dtype:", daten_double_hypen.dtype) 
   
 ```
 
@@ -883,7 +1037,7 @@ dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
 daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', filling_values = np.nan)
 
 print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
-print("Struktur:", daten_double_hypen.shape)
+print("Struktur:", daten_double_hypen.shape, "dtype:", daten_ohne_fehlende_werte.dtype)
 
 ```
 
@@ -907,7 +1061,7 @@ dateipfad = 'skript/01-daten/TC01_empty_lines.csv'
 daten_empty_lines = np.genfromtxt(dateipfad, missing_values = '', filling_values = np.nan) 
 
 print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
-print("Struktur:", daten_empty_lines.shape)
+print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
 
 ```
 
@@ -948,7 +1102,7 @@ print("\nNach der Stringbearbeitung (Ausschnitt):\n", daten_empty_lines[0:10])
 # Einlesen mit np.genfromtxt
 daten_empty_lines = np.genfromtxt(daten_empty_lines, missing_values = 'platzhalter', filling_values = np.nan)
 print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
-print("Struktur:", daten_empty_lines.shape)
+print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
 ```
 
 :::
@@ -964,7 +1118,7 @@ Ohne Spezifikation des Arguments `delimiter` wird nur eine Spalte eingelesen, di
 dateipfad = 'skript/01-daten/TC01_missing_values_multi_column.csv'
 daten_empty_lines2 = np.genfromtxt(dateipfad, missing_values = '', filling_values = np.nan, ndmin = 2)
 
-print("Struktur:", daten_empty_lines2.shape)
+print("Struktur:", daten_empty_lines2.shape, "dtype:", daten_empty_lines2.dtype)
 print("Die ersten drei Zeilen:\n", daten_empty_lines2[0:3])
 
 ```
@@ -974,7 +1128,7 @@ Wird das Argument `delimiter = ','` übergeben, wird die Datei korrekt eingelese
 # mit Spezifikation von delimiter
 daten_empty_lines2 = np.genfromtxt(dateipfad, delimiter = ',', missing_values = '', filling_values = np.nan, ndmin = 2)
 
-print("Struktur:", daten_empty_lines2.shape)
+print("Struktur:", daten_empty_lines2.shape, "dtype:", daten_empty_lines2.dtype)
 print("\nDaten mit fehlenden Werten '':\n", daten_empty_lines2)
 ```
 :::
@@ -1057,7 +1211,7 @@ else:
 
 ```
 
-**merken: das Objekt wird als object eingelesen, dass wird gleich überprüft.**
+**merken: das Objekt wird als object eingelesen, dass wird gleich überprüft... ich habe Datentypen nach vorne gelegt.**
 
 Mit dem Argument `skip_blank_lines = False` werden leere Zeilen ebenfalls eingelesen. 
 ``` {python}
@@ -1183,7 +1337,7 @@ else:
 
 **Fehlersuche und -bereinigung: abhängig vom verwendeten Paket die benutzten Datentypen prüfen**
 
-:::{#wrn-logicpandas .callout-warning appearance="simple" collapse="false"}
+::: {#wrn-logicpandas .callout-warning appearance="simple" collapse="false"}
 ## Achtung Logik!
 
 Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA`. 
@@ -1295,7 +1449,7 @@ In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturiert
 
 Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
 
-:::{#imp-tidy-data .callout-important}
+::: {#imp-tidy-data .callout-important}
 ## tidy data
 
 :::: {.border}
@@ -1318,7 +1472,7 @@ Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüb
 
 **Hinweis: `dtype=object` erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, `dtype=object` ist eine Liste von Zeigern auf Objekte im Speicher. Dazu habe ich aber nur eine [Erklärung auf Stackoverflow](https://stackoverflow.com/a/29877845) gefunden, aber nichts in der Dokumentation.**
 
-# Zeitreihen
+# Zeitreihen {#sec-zeitreihen}
 Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
 
 Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
@@ -1433,7 +1587,7 @@ Quelle: <https://numpy.org/doc/stable/reference/maskedarray.baseclass.html#numpy
 
 Problemtisch ist die Übergabe des Füllwerts `None`, wenn das initale NumPy-Array None enthält. 
 
-:::{#wrn-fillvalueandnone .callout-warning appearance="simple" collapse="true"}
+::: {#wrn-fillvalueandnone .callout-warning appearance="simple" collapse="true"}
 ## Füllwert bei initialem NumPy-Array mit None
 
 
