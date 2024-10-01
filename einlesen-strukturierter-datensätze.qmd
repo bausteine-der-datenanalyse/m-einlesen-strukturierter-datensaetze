@@ -870,7 +870,7 @@ Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisie
 Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit 'pd.Series = pd.Series.astype()' geändert werden.
 
 #### Vitamin C bei Meerschweinchen
-In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Ein Ausschnitt der Messdaten ist in der Datei ToothGrowth-sample.csv gespeichert (Crampton 1947.)
+In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Die Messdaten sind in der Datei ToothGrowth.csv gespeichert (Crampton 1947.)
 
 ::: {.border}
 Crampton, E. W. 1947. „THE GROWTH OF THE ODONTOBLASTS OF THE INCISOR TOOTH AS A CRITERION OF THE VITAMIN C INTAKE OF THE GUINEA PIG“. The Journal of Nutrition 33 (5): 491–504. <https://doi.org/10.1093/jn/33.5.491> 
@@ -941,22 +941,16 @@ Tipp: Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu k
 :::
 
 ### Aufgabe Datentypen
-Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.
+Das britische Energieministerium veröffentlicht Daten zu den Strompreisen in den Mitgliedsändern der Internationalen Energieagentur. **Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
 
-**hierhier Daten nachweisen**
-
-Electricity Prices: table_531.xlsx Tabellenblatt "5.3.1 (excl. taxes)" einlesen
-Department for Energy Security & Net Zero 2024: Energy Prices International Comparisons.
-Industrial electricity prices in the IEA. https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls 30.09.2024 
-
-  - falls die Übung überhaupt relevant ist - sollten alles Floats sein, außer die letzten beiden Spalten Integer
-
-Überleitung: Eine als string eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind.
-
-**ergänzen: np.nonzero() gibt ein tuple zurück, dass man zu einer Liste auflösen muss, um auf die Werte zuzugreifen: `indexposition = np.nonzero(taxes['Republic of Türkiye'] == '..')[0].tolist()`**
+::: {.border}
+Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
+:::
 
 ::: {#tip-taxes .callout-tip collapse="true"}
 ## Musterlösung taxes
+
+Überspringen der führenden Zeilen mit dem Argument `header = 8`. Auswahl des Tabellenblatts mit `sheet_name = "5.3.1 (excl. taxes)"` und Kontrolle der erkannten Datentypen mit `taxes.dtypes` 
 ``` {python}
 dateipfad = 'skript/01-daten/table_531.xlsx'
 
@@ -967,11 +961,22 @@ taxes.dtypes
 
 ```
 
+Werte in Spalte 'Republic of Türkiye' mit `pd.unique()` ansehen.
 ``` {python}
-# Werte in Spalte 'Republic of Türkiye' ansehen
+
 taxes['Republic of Türkiye'].unique()
 
 ```
+
+Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` ändern.
+
+  - Variante 1: als fehlenden Wert beim Einlesen deklarieren. 
+  
+  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen.
+  
+    - Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus.
+    
+    - Künftig ist folgende Synthax zu verwenden: `df.loc[row_indexer, "col"] = value` 
 
 ``` {python}
 # Variante 1: '..' als fehlenden Wert deklarieren
@@ -979,18 +984,11 @@ taxes['Republic of Türkiye'].unique()
 #   header = 8, na_values = ['..'])
 
 # Variante 2: Index des Werts bestimmen und mit np.NaN überschreiben
-## chained gibt es die Fehlermeldung
-## deprecated: df["col"][row_indexer] = value
-## Use `df.loc[row_indexer, "col"] = values` instead
-# taxes['Republic of Türkiye'].iloc[ indexposition ] = np.NaN
-
-## unchained ist es schwierig
-indexposition = np.nonzero(taxes['Republic of Türkiye'] == '..')[0].tolist()
-print(indexposition)
-
+## verkettetes Slicing funktioniert, gibt aber eine Fehlermeldung aus
+## Slicing mit df.loc[row_indexer, "col"] 
+indexposition = taxes['Republic of Türkiye'] == '..'
 
 taxes.loc[ indexposition, 'Republic of Türkiye' ] = np.NaN
-
 taxes['Republic of Türkiye'] = taxes['Republic of Türkiye'].astype('float64')
 
 taxes.dtypes
@@ -999,6 +997,7 @@ taxes.dtypes
 :::
 
 ## Umgang mit fehlenden Werten
+Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind. Die Module NumPy und Pandas bieten funktionen, um fehlende Werte bereits beim Einlesen zu erkennen und umzuwandeln.
 
 ### NumPy
 Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen mit mehreren Arrays zu Fehlern führen.
@@ -1140,7 +1139,24 @@ Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
 
   - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück.
 
-  - `np.nonzero(np.isnan(array))` gibt ein Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' zurück.
+  - `np.nonzero(np.isnan(array))` gibt ein Tuple zurück, das ein Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' enthält. Auf das Array kann mit `np.nonzero(np.isnan(array))[0]` zugegriffen werden. Je nach Situation kann die Umwandlung in eine Liste nützlich sein `np.nonzero(np.isnan(array))[0].tolist()`.  
+  **Geht das nicht einfacher?! `np.argwhere(np.isnan(array))` ... aber in der Doku steht: The output of argwhere is not suitable for indexing arrays. For this purpose use nonzero(a) instead. <https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html> Mit eindimensionalen Array klappt aber beides, zweidimensional ist es anders**
+
+```
+array = np.array([[1, 2, 3], [4, 5, np.nan]])
+
+>>> np.argwhere(np.isnan(array))
+array([[1, 2]], dtype=int64)
+
+>>> array[np.argwhere(np.isnan(array))]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: index 2 is out of bounds for axis 0 with size 2
+
+>>> array[np.nonzero(np.isnan(array))]
+array([nan])
+
+```
 
   - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große positive sowie -np.inf durch große negative Zahlen.)
 
@@ -1419,14 +1435,102 @@ eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA 
 https://pandas.pydata.org/docs/user_guide/missing_data.html 
 
 ### Aufgabe fehlende Werte
+Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten.
+
+In der Datei produkt_st_stunde_20230831_20240630_01303.txt sind stündliche Stationsmessungen der Solarstrahlung in 
 **Aufgabe von Gianluca: Bestimmen Sie die Kodierung fehlender Werte und ersetzen Sie diese durch `np.nan` bzw. `pd.NA`. Wie viele Werte wurden ersetzt?**  
-produkt_st_stunde_20230831_20240630_01303.txt
 
-  - mit Pandas geht das ganz leicht mit (.describe)
+| Spaltenname | Beschreibung |
+|---|---|
+| STATIONS_ID | Stationsnummer |
+| QN_592 | Qualitätsniveau der Daten |
+| ATMO_LBERG | Stundensumme der atmosphärischen Gegenstrahlung |
+| FD_LBERG | Stundensumme der diffusen solaren Strahlung |
+| FG_LBERG | Stundensumme der Globalstrahlung |
+| SD_LBERG | Stundensumme der Sonnenscheindauer |
+| ZENIT | Zenitwinkel der Sonne 0 - 180 Grad |
 
-  - wie ginge es mit NumPy?! **Tipp ist, dass sich beide Pakete ergänzen.  **
+::: {.border}
+Deutscher Wetterdienst. 2024. Stündliche Stationsmessung der Solarstrahlung (global/diffus) und der atmosphärischen Gegenstrahlung für Deutschland. <https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/solar/stundenwerte_ST_01303_row.zip> Die Spalten MESS_DATUM, MESS_DATUM_WOZ und eor wurden entfernt.
+:::
 
-Datensatz vom Deutschen Wetterdienst Solarstrahlung (global/diffus) und der atmosphärischen Gegenstrahlung für Deutschland (Kodierung fehlender Werte mit -999) `produkt_st_stunde_20230831_20240630_01303.txt` 
+::: {#tip-musterlösungfehlendewerte .callout-tip collapse="true"}
+## Musterlösung fehlende Werte
+
+Mit der Methode `df.info()` ist erkennbar, dass der Datensatz vollständig ist.
+``` {python}
+dateipfad = "skript/01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
+solar = pd.read_csv(dateipfad, sep = ";")
+
+solar.info()
+```
+
+Mit der Methode `df.describe()` wird die deskriptive Statistik für numerische Spalten erstellt.  
+``` {python}
+dateipfad = "skript/01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
+solar = pd.read_csv(dateipfad, sep = ";")
+
+solar.describe()
+```
+
+Drei Spalten weisen als minimalen Wert -999 auf, der inhaltlich nicht sinnvoll ist. Wie oft kommt der Wert -999 in den Spalten vor?
+
+``` {python}
+counting_df = solar[['ATMO_LBERG', 'FD_LBERG', 'FG_LBERG']] == -999
+print(counting_df.sum())
+print("Summe:\t\t ", counting_df.sum().sum())
+```
+
+:::
+
+## Zeitreihen {#sec-zeitreihen}
+Marc fragen, was er so macht: Grobe Themen
+
+  - pandas, matplotlib, scikit-learn?
+
+  - Datenvorbereitung und -bereinigung: Umgang mit fehlenden Werten und Ausreißern
+
+  - Trends und Saisonalität
+
+  - Autokorrelation?
+
+  - Modellierung und Vorhersagen
+
+  - Evaluierung von Vorhersagen
+
+
+Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
+
+Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
+
+naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
+
+**Fehlersuche und -bereinigung: Kalender prüfen**
+
+**Mit Pandas und/oder NumPy SMART-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
+
+### fehlende Werte in Zeitreihen
+NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
+
+  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+  
+  - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
+
+Achtung Logik
+```
+None == None  # noqa: E711
+Out[14]: True
+
+np.nan == np.nan
+Out[15]: False
+
+pd.NaT == pd.NaT
+Out[16]: False
+
+pd.NA == pd.NA
+Out[17]: <NA>
+```
+
 
 # Zugriff auf mehrere lokale Dateien: Modul glob
 Das Modul glob
@@ -1471,39 +1575,6 @@ Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüb
 
 
 **Hinweis: `dtype=object` erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, `dtype=object` ist eine Liste von Zeigern auf Objekte im Speicher. Dazu habe ich aber nur eine [Erklärung auf Stackoverflow](https://stackoverflow.com/a/29877845) gefunden, aber nichts in der Dokumentation.**
-
-# Zeitreihen {#sec-zeitreihen}
-Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
-
-Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
-
-naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
-
-**Fehlersuche und -bereinigung: Kalender prüfen**
-
-**Mit Pandas und/oder NumPy SMART-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
-
-## fehlende Werte in Zeitreihen
-NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
-
-  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>
-  
-  - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
-
-Achtung Logik
-```
-None == None  # noqa: E711
-Out[14]: True
-
-np.nan == np.nan
-Out[15]: False
-
-pd.NaT == pd.NaT
-Out[16]: False
-
-pd.NA == pd.NA
-Out[17]: <NA>
-```
 
 # Räumliche Daten
 netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
