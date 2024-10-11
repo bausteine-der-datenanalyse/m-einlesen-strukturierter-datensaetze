@@ -115,15 +115,15 @@ Das Einlesen strukturierter Datensätze umfasst somit den gesamten Prozess des t
 In der praktischen Datenanalyse helfen zwei einfache Tipps beim Einlesen strukturierter Datensätze:
 
 ::: {#tip-editor .callout-tip collapse="false"}
-**Schauen Sie sich Ihre Daten an, bevor Sie diese mit Python einlesen!** Dafür reicht häufig ein gewöhnlicher Texteditor oder ein Tabellenkalkulationsprogramm. Ein kurzer Blick genügt, um die verwendeten Zeichentrenner, Tausendertrennzeichen, Datumsformate, die Kodierung fehlender Werte und die Unicode-Kodierung (wie UTF-8) zu identifizieren.
+**Schauen Sie sich Ihre Daten an, bevor Sie diese mit Python einlesen!** Dafür reicht ein Texteditor oder ein Tabellenkalkulationsprogramm. Ein kurzer Blick genügt, um die verwendeten Zeichentrenner, Tausendertrennzeichen, Datumsformate, die Kodierung fehlender Werte und die Unicode-Kodierung (wie UTF-8) zu identifizieren.
 :::
   
-Dies ist aber nicht immer möglich, beispielsweise wenn Ihr Datensatz aus hunderten Spalten und Zehntausenden Zeilen besteht. Dieser Baustein vermittelt deshalb die Handwerkszeuge, um Datensätze ausschließlich mit den in Python verfügbaren Mitteln einzulesen.
+Dies ist aber nicht immer möglich, beispielsweise wenn Ihr Datensatz aus hunderten Spalten und zehntausenden Zeilen besteht. Dieser Baustein vermittelt deshalb die Handwerkszeuge, um Datensätze ausschließlich mit den in Python verfügbaren Mitteln einzulesen.
 
-Es ist nicht erforderlich, die Besonderheiten aller hier vorgestellten Pakete und Funktionen auswendig zu beherrschen. Dafür ist das Themenfeld zu komplex und nicht selten ändert sich das Verhalten von Funktionen mit der weiterentwicklung der Programmiersprache. Die hier vorgestellten Besonderheiten von Funktionen sollten Sie allerdings einmal gehört haben, um einen mentalen Anknüpfungspunkt zu haben, wenn Sie in der Praxis auf Probleme stoßen.
+Es ist nicht erforderlich, die Besonderheiten aller hier vorgestellten Pakete und Funktionen auswendig zu beherrschen. Dafür ist das Themenfeld zu komplex und nicht selten ändert sich das Verhalten von Funktionen mit der Weiterentwicklung der Programmiersprache. Die hier vorgestellten Besonderheiten von Funktionen dienen jedoch als mentale Ankerpunkte, die als Anknüpfungspunkt dienen sollen, wenn Sie in der Praxis auf Probleme stoßen.
 
 ::: {#tip-dokumentation .callout-tip collapse="false"}
-**Benutzen Sie die Dokumentation!** Auf diese Weise erhalten Sie einen vollständigen Überblick über standardmäßig gesetzten und optional verfügbaren Parameter. Außerdem erkennen Sie Änderungen in der Programmausführung und vermeiden so unerwartete Fehler.
+**Benutzen Sie die Dokumentation!** Auf diese Weise erhalten Sie einen vollständigen Überblick über standardmäßig gesetzte und optional verfügbare Parameter. Außerdem erkennen Sie Änderungen in der Programmausführung und vermeiden so unerwartete Fehler.
 
 :::: {layout="[1, 1]"}
 
@@ -199,7 +199,7 @@ Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse 
 {{< include _dateien-einlesen-mit-python.md >}}
 
 ### Zweidimensionale Datensätze
-Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**. Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Python stellt das Modul Pandas die DataFrame-Struktur bereit. **hier Querverweis auf w-Pandas** 
+Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**. Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Python stellt das Modul Pandas die DataFrame-Struktur bereit. **[hier Querverweis auf w-Pandas]** 
 
 ::: {.border}
 ![zweidimensionaler Datensatz](skript/00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt="Dargestellt ist ein zweidimensionaler Block, der einen zweidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die zwei Achsen. Die nullte Achse entspricht der Länge (von oben nach unten) und die erste Achse der Breite des Datensatzes."}
@@ -221,19 +221,37 @@ messung1
 
 &nbsp;
 
-Über die Angabe der Indizes entlang der 0. und der 1. Achse kann die Summe der gewürfelten Augen einer Person ausgegeben werden. 
+Über die Angabe der Indizes entlang der 0. (Zeilen) und der 1. Achse (Spalten) kann die Summe der gewürfelten Augen einer Person ausgegeben werden. 
 
 ``` {python}
 
 print(f"Jean würfelte {messung1.iloc[2, 3]} Augen")
 ```
 
-Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei einem eindimensionalen Datensatz den Wert an einer Indexposition aufzurufen.
+Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei einem eindimensionalen Datensatz den Wert an einer Indexposition aufzurufen. Dies wird verkettete Indexierung genannt.
 
 ``` {python}
 
 print(f"Jean würfelte {messung1['Summe Augen'][2]} Augen")
 ```
+
+::: {#wrn-chainedassignment .callout-warning}
+## Verkettete Indexierung
+
+Die verkettete Indexierung erzeugt in Pandas abhängig vom Kontext eine Kopie des Objekts oder greift auf den Speicherbereich des Objekts zu. Mit Pandas 3.0 wird die verkettete Indexierung nicht mehr unterstützt, das Anlegen einer Kopie zum Standard werden. Weitere Informationen erhalten Sie im zitierten Link.
+
+:::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+"Whether a copy or a reference is returned for a setting operation, may depend on the context. This is sometimes called `chained assignment` and should be avoided. See [Returning a View versus Copy](https://pandas.pydata.org/docs/user_guide/indexing.html#indexing-view-versus-copy)."
+
+&nbsp;
+
+::::
+
+([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/indexing.html))
+:::
 
 ### long- und wide-Format
 Zweidimensionale Datensätze werden zumeist in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.
@@ -258,7 +276,7 @@ messung1
 
 &nbsp;
 
-Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables, kurz: measure vars oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Das Modul Pandas bietet die Funktion `pd.melt(frame, id_vars = None)`. Diese erwartet einen DataFrame. Im optionalen Argument `id_vars` wird angegeben, welche Spalten die identifizierenden Variablen sind.
+Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Das Modul Pandas bietet die Funktion `pd.melt(frame, id_vars = None)`. Diese erwartet einen DataFrame. Im optionalen Argument `id_vars` wird angegeben, welche Spalten die identifizierenden Variablen sind.
 
 ``` {python}
 
@@ -351,6 +369,13 @@ print(f"\nDer Datensatz im wide-Format mit zurückgesetztem Index:\n\n{messung1_
 
 ```
 
+::: {#tip-idvars .callout-tip collapse="false"}
+## identifizierende und gemessene Variablen
+
+Auch wenn Sie mit Datensätzen im wide-Format arbeiten, ist die Unterscheidung identifizierender und gemessener Variablen nützlich, um Datensätze zu organisieren. [siehe @sec-tidydata]
+
+:::
+
 ### Übung zweidimensionale Datensätze
 Oben wurde das Objekt messung1_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt.  
 **Benutzen Sie die Funktion** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
@@ -397,7 +422,7 @@ slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bauste
 
 &nbsp;
 
-Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die in den Folgenden Abschnitten behandelt werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit Metadaten (siehe @sec-metadaten) dokumentiert werden können.
+Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die im Abschnitt @sec-spezialformate behandelt werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit Metadaten (siehe @sec-metadaten) dokumentiert werden können.
 
 **optional: Exkurs JSON <https://docs.python.org/3/tutorial/inputoutput.html>**
 
@@ -543,7 +568,7 @@ print(f"Umwandlung in Ganzzahlen mit int(): {( a := int(a) ), (b := int(b) )} - 
 
 print(f"Umwandlung in ASCII-Zeichen mit chr(): {( a := chr(a) ), ( b := chr(b) )}\n")
 
-print(f"Umwandlung in Zahlen mit ord(): {( a := ord(a) ), ( b := ord(b) )}\n")
+print(f"Umwandlung in eine ASCII-Zahl mit ord(): {( a := ord(a) ), ( b := ord(b) )}\n")
 
 print(f"Umwandlung in Fließkommazahlen mit float(): {( a := float(a) ), ( b := float(b) )}\n")
 
@@ -584,21 +609,19 @@ print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.
 
 :::
 
-Deshalb ist es beim Einlesen von Datensätzen wichtig, die korrekte Erkennung der Datentypen zu kontrollieren bzw. aktiv zu steuern. 
-
-**TO DO: Tipps für Strategien der Fehlersuche und -bereinigung sammeln**
-**Strategien der Fehlersuche und -bereinigung: Korrektes Einlesen der Datentypen prüfen (bspw. nicht erkanntes Datetime führt nicht zu einer Fehlermeldung, sondern zum Einlesen als object) bzw. diese explizit spezifizieren, da Operationen auch mit falschen Datentypen fehlerfrei ausgeführt werden können. Listen haben in Python keinen Datentyp, man muss jedes Element prüfen!**
-**Strategien der Fehlersuche und -bereinigung: Einhaltung des zulässigen Wertebereichs überprüfen (mit .describe) --> guter Anfang, um Fehler im Datensatz zu finden (bspw. darf es keinen Monat 0 oder 13 geben).**
+::: {#tip-datatype .callout-tip collapse="false"}
+## Datentyp kontollieren und plausibilisieren
+Beim Einlesen von Datensätzen ist es wichtig, die korrekte Erkennung der Datentypen zu kontrollieren bzw. aktiv zu steuern. Weitere Methoden für die formale Prüfung des Datentyps und für die Kontrolle des Wertebereichs werden in 
+[@sec-numpypandas] vorgestellt.
+::: 
 
 ### Fehlende Werte {#sec-missing}
 Ein besonderer Datentyp ist der zur Repräsentation fehlender Werte. In Python wird zwischen nicht existenten und nicht definierten Werten unterschieden.
 
 #### Nullwert None
-Der sogenannte Nullwert in Python ist `None`. `None` ist sowohl ein Objekt, als auch ein Datentyp der Klasse `NoneType`.
-
+Der sogenannte Nullwert in Python ist `None`, das zu den definierten Schlüsselwörtern in Python gehört.
 ``` {python}
-test = None
-print(type(test))
+print(type(None))
 
 ```
 
@@ -612,15 +635,13 @@ leere_liste == None
 `None` kann Funktionen als Argument übergeben oder von diesen als Rückgabewert ausgegeben werden. Operationen sind mit `None` jedoch nicht möglich. 
 ``` {python}
 # Operationen mit None führen zu Fehlermeldungen
-def my_plusone(item):
-    try:
-      result = item + 1
-    except TypeError as error:
-       print("Der übergebene Wert führt zu der Fehlermeldung:\n", error)
-    else:
-      return result
+try:
+  print(None + 1)
+except TypeError as error:
+  print("Der übergebene Wert führt zu der Fehlermeldung:\n", error)
+else:
+  print(None + 1)
 
-my_plusone(None)
 ```
 
 Eine Ausnahme ist die Umwandlung in eine Zeichenkette.
@@ -634,8 +655,6 @@ str(a)
 
 ```
 
-**Strategien der Fehlersuche und -bereinigung: Variablen mit Datentyp Zeichenkette (oder die als solche eingelesen werden) nach "None" durchsuchen.**
-
 #### NaN
 Um mit fehlenden Werten innerhalb eines Datensatzes arbeiten zu können, gibt es den Wert `NaN`, der zur Klasse der Fließkommazahlen gehört. `NaN` steht für Not a Number und repräsentiert undefinierte oder nicht darstellbare Werte. Beispielsweise berechnet die Methode `pd.diff()` die Differenz jedes Werts zu seinem Vorgänger. Da der erste Wert keinen Vorgänger hat, wird `NaN` erzeugt.
 
@@ -647,18 +666,23 @@ my_series.diff()
 Anders als `None` ist `NaN` kein Standardschlüsselwort in Python. Der Wert `NaN` wird erzeugt mit `float('nan')` oder `float('NaN')`, die Groß- und Kleinschreibung spielt keine Rolle. `NaN` hat also den Datentyp Fließkommazahl. Die Module math und NumPy bieten mit `math.nan` und `np.nan` ebenfalls Funktionen, um `NaN` zu erzeugen.
 
 ``` {python}
-test = float('NaN')
-print(type(test))
+print(type(float('NaN')))
 
 ```
 
 Mit dem Wert 'NaN' können Operationen ausgeführt werden. Das Ergebnis ist immer `NaN`.
 ``` {python}
-print(my_plusone(float('NaN')))
+print(float('NaN') + 1)
 ```
 
-Viele **alle?!** Funktionen können mit `NaN` als Platzhalter für fehlende Werte umgehen.
+Einige Funktionen können mit `NaN` als Platzhalter für fehlende Werte umgehen.
 ``` {python}
+# Python-Basis
+print("sum():", sum([1, 2, float('NaN'), 4]), "\n")
+print("max():", max([1, 2, float('NaN'), 4]), "\n")
+print("any():", any([1, 2, float('NaN'), 4]), "\n")
+
+# Pandas
 daten_mit_nan = pd.Series([1, 2, float('NaN'), 4])
 print(daten_mit_nan + 1)
 print("\nSumme des Datensates:", daten_mit_nan.sum())
@@ -677,7 +701,7 @@ for element in bool_values:
   print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
-Dies gilt auch für den logischen Identitätsabgleich.
+Dies gilt auch für die logische Identität.
 ``` {python}
 for element in bool_values:
   result = element == element
@@ -693,13 +717,18 @@ In Datensätzen übliche Werte sind:
 
   - kein Eintrag, beispielsweise in kommaseparierten Dateien eine leere Zeichenkette `""`
 
-  - definierte Zeichenfolge: `NA` (in der Programmiersprache R), `NULL` (in der Datenbanksprache SQL), `.` (in der Statistik-Software Stata)
+  - definierte Zeichenfolge: `NA` in der Programmiersprache R, `NULL` in der Datenbanksprache SQL, `.` in der Statistik-Software Stata
   
   - (mehrere) manuell gewählte Zeichen oder Ziffern außerhalb des zulässigen Wertebereichs wie -1, -88, -99 (häufig bei Umfragedaten)
 
-Die Art der Kennzeichnung ist jeweils mit Vor- und Nachtteilen verbunden. Eine definierte Zeichenfolge für fehlende Werte hilft dabei, Lücken im Datensatz von Fehlern bei der Datenerfassung zu unterscheiden. Dazu ist eine definierte Zeichenfolge wie "NA" besser als eine leere Zeichenkette geeignet, führt aber auch leicht dazu, dass ein numerischer Datensatz als Zeichenkette erkannt wird. Manuell gewählte Werte erlauben es, bei der automatischen Auswertung eines Datensatzes abhängig von der Situation ein bestimmtes Verhalten für jede Variable festzulegen (z. B. Unterscheidung von nicht zutreffend, Aussage verweigert, weiß nicht, Interview abgebrochen keine Antwort).
+Die Art der Kennzeichnung ist jeweils mit Vor- und Nachteilen verbunden. Eine definierte Zeichenfolge für fehlende Werte hilft dabei, Lücken im Datensatz von Fehlern bei der Datenerfassung zu unterscheiden. Dazu ist eine definierte Zeichenfolge wie "NA" besser als eine leere Zeichenkette geeignet. Manuell gewählte Werte erlauben es, bei der automatischen Auswertung eines Datensatzes abhängig von der Situation ein bestimmtes Verhalten für jede Variable festzulegen (z. B. Unterscheidung von nicht zutreffend, Aussage verweigert, weiß nicht, Interview abgebrochen keine Antwort). 
 
-**Fehlersuche und -bereinigung: Man sollte sich über die im Dateiformat gängige Kennzeichnung fehlender Werte bewusstsein bzw. sich informieren. Hilfreich ist außerdem die Kenntnis disziplinärer Konventionen.**
+::: {#tip-missingvalues .callout-tip collapse="false"}
+## fehlende Werte
+
+Die Identifizierung und ggf. Bereinigung fehlender Werte ist ein wichtiger Schritt beim Einlesen strukturierter Datensätze. Dabei hilft es, die gängigen Kennzeichnungen für fehlende Werte zu kennen und sich über die Konventionen des jeweiligen Dateiformats bzw. der jeweiligen Disziplin zu informieren. Dennoch ist manchmal ein gewisser Spürsinn unerlässlich. Geeignete Funktionen zur Identifizierung fehlender Werte werden in @sec-numpypandas vorgestellt.
+
+:::
 
 ## Metadaten {#sec-metadaten}
 Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben beispielsweise an:
@@ -720,9 +749,14 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
 Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (**Beispiel: SMARD-Daten**), in Spaltenbeschriftungen (**Beispiel: Zeitzone im österreichischen Strommarktdatensatz**), in zusätzlichen Tabellenblättern (**Beispiel besorgen**) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) **DWD-Daten von Jean-Luca**.
 
-**Fehlersuche und -vermeidung: Datensätze und, sofern vorhanden Begleitmaterialien, erst einmal angucken (Dateiname, ggf. Tabellenblätter und Spaltenbeschriftungen mit einem Tabellenkalkulationsprogramm kontrollieren.)**
+::: {#tip-metadata .callout-tip collapse="false"}
+## Metadaten
+Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, sofern vorhanden, studiert werden. 
 
-# Strukturierte Datensätze einlesen: die Module NumPy und Pandas
+**Hier Querverweis auf w-rechtliche Grundlagen Datenmanagement**
+:::
+
+# Strukturierte Datensätze einlesen: die Module NumPy und Pandas {#sec-numpypandas}
 Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. In den folgenden Abschnitten werden beide Module behandelt.
 
 Eine kurze Übersicht der Vor- und Nachteile:
@@ -777,10 +811,10 @@ In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas f
 
   - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `dtype = category`
 
-  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `DatetimeTZDtype` **wie heißt der Datentyp?!**
+  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `dtype='datetime64[ns, US/Eastern]'`
 
 ## Dateien lesen und schreiben
-In den Werkzeugbaustein NumPy und Pandas haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
+In den Werkzeugbausteinen NumPy und Pandas haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
 
 ::: {.panel-tabset}
 ## NumPy
@@ -825,7 +859,7 @@ Der Datentyp bestimmt, wie bereits ausgeführt, den zulässigen Wertebereich ein
 **ergänzen: Datumsformat Hinweis auf Zeitreihen [@sec-zeitreihen]**
 
 ### NumPy
-Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argument `dtype` festgelegt werden `np.loadtxt(fname = data.txt, dtype = 'float'`. Das Argument `dtype` akzeptiert die Angabe eines Datentyps sowie Schlüsselwörter oder Kürzel. Weiter Informationen erhalten Sie in der [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.dtypes.html).
+Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argument `dtype` festgelegt werden `np.loadtxt(fname = data.txt, dtype = 'float')`. Das Argument `dtype` akzeptiert die Angabe eines Datentyps, Schlüsselwörter oder Kürzel. Weiter Informationen erhalten Sie in der [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.dtypes.html).
 
 | Datentyp | Schlüsselwort | Kürzel | dtype |
 |---|---|---|---|
@@ -835,7 +869,7 @@ Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argum
 | Datum | datetime64 | M | datetime64 |
 | Zeichenkette | str | U | U + Ziffer zur Angabe der benötigten Bytes |
 
-Der Datentyp eines Arrays kann mit der Methode `np.dtype` bestimmt werden. Der Datentyp eines Objekts kann mit der Methode `np.array = np.array.astype()` geändert werden.
+Der Datentyp eines Arrays kann mit dem Attribut `np.dtype` bestimmt werden. Der Datentyp eines Objekts kann mit der Methode `np.array = np.array.astype()` geändert werden.
 
 
 Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
@@ -867,7 +901,7 @@ print(f"Differenz daten - daten_int: {prüfsumme.sum()}")
 
 ### Pandas
 Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisiert. Den Funktionen zum Einlesen von Daten kann mit dem Argument `dtype` der Datentyp übergeben werden. Für mehrere Spalten ist dies in Form eines Dictionaries in der Form `{'Spaltenname': 'dtype'}` möglich.  
-Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit 'pd.Series = pd.Series.astype()' geändert werden.
+Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit `pd.Series = pd.Series.astype()` geändert werden.
 
 #### Vitamin C bei Meerschweinchen
 In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Die Messdaten sind in der Datei ToothGrowth.csv gespeichert (Crampton 1947.)
@@ -901,16 +935,17 @@ print(meerschweinchen.dtypes)
 
 :::
 
-#### Nützliche Funktionen
+#### Nützliche Funktionen zur Beschreibung von Datensätzen
 Pandas bietet einige praktische Funktionen, um den Aufbau eines Datensatzes zu beschreiben.
 
 Das Attribut `.columns` gibt die Spaltenbeschriftungen als Liste zurück. Ebenfalls ist darüber ein Schreibzugriff möglich.
 ``` {python}
 print(meerschweinchen.columns)
 meerschweinchen.columns = ['ID', 'Länge', 'Verabreichung', 'Dosis']
+print(meerschweinchen.columns)
 ```
 
-Die Methode `pd.DataFrame.describe()` erzeugt eine beschreibende Statistik für einen DataFrame. Standardmäßig werden alle numerischen Spalten berücksichtigt. Mit dem Argument `include` können die zu berücksichtigenden Spalten vorgegeben werden. 'all' berücksichtigt alle Spalten, was nicht unbedingt sinnvoll ist. Alternativ kann eine Liste zu berücksichtigender Datentypen übergeben werden. Das Argument `exclude` schließt auf die gleiche Weise Datentypen von der Ausgabe aus.
+Die Methode `pd.DataFrame.describe()` erzeugt eine beschreibende Statistik für einen DataFrame. Standardmäßig werden alle numerischen Spalten berücksichtigt. Mit dem Argument `include` können die zu berücksichtigenden Spalten vorgegeben werden. `include = all` berücksichtigt alle Spalten, was nicht unbedingt sinnvoll ist. Alternativ kann eine Liste zu berücksichtigender Datentypen übergeben werden. Das Argument `exclude` schließt auf die gleiche Weise Datentypen von der Ausgabe aus.
 
 ``` {python}
 print(meerschweinchen.describe(), "\n")
@@ -920,7 +955,7 @@ print(meerschweinchen.describe(include = 'all'), "\n")
 print(meerschweinchen.describe(include = ['float']), "\n")
 ```
 
-Die Methode `pd.DataFrame.count()` zählt alle vorhandenen Werte in jeder Spalte (oder in jeder Zeile mit `pd.DataFrame.count(axis = 'columns')`).
+Die Methode `pd.DataFrame.count()` zählt alle vorhandenen Werte in jeder Spalte oder  mit `pd.DataFrame.count(axis = 'columns')` in jeder Zeile.
 ``` {python}
 meerschweinchen.count(axis = 'rows') # der Standardwert von axis ist 'rows'
 ```
@@ -937,18 +972,19 @@ meerschweinchen['Dosis'].unique()
 
 ::: {#tip-pandasinfo .callout-tip collapse="false"}
 ## Nützliche Funktionen
-Tipp: Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrollieren. Machen Sie sich die Verwendung von `pd.dtypes` oder `pd.DataFrame.info()` zur Angewohnheit. 
+Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrollieren. Machen Sie sich die Verwendung von `pd.dtypes` oder `pd.DataFrame.info()` zur Angewohnheit. 
 :::
 
 ### Aufgabe Datentypen
-Das britische Energieministerium veröffentlicht Daten zu den Strompreisen in den Mitgliedsändern der Internationalen Energieagentur. **Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
+Das britische Energieministerium veröffentlicht Daten zu den Industriestrompreisen in den Mitgliedsändern der Internationalen Energieagentur.  
+**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
 
 ::: {.border}
 Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
 :::
 
 ::: {#tip-taxes .callout-tip collapse="true"}
-## Musterlösung taxes
+## Musterlösung 5.3.1 (excl. taxes)
 
 Überspringen der führenden Zeilen mit dem Argument `header = 8`. Auswahl des Tabellenblatts mit `sheet_name = "5.3.1 (excl. taxes)"` und Kontrolle der erkannten Datentypen mit `taxes.dtypes` 
 ``` {python}
@@ -984,11 +1020,9 @@ Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` änd
 #   header = 8, na_values = ['..'])
 
 # Variante 2: Index des Werts bestimmen und mit np.NaN überschreiben
-## verkettetes Slicing funktioniert, gibt aber eine Fehlermeldung aus
-## Slicing mit df.loc[row_indexer, "col"] 
 indexposition = taxes['Republic of Türkiye'] == '..'
 
-taxes.loc[ indexposition, 'Republic of Türkiye' ] = np.NaN
+taxes.loc[indexposition, 'Republic of Türkiye'] = np.NaN
 taxes['Republic of Türkiye'] = taxes['Republic of Türkiye'].astype('float64')
 
 taxes.dtypes
@@ -997,7 +1031,7 @@ taxes.dtypes
 :::
 
 ## Umgang mit fehlenden Werten
-Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind. Die Module NumPy und Pandas bieten funktionen, um fehlende Werte bereits beim Einlesen zu erkennen und umzuwandeln.
+Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind. Die Module NumPy und Pandas bieten Funktionen, um fehlende Werte bereits beim Einlesen zu erkennen und umzuwandeln.
 
 ### NumPy
 Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen mit mehreren Arrays zu Fehlern führen.
@@ -1012,7 +1046,7 @@ print("Struktur:", daten_ohne_fehlende_werte.shape, "dtype:", daten_ohne_fehlend
 
 ```
 
-Angenommen, Sie haben eine zweite Messung durchgeführt und möchten die Differenz beider Datensätze berechnen. In der zweiten Messung haben Sensorfehler zu fehlenden Werten geführt, die mit '--' markiert sind. Die Funktion `np.loadtxt()` kann jedoch mit fehlenden Werten nicht umgehen und gibt eine Fehlermeldung zurück. 
+Angenommen, Sie haben eine zweite Messung durchgeführt und möchten die Differenz beider Datensätze berechnen. In der zweiten Messung haben Sensorfehler zu fehlenden Werten geführt, die mit `--` markiert sind. Die Funktion `np.loadtxt()` kann jedoch mit fehlenden Werten nicht umgehen und gibt eine Fehlermeldung zurück. 
 
 ``` {python}
 
@@ -1140,29 +1174,111 @@ Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
   - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück.
 
   - `np.nonzero(np.isnan(array))` gibt ein Tuple zurück, das ein Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' enthält. Auf das Array kann mit `np.nonzero(np.isnan(array))[0]` zugegriffen werden. Je nach Situation kann die Umwandlung in eine Liste nützlich sein `np.nonzero(np.isnan(array))[0].tolist()`.  
-  **Geht das nicht einfacher?! `np.argwhere(np.isnan(array))` ... aber in der Doku steht: The output of argwhere is not suitable for indexing arrays. For this purpose use nonzero(a) instead. <https://numpy.org/doc/stable/reference/generated/numpy.argwhere.html> Mit eindimensionalen Array klappt aber beides, zweidimensional ist es anders**
+  Eine ähnliche Funktion ist `np.argwhere(np.isnan(array))`, deren Ausgabe aber nicht für das Slicing mehrdimensionaler Arrays geeignet ist (siehe folgendes Beispiel).  
 
-```
-array = np.array([[1, 2, 3], [4, 5, np.nan]])
+::: {#nte-npargwhere .callout-note collapse="true"}
+## Die Funktion np.argwhere()
 
->>> np.argwhere(np.isnan(array))
-array([[1, 2]], dtype=int64)
+Eine andere Funktion, um die Indexposition eines Werts zu bestimmen, ist die Funktion `np.argwhere()`. Der Aufruf der Funktion `np.argwhere(np.isnan(array))` gibt ein NumPy-Array mit den Indexposition Elemente mit dem Wert `NaN` zurück. 
 
->>> array[np.argwhere(np.isnan(array))]
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-IndexError: index 2 is out of bounds for axis 0 with size 2
+``` {python}
+array = np.array([[1, np.nan, np.nan], [4, 5, np.nan]])
+print(array)
 
->>> array[np.nonzero(np.isnan(array))]
-array([nan])
-
+np.argwhere(np.isnan(array))
 ```
 
-  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große positive sowie -np.inf durch große negative Zahlen.)
+Das mit `np.argwhere()` erzeugte Array ist aber nicht geeignet, um Arraybereiche auszuwählen.
+
+``` {python}
+try:
+  array[np.argwhere(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.argwhere(np.isnan(array))]) 
+
+```
+
+Zum Vergleich mit `np.nonzero()`
+
+``` {python}
+try:
+  array[np.nonzero(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.nonzero(np.isnan(array))]) 
+
+
+```
+
+:::: {#wrn-npargwhere .callout-warning appearance="simple" collapse="false"}
+## Die Funktion np.arghwhere()
+Die Auswahl von Array-Bereichen mit `np.argwhere()` funktioniert für eindimensionale Arrays.
+``` {python}
+array = np.array([1, np.nan, np.nan, 4, 5])
+
+try:
+  array[np.argwhere(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.argwhere(np.isnan(array))]) 
+```
+
+::::
+:::
+
+  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große positive sowie -np.inf durch große negative Zahlen.)  
+  Die Ersetzung eines bestimmten Werts ist auch mit einem logischen Vektor möglich (siehe folgendes Beispiel).
+
+::: {#nte-vectorslicing .callout-note collapse="true"}
+## Wertzuweisung mit logischem Vektor
+Die Ersetzung eines bestimmten Werts ist auch durch die Auswahl bestimmter Array-Bereiche durch einen logischen Vektor möglich.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+b = np.isnan(a)
+
+a[b] = 0
+
+print(a)
+```
+
+Dabei können mehrere Bedingungen in Form eines logischen ODER kombiniert werden. Der Operator + bewirkt das gleiche wie der logische Operator `or`.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+bedingung1 = np.isnan(a)
+
+bedingung2 = a >= 5
+
+bedingung = bedingung1 + bedingung2
+
+a[bedingung] = 0
+
+print(a)
+```
+
+Auch ein logisches UND ist möglich (aber in Verbindung mit np.NaN nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and`.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+bedingung1 = a < 4
+
+bedingung2 = a >= 1
+
+bedingung = bedingung1 * bedingung2
+
+a[bedingung] = 0
+
+print(a)
+```
+
+:::
 
   - `np.delete(arr = array, obj)` gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert `NaN` werden so gelöscht: `np.delete(array, obj = np.nonzero(np.isnan(array)))`  
-
-**Kleine Aufgabe zwischendurch: Die Funktion `np.argwhere(np.array == np.nan)` soll die Indizes der Elemente zurückgeben, die den Wert np.nan haben. Warum ist die Liste immer leer?**  
 
 NumPy wandelt `None` nicht automatisch in `NaN` um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
 
@@ -1173,7 +1289,7 @@ print(np_array_with_none, np_array_with_none.dtype)
 
 ```
 
-**Aufgabe: Wie kann `None` durch `np.nan` ersetzt werden?**
+**Aufgabe: Wie kann im Array np_array_with_none `None` durch `np.nan` ersetzt werden?**
 
 ::: {#tip-numpynone .callout-tip collapse="true"}
 ## Lösung
@@ -1227,8 +1343,6 @@ else:
 
 ```
 
-**merken: das Objekt wird als object eingelesen, dass wird gleich überprüft... ich habe Datentypen nach vorne gelegt.**
-
 Mit dem Argument `skip_blank_lines = False` werden leere Zeilen ebenfalls eingelesen. 
 ``` {python}
 dateipfad = 'skript/01-daten/TC01_empty_lines.csv'
@@ -1246,7 +1360,7 @@ Pandas verwendet abhängig vom Datentyp verschiedene Werte zur Kennzeichnung feh
 
   - `numpy.nan` für NumPy-Datentypen. Hierbei wird der Datentyp automatisch in `np.float64` oder `object` konvertiert.
 
-  - `NA` für Zeichenketten und Ganzzahlen. Der Datentyp bleibt erhalten.
+  - `pd.NA` für Zeichenketten und Ganzzahlen. Der Datentyp bleibt erhalten.
 
 Einlesen der Datei TC01_empty_lines.csv als string:
 ``` {python}
@@ -1261,7 +1375,7 @@ else:
 
 ```
 
-`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein erweiterter Pandas Dateityp benötigt (siehe das folgende Beispiel).
+`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein Pandas-Dateityp benötigt (siehe das folgende Beispiel).
 
 ::: {#nte-pdNA .callout-note collapse="true"}
 ## pd.Series mit np.nan und pd.NA
@@ -1351,7 +1465,7 @@ else:
 
 :::
 
-**Fehlersuche und -bereinigung: abhängig vom verwendeten Paket die benutzten Datentypen prüfen**
+&nbsp;
 
 ::: {#wrn-logicpandas .callout-warning appearance="simple" collapse="false"}
 ## Achtung Logik!
@@ -1372,7 +1486,7 @@ for element in bool_values:
 
 ```
 
-Dies gilt auch für den logischen Identitätsabgleich.
+Dies gilt auch für die logische Identität.
 ``` {python}
 
 bool_values = [None, float('NaN'), pd.NA]
@@ -1430,15 +1544,10 @@ print(pd.Series([pd.NA]).cumprod())
 
 Das Verhalten von Methoden wie `pd.Series.sum()` und von Methoden wie `pd.Series.min()` hat für Datenreihen einen vergleichbaren Effekt, produziert für einzelne Werte jedoch unterschiedliche Ergebnisse.
 
-eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna**
-
-https://pandas.pydata.org/docs/user_guide/missing_data.html 
+eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna** (<https://pandas.pydata.org/docs/user_guide/missing_data.html>)
 
 ### Aufgabe fehlende Werte
-Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten.
-
-In der Datei produkt_st_stunde_20230831_20240630_01303.txt sind stündliche Stationsmessungen der Solarstrahlung in 
-**Aufgabe von Gianluca: Bestimmen Sie die Kodierung fehlender Werte und ersetzen Sie diese durch `np.nan` bzw. `pd.NA`. Wie viele Werte wurden ersetzt?**  
+Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten. In der Datei produkt_st_stunde_20230831_20240630_01303.txt sind stündliche Stationsmessungen der Solarstrahlung in Essen-Bredeney gespeichert.
 
 | Spaltenname | Beschreibung |
 |---|---|
@@ -1453,6 +1562,10 @@ In der Datei produkt_st_stunde_20230831_20240630_01303.txt sind stündliche Stat
 ::: {.border}
 Deutscher Wetterdienst. 2024. Stündliche Stationsmessung der Solarstrahlung (global/diffus) und der atmosphärischen Gegenstrahlung für Deutschland. <https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/solar/stundenwerte_ST_01303_row.zip> Die Spalten MESS_DATUM, MESS_DATUM_WOZ und eor wurden entfernt.
 :::
+
+&nbsp;
+
+**Bestimmen Sie die Kodierung fehlender Werte und ersetzen Sie diese durch `np.nan` bzw. `pd.NA`. Wie viele Werte wurden ersetzt?**  
 
 ::: {#tip-musterlösungfehlendewerte .callout-tip collapse="true"}
 ## Musterlösung fehlende Werte
@@ -1484,7 +1597,126 @@ print("Summe:\t\t ", counting_df.sum().sum())
 :::
 
 ## Zeitreihen {#sec-zeitreihen}
-Marc fragen, was er so macht: Grobe Themen
+Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschiedene Module ermöglicht:
+
+  - Das Modul time stellt Zeit- und Datumsoperationen mit Objekten vom Typ `struct_time` bereit. ([Dokumentation des Moduls time](https://docs.python.org/3/library/time.html))
+
+       - Das Modul datetime führt die Datentypen `datetime` und `timedelta`, zusätzliche Methoden für die Bearbeitung und die Ausgabe von Datums- und Zeitinformationen ein. Das Modul kann Jahreszahlen von 1 bis 9999 nach unserer Zeitrechnung im Gregorianischen Kalender verarbeiten. ([Dokumentation des Moduls datetime](https://docs.python.org/3/library/datetime.html#))
+       
+       - Das Modul calendar führt verschiedene Kalenderfunktionen ein und erweitert den verarbeitbaren Zeitraum. Basierend auf dem Gregorianischen Kalender reicht dieser in beide Richtungen ins Unendliche. ([Dokumentation des Moduls calendar](https://docs.python.org/3/library/calendar.html#module-calendar))
+
+   - NumPy führt die Datentypen `datetime64` und `timedelta64` ein. Dieser basiert auf dem Gregorianischen Kalender und reicht in beide Richtungen ins Unendliche. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+
+  - Pandas nutzt die NumPy-Datentypen `datetime64` und `timedelta64`. <https://pandas.pydata.org/docs/user_guide/timeseries.html>
+
+### Vom Anbeginn der Zeit: alles ist relativ 
+Python speichert Zeit relativ zu einem zeitlichen Bezugspunkt, der sogenannten Epoche. 
+
+``` {python}
+# time
+import time as time
+print(time.gmtime(0))
+
+# datetime
+import datetime as datetime
+print("datetime:", datetime.datetime.fromtimestamp(0))
+
+# NumPy
+import numpy as np
+print("NumPy:", np.datetime64(0, 's'))
+
+# pandas
+import pandas as pd
+print("Pandas:", pd.to_datetime(0))
+
+```
+
+**Aufgabe:** Schauen Sie in die Dokumentation von `time.gmtime()` (<https://docs.python.org/3/library/time.html#time.gmtime>).
+
+  - Welcher Wochentag war am "Anbeginn der Zeit"
+
+  - Was bedeutet `tm_isdst=0`
+
+Noch einmal prüfen: Basiert nur NumPy oder alle auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+
+
+### Von Magie und Drachen: Zeitzonen und Kalender
+Zeitzonen, Sommerzeit und Schaltjahren 
+
+Die Epoche des time-Moduls ist die Unix-Zeit und beginnt am 1. Januar 1970, 00:00:00 Uhr UTC. UTC steht für Coordinated Universal Time (auch bekannt als Greenwich Mean Time). Das Kürzel UTC ist ein Kompromiss für die englische und die französische Sprache. 
+
+::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+"DST is Daylight Saving Time, an adjustment of the timezone by (usually) one hour during part of the year. DST rules are magic (determined by local law) and can change from year to year. The C library has a table containing the local rules (often it is read from a system file for flexibility) and is the only source of True Wisdom in this respect."
+
+&nbsp;
+
+:::
+
+
+#### Kalender
+Chinesisches Jahr des Drachen
+Der von den Modulen calendar, NumPy (und Pandas?!) verwendete, vor die Zeit seiner Einführung 1582 erweiterte Gregorianische Kalender heißt [propleptischer Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar)
+
+Mögliche Aufgabe: Kalender hin und her konvertieren
+
+
+### Datum + Zeit = datetime
+
+In NumPy: "Datetimes are always stored with an epoch of 1970-01-01T00:00. This means the supported dates are always a symmetric interval around the epoch, called “time span” in the table below."
+
+
+#### NumPy
+Noch einmal prüfen: Basiert [Nur NumPy oder alle?] auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+
+  - date units are years (‘Y’), months (‘M’), weeks (‘W’), and days (‘D’)
+
+  - time units are hours (‘h’), minutes (‘m’), seconds (‘s’), milliseconds (‘ms’), and some additional SI-prefix seconds-based units. [sollte bis Attosekunde gehen]
+
+np.datetime64(1, 'Y')
+np.datetime64('1971')
+
+Using months for the unit:
+
+np.datetime64('2005-02')
+np.datetime64('2005-02')
+
+Specifying just the month, but forcing a ‘days’ unit:
+
+np.datetime64('2005-02', 'D')
+np.datetime64('2005-02-01')
+
+From a date and time:
+
+np.datetime64('2005-02-25T03:30')
+np.datetime64('2005-02-25T03:30')
+
+Ausrechnen, wie alt man ist: np.datetime64('2024-10-04') - np.datetime64('1984-07-26')
+numpy.timedelta64(14680,'D')
+
+Find the difference
+
+some date - XY = some other date
+
+### Naive und bewusste Objekte
+Datetime-Objekte werden abhängig davon, ob sie Informationen über Zeitzonen enthalten, als naiv (naive) oder als bewusst (aware) bezeichnet. Naiven datetime-Objekten fehlt diese Information, bewusste datetime-Objekte enthalten diese. Objekte der Module time, datetime und pandas verfügen über ein Zeitzonenattribut, sind also bewusst. `np.datetime64` ist seit Numpy-Version 1.11.0 ein naiver Datentyp, unterstützt aber Zeitzonen aus Gründen der Rückwärtskompatibilität.
+
+:::
+Deprecated since version 1.11.0: NumPy does not store timezone information. For backwards compatibility, datetime64 still parses timezone offsets, which it handles by converting to UTC±00:00 (Zulu time). This behaviour is deprecated and will raise an error in the future.  
+<https://numpy.org/doc/stable/reference/arrays.datetime.html>
+:::
+
+Pandas kann das wohl: https://pandas.pydata.org/docs/reference/api/pandas.DatetimeIndex.tz_localize.html
+datetime and time objects have an optional time zone information attribute, tzinfo, that can be set to an instance of a subclass of the abstract tzinfo class. (https://docs.python.org/3/library/datetime.html#)
+
+
+
+
+
+::: {.border}
+#### Grobe Planung a-Analyse von Zeitdaten
 
   - pandas, matplotlib, scikit-learn?
 
@@ -1498,6 +1730,7 @@ Marc fragen, was er so macht: Grobe Themen
 
   - Evaluierung von Vorhersagen
 
+::::
 
 Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
 
@@ -1512,24 +1745,39 @@ naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc
 ### fehlende Werte in Zeitreihen
 NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
 
-  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
+  `NAT`, in any combination of lowercase/uppercase letters, for a “Not A Time” 
   
   - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
 
-Achtung Logik
+::: {#wrn-logicNaT .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA` und `pd.NaT`. 
+``` {python}
+bool_values = [None, float('NaN'), pd.NA, pd.NaT]
+
+for element in bool_values:
+  try:
+    bool_value = bool(element)
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wahrheitswert von", element, "ist", bool_value)
 ```
-None == None  # noqa: E711
-Out[14]: True
 
-np.nan == np.nan
-Out[15]: False
-
-pd.NaT == pd.NaT
-Out[16]: False
-
-pd.NA == pd.NA
-Out[17]: <NA>
+Dies gilt auch für die logische Identität.
+``` {python}
+for element in bool_values:
+  try:
+    result = element == element
+  except TypeError as error:
+      print(error)
+  else:
+    print("Identität von", element, "ist", result)
 ```
+
+:::
 
 
 # Zugriff auf mehrere lokale Dateien: Modul glob
@@ -1538,7 +1786,7 @@ Das Modul glob
 # Datensätze organisieren
 In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturierter Datensätze behandelt und Werkzeuge aus den Modulen NumPy und Pandas vorgestellen, um Probleme zu identifizieren und zu beheben. Dazu wird einführend mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.
 
-## Tidy data
+## Tidy data {#sec-tidydata}
 **Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python [und den fehlenden Spaltenbeschriftungen in Numpy])**
 
 ::: {.border layout="[5, 90, 5]"}
@@ -1556,21 +1804,27 @@ Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein
 ::: {#imp-tidy-data .callout-important}
 ## tidy data
 
-:::: {.border}
+:::: {.border layout="[[5, 90, 5], [1]]"}
 
-Das System tidy data besteht aus drei Regeln:
+&nbsp;
+
+::::: {}
+"Das System tidy data besteht aus drei Regeln:
 
 1. Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.
 
 2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
 
-3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert.
+3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert."
+:::::
+
+&nbsp;
 
 [@R-for-Data-Science, Kapitel 5 Data tidying]
 ::::
 :::
 
-Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Wenn die Datenanalyse mit einer anderen Struktur leichter durchgeführt werden kann, dann ist das in Ordnung. 
+Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Es ist völlig in Ordnung, eine andere Struktur zu wählen, Wenn die Datenanalyse damit leichter durchgeführt werden kann. 
 
 
 
@@ -1602,7 +1856,7 @@ Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9.
 2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen
 Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
 
-# Spezialformate
+# Spezialformate {#sec-spezialformate}
 
 ## HDF, netCDF
 https://stackoverflow.com/questions/28170623/how-to-read-hdf5-files-in-python

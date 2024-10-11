@@ -11,10 +11,16 @@ Die Bearbeitungszeit dieses Bausteins beträgt circa **Platzhalter**. Für die B
 
   - Modul Matplotlib
 
-Im Baustein werden **XY** Daten verwendet.
+  - **ggf. xarray**
+
+Im Baustein werden folgende Daten verwendet:
+
+  - **Platzhalter**
 
 Querverweis auf:
 
   - w-NumPy
 
   - w-Pandas
+
+  - w-rechtliche Grundlagen Datenmanagement
