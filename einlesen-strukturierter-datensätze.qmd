@@ -1596,48 +1596,142 @@ print("Summe:\t\t ", counting_df.sum().sum())
 
 :::
 
-## Zeitreihen {#sec-zeitreihen}
-Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschiedene Module ermöglicht:
+**die grundlegenden Informationen werden in den w-Python ausgelagert: Module, Epoche, [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) (pd.Timestamp usw.)**
 
-  - Das Modul time stellt Zeit- und Datumsoperationen mit Objekten vom Typ `struct_time` bereit. ([Dokumentation des Moduls time](https://docs.python.org/3/library/time.html))
+{{< include _zeitreihen-python.md >}}
 
-       - Das Modul datetime führt die Datentypen `datetime` und `timedelta`, zusätzliche Methoden für die Bearbeitung und die Ausgabe von Datums- und Zeitinformationen ein. Das Modul kann Jahreszahlen von 1 bis 9999 nach unserer Zeitrechnung im Gregorianischen Kalender verarbeiten. ([Dokumentation des Moduls datetime](https://docs.python.org/3/library/datetime.html#))
-       
-       - Das Modul calendar führt verschiedene Kalenderfunktionen ein und erweitert den verarbeitbaren Zeitraum. Basierend auf dem Gregorianischen Kalender reicht dieser in beide Richtungen ins Unendliche. ([Dokumentation des Moduls calendar](https://docs.python.org/3/library/calendar.html#module-calendar))
+### Datumsformate in NumPy einlesen
 
-   - NumPy führt die Datentypen `datetime64` und `timedelta64` ein. Dieser basiert auf dem Gregorianischen Kalender und reicht in beide Richtungen ins Unendliche. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+**to do: eventuell überflüssig, weil der selbe Datentyp verwendet wird.**
 
-  - Pandas nutzt die NumPy-Datentypen `datetime64` und `timedelta64`. <https://pandas.pydata.org/docs/user_guide/timeseries.html>
+### Datumsformate in Pandas einlesen
+**Hier geht es weiter**
 
-### Vom Anbeginn der Zeit: alles ist relativ 
-Python speichert Zeit relativ zu einem zeitlichen Bezugspunkt, der sogenannten Epoche. 
+**Der Hinweis ist erst mal nur für mich. Das kann doch nicht so kompliziert sein?! Die Dokumentation des Moduls ist auch interessant. Es löst einige Probleme mit dem Ende der Sommerzeitumstellung. <https://pythonhosted.org/pytz/>**
+
+:::: {#wrn-datetimetimezones .callout-warning appearance="simple" collapse="false"}
+## andere Zeitzonen
+Das Modul datetime unterstützt die Spezifikation von anderen Zeitzonen nicht (sondern nutzt die Angabe einer Zeitdifferenz, timedelta). Um eine andere Zeitzone anzugeben, wird das Modul pytz benötigt. Dabei gilt es, eine Besonderheit zu beachten.
 
 ``` {python}
-# time
-import time as time
-print(time.gmtime(0))
 
-# datetime
-import datetime as datetime
-print("datetime:", datetime.datetime.fromtimestamp(0))
+import pytz
+moscow_tz = pytz.timezone('Europe/Moscow')
+print(datetime.datetime.now(moscow_tz))
 
-# NumPy
-import numpy as np
-print("NumPy:", np.datetime64(0, 's'))
+## Vorsicht mit der Zeitzonenangabe via Etc/UTC
+moscow_tz = pytz.timezone('Etc/GMT+3')
+print(datetime.datetime.now(moscow_tz))
 
-# pandas
-import pandas as pd
-print("Pandas:", pd.to_datetime(0))
+moscow_tz = pytz.timezone('Etc/GMT-3')
+print(datetime.datetime.now(moscow_tz))
+```
+
+::::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+"Das Spezialgebiet 'Etc' wird für einige administrative Zonen verwendet, insbesondere für 'Etc/UTC', die koordinierte Weltzeit. Für die Kompatibilität mit dem POSIX-Format haben die Zonen, welche mit 'Etc/GMT' beginnen, genau das gegenteilige Vorzeichen als man erwarten würde. In diesem Format haben alle Zonen westlich der GMT ein positives Vorzeichen und alle östlich davon ein negatives." [Wikipedia](https://de.wikipedia.org/wiki/Zeitzonen-Datenbank)
+
+&nbsp;
+
+:::::
+
+Alle verfügbaren Zeitzonen können Sie sich wie folgt ausgeben lassen (hier ohne Ausgabe).
+
+``` {python}
+#| output: false
+
+from zoneinfo import available_timezones
+for timezone in sorted(available_timezones()):
+  print(timezone)
+```
+
+::::
+
+**pd.Timestamp überflüssig, weil pd.to_datetime() (fast) das gleiche kann? pd.to_datetime kann auch string-Parsing, das kann pd.Timestamp nicht. Allerdings sollte man man pd.Timestamp kennen, weil das der Rückgabewert für Skalare ist.**
+In Pandas können Zeitpunkte und Zeitdifferenzen:
+
+  - Zeitpunkte (Timestamp): `pd.to_datetime()` oder `pd.date_range()`, Datentyp `datetime64[ns]` oder `datetime64[ns, tz]`
+
+  - Zeitdifferenzen (Timedelta): `pd_to_timedelta()` oder `pd.timedelta_range`, Datentyp `timedelta64[ns]`
+
+
+`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` und akzeptiert als Eingabewerte:
+
+  - datetime-Objekte anderer Module.
+
+    - time: für die Umwandlung eines time.struct_time Objekts muss dieses zuvor mit der Methode `time.strftime()` in einen string umgewandelt werden: `pd.to_datetime(time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(0)))` 
+
+    - datetime: pd.to_datetime(datetime.datetime.fromtimestamp(0))
+
+    - NumPy: `pd.to_datetime(np.datetime64(0, 's'))`
+
+  - Dictionary bzw. DataFrame.
+
+    - pd.to_datetime({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]})
+
+    - pd.to_datetime(pd.DataFrame({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]}))
+
+  - Zahlen (relativ zur Epoche, Standard sind Nanosekunden) `pd.to_datetime(1, unit = None)`. Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'M', 'Y' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Monat bzw. Jahr entgegen.
+
+  - Zeichenketten, die ein Datum oder ein Datum mit Uhrzeit ausdrücken.
+
+      - In Standardformatierung: pd.to_datetime('2017-01-01'), `pd.to_datetime('2017-01-01T00')` oder `pd.to_datetime('2017-01-01 00')`, `pd.to_datetime('2017-01-01 00:00')` und `pd.to_datetime('2017-01-01 00:00:00')` sind äquivalent.
+
+      - In beliebigen Formatierungen mit dem Argument `format = "%d/%m/%Y"`. See strftime documentation <https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior>
+
+
+**Ergänzen: Übung mit string-Formating aus dem a-Energiedatenanalyse.**
+#### String-Formating
+Argument format =  
+
+
+pd.Series
+pd.date_range()
+
+#### Zugriff auf datetime-Objekte
+ 
+Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`
+``` {python}
+# Attribute
+print("Jahr:", pd.to_datetime(0).year)
+print("Monat:", pd.to_datetime(0).month)
+print("Tag:", pd.to_datetime(0).day)
+print("Stunde:", pd.to_datetime(0).hour)
+print("Minute:", pd.to_datetime(0).minute)
+print("Sekunde:", pd.to_datetime(0).second)
+print("Tag des Jahres:", pd.to_datetime(0).dayofyear)
+print("Wochentag:", pd.to_datetime(0).dayofweek)
+print("Tage im Monat:", pd.to_datetime(0).days_in_month)
+print("Schaltjahr:", pd.to_datetime(0).is_leap_year)
+
+# Methoden
+print("Datum:", pd.to_datetime(0).date())
+print("Zeit:", pd.to_datetime(0).time())
+print("Wochentag (0-6):", pd.to_datetime(0).weekday())
+print("Monatsname:",  pd.to_datetime(0).month_name())
 
 ```
 
-**Aufgabe:** Schauen Sie in die Dokumentation von `time.gmtime()` (<https://docs.python.org/3/library/time.html#time.gmtime>).
+
+pd.Series
+
+``` {python}
+## Zugriff mit .dt --> klappt nur für pd.Series
+print("Wochentag (0-6):", pd.Series(pd.to_datetime(0)).dt.weekday)
+```
+
+
+Mit der Methode (?) `.dt ` können die Informationen als Attribut abgrufen werden, bswp. `datetimeSerie.dt.weekday`
+
+Noch einmal prüfen: Basiert nur NumPy oder alle auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+
+**Aufgabe Zugriff auf datetime-Objekte** Schauen Sie in die Dokumentation von [Pandas](https://pandas.pydata.org/docs/user_guide/timeseries.html#time-date-components).
 
   - Welcher Wochentag war am "Anbeginn der Zeit"
 
-  - Was bedeutet `tm_isdst=0`
-
-Noch einmal prüfen: Basiert nur NumPy oder alle auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
+  - War der "Anbeginn der Zeit" ein Schaltjahr?
 
 
 ### Von Magie und Drachen: Zeitzonen und Kalender
@@ -1699,18 +1793,6 @@ numpy.timedelta64(14680,'D')
 Find the difference
 
 some date - XY = some other date
-
-### Naive und bewusste Objekte
-Datetime-Objekte werden abhängig davon, ob sie Informationen über Zeitzonen enthalten, als naiv (naive) oder als bewusst (aware) bezeichnet. Naiven datetime-Objekten fehlt diese Information, bewusste datetime-Objekte enthalten diese. Objekte der Module time, datetime und pandas verfügen über ein Zeitzonenattribut, sind also bewusst. `np.datetime64` ist seit Numpy-Version 1.11.0 ein naiver Datentyp, unterstützt aber Zeitzonen aus Gründen der Rückwärtskompatibilität.
-
-:::
-Deprecated since version 1.11.0: NumPy does not store timezone information. For backwards compatibility, datetime64 still parses timezone offsets, which it handles by converting to UTC±00:00 (Zulu time). This behaviour is deprecated and will raise an error in the future.  
-<https://numpy.org/doc/stable/reference/arrays.datetime.html>
-:::
-
-Pandas kann das wohl: https://pandas.pydata.org/docs/reference/api/pandas.DatetimeIndex.tz_localize.html
-datetime and time objects have an optional time zone information attribute, tzinfo, that can be set to an instance of a subclass of the abstract tzinfo class. (https://docs.python.org/3/library/datetime.html#)
-
 
 
 
