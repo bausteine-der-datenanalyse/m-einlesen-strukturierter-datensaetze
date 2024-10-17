@@ -756,7 +756,7 @@ Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, 
 **Hier Querverweis auf w-rechtliche Grundlagen Datenmanagement**
 :::
 
-# Strukturierte Datensätze einlesen: die Module NumPy und Pandas {#sec-numpypandas}
+# Die Module NumPy und Pandas {#sec-numpypandas}
 Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. In den folgenden Abschnitten werden beide Module behandelt.
 
 Eine kurze Übersicht der Vor- und Nachteile:
@@ -809,9 +809,9 @@ NumPy unterstützt folgende Datentypen:
 
 In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas führt aber auch einige zusätzliche Datentypen ein. Eine vollständige Liste finden Sie in der [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/arrays.html). Die wichtigsten zusätzlichen Datentypen sind:
 
-  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `dtype = category`
+  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `dtype = 'category'`
 
-  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `dtype='datetime64[ns, US/Eastern]'`
+  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `dtype = 'datetime64[ns, US/Eastern]'`
 
 ## Dateien lesen und schreiben
 In den Werkzeugbausteinen NumPy und Pandas haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
@@ -1596,103 +1596,210 @@ print("Summe:\t\t ", counting_df.sum().sum())
 
 :::
 
-**die grundlegenden Informationen werden in den w-Python ausgelagert: Module, Epoche, [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) (pd.Timestamp usw.)**
+## Zeitreihen {#sec-zeitreihen}
+
+<!-- ###### INCLUDE ###### -->
+<!-- ###### INCLUDE ###### -->
+<!-- ###### INCLUDE ###### -->
+<!-- ###### INCLUDE ###### -->
 
 {{< include _zeitreihen-python.md >}}
 
-### Datumsformate in NumPy einlesen
 
-**to do: eventuell überflüssig, weil der selbe Datentyp verwendet wird.**
+### Datum und Zeit in NumPy und Pandas
+Die Module NumPy und Pandas nutzen den Datentyp `datetime64`, um Datums- und Zeitinformationen zu verarbeiten.
 
-### Datumsformate in Pandas einlesen
-**Hier geht es weiter**
+::: {.panel-tabset}
+## NumPy
+`datetime64`-Objekte werden mit der Funktion `np.datetime64()` angelegt, der Datentyp wird in der Ausgabe von Python auch durch den Buchstaben M repräsentiert. `datetime64`-Objekte können auf zwei Arten angelegt werden:
 
-**Der Hinweis ist erst mal nur für mich. Das kann doch nicht so kompliziert sein?! Die Dokumentation des Moduls ist auch interessant. Es löst einige Probleme mit dem Ende der Sommerzeitumstellung. <https://pythonhosted.org/pytz/>**
-
-:::: {#wrn-datetimetimezones .callout-warning appearance="simple" collapse="false"}
-## andere Zeitzonen
-Das Modul datetime unterstützt die Spezifikation von anderen Zeitzonen nicht (sondern nutzt die Angabe einer Zeitdifferenz, timedelta). Um eine andere Zeitzone anzugeben, wird das Modul pytz benötigt. Dabei gilt es, eine Besonderheit zu beachten.
-
-``` {python}
-
-import pytz
-moscow_tz = pytz.timezone('Europe/Moscow')
-print(datetime.datetime.now(moscow_tz))
-
-## Vorsicht mit der Zeitzonenangabe via Etc/UTC
-moscow_tz = pytz.timezone('Etc/GMT+3')
-print(datetime.datetime.now(moscow_tz))
-
-moscow_tz = pytz.timezone('Etc/GMT-3')
-print(datetime.datetime.now(moscow_tz))
+  - Eine Zeichenkette nach [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) als Repräsentation eines Datums in der festgelegten Reihenfolge Jahr, Monat, Tag, Stunde, Minute, Sekunde, Millisekunde im Format `YYYY-MM-DD 12:00:00.000`. Als Zeichentrenner zwischen Datum und Uhrzeit sind ein Leerzeichen oder der Buchstabe T zulässig. Der Datentyp und die kleinste verwendete Einheit werden im Attribut `dtype` gespeichert.
+  
+``` {python} 
+print(np.datetime64('2024'), np.datetime64('2024').dtype)
+print(np.datetime64('2024-10-31'), np.datetime64('2024-10-31').dtype)
+print(np.datetime64('2024-10-31T12:24:59.999'), np.datetime64('2024-10-31T12:24:59.999').dtype)
 ```
 
-::::: {.border layout="[5, 90, 5]"}
+  - Als Zahl relativ zur Epoche und unter Angabe einer Zeiteinheit. Die verfügbaren Zeiteinheiten sind:
 
-&nbsp;
+    - Datum: years ('Y'), months ('M'), weeks ('W'), days ('D')
 
-"Das Spezialgebiet 'Etc' wird für einige administrative Zonen verwendet, insbesondere für 'Etc/UTC', die koordinierte Weltzeit. Für die Kompatibilität mit dem POSIX-Format haben die Zonen, welche mit 'Etc/GMT' beginnen, genau das gegenteilige Vorzeichen als man erwarten würde. In diesem Format haben alle Zonen westlich der GMT ein positives Vorzeichen und alle östlich davon ein negatives." [Wikipedia](https://de.wikipedia.org/wiki/Zeitzonen-Datenbank)
+    - Zeit: hours ('h'), minutes ('m'), seconds ('s'), milliseconds ('ms') und weitere sekundenbasierte Einheiten bis zur Attosekunde (siehe [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-units)).
+  
+``` {python} 
+print(np.datetime64(10 * 1000, 'D'), np.datetime64(10 * 1000, 'D').dtype)
+print(np.datetime64(1000 * 1000, 'h'), np.datetime64(1000 * 1000, 'h').dtype)
+print(np.datetime64(1000 * 1000 * 1000, 's'), np.datetime64(1000 * 1000 * 1000, 's').dtype)
+```
 
-&nbsp;
+Außerdem können Datetime-Formate anderer Module in `np.datetime64()` umgewandelt werden.
 
-:::::
-
-Alle verfügbaren Zeitzonen können Sie sich wie folgt ausgeben lassen (hier ohne Ausgabe).
+Beim Anlegen eines Arrays, kann die Zeiteinheit gewählt werden.
 
 ``` {python}
-#| output: false
+my_array = np.array(['2007-07-13', '2006-01-13', '2010-08-13'], dtype = 'datetime64[s]')
+print(my_array, my_array.dtype)
+```
 
-from zoneinfo import available_timezones
-for timezone in sorted(available_timezones()):
-  print(timezone)
+Der Datentyp `datetime64` ist mit den meisten NumPy-Funktionen kompatibel.
+
+``` {python}
+np.arange('2005-02', '2005-03', dtype = 'datetime64[D]')
+```
+
+([NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html))
+
+## Pandas
+
+In Pandas werden `datetime64`-Objekte mit den Funktionen `pd.to_datetime()` oder `pd.date_range()` angelegt.  
+*Hinweis: Eine weitere Möglichkeit ist die Funktion `pd.Timestamp()`, die umfangreichere Möglichkeiten zur Erzeugung eines Zeitpunkts bietet, aber kein string-parsing unterstützt.*
+
+`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` (mit `pd.to_datetime()` erzeugte Skalare werden als Timestamp (Zeitpunkt) ausgegeben, die kein Attribut `dtype` haben). Die Funktion `pd.to_datetime()` akzeptiert als Eingabewerte:
+
+  - datetime-Objekte anderer Module.
+
+  - Zahlen und eine Zeiteinheit `pd.to_datetime(1, unit = None)` (Standard sind Nanosekunden). Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'W', 'M', 'Y' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Woche, Monat bzw. Jahr entgegen. Erzeugt wird ein Zeitpunkt relativ zur Epoche.
+  
+``` {python}
+print(pd.to_datetime(1000, unit = 'D'))
+print(pd.to_datetime(1000 * 1000, unit = 'h'))
+print(pd.to_datetime(1000 * 1000 * 1000, unit = 's'))
+```
+
+  - Zeichenketten, die ein Datum oder ein Datum mit Uhrzeit ausdrücken, formatiert nach [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html).
+
+``` {python}
+print(pd.to_datetime('2017'))
+print(pd.to_datetime('2017-01-01T00'))
+print(pd.to_datetime('2017-01-01 00:00:00'))
+```
+
+  - Anders formatierte Zeichenketten mit dem Argument format = `"%d/%m/%Y"` (siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior)).
+
+``` {python}
+print(pd.to_datetime('Monday, 12. August `24', format = "%A, %d. %B `%y"))
+print(pd.to_datetime('Monday, 12. August 2024, 12:15 Uhr CET', format = "%A, %d. %B %Y, %H:%M Uhr %Z"))
+```
+
+  - Dictionary oder DataFrame.
+
+``` {python}
+print(pd.to_datetime({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]}), "\n")
+print(pd.to_datetime(pd.DataFrame({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]})))
+```
+
+Erzeugt ein Array vom Typ `DatetimeIndex` mit dtype `datetime64`. Genau drei der folgenden vier Argumente sind für die Erzeugung erforderlich: 
+
+  - start: Beginn der Reihe.
+
+  - end: Ende der Reihe (inklusiv)
+
+  - freq: Schrittweite (bspw. Jahr, Tag, Geschäftstag, Stunde oder Vielfache wie '6h' - siehe [Liste verfügbarer strings](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-offset-aliases))
+
+  - periods: Anzahl der zu erzeugenden Werte.
+
+``` {python}
+#| warning: false
+
+print(pd.date_range(start = '2017', end = '2024', periods = 3), "\n")
+
+print(pd.date_range(start = '2017', end = '2024', freq = 'Y'), "\n")
+
+print(pd.date_range(end = '2024', freq = 'h', periods = 3))
+```
+
+*Hinweis: Die Funktion `pd.date_range()` wird künftig das Kürzel 'Y' nicht mehr unterstützen. Stattdessen können die Kürzel 'YS' (Jahresbeginn) oder 'YE' (Jahresende) verwendet werden.*
+:::
+
+Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
+**to do: Pandas**
+
+::: {.callout-note collapse="true"}
+
+#### Zeitdifferenzen in NumPy und Pandas
+
+:::: {.panel-tabset}
+
+## NumPy
+Zeitdifferenzen werden mit dem Datentyp `timedelta64` abgebildet. Dieser wird wie `datetime64` durch Angabe einer Ganzzahl und einer Zeiteinheit angelegt.
+
+``` {python}
+np.timedelta64(1, 'D')
+```
+
+Objekte der Typen `datetime64` und `timedelta64` ermöglichen es, Operationen mit Datum und Zeit durchzuführen (weitere Beispiele in der [NumPy-Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-and-timedelta-arithmetic)).
+
+``` {python}
+print(np.datetime64('today') - np.datetime64('2000-01-01', 'D'))
+print(np.datetime64('now') - np.datetime64('2000-01-01', 'h'))
+
+print("\n\nEine einfache Zeitverschiebung:", np.datetime64('now') - np.timedelta64(1, 'h'))
+print("\nWie viel Tage hat die Woche?", np.timedelta64(1,'W') / np.timedelta64(1,'D'))
+```
+
+## Pandas
+
+Zeitdifferenzen (Timedelta): `pd_to_timedelta()` oder `pd.timedelta_range`, Datentyp `timedelta64[ns]`
+
+::::
+
+**Wie alt sind Sie in Tagen? Wie alt in Sekunden? Rechnen Sie mit NumPy oder Pandas. Ergänzen: Musterlösung in Pandas**
+
+:::: {#tip-aware .callout-tip collapse="true"}
+## Musterlösung Alter
+
+Ersetzen sie in der Lösung die Zeichenkette 'YYYY-MM-DD' bzw., wenn Sie die Uhrzeit Ihrer Geburt kennen, die Zeichenkette 'YYYY-MM-DDTHH:MM' durch ihren Geburtstag.
+
+``` {.raw}
+print(np.datetime64('today') - np.datetime64('YYYY-MM-DD', 'D'))
+print(np.datetime64('now') - np.datetime64('YYYY-MM-DDTHH:MM', 's'))
+
 ```
 
 ::::
 
-**pd.Timestamp überflüssig, weil pd.to_datetime() (fast) das gleiche kann? pd.to_datetime kann auch string-Parsing, das kann pd.Timestamp nicht. Allerdings sollte man man pd.Timestamp kennen, weil das der Rückgabewert für Skalare ist.**
-In Pandas können Zeitpunkte und Zeitdifferenzen:
+:::
 
-  - Zeitpunkte (Timestamp): `pd.to_datetime()` oder `pd.date_range()`, Datentyp `datetime64[ns]` oder `datetime64[ns, tz]`
+### Zeitreihen einlesen
+Die Module NumPy und Pandas (**eigentlich nur Pandas?!**) bieten effiziente Möglichkeiten, um Datumsformate korrekt einzulesen. Dies wird im Folgenden anhand von Strommarktdaten demonstriert. Anschließend stehen verschiedene Übungsaufgaben zur Verfügung.
 
-  - Zeitdifferenzen (Timedelta): `pd_to_timedelta()` oder `pd.timedelta_range`, Datentyp `timedelta64[ns]`
+Die Bundesnetzagentur veröffentlicht auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) Strommarktdaten, darunter die Großhandelspreise. Die Strommarktdaten der Bundesnetzagentur müssen manuell auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) heruntergeladen werden. In diesem Skript werden Daten für das Jahr 2023 benutzt.
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|---|
+| Großhandelspreise 2023 | Gro_handelspreise_202301010000_202401010000_Stunde.csv |
+| Großhandelspreise 2023 (Englisch) | Day-ahead_prices_202301010000_202401010000_Hour.csv |
+:::
+
+::: {#wrn-SMARD .callout-warning appearance="simple" collapse="true"}
+## SMARD Daten herunterladen
+
+:::: {layout="[[50, 50], [50, 50], [1]]"}
+
+Beim der Auswahl des Zeitraums auf Akzeptieren klicken. 
+
+Daten in Originalauflösung auswählen und auf Download klicken.
+
+![&nbsp;](skript/00-bilder/smard-accept.png)
+
+![&nbsp;](skript/00-bilder/smard-day-ahead-prices.png)
+
+Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingestellten Sprache (Deutsch/English).
+::::
+:::
+
+**eventuell wieder panel-tabset für NumPy und Pandas**
+
+#### NumPy
+In NumPy muss man die Objekte aufteilen bzw. erst einmal alles als string einlesen und dann die Überschriften abtrennen und den Datensatz nach Datentypen in einzelne Objekte auftrennen (das haben wir schon in der Vorlesung zu NumPy gemacht).
 
 
-`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` und akzeptiert als Eingabewerte:
+#### Pandas
 
-  - datetime-Objekte anderer Module.
-
-    - time: für die Umwandlung eines time.struct_time Objekts muss dieses zuvor mit der Methode `time.strftime()` in einen string umgewandelt werden: `pd.to_datetime(time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(0)))` 
-
-    - datetime: pd.to_datetime(datetime.datetime.fromtimestamp(0))
-
-    - NumPy: `pd.to_datetime(np.datetime64(0, 's'))`
-
-  - Dictionary bzw. DataFrame.
-
-    - pd.to_datetime({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]})
-
-    - pd.to_datetime(pd.DataFrame({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]}))
-
-  - Zahlen (relativ zur Epoche, Standard sind Nanosekunden) `pd.to_datetime(1, unit = None)`. Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'M', 'Y' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Monat bzw. Jahr entgegen.
-
-  - Zeichenketten, die ein Datum oder ein Datum mit Uhrzeit ausdrücken.
-
-      - In Standardformatierung: pd.to_datetime('2017-01-01'), `pd.to_datetime('2017-01-01T00')` oder `pd.to_datetime('2017-01-01 00')`, `pd.to_datetime('2017-01-01 00:00')` und `pd.to_datetime('2017-01-01 00:00:00')` sind äquivalent.
-
-      - In beliebigen Formatierungen mit dem Argument `format = "%d/%m/%Y"`. See strftime documentation <https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior>
-
-
-**Ergänzen: Übung mit string-Formating aus dem a-Energiedatenanalyse.**
-#### String-Formating
-Argument format =  
-
-
-pd.Series
-pd.date_range()
-
-#### Zugriff auf datetime-Objekte
- 
 Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`
+
 ``` {python}
 # Attribute
 print("Jahr:", pd.to_datetime(0).year)
@@ -1714,7 +1821,6 @@ print("Monatsname:",  pd.to_datetime(0).month_name())
 
 ```
 
-
 pd.Series
 
 ``` {python}
@@ -1722,79 +1828,49 @@ pd.Series
 print("Wochentag (0-6):", pd.Series(pd.to_datetime(0)).dt.weekday)
 ```
 
-
 Mit der Methode (?) `.dt ` können die Informationen als Attribut abgrufen werden, bswp. `datetimeSerie.dt.weekday`
-
-Noch einmal prüfen: Basiert nur NumPy oder alle auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
 
 **Aufgabe Zugriff auf datetime-Objekte** Schauen Sie in die Dokumentation von [Pandas](https://pandas.pydata.org/docs/user_guide/timeseries.html#time-date-components).
 
-  - Welcher Wochentag war am "Anbeginn der Zeit"
+#### Übungen
+Welcher Wochentag war am ersten und letzten Tag der Zeitreihe?
 
-  - War der "Anbeginn der Zeit" ein Schaltjahr?
+Daten aggregieren: Was war der Durchschnittspreis an Werktagen (Montag - Freitag), was am Wochenende? Was der über das gesamte Jahr der durchschnittliche Preis je Stunde?
 
-
-### Von Magie und Drachen: Zeitzonen und Kalender
-Zeitzonen, Sommerzeit und Schaltjahren 
-
-Die Epoche des time-Moduls ist die Unix-Zeit und beginnt am 1. Januar 1970, 00:00:00 Uhr UTC. UTC steht für Coordinated Universal Time (auch bekannt als Greenwich Mean Time). Das Kürzel UTC ist ein Kompromiss für die englische und die französische Sprache. 
-
-::: {.border layout="[5, 90, 5]"}
-
-&nbsp;
-
-"DST is Daylight Saving Time, an adjustment of the timezone by (usually) one hour during part of the year. DST rules are magic (determined by local law) and can change from year to year. The C library has a table containing the local rules (often it is read from a system file for flexibility) and is the only source of True Wisdom in this respect."
-
-&nbsp;
-
-:::
+--> als datetime64 einlesen, Maske mit .weekday-Abfrage und Mittelwert bilden. 
+ <http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#resampling> resample() is a time-based groupby, followed by a reduction method on each of its groups. 
 
 
-#### Kalender
-Chinesisches Jahr des Drachen
-Der von den Modulen calendar, NumPy (und Pandas?!) verwendete, vor die Zeit seiner Einführung 1582 erweiterte Gregorianische Kalender heißt [propleptischer Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar)
 
-Mögliche Aufgabe: Kalender hin und her konvertieren
+### Übungen: Zeitreihen einlesen
 
+Und zwar... mit NumPy oder mit Pandas
 
-### Datum + Zeit = datetime
+<https://numpy.org/doc/stable/reference/arrays.datetime.html>
 
-In NumPy: "Datetimes are always stored with an epoch of 1970-01-01T00:00. This means the supported dates are always a symmetric interval around the epoch, called “time span” in the table below."
+#### Etwas einfaches: Datumsformate einlesen
+Datensatz: SMARD-Daten 2023 im englischen Format
 
+#### Fix me: Das Datumsformat aus der Hölle
+Datensatz: Shiller-file 'shiller_data.xls'
 
-#### NumPy
-Noch einmal prüfen: Basiert [Nur NumPy oder alle?] auf der Internationalen Atomzeit (TAI für französisch Temps Atomique International), die keine Schaltsekunden kennt.  Die TAI ist die Grundlage für die Koordinierte Weltzeit UTC, die sich seit 1972 um eine ganzzahlige Zahl von Sekunden von TAI unterscheidet. Derzeit (Stand Januar 2020) gilt UTC = TAI − 37 Sekunden. https://de.wikipedia.org/wiki/Internationale_Atomzeit <https://numpy.org/doc/stable/reference/arrays.datetime.html>
-
-  - date units are years (‘Y’), months (‘M’), weeks (‘W’), and days (‘D’)
-
-  - time units are hours (‘h’), minutes (‘m’), seconds (‘s’), milliseconds (‘ms’), and some additional SI-prefix seconds-based units. [sollte bis Attosekunde gehen]
-
-np.datetime64(1, 'Y')
-np.datetime64('1971')
-
-Using months for the unit:
-
-np.datetime64('2005-02')
-np.datetime64('2005-02')
-
-Specifying just the month, but forcing a ‘days’ unit:
-
-np.datetime64('2005-02', 'D')
-np.datetime64('2005-02-01')
-
-From a date and time:
-
-np.datetime64('2005-02-25T03:30')
-np.datetime64('2005-02-25T03:30')
-
-Ausrechnen, wie alt man ist: np.datetime64('2024-10-04') - np.datetime64('1984-07-26')
-numpy.timedelta64(14680,'D')
-
-Find the difference
-
-some date - XY = some other date
+#### String-Manipulation
+**Ergänzen: Übung mit string-Formating im österreichischen Datensatz aus dem a-Energiedatenanalyse.**
 
 
+
+#### Zeitzonen in NumPy und Pandas
+--> NumPy unterstützt das gar nicht, es reicht zu zeigen, wie es eingelesen wird.
+**hier bräuchten wir britische, portugisische oder osteuropäische Daten, um einen Zeitversatz zu demonstrieren**
+
+`datetime64[ns, tz]`
+
+#### Zeitzonen mit Pandas verwalten
+http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#time-zone-handling 
+
+
+datetime and time objects have an optional time zone information attribute, tzinfo, that can be set to an instance of a subclass of the abstract tzinfo class. (https://docs.python.org/3/library/datetime.html#)
+**Das kann doch nicht so kompliziert sein?! Die Dokumentation des Moduls ist auch interessant. Es löst einige Probleme mit dem Ende der Sommerzeitumstellung. <https://pythonhosted.org/pytz/>**
 
 
 ::: {.border}
@@ -1986,7 +2062,7 @@ Der Standardwert des Arguments `fill_value` ist `None`, mit dem beim Aufrufen de
 ``` {python}
 for dt in [np.int32, np.int64, np.float64, np.complex128, np.string_, np.bool_]:
 
-  print(dt, "\t\t", np.ma.array([0, 1], dtype=dt).get_fill_value())
+  print(dt, "\t\t", np.ma.array([0, 1], dtype = dt).get_fill_value())
 ```
 
 Quelle: <https://numpy.org/doc/stable/reference/maskedarray.baseclass.html#numpy.ma.MaskedArray.fill_value>
