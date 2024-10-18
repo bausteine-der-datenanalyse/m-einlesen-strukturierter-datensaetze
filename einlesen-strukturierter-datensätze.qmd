@@ -1164,6 +1164,7 @@ daten_empty_lines2 = np.genfromtxt(dateipfad, delimiter = ',', missing_values = 
 print("Struktur:", daten_empty_lines2.shape, "dtype:", daten_empty_lines2.dtype)
 print("\nDaten mit fehlenden Werten '':\n", daten_empty_lines2)
 ```
+
 :::
 
 #### Fehlende Werte in NumPy erzeugen, prüfen, finden, ersetzen, löschen
@@ -1621,12 +1622,8 @@ print(np.datetime64('2024-10-31'), np.datetime64('2024-10-31').dtype)
 print(np.datetime64('2024-10-31T12:24:59.999'), np.datetime64('2024-10-31T12:24:59.999').dtype)
 ```
 
-  - Als Zahl relativ zur Epoche und unter Angabe einer Zeiteinheit. Die verfügbaren Zeiteinheiten sind:
+  - Als Zahl relativ zur Epoche und unter Angabe einer Zeiteinheit. Die verfügbaren Zeiteinheiten sind years ('Y'), months ('M'), weeks ('W'), days ('D') sowie hours ('h'), minutes ('m'), seconds ('s'), milliseconds ('ms') und weitere sekundenbasierte Einheiten bis zur Attosekunde (siehe [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-units)).
 
-    - Datum: years ('Y'), months ('M'), weeks ('W'), days ('D')
-
-    - Zeit: hours ('h'), minutes ('m'), seconds ('s'), milliseconds ('ms') und weitere sekundenbasierte Einheiten bis zur Attosekunde (siehe [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-units)).
-  
 ``` {python} 
 print(np.datetime64(10 * 1000, 'D'), np.datetime64(10 * 1000, 'D').dtype)
 print(np.datetime64(1000 * 1000, 'h'), np.datetime64(1000 * 1000, 'h').dtype)
@@ -1796,9 +1793,71 @@ Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingest
 In NumPy muss man die Objekte aufteilen bzw. erst einmal alles als string einlesen und dann die Überschriften abtrennen und den Datensatz nach Datentypen in einzelne Objekte auftrennen (das haben wir schon in der Vorlesung zu NumPy gemacht).
 
 
+
+#### Pandas
+Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen. Durch vorherige Betrachtung mit einem Tabellenkalkulationsprogramm konnte das Semikolon als Zeichentrenner identfiziert werden, das mit dem Argument `sep = ';'` übergeben wird. Durch Aufruf der Funktionen `pd.info()` und `pd.head()` wird der Erfolg kontrolliert.
+
+``` {python}
+dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';')
+print(preise.info())
+preise.head()
+```
+
+&nbsp;
+
+In der Ausgabe ist am Datentyp object erkennbar, dass für keine Spalte der Datentyp erkannt wurde. In der Darstellung der ersten Zeilen des Datensatzes ist das Komma als Dezimaltrennzeichen zu sehen, der Standardwert der Funktion `pd.read_csv()` ist aber der Punkt. Nach Übergabe des Dezimaltrennzeichens sollten die numerischen Spalten korrekt erkannt werden.
+
+``` {python}
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',')
+print(preise.info())
+```
+
+Die Spalte DE/AT/LU [€/MWh] Originalauflösungen wird nicht als float erkannt. In der Ausgabe ist zu sehen, dass wenigstens in den ersten Zeilen fehlende Werte durch '-' markiert sind. Mittels der Methode `.describe()` kann überprüft werden, ob die Spalte überhaupt numerische Werte enthält.
+
+``` {python}
+preise['DE/AT/LU [€/MWh] Originalauflösungen'].describe()
+```
+
+Da dies nicht der Fall ist, kann die Spalte entfernt werden. Anschließend können die ersten beiden Spalten mit der Funktion 'pd.to_datetime()' in ein Datumsformat konvertiert werden. Eine Zelle enthält Zeichenketten im Schema '01.01.2023 00:00'. Mit Hilfe der [strftime-Dokumentation](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior) kann der Funktion das Datumsformat übergeben werden.
+
+``` {python}
+preise.drop(labels = 'DE/AT/LU [€/MWh] Originalauflösungen', axis = 'columns', inplace = True)
+
+## Datumsspalten konvertieren
+preise['Datum von'] = pd.to_datetime(preise['Datum von'], format = "%d.%m.%Y %H:%M")
+preise['Datum bis'] = pd.to_datetime(preise['Datum bis'], format = "%d.%m.%Y %H:%M")
+print(preise.info())
+```
+
+Wenn der innere Aufbau einer Datei bekannt ist, können die notwendigen Parameter auch direkt beim Einlesen übergeben werden (Argumente `usecols`, `parse_dates` und `date_format`).
+
+``` {python}
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',',
+                     usecols = list(range(0, 15)) + list(range(16, 19)), # Auswahl der einzulesenden Spalten
+                     parse_dates = ['Datum von', 'Datum bis'], date_format = "%d.%m.%Y %H:%M") # Formatierung des Datums
+print(preise.info())
+
+```
+
+**Aufgabe: Lesen Sie die englische Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden.**
+
+**Die Musterlösung kann Marc machen**.
+
+::: {#tip-strompreise .callout-tip collapse="true"}
+## Musterlösung Strompreise
+
+:::
+
+### Zugriff auf Zeitreihen
+Die Module NumPy und Pandas bieten zahlreiche Möglichkeiten, um auf Zeitreihen zuzugreifen. Angenommen, wir interessieren uns für die durchschnittlichen Strompreise an Werktagen und am Wochenende.
+**eventl. wieder mit panel-tabset für NumPy und Pandas**
+
+#### NumPy
+
 #### Pandas
 
-Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`
+Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
 
 ``` {python}
 # Attribute
@@ -1814,23 +1873,39 @@ print("Tage im Monat:", pd.to_datetime(0).days_in_month)
 print("Schaltjahr:", pd.to_datetime(0).is_leap_year)
 
 # Methoden
-print("Datum:", pd.to_datetime(0).date())
+print("\nDatum:", pd.to_datetime(0).date())
 print("Zeit:", pd.to_datetime(0).time())
 print("Wochentag (0-6):", pd.to_datetime(0).weekday())
 print("Monatsname:",  pd.to_datetime(0).month_name())
-
 ```
 
-pd.Series
+Für `pd.Series` erfolgt der Zugriff über den .dt- Operator (siehe [.dt accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors)).
+
+**Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
+
+::: {#tip-Durchschnittspreis .callout-tip collapse="true"}
+## Musterlösung Strompreisvergleich
 
 ``` {python}
-## Zugriff mit .dt --> klappt nur für pd.Series
-print("Wochentag (0-6):", pd.Series(pd.to_datetime(0)).dt.weekday)
+## Zugriff mit .dt für pd.Series
+# Werktage und Wochenende unterscheiden
+werktags = preise['Datum von'].dt.weekday.isin(list(range(0, 5)))
+wochenende = preise['Datum von'].dt.weekday.isin(list(range(5, 7)))
+
+print(werktags.head())
+print(wochenende.head())
+
+# Preise vergleichen
+preis_werktags = preise.loc[werktags, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
+preis_wochenende = preise.loc[wochenende, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
+
+print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\tDurchschnittspreis am Wochenende: {preis_wochenende:.2f} [€/MWh]")
 ```
 
-Mit der Methode (?) `.dt ` können die Informationen als Attribut abgrufen werden, bswp. `datetimeSerie.dt.weekday`
+:::
 
-**Aufgabe Zugriff auf datetime-Objekte** Schauen Sie in die Dokumentation von [Pandas](https://pandas.pydata.org/docs/user_guide/timeseries.html#time-date-components).
+#### pd.Series.resample
+http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#resampling
 
 #### Übungen
 Welcher Wochentag war am ersten und letzten Tag der Zeitreihe?

@@ -1,4 +1,4 @@
-**die grundlegenden Informationen werden in den w-Python ausgelagert: Übersicht Module, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) , Zeit, Kalender**
+**folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview)**
 
 ### Datums- und Zeitinformationen in Python
 Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschiedene Module ermöglicht. Im Folgenden wird die Arbeit mit Zeitreihen mit den Modulen NumPy und Pandas weiter ausgeführt. Dennoch sollten Sie die hier aufgezählten Module kennen, da in der Dokumentation gelegentlich auf diese verwiesen wird.
