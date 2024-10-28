@@ -1,4 +1,5 @@
-**folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview)**
+**folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender**
+**Die Einführung in [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) sollte in w-Pandas erfolgen.**
 
 ### Datums- und Zeitinformationen in Python
 Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschiedene Module ermöglicht. Im Folgenden wird die Arbeit mit Zeitreihen mit den Modulen NumPy und Pandas weiter ausgeführt. Dennoch sollten Sie die hier aufgezählten Module kennen, da in der Dokumentation gelegentlich auf diese verwiesen wird.
@@ -19,7 +20,6 @@ NumPy und Pandas können Datetime-Objekte anderer Module in `datetime64` umwande
 
 #### Alles ist relativ: die Epoche
 Python speichert Zeit relativ zu einem zeitlichen Bezugspunkt, der Unix-Zeit, der sogenannten Epoche. Die Epoche kann wie folgt mit den verschiedenen Modulen ausgegeben werden.  
-**Was fällt Ihnen auf?** (*Nicht gemeint ist `tm_isdst=0`, das angibt, ob daylight saving time, also Sommerzeit, ist.*)
 
 ``` {python}
 # time
@@ -39,9 +39,12 @@ import pandas as pd
 print("Pandas:", pd.to_datetime(0))
 ```
 
+**Was fällt Ihnen in der Ausgabe der Epoche auf?**  
+(*Hinweis: `tm_isdst=0` gibt an, ob daylight saving time, also Sommerzeit, ist.*)
+
 ::: {#tip-aware .callout-tip collapse="true"}
 ## Lösung Epoche
-Das Modul datetime verwendet die Zeitzone Ihres Computers und gibt deshalb den Zeitpunkt der Epoche zur ersten Stunde des Tages zurück (zumindest, wenn auf Ihrem System die zentraleuropäische Zeit UTC+1 eingestellt ist.). Um den gleichen Rückgabewert wie für die anderen Module zu erhalten, muss die Zeitzone angegeben werden.
+Das Modul datetime verwendet die Zeitzone Ihres Computers und gibt deshalb den Zeitpunkt der Epoche zur ersten Stunde des Tages zurück (wenn auf Ihrem System die zentraleuropäische Zeit UTC+1 eingestellt ist). Um den gleichen Rückgabewert wie für die anderen Module zu erhalten, muss die Zeitzone angegeben werden.
 ``` {python}
 
 print(datetime.datetime.fromtimestamp(0))
@@ -120,7 +123,7 @@ Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umg
 
 &nbsp;
 
-"DST is Daylight Saving Time, an adjustment of the timezone by (usually) one hour during part of the year. DST rules are magic (determined by local law) and can change from year to year. The C library has a table containing the local rules (often it is read from a system file for flexibility) and is the only source of True Wisdom in this respect."
+"DST is Daylight Saving Time, an adjustment of the timezone by (usually) one hour during part of the year. DST rules are magic (determined by local law) and can change from year to year. The C library has a table containing the local rules (often it is read from a system file for flexibility) and is the only source of True Wisdom in this respect." ([Dokumentation time](https://docs.python.org/3/library/time.html))
 
 &nbsp;
 :::
@@ -128,11 +131,13 @@ Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umg
 **Können wir die Länder mit Zeitumstellung mit Pandas plotten?**
 
 #### Kalender
-Der von den Modulen calendar, NumPy (und Pandas?!) verwendete, vor die Zeit seiner Einführung 1582 erweiterte Gregorianische Kalender heißt [propleptischer Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar)
+**to do**
 
-Schaltjahre **im w-Python kleines Programm schreiben lassen, dass auf Schaltjahre prüft**
+Die Module calendar, NumPy und Pandas verwenden den um die Zeit vor seiner Einführung 1582 erweiterten Gregorianische Kalender, den [proleptischen Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar). Während das Modul date nur die Jahre 1-9999 nach unserer Zeit unterstützt, erlaubt der Datentyp `datetime64` auch Jahre vor unserer Zeit in [astronomischer Jahresnumerierung](https://en.wikipedia.org/wiki/Astronomical_year_numbering). Das bedeutet, es gibt ein Jahr 0 (das erste Jahr vor unserer Zeit) und vorausgehende Jahre werden mit negativen Zahlen dargestellt (-1 ist das zweite Jahr vor unserer Zeit). [NumPy Dokumentation] (https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions)
 
-Welche wichtigen Kalender gibt es (jüdischen Kalender, muslimischen Kalender, chinesischen Kalender)
+  - Schaltjahre **im w-Python kleines Programm schreiben lassen, dass auf Schaltjahre prüft**
 
-Mögliche Aufgabe: Kalender hin und her konvertieren
+  - Welche wichtigen Kalender gibt es (jüdischen Kalender, muslimischen Kalender, chinesischen Kalender)
+
+    - Mögliche Aufgabe: Kalender hin und her konvertieren, falls das relevant ist (in der Diss hatte ich den thailändischen (?!) Kalender)
 

@@ -1686,7 +1686,7 @@ print(pd.to_datetime({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]}), "
 print(pd.to_datetime(pd.DataFrame({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]})))
 ```
 
-Erzeugt ein Array vom Typ `DatetimeIndex` mit dtype `datetime64`. Genau drei der folgenden vier Argumente sind für die Erzeugung erforderlich: 
+Die Funktion `pd.date_range()` erzeugt ein Array vom Typ `DatetimeIndex` mit dtype `datetime64`. Genau drei der folgenden vier Argumente sind für die Erzeugung erforderlich: 
 
   - start: Beginn der Reihe.
 
@@ -1710,11 +1710,10 @@ print(pd.date_range(end = '2024', freq = 'h', periods = 3))
 :::
 
 Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
-**to do: Pandas**
+**Notiz für mich: Anwendungsfall Zeitzonen verschieben unabhängig von einer Zeitzone (und ohne die Zeitzonensyntax)**
 
 ::: {.callout-note collapse="true"}
-
-#### Zeitdifferenzen in NumPy und Pandas
+## Zeitdifferenzen in NumPy und Pandas
 
 :::: {.panel-tabset}
 
@@ -1732,30 +1731,81 @@ print(np.datetime64('today') - np.datetime64('2000-01-01', 'D'))
 print(np.datetime64('now') - np.datetime64('2000-01-01', 'h'))
 
 print("\n\nEine einfache Zeitverschiebung:", np.datetime64('now') - np.timedelta64(1, 'h'))
-print("\nWie viel Tage hat die Woche?", np.timedelta64(1,'W') / np.timedelta64(1,'D'))
+print("Wie viele Tage hat die Woche?", np.timedelta64(1,'W') / np.timedelta64(1,'D'))
 ```
 
 ## Pandas
+Zeitdifferenzen können zum einen wie in NumPy durch Angabe einer Ganzzahl und einer Zeiteinheit angelegt werden. Außerdem ist die Übergabe mit Argumenten möglich (zulässige Argumente sind: weeks, days, hours, minutes, seconds, milliseconds, microseconds, nanoseconds).
 
-Zeitdifferenzen (Timedelta): `pd_to_timedelta()` oder `pd.timedelta_range`, Datentyp `timedelta64[ns]`
+``` {python}
+pd.Timedelta(1, 'D')
+pd.Timedelta(days = 1, hours = 1)
+```
+
+**Wichtig:** Anders als in NumPy werden Zeitdifferenzen in Monaten und Jahren nicht mehr von Pandas unterstützt.
+
+``` {python}
+try:
+  print( pd.Timedelta(1, 'Y'))
+except ValueError as error:
+  print(error)
+else:
+  print( pd.Timedelta(1, 'Y'))
+```
+
+Zum anderen können Zeitdifferenzen mit einer Zeichenkette erzeugt werden.
+``` {python}
+print(pd.Timedelta('10sec'))
+print(pd.Timedelta('10min'))
+print(pd.Timedelta('10hours'))
+print(pd.Timedelta('10days'))
+print(pd.Timedelta('10w'))
+```
+
+Mit Hilfe einer Zeitdifferenz können Zeitreihen leicht verschoben werden.
+
+``` {python}
+pd.date_range(start = '2024-01-01T00:00', end = '2024-01-01T02:00', freq = '15min') + pd.Timedelta('30min')
+```
 
 ::::
 
-**Wie alt sind Sie in Tagen? Wie alt in Sekunden? Rechnen Sie mit NumPy oder Pandas. Ergänzen: Musterlösung in Pandas**
+&nbsp;
 
-:::: {#tip-aware .callout-tip collapse="true"}
-## Musterlösung Alter
+**Wie alt sind Sie in Tagen? Wie alt in Sekunden? Rechnen Sie mit NumPy oder Pandas.**
+
+:::: {#tip-alter .callout-tip collapse="true"}
+## Tipp Pandas und Musterlösung Alter
+
+Für eine elegante Lösung in Pandas schauen Sie sich die verfügbaren Methoden und Attribute von Timedelta-Objekten an.
+
+``` {.raw}
+dir(pd.Timedelta(0))
+```
+
+::::: {#tip-loesungalter .callout-tip collapse="true"}
+## Musterlösung
 
 Ersetzen sie in der Lösung die Zeichenkette 'YYYY-MM-DD' bzw., wenn Sie die Uhrzeit Ihrer Geburt kennen, die Zeichenkette 'YYYY-MM-DDTHH:MM' durch ihren Geburtstag.
+
+#### NumPy
+In NumPy können die Schlüsselwörter `np.datetime64('today')` und `np.datetime64('now')` verwendet werden. Die Ausgabe ist in Tagen bzw. in Sekunden aufgelöst.
 
 ``` {.raw}
 print(np.datetime64('today') - np.datetime64('YYYY-MM-DD', 'D'))
 print(np.datetime64('now') - np.datetime64('YYYY-MM-DDTHH:MM', 's'))
-
 ```
 
-::::
+#### Pandas
+In Pandas werden die Schlüsselwörter `pd.to_datetime('today')` und `pd.to_datetime('now')` in Nanosekunden aufgelöst.  
 
+``` {.raw}
+(pd.to_datetime('today') - pd.to_datetime('YYYY-MM-DD')).days
+(pd.to_datetime('now') - pd.to_datetime('YYYY-MM-DDTHH:MM')).total_seconds()
+
+```
+:::::
+::::
 :::
 
 ### Zeitreihen einlesen
@@ -1790,12 +1840,56 @@ Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingest
 **eventuell wieder panel-tabset für NumPy und Pandas**
 
 #### NumPy
-In NumPy muss man die Objekte aufteilen bzw. erst einmal alles als string einlesen und dann die Überschriften abtrennen und den Datensatz nach Datentypen in einzelne Objekte auftrennen (das haben wir schon in der Vorlesung zu NumPy gemacht).
+Der Versuch, die Datei mit `np.loadtxt()` einzulesen, führt zu verschiedenen Fehlermeldungen (Datentyp ist nicht numerisch, Spaltenzahl kann nicht ermittelt werden). Diesen wird durch Spezifizierung des Datentyps `dtype = str` und der Beschränkung auf die erste Zeile `max_rows = 1` begegnet.
 
+``` {python}
+dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1)
+preise
+```
+
+Auf diese Weise kann die erste Zeile eingelesen und das Semikolon als Zeichentrenner identifiziert werden. Außerdem sind Fehler mit der Zeichenkodierung auffällig. Deshalb werden der Zeichentrenner mit `delimiter = ';'` und die Kodierung der Datei mit `encoding = 'UTF-8' übergeben.
+
+``` {python}
+dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1, delimiter = ';', encoding = 'UTF-8')
+preise
+```
+
+Es verbleibt die Zeichenkette "\\ufeff" am Beginn des Arrays. Diese kennzeichnet die [Byte-Reihenfolge](https://de.wikipedia.org/wiki/Byte-Reihenfolge) der Datei. Diese kann mit der Übergabe der Kodierung `encoding = 'UTF-8-sig' übersprungen werden ([Mark Tolonen auf stackoverflow.com](https://stackoverflow.com/a/72466627), [Python Dokumentation](https://docs.python.org/3/library/codecs.html)). Auf diese Weise wird die erste Zeile korrekt eingelesen, sodass die Anzahl der einzulesenden Zeilen mit `max_rows = 2` erweitert werden kann, um die Datentypen zu identifizieren.
+
+``` {python}
+dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 2, delimiter = ';', encoding = 'UTF-8-sig')
+preise
+```
+
+**hierhier to do**  
+Objekt nach Datentyp aufteilen: 
+
+  - Datumsspalten
+
+  - numerische Spalten
+
+  - Spalte mit '-' (bzw. verwerfen)
+  
+    - erst einmal die Spalte finden mit skiprows = 1 & max_rows = 1
+
+    - die Spalte einlesen und gucken, ob alle Zeilen '-' sind, z. B. mit np.unique()
+    
+    - usecols =  np.invert(np.argwere('-'))
 
 
 #### Pandas
-Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen. Durch vorherige Betrachtung mit einem Tabellenkalkulationsprogramm konnte das Semikolon als Zeichentrenner identfiziert werden, das mit dem Argument `sep = ';'` übergeben wird. Durch Aufruf der Funktionen `pd.info()` und `pd.head()` wird der Erfolg kontrolliert.
+Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.info()` kontrolliert.
+
+``` {python}
+dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = pd.read_csv(filepath_or_buffer = dateipfad)
+print(preise.info())
+```
+
+Es wird nur eine Spalte erkannt, da im Datensatz das Semikolon als Zeichentrenner verwendet wird, das nun mit dem Argument `sep = ';'` übergeben wird (Standardwert ist das Komma). Durch Aufruf der Funktionen `pd.info()` und `pd.head()` wird der Erfolg kontrolliert.
 
 ``` {python}
 dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
@@ -1813,7 +1907,7 @@ preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',')
 print(preise.info())
 ```
 
-Die Spalte DE/AT/LU [€/MWh] Originalauflösungen wird nicht als float erkannt. In der Ausgabe ist zu sehen, dass wenigstens in den ersten Zeilen fehlende Werte durch '-' markiert sind. Mittels der Methode `.describe()` kann überprüft werden, ob die Spalte überhaupt numerische Werte enthält.
+Der Datentyp der Spalte DE/AT/LU [€/MWh] Originalauflösungen wird nicht als float64 erkannt. In der Ausgabe ist zu sehen, dass wenigstens in den ersten Zeilen fehlende Werte durch '-' markiert sind. Mittels der Methode `.describe()` kann überprüft werden, ob die Spalte überhaupt numerische Werte enthält.
 
 ``` {python}
 preise['DE/AT/LU [€/MWh] Originalauflösungen'].describe()
@@ -1830,7 +1924,7 @@ preise['Datum bis'] = pd.to_datetime(preise['Datum bis'], format = "%d.%m.%Y %H:
 print(preise.info())
 ```
 
-Wenn der innere Aufbau einer Datei bekannt ist, können die notwendigen Parameter auch direkt beim Einlesen übergeben werden (Argumente `usecols`, `parse_dates` und `date_format`).
+Wenn der innere Aufbau einer Datei bekannt ist, können die notwendigen Parameter auch direkt beim Einlesen mit `pd.read_csv` übergeben werden (Argumente `usecols`, `parse_dates` und `date_format`).
 
 ``` {python}
 preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',',
@@ -1899,23 +1993,10 @@ print(wochenende.head())
 preis_werktags = preise.loc[werktags, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
 preis_wochenende = preise.loc[wochenende, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
 
-print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\tDurchschnittspreis am Wochenende: {preis_wochenende:.2f} [€/MWh]")
+print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschnittspreis am Wochenende: {preis_wochenende:.2f} [€/MWh]")
 ```
 
 :::
-
-#### pd.Series.resample
-http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#resampling
-
-#### Übungen
-Welcher Wochentag war am ersten und letzten Tag der Zeitreihe?
-
-Daten aggregieren: Was war der Durchschnittspreis an Werktagen (Montag - Freitag), was am Wochenende? Was der über das gesamte Jahr der durchschnittliche Preis je Stunde?
-
---> als datetime64 einlesen, Maske mit .weekday-Abfrage und Mittelwert bilden. 
- <http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#resampling> resample() is a time-based groupby, followed by a reduction method on each of its groups. 
-
-
 
 ### Übungen: Zeitreihen einlesen
 
