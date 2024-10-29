@@ -1597,7 +1597,7 @@ print("Summe:\t\t ", counting_df.sum().sum())
 
 :::
 
-## Zeitreihen {#sec-zeitreihen}
+# Zeitreihen {#sec-zeitreihen}
 
 <!-- ###### INCLUDE ###### -->
 <!-- ###### INCLUDE ###### -->
@@ -1607,7 +1607,7 @@ print("Summe:\t\t ", counting_df.sum().sum())
 {{< include _zeitreihen-python.md >}}
 
 
-### Datum und Zeit in NumPy und Pandas
+## Datum und Zeit in NumPy und Pandas
 Die Module NumPy und Pandas nutzen den Datentyp `datetime64`, um Datums- und Zeitinformationen zu verarbeiten.
 
 ::: {.panel-tabset}
@@ -1808,7 +1808,7 @@ In Pandas werden die Schlüsselwörter `pd.to_datetime('today')` und `pd.to_date
 ::::
 :::
 
-### Zeitreihen einlesen
+## Zeitreihen einlesen
 Die Module NumPy und Pandas (**eigentlich nur Pandas?!**) bieten effiziente Möglichkeiten, um Datumsformate korrekt einzulesen. Dies wird im Folgenden anhand von Strommarktdaten demonstriert. Anschließend stehen verschiedene Übungsaufgaben zur Verfügung.
 
 Die Bundesnetzagentur veröffentlicht auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) Strommarktdaten, darunter die Großhandelspreise. Die Strommarktdaten der Bundesnetzagentur müssen manuell auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) heruntergeladen werden. In diesem Skript werden Daten für das Jahr 2023 benutzt.
@@ -1837,9 +1837,9 @@ Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingest
 ::::
 :::
 
-**eventuell wieder panel-tabset für NumPy und Pandas**
+::: {.panel-tabset}
 
-#### NumPy
+### NumPy
 Der Versuch, die Datei mit `np.loadtxt()` einzulesen, führt zu verschiedenen Fehlermeldungen (Datentyp ist nicht numerisch, Spaltenzahl kann nicht ermittelt werden). Diesen wird durch Spezifizierung des Datentyps `dtype = str` und der Beschränkung auf die erste Zeile `max_rows = 1` begegnet.
 
 ``` {python}
@@ -1856,7 +1856,7 @@ preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1, delimiter = 
 preise
 ```
 
-Es verbleibt die Zeichenkette "\\ufeff" am Beginn des Arrays. Diese kennzeichnet die [Byte-Reihenfolge](https://de.wikipedia.org/wiki/Byte-Reihenfolge) der Datei. Diese kann mit der Übergabe der Kodierung `encoding = 'UTF-8-sig' übersprungen werden ([Mark Tolonen auf stackoverflow.com](https://stackoverflow.com/a/72466627), [Python Dokumentation](https://docs.python.org/3/library/codecs.html)). Auf diese Weise wird die erste Zeile korrekt eingelesen, sodass die Anzahl der einzulesenden Zeilen mit `max_rows = 2` erweitert werden kann, um die Datentypen zu identifizieren.
+Es verbleibt die Zeichenkette "\\ufeff" am Beginn des Arrays. Diese kennzeichnet die [Byte-Reihenfolge](https://de.wikipedia.org/wiki/Byte-Reihenfolge) der Datei. Diese kann mit der Übergabe der Kodierung `encoding = 'UTF-8-sig'` übersprungen werden ([Mark Tolonen auf stackoverflow.com](https://stackoverflow.com/a/72466627), [Python Dokumentation](https://docs.python.org/3/library/codecs.html)). Auf diese Weise wird die erste Zeile korrekt eingelesen, sodass die Anzahl der einzulesenden Zeilen mit `max_rows = 2` erweitert werden kann, um die Datentypen zu identifizieren.
 
 ``` {python}
 dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
@@ -1864,7 +1864,99 @@ preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 2, delimiter = 
 preise
 ```
 
-**hierhier to do**  
+Die ersten beiden Spalten enthalten Datums- und Zeitinformationen, die folgenden numerische Werte, wobei eine Spalte mit '-' kodierte fehlende Werte enthält. Als Dezimaltrennzeichen wird das Komma verwendet. Da NumPy-Arrays immer nur einen Datentyp enthalten können, muss der Datensatz entsprechend aufgeteilt werden. Für die viertletzte Spalte ist zu prüfen, ob diese ausschließlich fehlende Werte enthält.
+
+Zunächst wird der Datensatz vollständig als string eingelesen, die Spaltenbeschriftungen werden mit `skiprows = 1` übersprungen.
+
+``` {python}
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', delimiter = ';', encoding = 'UTF-8-sig', skiprows = 1)
+```
+
+Anschließend werden im ersten Schritt die Datumsspalten isoliert. NumPy unterstützt keine String-Formatierung, die Zeitstempel müssen deshalb manuell von '01.01.2023 00:00' in die Formatierung nach ISO 8601 'YYYY-MM-DDThh:mm' konvertiert werden.
+
+``` {python}
+# Datumsspalten isolieren
+preise_date = preise[ : , 0:2]
+
+# Zeichenkette manuell ins Format ISO 8601 bringen
+## Spalte 0
+### neues Array anlegen
+preise_datumvon = np.array([], dtype = 'datetime64')
+
+for element in preise_date[ : , 0]:
+
+  # string umstellen
+  neues_element = element[6:10] + '-' + \
+  element[3:5] + '-' + \
+  element[0:2] + 'T' + \
+  element[11:13] +  ':' + \
+  element[14:]
+
+  # in datetime64 konvertieren
+  neues_element = np.datetime64(neues_element)
+
+  # anhängen
+  preise_datumvon = np.append(preise_datumvon, neues_element)
+
+## Spalte 1
+### neues Array anlegen
+preise_datumbis = np.array([], dtype = 'datetime64')
+
+for element in preise_date[ : , 1]:
+
+  # string umstellen
+  neues_element = element[6:10] + '-' + \
+  element[3:5] + '-' + \
+  element[0:2] + 'T' + \
+  element[11:13] +  ':' + \
+  element[14:]
+
+  # in datetime64 konvertieren
+  neues_element = np.datetime64(neues_element)
+
+  # anhängen
+  preise_datumbis = np.append(preise_datumbis, neues_element)
+
+# die letzten 4 Elemente angucken
+print(preise_datumvon[-4:], preise_datumvon.dtype)
+print(preise_datumbis[-4:], preise_datumbis.dtype)
+
+```
+
+Im zweiten Schritt wird geprüft, ob die viertletzte Spalte ausschließlich fehlende Werte enthält. Die Position der Spalte ist zwar bekannt, wird aber dennoch mit der Funktion `np.argwhere()` ermittelt. Mit der Funktion `len(np.unique())` werden die einzigartigen Werte abgezählt. 
+
+``` {python}
+# numerische Spalten isolieren
+preise_numeric = preise[ : , 2:]
+
+# Position der Spalte mit fehlendem Wert '-' in der nullten Zeile finden
+position = np.argwhere(preise_numeric[0, : ] == '-')
+print("Spaltenindex:", position)
+
+# prüfen, welche Werte in der Spalte vorkommen
+print("Anzahl einzigartiger Werte:", len(np.unique(preise_numeric[:, position])))
+
+```
+
+Da die viertletzte Spalte ausschließlich das Zeichen '-' enthält, kann die Spalte entfernt werden. Anschließend kann der Datentyp als Fließkommazahl deklariert werden. Dazu ist es erforderlich, mit `np.char.replace(preise_numeric, ',', '.')` das Dezimaltrennzeichen Komma durch den Punkt zu ersetzen. Die Spaltennamen müssen separat gespeichert werden.
+
+``` {python}
+# Spalte mit fehlenden Werten entfernen
+preise_numeric = np.delete(arr = preise_numeric, obj = position, axis = 1) # axis 1 = columns
+
+# Dezimaltrennzeichen ersetzen
+preise_numeric = np.char.replace(preise_numeric, ',', '.')
+preise_numeric = preise_numeric.astype('float64')
+
+# Spaltennamen speichern
+preise_numeric_colnames = np.loadtxt(fname = dateipfad, dtype = 'str', delimiter = ';', encoding = 'UTF-8-sig', max_rows = 1)
+preise_numeric_colnames = preise_numeric_colnames[2:] # Datumsspalten entfernen
+preise_numeric_colnames = np.delete(arr = preise_numeric_colnames, obj = position)
+
+print(preise_numeric_colnames, "\n")
+print(preise_numeric[0:2, :], preise_numeric.dtype)
+```
+
 Objekt nach Datentyp aufteilen: 
 
   - Datumsspalten
@@ -1879,8 +1971,7 @@ Objekt nach Datentyp aufteilen:
     
     - usecols =  np.invert(np.argwere('-'))
 
-
-#### Pandas
+### Pandas
 Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.info()` kontrolliert.
 
 ``` {python}
@@ -1933,6 +2024,7 @@ preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',',
 print(preise.info())
 
 ```
+:::
 
 **Aufgabe: Lesen Sie die englische Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden.**
 
@@ -1943,13 +2035,14 @@ print(preise.info())
 
 :::
 
-### Zugriff auf Zeitreihen
+## Zugriff auf Zeitreihen
 Die Module NumPy und Pandas bieten zahlreiche Möglichkeiten, um auf Zeitreihen zuzugreifen. Angenommen, wir interessieren uns für die durchschnittlichen Strompreise an Werktagen und am Wochenende.
 **eventl. wieder mit panel-tabset für NumPy und Pandas**
 
-#### NumPy
+### NumPy
+**to do**
 
-#### Pandas
+### Pandas
 
 Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
 
@@ -1998,7 +2091,7 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 :::
 
-### Übungen: Zeitreihen einlesen
+## Übungen: Zeitreihen einlesen
 
 Und zwar... mit NumPy oder mit Pandas
 
@@ -2015,7 +2108,9 @@ Datensatz: Shiller-file 'shiller_data.xls'
 
 
 
-#### Zeitzonen in NumPy und Pandas
+### Zeitzonen in NumPy und Pandas
+
+#### Zeitzonen mit NumPy verwalten
 --> NumPy unterstützt das gar nicht, es reicht zu zeigen, wie es eingelesen wird.
 **hier bräuchten wir britische, portugisische oder osteuropäische Daten, um einen Zeitversatz zu demonstrieren**
 
@@ -2056,7 +2151,7 @@ naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc
 
 **Mit Pandas und/oder NumPy SMART-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
 
-### fehlende Werte in Zeitreihen
+## fehlende Werte in Zeitreihen
 NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
 
   - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
