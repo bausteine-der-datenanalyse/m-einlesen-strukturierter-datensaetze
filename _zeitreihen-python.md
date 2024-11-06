@@ -39,7 +39,7 @@ import pandas as pd
 print("Pandas:", pd.to_datetime(0))
 ```
 
-**Was fällt Ihnen in der Ausgabe der Epoche auf?**  
+**Was fällt Ihnen in der Ausgabe von Datum und Zeit der Epoche auf?**  
 (*Hinweis: `tm_isdst=0` gibt an, ob daylight saving time, also Sommerzeit, ist.*)
 
 ::: {#tip-aware .callout-tip collapse="true"}

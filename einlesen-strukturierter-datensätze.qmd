@@ -235,7 +235,7 @@ Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei e
 print(f"Jean würfelte {messung1['Summe Augen'][2]} Augen")
 ```
 
-::: {#wrn-chainedassignment .callout-warning}
+::: {#wrn-chainedassignment .callout-warning appearance="simple"}
 ## Verkettete Indexierung
 
 Die verkettete Indexierung erzeugt in Pandas abhängig vom Kontext eine Kopie des Objekts oder greift auf den Speicherbereich des Objekts zu. Mit Pandas 3.0 wird die verkettete Indexierung nicht mehr unterstützt, das Anlegen einer Kopie zum Standard werden. Weitere Informationen erhalten Sie im zitierten Link.
@@ -313,11 +313,15 @@ messung1_all_id
 
 ```
 
-![](skript/00-bilder/5f489ffabc91dec1ec2192dc4e993e00.jpg){width="90%"} 
+![](skript/00-bilder/5f489ffabc91dec1ec2192dc4e993e00.jpg){width="90%" fig-alt="dekoratives Bild eines staunenden Hundes"} 
 
 <!-- wow kommt wieder weg ;-) -->
 
 ::: 
+
+::: {.border}
+Much wow. Such architecture. von Dmitry Kudryavtsev ist verfügbar unter <https://yieldcode.blog/post/bloat-in-software-engineering/>. **Das Bild wird wahrscheinlich wieder entfernt.**
+:::
 
 **Was passiert, wenn auch die Variable `Summe Augen` dem Argument `id_vars` übergeben wird?**
 
@@ -426,7 +430,7 @@ Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Da
 
 **optional: Exkurs JSON <https://docs.python.org/3/tutorial/inputoutput.html>**
 
-### Bilddaten einlesen
+#### Bilddaten einlesen
 
 ::: {.border}
 Digitale Bilder liegen in Form eines dreidimensionalen Datensatzes vor. In Zeilen und Spalten liegen für jeden Pixel Farbwerte (Rot, Grün, Blau) und gegebenenfalls ein Alphawert vor (Rot, Grün, Blau, Alpha). Die Farbwerte liegen entweder im Bereich von 0 bis 1 oder von 0 bis 255 (8-Bit).
@@ -478,10 +482,14 @@ print(logo[50:52, 50:52, : ])
 
 ```
 
+[@Arnold-2023-numpy-dateien]
+
+:::
+
 ### Übung dreidimensionale Datensätze
 Über den Index der dritten Dimension können die Farbkanäle Rot, Grün und Blau ausgewählt und mit der Funktion `plt.imshow(cmap = 'Greys_r')` einzeln dargestellt werden. Das Argument `cmap = 'Greys_r'` weist die Funktion an, die invertierte Grauskala benutzen. Dadurch werden hohe Farbwerte hell und niedrige Farbwerte dunkel dargestellt. **Versuchen Sie es einmal.**
 
-:::: {#tip-logo .callout-tip collapse="true"}
+::: {#tip-logo .callout-tip collapse="true"}
 ## Musterlösung dreidimensionale Datensätze
 ``` {python}
 #| fig-cap: Farbkanäle des Pythonlogos
@@ -506,7 +514,7 @@ plt.show()
 
 Möglicherweise wundern Sie sich, warum der Bildhintergrund in jedem Farbkanal schwarz ist. Die Ursache finden Sie im nächsten Tipp.
 
-::::: {#tip-logo .callout-tip collapse="true"}
+:::: {#tip-logo .callout-tip collapse="true"}
 ## Erklärung Bildhintergrund
 Der Bildhintergrund hat in allen Kanälen, auch im Alphakanal, den Farbwert 0. Dieser Teil des Bildes ist deshalb vollständig transparent und wird vom Hintergrund der Internetseite ausgefüllt. Der Bildhintergrund des Logos wirkt deshalb weiß.
 
@@ -525,11 +533,7 @@ plt.show()
 print(logo[0:2, 0:2, : ])
 ```
 
-:::::
 ::::
-
-[@Arnold-2023-numpy-dateien]
-
 :::
 
 ## Datentyp {#sec-datentyp}
@@ -879,7 +883,7 @@ dateipfad = 'skript/01-daten/TC01.csv'
 daten = np.loadtxt(dateipfad)
 ```
 
-**Prüfen Sie den dtype der Datei und legen Sie eine Kopie des Objekts mit Dateityp Ganzzahl an. Wie kann überprüft werden, ob bei der Umwandlung in Ganzzahlen Nachkommastellen abgeschnitten wurden?**
+**Prüfen Sie den dtype der Datei und legen Sie eine Kopie des Objekts mit Datentyp Ganzzahl an. Wie kann überprüft werden, ob bei der Umwandlung in Ganzzahlen Nachkommastellen abgeschnitten wurden?**
 
 ::: {#tip-numpydatentyp .callout-tip collapse="true"}
 ## Musterlösung Datentypumwandlung
@@ -903,7 +907,7 @@ print(f"Differenz daten - daten_int: {prüfsumme.sum()}")
 Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisiert. Den Funktionen zum Einlesen von Daten kann mit dem Argument `dtype` der Datentyp übergeben werden. Für mehrere Spalten ist dies in Form eines Dictionaries in der Form `{'Spaltenname': 'dtype'}` möglich.  
 Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit `pd.Series = pd.Series.astype()` geändert werden.
 
-#### Vitamin C bei Meerschweinchen
+#### Zahnwachstum bei Meerschweinchen
 In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Die Messdaten sind in der Datei ToothGrowth.csv gespeichert (Crampton 1947.)
 
 ::: {.border}
@@ -1008,11 +1012,7 @@ Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` änd
 
   - Variante 1: als fehlenden Wert beim Einlesen deklarieren. 
   
-  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen.
-  
-    - Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus.
-    
-    - Künftig ist folgende Synthax zu verwenden: `df.loc[row_indexer, "col"] = value` 
+  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen. Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus. Künftig ist folgende Synthax zu verwenden: `df.loc[row_indexer, "col"] = value`.
 
 ``` {python}
 # Variante 1: '..' als fehlenden Wert deklarieren
@@ -1037,6 +1037,7 @@ Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehl
 Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen mit mehreren Arrays zu Fehlern führen.
 
 Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
+
 ``` {python}
 dateipfad = 'skript/01-daten/TC01.csv'
 daten_ohne_fehlende_werte = np.loadtxt(dateipfad)
@@ -1065,13 +1066,11 @@ else:
 Um Datensätze mit fehlenden Werten einzulesen, wird die Funktion `np.genfromtxt(fname, delimiter = None, missing_values = None, filling_values = None)` verwendet. Dieses durchläuft den Datensatz `fname` in zwei Schleifen, weshalb die Funktion langsamer als `np.loadtxt()` ist. Die erste Schleife teilt den Datensatz zeilenweise am optional übergebenen Trennzeichen `delimiter` in eine Zeichenkette auf. Die zweite Schleife konvertiert jede Zeichenkette in den passenden Datentyp. Mit den optionalen Argumenten `missing_values` und `filling_values` können der Funktion Zeichenfolgen übergeben werden, mit der fehlende Werte markiert sind bzw. ersetzt werden sollen. ([NumPy Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html))
 
 ``` {python}
-
 dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
 daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', filling_values = np.nan)
 
 print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
 print("Struktur:", daten_double_hypen.shape, "dtype:", daten_ohne_fehlende_werte.dtype)
-
 ```
 
 Durch die Umwandlung fehlender Werte in `NaN`, sind Operationen mit gleichlangen NumPy-Arrays möglich.
@@ -1087,6 +1086,7 @@ Die Funktion `np.genfromtxt()` kann beliebige Zeichenketten als fehlenden Wert v
 ## Leere Zellen mit np.genfromtxt()
 
 Enthält eine Datei leere Zellen, können diese nicht eingelesen werden, da diese automatisch übersprungen werden.
+
 ``` {python}
 
 # Datei ohne Markierung fehlender Werte
@@ -1095,7 +1095,6 @@ daten_empty_lines = np.genfromtxt(dateipfad, missing_values = '', filling_values
 
 print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
 print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
-
 ```
 
 Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlemeldung.
@@ -1376,7 +1375,7 @@ else:
 
 ```
 
-`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein Pandas-Dateityp benötigt (siehe das folgende Beispiel).
+`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein Pandas-Datentyp benötigt (siehe das folgende Beispiel).
 
 ::: {#nte-pdNA .callout-note collapse="true"}
 ## pd.Series mit np.nan und pd.NA
@@ -1802,16 +1801,16 @@ In Pandas werden die Schlüsselwörter `pd.to_datetime('today')` und `pd.to_date
 ``` {.raw}
 (pd.to_datetime('today') - pd.to_datetime('YYYY-MM-DD')).days
 (pd.to_datetime('now') - pd.to_datetime('YYYY-MM-DDTHH:MM')).total_seconds()
-
 ```
+
 :::::
 ::::
 :::
 
 ## Zeitreihen einlesen
-Die Module NumPy und Pandas (**eigentlich nur Pandas?!**) bieten effiziente Möglichkeiten, um Datumsformate korrekt einzulesen. Dies wird im Folgenden anhand von Strommarktdaten demonstriert. Anschließend stehen verschiedene Übungsaufgaben zur Verfügung.
+Insbesondere das Modul Pandas bietet effiziente Möglichkeiten, um Datumsformate korrekt einzulesen. Im Folgenden wird das Einlesen von Zeitreihen mit NumPy und Pandas anhand von Strommarktdaten demonstriert. In @sec-übungenzeitreihen stehen verschiedene Übungsaufgaben zur Verfügung.
 
-Die Bundesnetzagentur veröffentlicht auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) Strommarktdaten, darunter die Großhandelspreise. Die Strommarktdaten der Bundesnetzagentur müssen manuell auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) heruntergeladen werden. In diesem Skript werden Daten für das Jahr 2023 benutzt.
+Die Bundesnetzagentur veröffentlicht verschiedene Strommarktdaten, darunter die Großhandelspreise. Die Strommarktdaten der Bundesnetzagentur müssen manuell auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) heruntergeladen werden. In diesem Skript werden Daten für das Jahr 2023 benutzt.
 
 ::: {style="font-size: 90%;"}
 | Daten | Dateiname |
@@ -2026,23 +2025,16 @@ print(preise.info())
 ```
 :::
 
-**Aufgabe: Lesen Sie die englische Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden.**
-
-**Die Musterlösung kann Marc machen**.
-
-::: {#tip-strompreise .callout-tip collapse="true"}
-## Musterlösung Strompreise
-
-:::
-
 ## Zugriff auf Zeitreihen
 Die Module NumPy und Pandas bieten zahlreiche Möglichkeiten, um auf Zeitreihen zuzugreifen. Angenommen, wir interessieren uns für die durchschnittlichen Strompreise an Werktagen und am Wochenende.
 **eventl. wieder mit panel-tabset für NumPy und Pandas**
 
-### NumPy
+::: {.panel-tabset}
+
+## NumPy
 **to do**
 
-### Pandas
+## Pandas
 
 Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
 
@@ -2066,7 +2058,36 @@ print("Wochentag (0-6):", pd.to_datetime(0).weekday())
 print("Monatsname:",  pd.to_datetime(0).month_name())
 ```
 
-Für `pd.Series` erfolgt der Zugriff über den .dt- Operator (siehe [.dt accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors)).
+Für `pd.Series` erfolgt der Zugriff über den .dt-Operator (siehe [.dt accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors)). Der Zugriff auf verschiedene Informationen über ein Attribut (ohne Klammern) oder über eine Methode (mit Klammern) unterscheidet sich jedoch teilweise (siehe folgendes Beispiel).
+
+:::: {.callout-note collapse="true"}
+## Der dt-Operator
+
+``` {python}
+# Attribute
+print("Datum:", pd.Series(pd.to_datetime(0)).dt.date) # Unterschied
+print("Zeit:", pd.Series(pd.to_datetime(0)).dt.time) # Unterschied
+print("Jahr", pd.Series(pd.to_datetime(0)).dt.year)
+print("Monat", pd.Series(pd.to_datetime(0)).dt.month)
+print("Tag", pd.Series(pd.to_datetime(0)).dt.day)
+print("Stunde", pd.Series(pd.to_datetime(0)).dt.hour)
+print("Minute", pd.Series(pd.to_datetime(0)).dt.minute)
+print("Sekunde", pd.Series(pd.to_datetime(0)).dt.second)
+
+print("\nTag des Jahres", pd.Series(pd.to_datetime(0)).dt.dayofyear)
+print("Wochentag:", pd.Series(pd.to_datetime(0)).dt.dayofweek)
+print("Wochentag:", pd.Series(pd.to_datetime(0)).dt.weekday) # Unterschied
+print("Tage im Monat:", pd.Series(pd.to_datetime(0)).dt.days_in_month)
+print("Schaltjahr:", pd.Series(pd.to_datetime(0)).dt.is_leap_year)
+
+# Methoden
+print("\nName des Monats:", pd.Series(pd.to_datetime(0)).dt.month_name())
+
+```
+
+::::
+
+:::
 
 **Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
 
@@ -2091,22 +2112,253 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 :::
 
-## Übungen: Zeitreihen einlesen
+## Übungen: Zeitreihen einlesen {#sec-übungenzeitreihen}
 
-Und zwar... mit NumPy oder mit Pandas
+Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestellten Werkzeuge und können mit NumPy oder mit Pandas gelöst werden.
 
-<https://numpy.org/doc/stable/reference/arrays.datetime.html>
+#### Englisches Datumsformat einlesen
 
-#### Etwas einfaches: Datumsformate einlesen
-Datensatz: SMARD-Daten 2023 im englischen Format
+**Aufgabe: Lesen Sie die Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden. (Hinweise zur Datei siehe @wrn-SMARD, siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))**
 
-#### Fix me: Das Datumsformat aus der Hölle
-Datensatz: Shiller-file 'shiller_data.xls'
+**Die Musterlösung kann Marc machen**.
 
-#### String-Manipulation
+::: {#tip-strompreise .callout-tip collapse="true"}
+## Musterlösung Strompreise
+
+:::
+
+
+#### String-Manipulation leicht
 **Ergänzen: Übung mit string-Formating im österreichischen Datensatz aus dem a-Energiedatenanalyse.**
 
 
+#### String-Manipulation schwer: CAPE Ratio
+Der Nobelpreisgewinner für Wirtschaftswissenschaften von 2013 Robert Shiller pflegt einen Datensatz mit monatlichen Kursdaten des amerikanischen Aktienindexes S&P500 und weiteren Wirtschaftsindikatoren zur Berechnung des inflationsbereinigten Kurs-Gewinn-Verhältnisses (CAPE-Ratio). Der Datensatz ist auf der [Webseite](https://shillerdata.com/) von Robert Shiller verfügbar ([Direktlink zur XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887)). **Lesen Sie den Datensatz ein.**
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|------|
+| monatliche Kursdaten  S&P500 |shiller_data.xls |
+
+::: 
+
+::: {#tip-shiller-data1 .callout-tip collapse="true"}
+## Hinweise und Musterlösung Shiller data
+
+Schauen Sie sich den Datensatz zunächst mit einem Tabellenkalkulationsprogramm an. Bemerkenswerte Auffälligkeiten sind:
+
+  - Metadaten in den Zeilen 2 und 3, in denen teilweise auch Spaltenbeschriftungen eingetragen sind, sowie am Ende des Datensatzes,
+
+  - mehrzeilige Spaltenbeschriftungen,
+  
+  - Leerspalten P und N,
+
+  - Kennzeichnung fehlender Werte durch 'NA' und leere Zellen '' sowie
+  
+  - abweichende Formatierung des Monats Oktober in der Spalte Date 'YYYY-M'.
+
+:::: {#tip-shiller-data2 .callout-tip collapse="true"}
+## Lösungshilfe
+
+Aufgrund der zahlreichen Auffälligkeiten ist es hilfreich, die Daten und die Kopfzeilen getrennt einzulesen.  Den korrekten Zeilenindex können Sie entweder der ersten Betrachtung mit einem Tabellenkalkulationsprogramm entnehmen oder indem Sie einfach die ersten 10 oder 20 Zeilen des Datensatzes in Python einlesen. Dadurch können die Daten einfacher überblickt und mit Methoden der String-Bearbeitung manipuliert werden. In der Praxis ist es einfacher, die Spaltenbeschriftungen manuell mit dem Argument `names = Sequence of column labels to apply` einzutragen bzw. dies mit Hilfe eines Tabellenkalkulationsprogramms zu erledigen.
+
+Außerdem empfiehlt es sich, schrittweise vorzugehen und für jedes Problem eine separate Lösung, mit Ausschnitten des Datensatzes bzw. mit dafür generierten Testdaten, zu entwickeln.
+
+::::: {#tip-shiller-data3 .callout-tip collapse="true"}
+## Vollständige Musterlösung
+
+Zum Einlesen wird die Funktion `pd.read_excel()` verwendet. Mit dem Argument `sheet_name` kann das Tabellenblatt Data ausgewählt werden. Über die Methode pd.head(n = 10) kann der Zeilenindex bestimmt werden, an dem der Tabellenkopf endet und die Daten beginnen. Es handelt sich um die achte Zeile, die in Python den Zeilenindex 7 hat.
+
+**Kopf einlesen**  
+
+``` {python}
+dateipfad = 'skript/01-daten/shiller_data.xls'
+shiller = pd.read_excel(io = dateipfad, sheet_name = 'Data')
+
+# manuell Ende des Kopfs und Beginn der Daten identifizieren (auskommentiert)
+# print(shiller.head(n = 10), "\n")
+
+# Kopf einlesen
+shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
+print(shiller_head, "\n")
+print(shiller_head.info()) # die leeren Spalten werden als numerisch erkannt
+```
+
+**Spaltenbeschriftungen isolieren**  
+Anschließend kann der Kopf weiter bearbeitet werden, um die Spaltenbeschriftungen zu isolieren. Dafür gibt es verschiedene Möglichkeiten. Weitere Alternativen zur folgenden Variante finden Sie im nachfolgenden Beispiel. Spaltenweise erfolgt die Verkettung der Zeichenketten mit der Methode `pd.Series.str.cat()`, die nur für `pd.Series` verfügbar ist (weshalb mit einer Schleife die Spalten einzeln durchlaufen werden) und nur mit dem Datentyp 'string' verfügbar ist, was durch die Methode `astype('string')` sichergestellt wird.
+
+Anschließend werden nicht zur Spaltenbeschriftung gehörende Zeichenketten mit der Methode `str.replace()` entfernt. Dabei erweist sich das Argument `regex = True` als nützlich.
+
+``` {python}
+# Spaltenbeschriftung mit Schleife erzeugen
+shiller_column_labels = pd.Series()
+
+for column in shiller_head:
+  shiller_column_labels = pd.concat([shiller_column_labels, pd.Series(shiller_head[column].astype('string').str.cat())])
+
+# Zeichenketten säubern
+## erste Zelle entfernen Stock Market Data Used in "Irrational Exuberan...
+shiller_column_labels = shiller_column_labels.astype('str').replace(shiller_head.loc[0, 0], '', regex = True)
+
+## 'Robert J. Shiller' entfernen 
+shiller_column_labels = shiller_column_labels.astype('str').replace(shiller_head.loc[1, 0], '', regex = True)
+
+## Leerzeichen entfernen
+## regex = True um Leerzeichen innerhalb von Strings zu entfernen
+shiller_column_labels = shiller_column_labels.astype('str').replace(' ', '', regex = True)
+
+## sehr lange strings ersetzen
+shiller_column_labels = shiller_column_labels.astype('str').replace('CyclicallyAdjustedPriceEarningsRatioP/E10or', '', regex = True)
+shiller_column_labels = shiller_column_labels.astype('str').replace('CyclicallyAdjustedTotalReturnPriceEarningsRatioTRP/E10or', '', regex = True)
+
+## Index zurücksetzen
+shiller_column_labels.reset_index(inplace = True, drop = True)
+
+print(shiller_column_labels)
+```
+
+:::::: {.callout-note collapse="true"}
+## Alternative Vorgehensweisen zur String-Manipulation des Dateikopfs
+
+#### Verwendung des NumPy-Datentyps 'str'
+
+Die Angabe von dtype = 'str' führt zur Verwendung des NumPy-Datentyps string (dtype = 'str'), der veränderlich (mutable) ist. Nur damit funktioniert die Verkettung von Strings mit der Methode `PD.df.sum()`.
+
+``` {python}
+# Der NumPy-Datentyp string ist veränderlich
+my_array = np.array([['1', '2'], ['3', '4']])
+my_array[0] = ['a', 'b']
+my_array
+```
+
+Mit den Pandas-Datentypen 'string' und 'object' funktioniert das gezeigte Vorgehen nicht. Denn Pandas nutzt den Python-Datentyp 'string', der unveränderlich ist. Das bedeutet, es gibt keine Methoden, die eine angelegte Zeichenkette verändern können. Stattdessen geben Methoden wie str.replace() neue strings zurück.
+
+``` {.raw}
+## mit NumPy-Datentyp string
+shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
+
+# Kopf mit NumPy-Datentyp string mit pd.sum() verketten
+# print(shiller_head.astype('str').sum(skipna = True, axis = 0))
+
+## Bereinigung des Datensatzes
+### nan entfernen
+shiller_head = shiller_head.astype('str').replace('nan', '')
+
+### erste Zelle entfernen Stock Market Data Used in "Irrational Exuberan...
+shiller_head = shiller_head.astype('str').replace(shiller_head.loc[0, 0], '')
+
+### 'Robert J. Shiller' entfernen 
+shiller_head = shiller_head.astype('str').replace(shiller_head.loc[1, 0], '')
+
+### Leerzeichen entfernen
+### regex = True um Leerzeichen innerhalb von Strings zu entfernen
+shiller_head = shiller_head.astype('str').replace(' ', '', regex = True)
+
+### sehr lange strings ersetzen
+shiller_head = shiller_head.astype('str').replace('CyclicallyAdjustedPriceEarningsRatioP/E10or', '', regex = True)
+shiller_head = shiller_head.astype('str').replace('CyclicallyAdjustedTotalReturnPriceEarningsRatioTRP/E10or', '', regex = True)
+
+### spaltenweise Zeilen verketten
+shiller_head = shiller_head.astype('str').sum(skipna = True, axis = 0)
+
+print("\nzusammengeführte Spaltennamen\n", shiller_head)
+```
+
+#### Verwendung von DF.agg() oder DF.apply()
+
+Die Pandas-Methode `DF.agg()` aggregiert einen DataFrame zeilen- oder spaltenweise durch eine spezifizierbare Funktion. Die Pandas-Methode wendet eine Funktion zeilen- oder spaltenweise auf einen DataFrame `DF.apply()` an. Die Methoden machen also das selbe. Details zur Verwendung des [Lambda-Ausdrucks](https://docs.python.org/3/reference/expressions.html#lambda) und der Methode `join` aus der [Pythonbasis](https://www.w3schools.com/python/ref_string_join.asp) finden Sie in den angegebenen Links.
+
+``` {.raw}
+shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
+# DF.agg()
+print(shiller_head.agg(lambda x: ''.join(x.astype(str))))
+
+# DF.apply
+print(shiller_head.apply(lambda x: ''.join(x.astype(str))))
+```
+
+::::::
+
+**Daten einlesen**
+
+Beim Einlesen der Daten wird der Kopf kontrolliert sowie mit der Methode `.tail()` das Ende der Datenreihe bestimmt, an dem weitere Metadaten vermerkt sind. Diese Metadaten werden anschließend mit dem Argument `skipfooter = 1` übersprungen.  
+
+``` {python}
+dateipfad = 'skript/01-daten/shiller_data.xls'
+
+# Daten einlesen
+shiller_data = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 8, header = None)
+print(shiller_data.head(n = 2), "\n")
+shiller_data.tail(n = 5)
+```
+
+&nbsp;
+
+Nachdem die Metadaten entfernt wurden, werden die erkannten Datentypen mit der Methode `.info()` kontrolliert.
+
+``` {python}
+shiller_data = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 8, header = None, skipfooter = 1)
+print(shiller_data.head(n = 2), "\n")
+print(shiller_data.tail(n = 2))
+
+# Datentypen bestimmen
+shiller_data.info()
+```
+
+**Kopf und Daten zusammenführen**
+
+Die Spalten mit dem Index 13 (Spalte N) und 15 (Spalte P) sind leer, diese werden aus dem Kopf und den Daten entfernt. Alle Spalten werden als Fließkommazahl erkannt. Das bedeutet, die Prozentzeichen in den Spalten mit den Indizes 16 und 19 bis 21 (Q, T:V) wurden durch eine Division durch 100 verarbeitet. Mit Ausnahme der Spalte Date wurde somit alle Datentypen korrekt erkannt.
+
+``` {python}
+# # leere Spalten entfernen
+shiller_column_labels = shiller_column_labels.drop(labels = [13, 15])
+shiller_data = shiller_data.drop(labels = [13, 15], axis = 'columns')
+
+# Spaltennamen eintragen
+shiller_data.columns = shiller_column_labels
+shiller_data.info()
+```
+
+**Datumsformat korrigieren**
+
+Im nächsten Schritt wird das Datumsformat korrigiert. Die Spalte Date enthält Zeichenketten im Format 'YYYY,MM'. Eine Ausnahme ist der Monat Oktober, der im Format 'YYYY.M' kodiert ist. In der Ausgabe mit `print()` ist dies nicht zu sehen, da die Darstellung von 2 Dezimalstellen mit dem Befehl `pd.set_option("display.precision", 2)` eingestellt wurde. Die unterschiedliche Länge der Zeichketten kann mit dem Befehl `shiller_data.loc[0:12, 'Date'].astype('str').str.len()` verdeutlicht werden.
+
+``` {python}
+
+print(shiller_data.loc[0:12, 'Date'], "\n")
+
+try:
+  pd.to_datetime(shiller_data.loc[0:12, 'Date'], format = "%Y.%m")
+except ValueError as error:
+  print(error, "\n")
+else:
+  pd.to_datetime(shiller_data.loc[0:12, 'Date'], format = "%Y.%m")
+
+print(shiller_data.loc[0:12, 'Date'].astype('str').str.len(), "\n")
+```
+
+Der Datentyp der Spalte 'Date' wird als String deklariert. Mit einer Maske werden die Zeichenketten mit Länge 6 bestimmt. An die Zeichenketten mit der Länge 6 wird eine 0 angehängt, um das Datumsformat anzugleichen. Anschließend wird die Spalte mit der Funktion `pd.to_datetime(format = "%Y.%m")` als datetime eingelesen.
+
+``` {python}
+# Datentyp Spalte Date als String setzen 
+# führt zu einer Fehlermeldung:
+shiller_data['Date'] = shiller_data['Date'].astype('str');
+
+maske = shiller_data['Date'].str.len() == 6
+shiller_data.loc[maske, 'Date'] = shiller_data.loc[maske, 'Date'] + '0'
+
+# Ausgabe Länge Zeichenkette
+print(shiller_data.loc[0:12, 'Date'].str.len())
+print(shiller_data.loc[0:12, 'Date'])
+
+# Datentyp Spalte Date als datetime setzen
+shiller_data['Date'] = pd.to_datetime(shiller_data['Date'], format = "%Y.%m");
+shiller_data.info()
+```
+
+:::::
+::::
+:::
 
 ### Zeitzonen in NumPy und Pandas
 
@@ -2149,7 +2401,7 @@ naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc
 
 **Fehlersuche und -bereinigung: Kalender prüfen**
 
-**Mit Pandas und/oder NumPy SMART-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
+**Mit Pandas und/oder NumPy SMARD-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
 
 ## fehlende Werte in Zeitreihen
 NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
