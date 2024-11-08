@@ -603,11 +603,11 @@ Die Sortierfunktion arbeitet abhängig vom Datentyp.
 dates = pd.Series([ '07.06.2000', '12.01.2000', '11.02.2000', '04.09.2000', '10.03.2000', '03.10.2000', '09.04.2000', '08.05.2000', '06.07.2000', '05.08.2000', '02.11.2000', '01.12.2000'])
 dates = pd.to_datetime(dates, format = '%d.%m.%Y');
 
-print(f"Eine unsortierte Liste von Monatskürzeln:\n{list(dates.dt.strftime("%b"))}")
+print(f"Eine unsortierte Liste von Monatskürzeln:\n{list(dates.dt.strftime('%b'))}")
 
-print(f"\nDie Liste alphabetisch sortiert:\n{sorted(list(dates.dt.strftime("%b")))}")
+print(f"\nDie Liste alphabetisch sortiert:\n{sorted(list(dates.dt.strftime('%b')))}")
 
-print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.strftime("%b"))}")
+print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.strftime('%b'))}")
 
 ```
 
@@ -751,7 +751,7 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
 (vgl. [The HDF Group Help Desk](https://docs.hdfgroup.org/archive/support/HDF5/doc/Advanced/HDF5_Metadata/index.html))
 
-Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen (**Beispiel: SMARD-Daten**), in Spaltenbeschriftungen (**Beispiel: Zeitzone im österreichischen Strommarktdatensatz**), in zusätzlichen Tabellenblättern (**Beispiel besorgen**) oder in separaten Dokumenten (die nicht immer zur Verfügung stehen) **DWD-Daten von Jean-Luca**.
+Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen, in Spaltenbeschriftungen, in zusätzlichen Tabellenblättern oder in separaten Dokumenten (die nicht immer zur Verfügung stehen).
 
 ::: {#tip-metadata .callout-tip collapse="false"}
 ## Metadaten
@@ -981,7 +981,7 @@ Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrol
 
 ### Aufgabe Datentypen
 Das britische Energieministerium veröffentlicht Daten zu den Industriestrompreisen in den Mitgliedsändern der Internationalen Energieagentur.  
-**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
+**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'aufgaben/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
 
 ::: {.border}
 Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
@@ -992,7 +992,7 @@ Department for Energy Security & Net Zero. 2024. Energy Prices International Com
 
 Überspringen der führenden Zeilen mit dem Argument `header = 8`. Auswahl des Tabellenblatts mit `sheet_name = "5.3.1 (excl. taxes)"` und Kontrolle der erkannten Datentypen mit `taxes.dtypes` 
 ``` {python}
-dateipfad = 'skript/01-daten/table_531.xlsx'
+dateipfad = 'aufgaben/01-daten/table_531.xlsx'
 
 taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
   header = 8)
@@ -1070,7 +1070,7 @@ dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
 daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', filling_values = np.nan)
 
 print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
-print("Struktur:", daten_double_hypen.shape, "dtype:", daten_ohne_fehlende_werte.dtype)
+print("Struktur:", daten_double_hypen.shape, "dtype:", daten_double_hypen.dtype)
 ```
 
 Durch die Umwandlung fehlender Werte in `NaN`, sind Operationen mit gleichlangen NumPy-Arrays möglich.
@@ -1547,7 +1547,7 @@ Das Verhalten von Methoden wie `pd.Series.sum()` und von Methoden wie `pd.Series
 eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna** (<https://pandas.pydata.org/docs/user_guide/missing_data.html>)
 
 ### Aufgabe fehlende Werte
-Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten. In der Datei produkt_st_stunde_20230831_20240630_01303.txt sind stündliche Stationsmessungen der Solarstrahlung in Essen-Bredeney gespeichert.
+Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten. In der Datei 'produkt_st_stunde_20230831_20240630_01303.txt' sind stündliche Stationsmessungen der Solarstrahlung in Essen-Bredeney gespeichert.
 
 | Spaltenname | Beschreibung |
 |---|---|
@@ -1572,7 +1572,7 @@ Deutscher Wetterdienst. 2024. Stündliche Stationsmessung der Solarstrahlung (gl
 
 Mit der Methode `df.info()` ist erkennbar, dass der Datensatz vollständig ist.
 ``` {python}
-dateipfad = "skript/01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
+dateipfad = "aufgaben/01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
 solar = pd.read_csv(dateipfad, sep = ";")
 
 solar.info()
@@ -1580,9 +1580,6 @@ solar.info()
 
 Mit der Methode `df.describe()` wird die deskriptive Statistik für numerische Spalten erstellt.  
 ``` {python}
-dateipfad = "skript/01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
-solar = pd.read_csv(dateipfad, sep = ";")
-
 solar.describe()
 ```
 
@@ -1705,7 +1702,7 @@ print(pd.date_range(start = '2017', end = '2024', freq = 'Y'), "\n")
 print(pd.date_range(end = '2024', freq = 'h', periods = 3))
 ```
 
-*Hinweis: Die Funktion `pd.date_range()` wird künftig das Kürzel 'Y' nicht mehr unterstützen. Stattdessen können die Kürzel 'YS' (Jahresbeginn) oder 'YE' (Jahresende) verwendet werden.*
+*Hinweis: Die Funktion `pd.date_range()` wird künftig das Kürzel 'Y' nicht mehr unterstützen. Stattdessen können die Kürzel 'YS' (Jahresbeginn) oder 'YE' (Jahresende) verwendet werden. Ebenso wird das Kürzel 'M' künftig durch 'MS' (Monatsstart), 'ME' (Monatsende) ersetzt.*
 :::
 
 Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
@@ -1858,7 +1855,6 @@ preise
 Es verbleibt die Zeichenkette "\\ufeff" am Beginn des Arrays. Diese kennzeichnet die [Byte-Reihenfolge](https://de.wikipedia.org/wiki/Byte-Reihenfolge) der Datei. Diese kann mit der Übergabe der Kodierung `encoding = 'UTF-8-sig'` übersprungen werden ([Mark Tolonen auf stackoverflow.com](https://stackoverflow.com/a/72466627), [Python Dokumentation](https://docs.python.org/3/library/codecs.html)). Auf diese Weise wird die erste Zeile korrekt eingelesen, sodass die Anzahl der einzulesenden Zeilen mit `max_rows = 2` erweitert werden kann, um die Datentypen zu identifizieren.
 
 ``` {python}
-dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
 preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 2, delimiter = ';', encoding = 'UTF-8-sig')
 preise
 ```
@@ -1955,20 +1951,6 @@ preise_numeric_colnames = np.delete(arr = preise_numeric_colnames, obj = positio
 print(preise_numeric_colnames, "\n")
 print(preise_numeric[0:2, :], preise_numeric.dtype)
 ```
-
-Objekt nach Datentyp aufteilen: 
-
-  - Datumsspalten
-
-  - numerische Spalten
-
-  - Spalte mit '-' (bzw. verwerfen)
-  
-    - erst einmal die Spalte finden mit skiprows = 1 & max_rows = 1
-
-    - die Spalte einlesen und gucken, ob alle Zeilen '-' sind, z. B. mit np.unique()
-    
-    - usecols =  np.invert(np.argwere('-'))
 
 ### Pandas
 Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.info()` kontrolliert.
@@ -2116,29 +2098,177 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestellten Werkzeuge und können mit NumPy oder mit Pandas gelöst werden.
 
-#### Englisches Datumsformat einlesen
+#### Leicht: Englisches Datumsformat einlesen
 
 **Aufgabe: Lesen Sie die Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden. (Hinweise zur Datei siehe @wrn-SMARD, siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))**
 
-**Die Musterlösung kann Marc machen**.
+**Die Musterlösung kann Marc machen. Dateipfad: "aufgaben/01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv"**
 
 ::: {#tip-strompreise .callout-tip collapse="true"}
 ## Musterlösung Strompreise
 
 :::
 
+#### Mittel: Strommarktdaten Österreich
+Die Austrian Power Grid AG (APG) veröffentlicht Strommarktdaten unter [https://markttransparenz.apg.at/](https://markttransparenz.apg.at/de/markt/Markttransparenz/erzeugung/Erzeugung-pro-Typ). Unter dem Link können Erzeugungsdaten für das Jahr 2023 heruntergeladen werden.
 
-#### String-Manipulation leicht
-**Ergänzen: Übung mit string-Formating im österreichischen Datensatz aus dem a-Energiedatenanalyse.**
+::: {#wrn-Strommarkt-Austria .callout-warning appearance="simple" collapse="true"}
+# Markttranzparenzdaten Österreich herunterladen
+
+Nach der Auswahl des Zeitraums auf Exportieren klicken, dann erscheint die Schaltfläche Download. 
+
+![&nbsp;](aufgaben/00-bilder/APG-erzeugungsdaten-2023-de.png){fig-alt="Ansicht der Eingabefelder, um die österreichischen Strommarktdaten herunterzuladen."}
+
+![&nbsp;](aufgaben/00-bilder/english/APG-generation-data-2023-en.png){fig-alt="Ansicht der Eingabefelder, um die österreichischen Strommarktdaten in englischer Sprache herunterzuladen."}
+
+Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingestellten Sprache (Deutsch/English).
+
+:::
+
+&nbsp;
+
+Diesem Skript ist folgende Datei angefügt. 
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|---|
+| Realisierte Stromerzeugung 2023 | AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv |
+:::
+
+In dem Datensatz wird durch die Umstellung von Sommer- auf Winterzeit am letzten Sonntag im Oktober die Stunde 2 Uhr morgens doppelt eingetragen (dafür fehlt eine Stunde bei der Umstellung von Winter- auf Sommerzeit am letzten Sonntag im März). Die doppelte Stunde wird im Datensatz mit 2A bzw. 2B gekennzeichnet. (Mitteilung Austrian Power Grid AG vom 13.08.2024)
+
+![Zeitumstellung im österreichischen Datensatz](skript/00-bilder/erzeugung-aut-zeitumstellung.png){fig-alt="Dargestellt ist ein Ausschnitt aus dem Datensatz der österreichischen Erzeugungsdaten. In den Spalten Zeit von [CET/CEST] und Zeit bis [CET/CEST] ist der Zeitraum vom 29.10.2023 02:00:00 bis 29.10.2023 03:00:00 gelb markiert, um die im vorausgehenden Text beschriebene Auffälligkeit zu illustrieren."}
+
+**Lesen Sie die Datei so ein, dass die Spalten mit Datums- und Zeitinformationen als datetime erkannt werden. Lösen Sie die Zeitumstellung so auf, dass jeder Tag 24 Stunden hat.**
+
+  - Stringmanipulation wie in 'österreichische Datei einlesen.py' --> dann gibt es die Stunde 02 am 29.10. doppelt.
+
+  - Indexposition der doppelten Stunde herausfinden sowie welche Stunde dafür fehlt. --> müsste im März sein können wir uns angucken mit 3 Masken
+
+    - month = März (3)
+
+    - dayofweek = Sonntag (6)
+
+    - pd.Series.dt.hour Die Stunde liegt nicht in der list(range(1, 25)).
+
+  - Dann müssen alle Zeiten bis dahin um eine Stunde verschoben werden - timedelta64
+
+dateipfad = "aufgaben\01-daten\AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv"
+
+::: {#tip-Austria title="Musterlösung Strommarktdaten Österreich" .callout-tip collapse="true"}
+
+**Datei einlesen und String-Manipulation**
+
+Zunächst wird die Datei eingelesen. Damit die Datumsspalten korrekt eingelesen werden können, werden die Zeichenfolgen "2A" und "2B" mit der Methode `str.replace()` durch "02" ersetzt. Dadurch wird eine Dublette im Datensatz erzeugt.
+
+``` {python}
+
+erzeugung_austria = pd.read_csv(filepath_or_buffer = "aufgaben/01-daten/AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv",
+                                sep = ";", decimal = ",", thousands = ".")
+
+# string replace & als Datum einlesen
+## Spalte Zeit von [CET/CEST]
+erzeugung_austria['Zeit von [CET/CEST]'] = erzeugung_austria['Zeit von [CET/CEST]'].str.replace(pat = '2A', repl = '02')
+erzeugung_austria['Zeit von [CET/CEST]'] = erzeugung_austria['Zeit von [CET/CEST]'].str.replace(pat = '2B', repl = '02')
+
+erzeugung_austria['Zeit von [CET/CEST]'] = pd.to_datetime(erzeugung_austria['Zeit von [CET/CEST]'], format = "%d.%m.%Y %H:%M:%S")
+
+## Spalte Zeit bis [CET/CEST]
+erzeugung_austria['Zeit bis [CET/CEST]'] = erzeugung_austria['Zeit bis [CET/CEST]'].str.replace(pat = '2A', repl = '02')
+erzeugung_austria['Zeit bis [CET/CEST]'] = erzeugung_austria['Zeit bis [CET/CEST]'].str.replace(pat = '2B', repl = '02')
+
+erzeugung_austria['Zeit bis [CET/CEST]'] = pd.to_datetime(erzeugung_austria['Zeit bis [CET/CEST]'], format = "%d.%m.%Y %H:%M:%S")
+
+print(erzeugung_austria.info())
+
+```
+
+**Indexpositionen der doppelten und der fehlenden Stunde bestimmen**
+
+Im nächsten Schritt werden die Indexposition der doppelten und der fehlenden Stunde bestimmt. Dazu wird ein neues Objekt angelegt, das auf den Speicherbereich der Datumsspalten zugreift (was nicht zwingend erforderlich ist). Die Position der doppelten Stunde wird mit der Methode `pd.Series.duplicated()` bestimmt, die einen logischen Vektor zurückgibt. Dieser wird zum Slicing und der Ausgabe der Indexposition verwendet. Durch die Subtraktion von 4 wird der Index der ersten Stunde ausgegeben (der Datensatz ist auf Viertelstundenbasis).
+
+*doppelte Stunde*
+
+``` {python}
+# neues Objekt MIT GETEILTEM SPEICHERBEREICH anlegen
+austria_dates = erzeugung_austria[['Zeit von [CET/CEST]', 'Zeit bis [CET/CEST]']].copy(deep = False)
+
+# Indexposition der doppelten Stunde bestimmen
+## Zeit von
+position_doppelte_stunde_von = austria_dates['Zeit von [CET/CEST]'][austria_dates['Zeit von [CET/CEST]'].duplicated()].index - 4
+
+print(f"Die Stunde von\n{austria_dates.loc[position_doppelte_stunde_von, 'Zeit von [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_von}\n"
+f"\nDie nächste Stunde lautet:\n\n{austria_dates.loc[position_doppelte_stunde_von + 4, 'Zeit von [CET/CEST]']}"
+f"\n\nBeide Stunden sind identisch.")
+
+### Ende der Verschiebung in Spalte Datum von
+ende_verschiebung_von = position_doppelte_stunde_von[-1]
+print(f"\nDie Zeitverschiebung in der Spalte Datum von endet bei Indexposition: {ende_verschiebung_von}")
 
 
-#### String-Manipulation schwer: CAPE Ratio
-Der Nobelpreisgewinner für Wirtschaftswissenschaften von 2013 Robert Shiller pflegt einen Datensatz mit monatlichen Kursdaten des amerikanischen Aktienindexes S&P500 und weiteren Wirtschaftsindikatoren zur Berechnung des inflationsbereinigten Kurs-Gewinn-Verhältnisses (CAPE-Ratio). Der Datensatz ist auf der [Webseite](https://shillerdata.com/) von Robert Shiller verfügbar ([Direktlink zur XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887)). **Lesen Sie den Datensatz ein.**
+## Zeit bis
+position_doppelte_stunde_bis = austria_dates['Zeit bis [CET/CEST]'][austria_dates['Zeit bis [CET/CEST]'].duplicated()].index - 4
+
+print(f"\n\nDie Stunde bis\n{austria_dates.loc[position_doppelte_stunde_bis, 'Zeit bis [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_bis}\n"
+f"\nDie nächste Stunde lautet:\n\n{austria_dates.loc[position_doppelte_stunde_bis + 4, 'Zeit bis [CET/CEST]']}"
+f"\n\nBeide Stunden sind identisch.")
+
+
+```
+
+*fehlende Stunde* 
+
+Die Sommerzeit beginnt am letzen Sonntag im März. Die Stunde liegt nicht in range(0, 24). Diese Bedingung kann in vier Schritten kontrolliert werden:
+
+  - Monat März: `march = pd.Series[pd.Series.dt.month == 3]`
+
+  - Sonntage im März: `sundays = march[march.dt.dayofweek == 6]`
+
+  - letzter Sonntag im März: Die letzten 23*4 Einträge sind der letzte Sonntag des Monats (23 weil eine Stunde fehlt).  
+  `last_sunday = sundays[-23*4:]`
+  
+  - fehlende Stunde: `np.argwhere(np.invert(pd.Series(range(0,24)).isin(last_sunday.dt.hour)))`
+
+``` {python}
+# Indexposition der fehlenden Stunde bestimmen
+## Zeit von
+### Monat März
+maske_märz_von = austria_dates['Zeit von [CET/CEST]'].dt.month == 3
+austria_dates_march_von = austria_dates.loc[maske_märz_von, 'Zeit von [CET/CEST]']
+print(f"Der Monat März:\n{austria_dates_march_von.head}\n");
+
+### letzter Sonntag
+maske_sonntag_von = (austria_dates_march_von.dt.dayofweek == 6)
+letzter_sonntag_von = (austria_dates_march_von[maske_sonntag_von]) [-23*4 :]
+print(f"Der letzte Sonntag im März:\n{letzter_sonntag_von}\n")
+
+### fehlende Stunde
+print(letzter_sonntag_von.dt.hour)
+fehlende_stunde_von = np.argwhere(np.invert(pd.Series(range(0,24)).isin(letzter_sonntag_von.dt.hour))).item() 
+print(f"\nEs fehlt die Stunde:\n{fehlende_stunde_von}\n")
+print(letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von - 1)], letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von + 1)], sep = "\n")
+
+### Beginn der Verschiebung in Spalte Datum von
+beginn_verschiebung_von = letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von + 1)].index[0]
+
+print(f"\nDie Zeitverschiebung in der Spalte Datum von beginnt bei Indexposition: {beginn_verschiebung_von}")
+
+
+## Zeit bis
+
+```
+**Für 'Zeit bis' wiederholen. --> Copy & Paste und von durch bis ersetzen**  
+In Spalte 'Zeit von' möchten wir alle Einträge ab Zeilenindex 8072 bis Zeilenindex 28903 um eine Stunde nach vorne verschieben. **Die müssen wir noch in Objekten speichern, um diese nicht manuell für die Verschiebung um eine Stunde eintragen zu müssen für 'Zeit bis' wiederholen.**
+
+:::
+
+#### Schwer: CAPE Ratio - ein Datensatz voller Tücken
+Der Nobelpreisgewinner für Wirtschaftswissenschaften von 2013 Robert Shiller pflegt einen Datensatz mit monatlichen Kursdaten des amerikanischen Aktienindexes S&P500 und weiteren Wirtschaftsindikatoren zur Berechnung des inflationsbereinigten Kurs-Gewinn-Verhältnisses (CAPE Ratio). Der Datensatz ist auf der [Webseite](https://shillerdata.com/) von Robert Shiller verfügbar ([Direktlink zur XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887)). **Lesen Sie den Datensatz ein.**
 
 ::: {style="font-size: 90%;"}
 | Daten | Dateiname |
 |---|------|
-| monatliche Kursdaten  S&P500 |shiller_data.xls |
+| monatliche Kursdaten S&P500 |shiller_data.xls |
 
 ::: 
 
@@ -2172,7 +2302,7 @@ Zum Einlesen wird die Funktion `pd.read_excel()` verwendet. Mit dem Argument `sh
 **Kopf einlesen**  
 
 ``` {python}
-dateipfad = 'skript/01-daten/shiller_data.xls'
+dateipfad = 'aufgaben/01-daten/shiller_data.xls'
 shiller = pd.read_excel(io = dateipfad, sheet_name = 'Data')
 
 # manuell Ende des Kopfs und Beginn der Daten identifizieren (auskommentiert)
@@ -2284,7 +2414,7 @@ print(shiller_head.apply(lambda x: ''.join(x.astype(str))))
 Beim Einlesen der Daten wird der Kopf kontrolliert sowie mit der Methode `.tail()` das Ende der Datenreihe bestimmt, an dem weitere Metadaten vermerkt sind. Diese Metadaten werden anschließend mit dem Argument `skipfooter = 1` übersprungen.  
 
 ``` {python}
-dateipfad = 'skript/01-daten/shiller_data.xls'
+dateipfad = 'aufgaben/01-daten/shiller_data.xls'
 
 # Daten einlesen
 shiller_data = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 8, header = None)
