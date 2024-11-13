@@ -238,7 +238,7 @@ print(f"Jean würfelte {messung1['Summe Augen'][2]} Augen")
 ::: {#wrn-chainedassignment .callout-warning appearance="simple"}
 ## Verkettete Indexierung
 
-Die verkettete Indexierung erzeugt in Pandas abhängig vom Kontext eine Kopie des Objekts oder greift auf den Speicherbereich des Objekts zu. Mit Pandas 3.0 wird die verkettete Indexierung nicht mehr unterstützt, das Anlegen einer Kopie zum Standard werden. Weitere Informationen erhalten Sie im zitierten Link.
+Die verkettete Indexierung erzeugt in Pandas abhängig vom Kontext eine Kopie des Objekts oder greift auf den Speicherbereich des Objekts zu. Mit Pandas 3.0 wird die verkettete Indexierung nicht mehr unterstützt, das Anlegen einer Kopie wird zum Standard werden. Weitere Informationen erhalten Sie im zitierten Link.
 
 :::: {.border layout="[5, 90, 5]"}
 
@@ -382,7 +382,7 @@ Auch wenn Sie mit Datensätzen im wide-Format arbeiten, ist die Unterscheidung i
 
 ### Übung zweidimensionale Datensätze
 Oben wurde das Objekt messung1_long mit dem Befehl `messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])` angelegt.  
-**Benutzen Sie die Funktion** `df.cast()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
+**Benutzen Sie die Funktion** `pd.DataFrame.pivot()`, **um den Datensatz messung1 wieder ins wide-Format zu transformieren.**
 
 ``` {python}
 #| echo: false
@@ -487,7 +487,7 @@ print(logo[50:52, 50:52, : ])
 :::
 
 ### Übung dreidimensionale Datensätze
-Über den Index der dritten Dimension können die Farbkanäle Rot, Grün und Blau ausgewählt und mit der Funktion `plt.imshow(cmap = 'Greys_r')` einzeln dargestellt werden. Das Argument `cmap = 'Greys_r'` weist die Funktion an, die invertierte Grauskala benutzen. Dadurch werden hohe Farbwerte hell und niedrige Farbwerte dunkel dargestellt. **Versuchen Sie es einmal.**
+Über den Index der dritten Dimension können die Farbkanäle Rot, Grün und Blau ausgewählt und mit der Funktion `plt.imshow(cmap = 'Greys_r')` einzeln dargestellt werden. Das Argument `cmap = 'Greys_r'` weist die Funktion an, die invertierte Grauskala benutzen. Dadurch werden hohe Farbwerte hell und niedrige Farbwerte dunkel dargestellt. **Stellen Sie die Farbkanäle Rot, Grün und Blau des Pythonlogos einzeln mit der Funktion `plt.imshow(cmap = 'Greys_r')` dar.**
 
 ::: {#tip-logo .callout-tip collapse="true"}
 ## Musterlösung dreidimensionale Datensätze
@@ -705,7 +705,7 @@ for element in bool_values:
   print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
-Dies gilt auch für die logische Identität.
+Dies gilt auch für die (logische Identität)[https://de.wikipedia.org/wiki/Identit%C3%A4t_(Logik)].
 ``` {python}
 for element in bool_values:
   result = element == element
@@ -981,7 +981,7 @@ Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrol
 
 ### Aufgabe Datentypen
 Das britische Energieministerium veröffentlicht Daten zu den Industriestrompreisen in den Mitgliedsändern der Internationalen Energieagentur.  
-**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'aufgaben/01-daten/table_531.xlsx' mit Pandas ein. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
+**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'aufgaben/01-daten/table_531.xlsx' mit Pandas ein. Schauen Sie in der Dokumentation der Funktion [pd.read_excel(https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) nach, wie Sie das korrekte Tabellenblatt auswählen können. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
 
 ::: {.border}
 Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
@@ -1012,7 +1012,7 @@ Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` änd
 
   - Variante 1: als fehlenden Wert beim Einlesen deklarieren. 
   
-  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen. Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus. Künftig ist folgende Synthax zu verwenden: `df.loc[row_indexer, "col"] = value`.
+  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen. Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus. Künftig ist folgende Syntax zu verwenden: `df.loc[row_indexer, "col"] = value`.
 
 ``` {python}
 # Variante 1: '..' als fehlenden Wert deklarieren
@@ -1230,7 +1230,7 @@ else:
 ::::
 :::
 
-  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch np.inf durch große positive sowie -np.inf durch große negative Zahlen.)  
+  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch `np.inf` durch große positive sowie `-np.inf` durch große negative Zahlen.)  
   Die Ersetzung eines bestimmten Werts ist auch mit einem logischen Vektor möglich (siehe folgendes Beispiel).
 
 ::: {#nte-vectorslicing .callout-note collapse="true"}
@@ -1241,12 +1241,14 @@ a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
 
 b = np.isnan(a)
 
+print(b)
+
 a[b] = 0
 
 print(a)
 ```
 
-Dabei können mehrere Bedingungen in Form eines logischen ODER kombiniert werden. Der Operator + bewirkt das gleiche wie der logische Operator `or`.
+Dabei können mehrere Bedingungen mit der Funktion `np.logical_or(x1, x2)` als logisches ODER kombiniert werden.
 ``` {python}
 a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
 
@@ -1254,14 +1256,14 @@ bedingung1 = np.isnan(a)
 
 bedingung2 = a >= 5
 
-bedingung = bedingung1 + bedingung2
+bedingung = np.logical_or(bedingung1, bedingung2)
 
 a[bedingung] = 0
 
 print(a)
 ```
 
-Auch ein logisches UND ist möglich (aber in Verbindung mit np.NaN nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and`.
+Auch ein logisches UND ist möglich (aber in Verbindung mit np.NaN nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and` oder die Funktion `np.logical_and(x1, x2)`.
 ``` {python}
 a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
 
@@ -1330,7 +1332,6 @@ Die Pandas-Funktionen zum Lesen von Dateien können mit fehlenden Werten umgehen
 
 Weitere Werte können mit dem Argument `na_values = []` als fehlende Werte definiert werden. Mit dem Argument `keep_default_na = False` kann festgelegt werden, dass ausschließlich die in `na_values = []` übergebenen Werte als fehlende Werte interpretiert werden sollen. Standardmäßig werden mit dem Argument `na_filter = True` auch leere Zellen als NA eingelesen. Vollständig leere Zeilen werden jedoch standardmäßig übersprungen. Dies kann mit dem Argument `skip_blank_lines = False` geändert werden. ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html#io-navaluesconst))  
 
-Fehlende Werte können mit dem Argument `na_values = []` spezifiziert werden.
 ``` {python}
 dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
 
@@ -1844,7 +1845,7 @@ preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1)
 preise
 ```
 
-Auf diese Weise kann die erste Zeile eingelesen und das Semikolon als Zeichentrenner identifiziert werden. Außerdem sind Fehler mit der Zeichenkodierung auffällig. Deshalb werden der Zeichentrenner mit `delimiter = ';'` und die Kodierung der Datei mit `encoding = 'UTF-8' übergeben.
+Auf diese Weise kann die erste Zeile eingelesen und das Semikolon als Zeichentrenner identifiziert werden. Außerdem sind Fehler mit der Zeichenkodierung auffällig. Deshalb werden der Zeichentrenner mit `delimiter = ';'` und die Kodierung der Datei mit `encoding = 'UTF-8'` übergeben.
 
 ``` {python}
 dateipfad = "skript/01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
@@ -1985,7 +1986,7 @@ Der Datentyp der Spalte DE/AT/LU [€/MWh] Originalauflösungen wird nicht als f
 preise['DE/AT/LU [€/MWh] Originalauflösungen'].describe()
 ```
 
-Da dies nicht der Fall ist, kann die Spalte entfernt werden. Anschließend können die ersten beiden Spalten mit der Funktion 'pd.to_datetime()' in ein Datumsformat konvertiert werden. Eine Zelle enthält Zeichenketten im Schema '01.01.2023 00:00'. Mit Hilfe der [strftime-Dokumentation](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior) kann der Funktion das Datumsformat übergeben werden.
+Da dies nicht der Fall ist, kann die Spalte entfernt werden. Anschließend können die ersten beiden Spalten mit der Funktion `pd.to_datetime()` in ein Datumsformat konvertiert werden. Eine Zelle enthält Zeichenketten im Schema '01.01.2023 00:00'. Mit Hilfe der [strftime-Dokumentation](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior) kann der Funktion das Datumsformat übergeben werden.
 
 ``` {python}
 preise.drop(labels = 'DE/AT/LU [€/MWh] Originalauflösungen', axis = 'columns', inplace = True)
@@ -2190,30 +2191,31 @@ Im nächsten Schritt werden die Indexposition der doppelten und der fehlenden St
 *doppelte Stunde*
 
 ``` {python}
-# neues Objekt MIT GETEILTEM SPEICHERBEREICH anlegen
-austria_dates = erzeugung_austria[['Zeit von [CET/CEST]', 'Zeit bis [CET/CEST]']].copy(deep = False)
+# neues Objekt anlegen
+austria_dates = erzeugung_austria[['Zeit von [CET/CEST]', 'Zeit bis [CET/CEST]']].copy()
 
 # Indexposition der doppelten Stunde bestimmen
 ## Zeit von
 position_doppelte_stunde_von = austria_dates['Zeit von [CET/CEST]'][austria_dates['Zeit von [CET/CEST]'].duplicated()].index - 4
 
-print(f"Die Stunde von\n{austria_dates.loc[position_doppelte_stunde_von, 'Zeit von [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_von}\n"
-f"\nDie nächste Stunde lautet:\n\n{austria_dates.loc[position_doppelte_stunde_von + 4, 'Zeit von [CET/CEST]']}"
+print(f"Die doppelte Stunde (Zeit von):\n{austria_dates.loc[position_doppelte_stunde_von, 'Zeit von [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_von}\n"
+f"\nDie nächste Stunde lautet:\n{austria_dates.loc[position_doppelte_stunde_von + 4, 'Zeit von [CET/CEST]']}"
 f"\n\nBeide Stunden sind identisch.")
 
-### Ende der Verschiebung in Spalte Datum von
+### Ende der Verschiebung in Spalte Zeit von
 ende_verschiebung_von = position_doppelte_stunde_von[-1]
-print(f"\nDie Zeitverschiebung in der Spalte Datum von endet bei Indexposition: {ende_verschiebung_von}")
-
+print(f"\nDie Zeitverschiebung in der Spalte Zeit von endet bei Indexposition: {ende_verschiebung_von}")
 
 ## Zeit bis
 position_doppelte_stunde_bis = austria_dates['Zeit bis [CET/CEST]'][austria_dates['Zeit bis [CET/CEST]'].duplicated()].index - 4
 
-print(f"\n\nDie Stunde bis\n{austria_dates.loc[position_doppelte_stunde_bis, 'Zeit bis [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_bis}\n"
-f"\nDie nächste Stunde lautet:\n\n{austria_dates.loc[position_doppelte_stunde_bis + 4, 'Zeit bis [CET/CEST]']}"
+print(f"\n\nDie doppelte Stunde (Zeit bis):\n{austria_dates.loc[position_doppelte_stunde_bis, 'Zeit bis [CET/CEST]']}\nsteht an Indexposition\n {position_doppelte_stunde_bis}\n"
+f"\nDie nächste Stunde lautet:\n{austria_dates.loc[position_doppelte_stunde_bis + 4, 'Zeit bis [CET/CEST]']}"
 f"\n\nBeide Stunden sind identisch.")
 
-
+### Ende der Verschiebung in Spalte Zeit bis
+ende_verschiebung_bis = position_doppelte_stunde_bis[-1]
+print(f"\nDie Zeitverschiebung in der Spalte Zeit bis endet bei Indexposition: {ende_verschiebung_bis}")
 ```
 
 *fehlende Stunde* 
@@ -2235,7 +2237,7 @@ Die Sommerzeit beginnt am letzen Sonntag im März. Die Stunde liegt nicht in ran
 ### Monat März
 maske_märz_von = austria_dates['Zeit von [CET/CEST]'].dt.month == 3
 austria_dates_march_von = austria_dates.loc[maske_märz_von, 'Zeit von [CET/CEST]']
-print(f"Der Monat März:\n{austria_dates_march_von.head}\n");
+print(f"Der Monat März (Zeit von):\n{austria_dates_march_von.head}\n");
 
 ### letzter Sonntag
 maske_sonntag_von = (austria_dates_march_von.dt.dayofweek == 6)
@@ -2248,17 +2250,73 @@ fehlende_stunde_von = np.argwhere(np.invert(pd.Series(range(0,24)).isin(letzter_
 print(f"\nEs fehlt die Stunde:\n{fehlende_stunde_von}\n")
 print(letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von - 1)], letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von + 1)], sep = "\n")
 
-### Beginn der Verschiebung in Spalte Datum von
+### Beginn der Verschiebung in Spalte Zeit von
 beginn_verschiebung_von = letzter_sonntag_von[letzter_sonntag_von.dt.hour == (fehlende_stunde_von + 1)].index[0]
 
-print(f"\nDie Zeitverschiebung in der Spalte Datum von beginnt bei Indexposition: {beginn_verschiebung_von}")
-
+print(f"\nDie Zeitverschiebung in der Spalte Zeit von beginnt bei Indexposition: {beginn_verschiebung_von}\n\n")
 
 ## Zeit bis
+### Monat März
+maske_märz_bis = austria_dates['Zeit bis [CET/CEST]'].dt.month == 3
+austria_dates_march_bis = austria_dates.loc[maske_märz_bis, 'Zeit bis [CET/CEST]']
+print(f"Der Monat März (Zeit bis):\n{austria_dates_march_bis.head}\n");
+
+### letzter Sonntag
+maske_sonntag_bis = (austria_dates_march_bis.dt.dayofweek == 6)
+letzter_sonntag_bis = (austria_dates_march_bis[maske_sonntag_bis]) [-23*4 :]
+print(f"Der letzte Sonntag im März:\n{letzter_sonntag_bis}\n")
+
+### fehlende Stunde
+print(letzter_sonntag_bis.dt.hour)
+fehlende_stunde_bis = np.argwhere(np.invert(pd.Series(range(0,24)).isin(letzter_sonntag_bis.dt.hour))).item() 
+print(f"\nEs fehlt die Stunde:\n{fehlende_stunde_bis}\n")
+print(letzter_sonntag_bis[letzter_sonntag_bis.dt.hour == (fehlende_stunde_bis - 1)], letzter_sonntag_bis[letzter_sonntag_bis.dt.hour == (fehlende_stunde_bis + 1)], sep = "\n")
+
+### Beginn der Verschiebung in Spalte Zeit bis
+beginn_verschiebung_bis = letzter_sonntag_bis[letzter_sonntag_bis.dt.hour == (fehlende_stunde_bis + 1)].index[0]
+
+print(f"\nDie Zeitverschiebung in der Spalte Zeit bis beginnt bei Indexposition: {beginn_verschiebung_bis}")
 
 ```
-**Für 'Zeit bis' wiederholen. --> Copy & Paste und von durch bis ersetzen**  
-In Spalte 'Zeit von' möchten wir alle Einträge ab Zeilenindex 8072 bis Zeilenindex 28903 um eine Stunde nach vorne verschieben. **Die müssen wir noch in Objekten speichern, um diese nicht manuell für die Verschiebung um eine Stunde eintragen zu müssen für 'Zeit bis' wiederholen.**
+
+Mit den gespeicherten Indexpositionen können die betreffenden Zeitstempel verschoben werden:
+
+  - Spalte Zeit von: 8072 (Objekt beginn_verschiebung_von) bis 28903 (Objekt ende_verschiebung_von)
+
+  - Spalte Zeit bis: 8071 (Objekt beginn_verschiebung_bis) bis 28902 (Objekt ende_verschiebung_bis)
+
+Für das Slicing wird die Methode `pd.Series.iloc[]` verwendet, die exklusiv indexiert, d. h. die Endpositionen müssen um 1 erhöht werden. Durch Subtraktion von pd.Timedelta(1, unit = 'h') wird die Zeitverschiebung aus dem Datensatz entfernt. 
+  
+``` {python}
+# Zeitverschiebung korrigieren
+## Zeit von
+austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1] = austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1].subtract(pd.Timedelta(1, unit = 'h'))
+
+erzeugung_austria['Zeit von [CET/CEST]'] = austria_dates['Zeit von [CET/CEST]']
+
+## Zeit bis
+austria_dates['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis : ende_verschiebung_bis + 1] = austria_dates['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis : ende_verschiebung_bis + 1].subtract(pd.Timedelta(1, unit = 'h'))
+
+erzeugung_austria['Zeit bis [CET/CEST]'] = austria_dates['Zeit bis [CET/CEST]']
+
+# Kontrolle
+print("Kontrolle im Datensatz +/- eine Viertelstunde\n")
+print("Die Spalte Zeit von")
+print(erzeugung_austria['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von -1 : ende_verschiebung_von + 2], "\n")
+
+print("Die Spalte Zeit bis")
+print(erzeugung_austria['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis -1 : ende_verschiebung_bis + 2], "\n")
+
+```
+
+Zum Abschluss ein Hinweis:
+
+```
+pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
+pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
+```
+
+**Ergänzen: Man hätte den Zeitindex auch einfach mit pd.daterange() generieren können. Dann muss man sich darum kümmern, wie kontrolliert wird, dass die Zeitstempel in den korrekten Zeilen eingetragen werden.**
 
 :::
 

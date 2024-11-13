@@ -210,12 +210,34 @@ Das Schließen einer Datei ist besonders für Schreiboperationen auf Datenobjekt
 
 **Welche Augenzahl hat Hans erreicht?**
 
-**Die Musterlösung kann Marc machen**
-
 :::: {#tip-Musterlösung-Augenzahlvergleich .callout-tip collapse="true"}
 ## Musterlösung Augenzahlvergleich
-Musterlösung von Marc
 
+::::: {.border}
+
+``` {python}
+# Erst Einlesen der Datei:
+daten_hans = open(pfad_hans, mode = 'r', encoding = 'UTF-8')
+augen_hans = daten_hans.read()
+print(augen_hans)
+# Hier muss man erkennen, dass Hans seinen Namen an den Anfang seiner Liste gesetzt hat. Dieser String muss also entfernt werden, bevor die Summe gebildet werden kann!
+
+augen_hans = augen_hans.strip('"Hans", ')
+augen_hans = augen_hans.strip('"')
+augen_hans = augen_hans.split('", "')
+print(augen_hans)
+# print-Ausgabe zeigt, dass die Liste nun korrekt bereinigt wurde. Sie besteht nur noch aus Integerwerten und diese können summiert werden
+
+# Neue (leere) Liste für die Würfe von Hans anlegen:
+augen_hans_int = []
+for i in augen_hans:
+   augen_hans_int.append(int(i))
+
+print(f"Summe Augenzahl von Hans: {sum(augen_hans_int)}")
+```
+
+Musterlösung von Marc Sönnecken.
+:::::
 ::::
 
 [@Arnold-2023-funktionen-module-dateien]
