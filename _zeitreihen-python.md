@@ -34,7 +34,7 @@ print("datetime:", datetime.datetime.fromtimestamp(0))
 import numpy as np
 print("NumPy:", np.datetime64(0, 's'))
 
-# pandas
+# Pandas
 import pandas as pd
 print("Pandas:", pd.to_datetime(0))
 ```

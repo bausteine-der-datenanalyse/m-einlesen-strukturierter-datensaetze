@@ -136,7 +136,7 @@ Es ist nicht erforderlich, die Besonderheiten aller hier vorgestellten Pakete un
 :::
 
 # Grundlagen: Merkmale von Datensätzen
-Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen behandelt, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen und den Umgang der in der Basis von Python enthaltenen Werkzeuge zu vermitteln.
+Bevor wir uns mit den praktischen Herausforderungen des Einlesens strukturierter Datensätze beschäftigten, werden zunächst einige Merkmale von Datensätzen behandelt, um ein grundlegendes Verständnis der Begrifflichkeiten zu schaffen und den Umgang der in der Basis von Python enthaltenen Werkzeuge zu vermitteln. Am Ende dieses Kapitels wird mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.
 
 ::: {#imp-Datensatz .callout-important}
 ## Datensatz
@@ -753,12 +753,56 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
 Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen, in Spaltenbeschriftungen, in zusätzlichen Tabellenblättern oder in separaten Dokumenten (die nicht immer zur Verfügung stehen).
 
+**Im Aufklapper ergänzen: Querverweis auf w-rechtliche Grundlagen Datenmanagement**
+
 ::: {#tip-metadata .callout-tip collapse="false"}
 ## Metadaten
 Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, sofern vorhanden, studiert werden. 
 
 **Hier Querverweis auf w-rechtliche Grundlagen Datenmanagement**
 :::
+
+## Tidy data {#sec-tidydata}
+Datensätze werden mit verschiedenen Zielstellungen angelegt, etwa dass eine bequeme Dateneingabe möglich ist. Dies führt aber häufig dazu, dass Datensätze für die skriptbasierte Datenanalyse zunächst aufwändig aufgeräumt werden müssen.
+
+<!-- Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python und den fehlenden Spaltenbeschriftungen in Numpy) -->
+
+::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+&nbsp;
+
+:::
+
+Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+::: {#imp-tidy-data .callout-important}
+## tidy data
+
+:::: {.border layout="[[5, 90, 5], [1]]"}
+
+&nbsp;
+
+::::: {}
+"Das System tidy data besteht aus drei Regeln:
+
+1. Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.
+
+2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
+
+3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert."
+:::::
+
+&nbsp;
+
+[@R-for-Data-Science, Kapitel 5 Data tidying]
+::::
+:::
+
+Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Es ist völlig in Ordnung, eine andere Struktur zu wählen, wenn die Datenanalyse damit leichter durchgeführt werden kann.
 
 # Die Module NumPy und Pandas {#sec-numpypandas}
 Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. In den folgenden Abschnitten werden beide Module behandelt.
@@ -1649,7 +1693,7 @@ np.arange('2005-02', '2005-03', dtype = 'datetime64[D]')
 In Pandas werden `datetime64`-Objekte mit den Funktionen `pd.to_datetime()` oder `pd.date_range()` angelegt.  
 *Hinweis: Eine weitere Möglichkeit ist die Funktion `pd.Timestamp()`, die umfangreichere Möglichkeiten zur Erzeugung eines Zeitpunkts bietet, aber kein string-parsing unterstützt.*
 
-`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` (mit `pd.to_datetime()` erzeugte Skalare werden als Timestamp (Zeitpunkt) ausgegeben, die kein Attribut `dtype` haben). Die Funktion `pd.to_datetime()` akzeptiert als Eingabewerte:
+`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` (mit `pd.to_datetime()` erzeugte Skalare (Einzelwerte) werden als Timestamp (Zeitpunkt) ausgegeben, die kein Attribut `dtype` haben). Die Funktion `pd.to_datetime()` akzeptiert als Eingabewerte:
 
   - datetime-Objekte anderer Module.
 
@@ -2097,6 +2141,21 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 ## Übungen: Zeitreihen einlesen {#sec-übungenzeitreihen}
 
+::: {.border layout="[[5, 90, 5], [1], [1]]"}
+
+&nbsp;
+
+"everybody I know has war stories about cleaning up lousy datasets"  
+Nicholas J. Cox
+
+&nbsp;
+
+&nbsp;
+
+Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
+
+:::
+
 Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestellten Werkzeuge und können mit NumPy oder mit Pandas gelöst werden.
 
 #### Leicht: Englisches Datumsformat einlesen
@@ -2142,21 +2201,20 @@ In dem Datensatz wird durch die Umstellung von Sommer- auf Winterzeit am letzten
 
 **Lesen Sie die Datei so ein, dass die Spalten mit Datums- und Zeitinformationen als datetime erkannt werden. Lösen Sie die Zeitumstellung so auf, dass jeder Tag 24 Stunden hat.**
 
-  - Stringmanipulation wie in 'österreichische Datei einlesen.py' --> dann gibt es die Stunde 02 am 29.10. doppelt.
-
-  - Indexposition der doppelten Stunde herausfinden sowie welche Stunde dafür fehlt. --> müsste im März sein können wir uns angucken mit 3 Masken
-
-    - month = März (3)
-
-    - dayofweek = Sonntag (6)
-
-    - pd.Series.dt.hour Die Stunde liegt nicht in der list(range(1, 25)).
-
-  - Dann müssen alle Zeiten bis dahin um eine Stunde verschoben werden - timedelta64
-
-dateipfad = "aufgaben\01-daten\AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv"
-
 ::: {#tip-Austria title="Musterlösung Strommarktdaten Österreich" .callout-tip collapse="true"}
+
+:::: {.callout-tip collapse="true"}
+## einfache Variante
+
+Die einfachste Lösung ist es, Zeitreihen zu generieren und die Spalten 'Zeit von [CET/CEST]' und 'Zeit bis [CET/CEST]' damit zu ersetzen.
+```
+von = pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
+bis = pd.date_range(start = "2023-01-01T00:15", end = "2024-01-01T00:00", freq = '15min')
+
+print(von[8070:8078], "\n")
+print(bis[8070:8078], "\n")
+```
+::::
 
 **Datei einlesen und String-Manipulation**
 
@@ -2308,15 +2366,6 @@ print("Die Spalte Zeit bis")
 print(erzeugung_austria['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis -1 : ende_verschiebung_bis + 2], "\n")
 
 ```
-
-Zum Abschluss ein Hinweis:
-
-```
-pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
-pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
-```
-
-**Ergänzen: Man hätte den Zeitindex auch einfach mit pd.daterange() generieren können. Dann muss man sich darum kümmern, wie kontrolliert wird, dass die Zeitstempel in den korrekten Zeilen eingetragen werden.**
 
 :::
 
@@ -2632,72 +2681,7 @@ for element in bool_values:
 # Zugriff auf mehrere lokale Dateien: Modul glob
 Das Modul glob
 
-# Datensätze organisieren
-In diesem Abschnitt werden typische Herausforderungen beim Einlesen strukturierter Datensätze behandelt und Werkzeuge aus den Modulen NumPy und Pandas vorgestellen, um Probleme zu identifizieren und zu beheben. Dazu wird einführend mit tidy data ein grundlegendes Konzept zur Organisation von Datensätzen vorgestellt.
-
-## Tidy data {#sec-tidydata}
-**Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python [und den fehlenden Spaltenbeschriftungen in Numpy])**
-
-::: {.border layout="[5, 90, 5]"}
-
-&nbsp;
-
-“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
-
-&nbsp;
-
-:::
-
-Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
-
-::: {#imp-tidy-data .callout-important}
-## tidy data
-
-:::: {.border layout="[[5, 90, 5], [1]]"}
-
-&nbsp;
-
-::::: {}
-"Das System tidy data besteht aus drei Regeln:
-
-1. Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.
-
-2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
-
-3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert."
-:::::
-
-&nbsp;
-
-[@R-for-Data-Science, Kapitel 5 Data tidying]
-::::
-:::
-
-Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Es ist völlig in Ordnung, eine andere Struktur zu wählen, Wenn die Datenanalyse damit leichter durchgeführt werden kann. 
-
-
-
-**Hinweis: `dtype=object` erscheint immer, wenn der Datentyp nicht zugeordnet werden kann. type(object) ist etwas anderes als object.dtype. Erstes bestimmt den Objekttyp, zum Beispiel Liste oder Numpy-Array. Zweiteres bestimmt den Datentyp (Ganzzahl, String). Ich glaube, `dtype=object` ist eine Liste von Zeigern auf Objekte im Speicher. Dazu habe ich aber nur eine [Erklärung auf Stackoverflow](https://stackoverflow.com/a/29877845) gefunden, aber nichts in der Dokumentation.**
-
-# Räumliche Daten
-netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
-
 # Strategien der Fehlersuche und Bereinigung
-
-::: {.border layout="[[5, 90, 5], [1], [1]]"}
-
-&nbsp;
-
-"everybody I know has war stories about cleaning up lousy datasets"  
-Nicholas J. Cox
-
-&nbsp;
-
-&nbsp;
-
-Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
-
-:::
 
 ## Werte plausibilisieren
 1. zulässigen Wertebereich prüfen
@@ -2707,7 +2691,14 @@ Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw
 
 # Spezialformate {#sec-spezialformate}
 
-## HDF, netCDF
+## HDF5, netCDF
+
+### Räumliche Daten
+Geopandas?!
+
+HDF5 ...
+
+netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
 https://stackoverflow.com/questions/28170623/how-to-read-hdf5-files-in-python
 
 ## Maskierte Arrays
@@ -2907,4 +2898,28 @@ Wie hier <https://github.com/numpy/numpy/issues/20850> erwähnt, nutzt keine der
 
   * Übungsaufgaben (kleine Projekte)
 
-* Prüfungsaufgaben (ohne Lösungen)
+## Übung
+Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei [Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx.) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
+  
+  - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
+  
+  - in entweder in einer zweidimensionalen Struktur jede Zeile eine Beobachtung und jede Beobachtung eine Zeile sowie jede Spalte eine Variable und jede Variable eine Spalte ist.  
+
+  - oder wählen Sie eine sinnvolle mehrdimensionale Struktur.
+
+<!-- Merkmale: 
+Leerzeilen und Leerspalten
+Multilevel-Index
+„:“ als Zeichen fehlender Werte
+Punkt UND Komma als Dezimaltrennzeichen
+Metadaten mitten im Datensatz
+
+Sinnvoll wäre in einem zweidimensionalen Datensatz die Umbenennung der Variablen in 'Haushaltspreise 2. HJ 2021', 'Haushaltspreise 2. HJ 2022', ... 'Nicht-Haushaltspreise 2. HJ 2023' -->
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|---|
+| Preise für Erdgas | SE_figures_for_Gas_2023S2_v3.xlsx |
+:::
+
+
