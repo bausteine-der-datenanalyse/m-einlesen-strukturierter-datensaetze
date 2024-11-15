@@ -705,7 +705,7 @@ for element in bool_values:
   print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
-Dies gilt auch für die (logische Identität)[https://de.wikipedia.org/wiki/Identit%C3%A4t_(Logik)].
+Dies gilt auch für die [logische Identität](https://de.wikipedia.org/wiki/Identit%C3%A4t_(Logik)).
 ``` {python}
 for element in bool_values:
   result = element == element
@@ -1025,7 +1025,7 @@ Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrol
 
 ### Aufgabe Datentypen
 Das britische Energieministerium veröffentlicht Daten zu den Industriestrompreisen in den Mitgliedsändern der Internationalen Energieagentur.  
-**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'aufgaben/01-daten/table_531.xlsx' mit Pandas ein. Schauen Sie in der Dokumentation der Funktion [pd.read_excel(https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) nach, wie Sie das korrekte Tabellenblatt auswählen können. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
+**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'aufgaben/01-daten/table_531.xlsx' mit Pandas ein. Schauen Sie in der Dokumentation der Funktion [pd.read_excel](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) nach, wie Sie das korrekte Tabellenblatt auswählen können. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
 
 ::: {.border}
 Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
@@ -2139,7 +2139,7 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 :::
 
-## fehlende Werte in Zeitreihen
+## Fehlende Werte in Zeitreihen
 NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
 
   - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
