@@ -2139,6 +2139,43 @@ print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschn
 
 :::
 
+## fehlende Werte in Zeitreihen
+NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
+
+  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
+  `NAT`, in any combination of lowercase/uppercase letters, for a “Not A Time” 
+  
+  - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
+
+::: {#wrn-logicNaT .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA` und `pd.NaT`. 
+``` {python}
+bool_values = [None, float('NaN'), pd.NA, pd.NaT]
+
+for element in bool_values:
+  try:
+    bool_value = bool(element)
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wahrheitswert von", element, "ist", bool_value)
+```
+
+Dies gilt auch für die logische Identität.
+``` {python}
+for element in bool_values:
+  try:
+    result = element == element
+  except TypeError as error:
+      print(error)
+  else:
+    print("Identität von", element, "ist", result)
+```
+
+:::
+
 ## Übungen: Zeitreihen einlesen {#sec-übungenzeitreihen}
 
 ::: {.border layout="[[5, 90, 5], [1], [1]]"}
@@ -2635,48 +2672,6 @@ Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in
 Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
 
 naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
-
-**Fehlersuche und -bereinigung: Kalender prüfen**
-
-**Mit Pandas und/oder NumPy SMARD-Datensätze einlesen, die gibt es in Deutsch und Englisch mit entsprechendem Datumsformat - siehe Material**
-
-## fehlende Werte in Zeitreihen
-NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
-
-  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
-  `NAT`, in any combination of lowercase/uppercase letters, for a “Not A Time” 
-  
-  - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
-
-::: {#wrn-logicNaT .callout-warning appearance="simple" collapse="false"}
-## Achtung Logik!
-
-Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA` und `pd.NaT`. 
-``` {python}
-bool_values = [None, float('NaN'), pd.NA, pd.NaT]
-
-for element in bool_values:
-  try:
-    bool_value = bool(element)
-  except TypeError as error:
-      print(error)
-  else:
-    print("Wahrheitswert von", element, "ist", bool_value)
-```
-
-Dies gilt auch für die logische Identität.
-``` {python}
-for element in bool_values:
-  try:
-    result = element == element
-  except TypeError as error:
-      print(error)
-  else:
-    print("Identität von", element, "ist", result)
-```
-
-:::
-
 
 # Zugriff auf mehrere lokale Dateien: Modul glob
 Das Modul glob
