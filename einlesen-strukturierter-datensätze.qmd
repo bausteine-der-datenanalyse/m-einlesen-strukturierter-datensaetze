@@ -814,7 +814,7 @@ Eine kurze Übersicht der Vor- und Nachteile:
 
     - Spaltennamen sind mit einem strukturierten dtype möglich ([siehe Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names))
 
-  * Pandas: 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanummerischen Spalten- und Indexbeschriftungen.  
+  * Pandas: 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanummerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.  
   **Querverweis auf w-Pandas**
 
     - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
@@ -873,7 +873,7 @@ In NumPy können Dateien mit der Funktion `np.loadtxt()` gelesen und mit der Fun
   - `np.savetxt(fname = dateipfad, X = daten, header = kommentar, fmt='%5.2f')`
 
 ## Pandas
-In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und geschrieben, die einem einheitlichen Schema folgen. Funktionen zum Lesen von Dateien werden in der Form `pd.read_csv` und Funktionen zum Schreiben in der Form `pd.to_csv` aufgerufen.
+In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und geschrieben, die einem einheitlichen Schema folgen. Funktionen zum Lesen von Dateien werden in der Form `pd.read_csv` und Funktionen zum Schreiben in der Form `pd.to_csv` aufgerufen. Mit Pandas können auch Dateien aus dem Internet abgerufen werden `pd.read_csv(URL)`.
 
 :::: {.border}
 | Format Type | Data Description | Reader | Writer |
@@ -2674,15 +2674,80 @@ Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/re
 naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
 
 # Zugriff auf mehrere lokale Dateien: Modul glob
-Das Modul glob
 
-# Strategien der Fehlersuche und Bereinigung
+::: {.border}
+Das Modul glob: Vorlesung SA03
+Das Modul [glob](https://docs.python.org/3/library/glob.html#module-glob) erlaubt es, mit der Funktion `glob.glob(pathname, *, root_dir = None, recursive = False)` aus einem Ordner alle Dateipfade, die dem im Argument `pathname` spezifizierten Muster entsprechen zurückzugeben. Das Argument `pathname` kann als Schlüsselwort oder positional übergeben werden, die übrigen Argumente müssen als Schlüsselwort übergeben werden (dies signalisiert das Zeichen `*`). Die Speicheradresse des Ordners wird mit dem Argument `root_dir` übergeben, dessen Standardwert das aktuelle Arbeitsverzeichnis ist. 
+Im Argument `pathname` können Platzhalter, sogenannte Wildcards, verwendet werden, um beliebige Zeichen und Zeichenfolgen zu spezifizieren.
 
-## Werte plausibilisieren
-1. zulässigen Wertebereich prüfen
+| Wildcard | Funktion |
+| :--: | :------------: |
+| `*` | beliebige Zeichenfolge außer Dateipfadelemente wie `/` oder `.` |
+| `?` | genau ein beliebiges Zeichen |
+|`[]` | alle in den Klammern eingeschlossenen Zeichen inklusive der Wildcards `*` `?`|
+|`[0-9]` | alle Ziffern 0 bis 9 |
 
-2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen
-Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
+&nbsp;
+
+Unter dem Pfad 'skript/01-daten/glob' liegen, teils in einem Unterordner, verschiedene Dateien.
+
+
+``` {python}
+import glob
+ordnerpfad = 'skript/01-daten/glob' 
+
+pfadliste = glob.glob(pathname = '*', root_dir = ordnerpfad, recursive = False)
+print(pfadliste)
+
+```
+
+Das Argument `recursive` steuert, ob auch Unterordner durchsucht werden. Um auch Unterordner zu durchsuchen, muss es auf True gesetzt und im pathname `**` spezifiziert werden.
+
+``` {python}
+pfadliste = glob.glob(pathname = '**', root_dir = ordnerpfad, recursive = True)
+print(pfadliste)
+
+```
+**Elemente erklären**
+
+**Alle Unfallorte.csv speichern**
+
+``` {.raw}
+Um mehrere Dateien einzulesen kann entsprechend eine Schleife über alle zu lesenden Dateien erstellt werden. Ist diese Liste jedoch nicht bekannt und soll z.B. über alle Dateien mit bestimmten Merkmalen iteriert werden, kann das glob-Modul verwendet werden.
+
+Folgender Aufruf listet alle Dateien im Verzeichnis dateien auf: 
+
+import glob
+l1 = glob.glob('dateien/*')
+print(f"Anzahl der gefundenen Dateien: {len(l1)}")
+print("Dateienliste:")
+for i in l1:
+    print("  ", i)
+    
+So kann die erste Zeile aller gefundenen Dateien ausgegeben werden:
+l3 = glob.glob('dateien/*.txt')
+for dname in l3:
+    datei = open(dname, 'r', encoding='UTF-8')
+    zeile = datei.readline()
+    datei.close()
+    print(f"Erste Zeile der Datei '{dname}':")
+    print(zeile)
+
+```
+
+[@Arnold-2023-funktionen-module-dateien]
+
+:::
+
+## Übungen mehrere Dateien
+
+schwer: marode Infrastruktur? Verkehrsdaten von <https://unfallatlas.statistikportal.de/> abgerufen am 13.09.2024
+
+Variable des Straßenzustands: Die heißt mal "STRZUSTAND", mal "USTRZUSTAND" und mal "IstStrassenzustand". Alle Werte eines Jahres in einer Spalte speichern und Durchschnitt berechnen.
+
+- Dateien mit glob durchgehen und Spaltennamen mit str.replace vereinheitlichen. (try Spalte extrahieren STRZUSTAND, else USTRZUSTAND, ...)
+
+- mit NumPy kann man leicht mehrdimensionale Dateien einlesen, die Werte sind alle numerisch.
 
 # Spezialformate {#sec-spezialformate}
 
@@ -2884,6 +2949,16 @@ Wie hier <https://github.com/numpy/numpy/issues/20850> erwähnt, nutzt keine der
   - ma.MaskedArray.tobytes(fill_value=None, order='C') uses a.fill_value when fill_value is None
   
   - ma.min/ma.max/ma.argmin/ma.argmax ignore a.fill_value
+
+
+# Strategien der Fehlersuche und Bereinigung
+Zusammenfassung der bisherigen Tipps.
+
+## Werte plausibilisieren
+1. zulässigen Wertebereich prüfen
+
+2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen
+Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
 
 # Das Wichtigste (vielleicht als Video)
 
