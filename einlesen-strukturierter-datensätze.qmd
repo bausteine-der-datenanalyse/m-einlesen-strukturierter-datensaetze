@@ -2204,6 +2204,34 @@ Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestell
 ::: {#tip-strompreise .callout-tip collapse="true"}
 ## Musterlösung Strompreise
 
+``` {python}
+
+import pandas as pd
+
+dateipfad = "aufgaben/01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv"
+
+data = pd.read_csv(dateipfad, sep=";")   # Semikolon als Trennzeichen muss angegeben werden
+data.info() # -> man sieht, dass Spalten 0 "Start date" und 1 "End date" als Dtype "object" erkannt werden
+print("\n")
+
+print(data.iloc[0:10, 0:2], "\n") # anzeigen von ein paar Zeilen, um zu schauen wie die ersten beiden "Object" Spalten aufgebaut sind
+# Ausgabe lautet:
+# Start date: Jan 1, 2023 12:00 AM
+# End date Jan 1, 2023 1:00 AM
+# also bieten sich zwei Varianten an:
+
+# 1. Variante: beim Einlesen schon Datumsformat angeben:
+data = pd.read_csv(dateipfad, sep=";" , parse_dates=[0,1], date_format="%b %d, %Y %I:%M %p")   # Parameter heißt hier date_format, bei 2. Variante heißt er nur "format"
+
+# 2. Variante: Die beiden Spalten zu Anfang, die dtype object haben, seperat ändern nachdem die Datei schon eingelesen wurde:
+data["Start date"] = pd.to_datetime(data["Start date"], format="%b %d, %Y %I:%M %p")  #%b für Monatsangabe als Kürzel, %I für Stunde im AM/PM Format, %p für AM/PM
+data["End date"] = pd.to_datetime(data["End date"], format="%b %d, %Y %I:%M %p")
+print(data.iloc[0:10, 0:2], "\n")
+
+data.info()
+
+```
+
 :::
 
 #### Mittel: Strommarktdaten Österreich

@@ -64,7 +64,8 @@ Die Attribute der Datei können mit entsprechenden Befehlen abgerufen werden.
 print(f"Dateipfad: {daten_maya.name}\n"
       f"Dateiname: {os.path.basename(daten_maya.name)}\n"
       f"Datei ist geschlossen: {daten_maya.closed}\n"
-      f"Zugriffsmodus: {daten_maya.mode}")
+      f"Zugriffsmodus: {daten_maya.mode}"
+      f"Enkodierung: : {daten_maya.encoding}")
 
 
 ```
