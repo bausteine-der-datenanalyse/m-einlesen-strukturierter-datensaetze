@@ -1751,7 +1751,7 @@ print(pd.date_range(end = '2024', freq = 'h', periods = 3))
 :::
 
 Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
-**Notiz für mich: Anwendungsfall Zeitzonen verschieben unabhängig von einer Zeitzone (und ohne die Zeitzonensyntax)**
+<!-- **Notiz für mich: Anwendungsfall Zeitzonen verschieben unabhängig von einer Zeitzone (und ohne die Zeitzonensyntax)** -->
 
 ::: {.callout-note collapse="true"}
 ## Zeitdifferenzen in NumPy und Pandas
@@ -2054,7 +2054,6 @@ print(preise.info())
 
 ## Zugriff auf Zeitreihen
 Die Module NumPy und Pandas bieten zahlreiche Möglichkeiten, um auf Zeitreihen zuzugreifen. Angenommen, wir interessieren uns für die durchschnittlichen Strompreise an Werktagen und am Wochenende.
-**eventl. wieder mit panel-tabset für NumPy und Pandas**
 
 ::: {.panel-tabset}
 
@@ -2663,45 +2662,6 @@ shiller_data.info()
 :::::
 ::::
 :::
-
-### Zeitzonen in NumPy und Pandas
-
-#### Zeitzonen mit NumPy verwalten
---> NumPy unterstützt das gar nicht, es reicht zu zeigen, wie es eingelesen wird.
-**hier bräuchten wir britische, portugisische oder osteuropäische Daten, um einen Zeitversatz zu demonstrieren**
-
-`datetime64[ns, tz]`
-
-#### Zeitzonen mit Pandas verwalten
-http://pandas.pydata.org/pandas-docs/dev/user_guide/timeseries.html#time-zone-handling 
-
-
-datetime and time objects have an optional time zone information attribute, tzinfo, that can be set to an instance of a subclass of the abstract tzinfo class. (https://docs.python.org/3/library/datetime.html#)
-**Das kann doch nicht so kompliziert sein?! Die Dokumentation des Moduls ist auch interessant. Es löst einige Probleme mit dem Ende der Sommerzeitumstellung. <https://pythonhosted.org/pytz/>**
-
-
-::: {.border}
-#### Grobe Planung a-Analyse von Zeitdaten
-
-  - pandas, matplotlib, scikit-learn?
-
-  - Datenvorbereitung und -bereinigung: Umgang mit fehlenden Werten und Ausreißern
-
-  - Trends und Saisonalität
-
-  - Autokorrelation?
-
-  - Modellierung und Vorhersagen
-
-  - Evaluierung von Vorhersagen
-
-::::
-
-Welches Datum ist heute? Das hängt vom Kalender ab: Gregorianischer Kalender in Europa, jüdischer Kalender in Israel,  islamischer Kalender, Suriyakati-Kalender in Thailand (hatte ich in der Diss), Astronomische Zählweise (NumPy)
-
-Unterschied NumPy und Python wird hier erklärt: https://numpy.org/doc/stable/reference/arrays.datetime.html
-
-naive und aware time (aware kennt Zeitzonen, naive nicht): https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions
 
 # Zugriff auf mehrere lokale Dateien: Modul glob
 

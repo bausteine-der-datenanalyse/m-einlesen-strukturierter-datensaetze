@@ -1,4 +1,4 @@
-**folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender**  
+**Notiz für die Fertigstellung des Bausteins: folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender**  
 **Die Einführung in [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) sollte in w-Pandas erfolgen.**
 
 ## Datums- und Zeitinformationen in Python
@@ -111,12 +111,12 @@ for timezone in sorted(available_timezones()):
 ### Zeit
 NumPy nutzt die Internationale Atomzeit (abgekürzt TAI für französisch Temps Atomique International). Diese nimmt für jeden Kalendertag eine Länge von 86.400 Sekunden an, kennt also keine Schaltsekunde. Die Atomzeit bildet die Grundlage für die koordinierte Weltzeit UTC. UTC steht für Coordinated Universal Time (auch bekannt als Greenwich Mean Time). Das Kürzel UTC ist ein Kompromiss für die englische und die französische Sprache. Die koordinierte Weltzeit gleicht die Verlangsamung der Erdrotation (astronomisch gemessen als Universalzeit, Universal Time UT) durch Schaltsekunden aus, um die geringfügige Verlängerung eines Tages auzugleichen. Die TAI geht deshalb gegenüber der UTC vor. Seit 1972 unterscheiden sich beide Zeiten um eine ganzzahlige Anzahl von Sekunden. Aktuell (2024) geht die TAI 37 Sekunden gegenüber UTC vor.
 Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umgesetzt. ([Dokumentation NumPy](https://numpy.org/doc/stable/reference/arrays.datetime.html), [Wikipedia](https://de.wikipedia.org/wiki/Internationale_Atomzeit))
-(**wie ist das in Pandas?! Der Absatz ist fast wörtlich übernommen.**) 
+<!-- (**wie ist das in Pandas?! Der Absatz ist fast wörtlich übernommen.**)  -->
 
 #### Zeitzonen
 **ergänzen** <https://de.wikipedia.org/wiki/Zeitzone>
 
-**Können wir die mit Pandas plotten?**
+<!-- **Können wir die mit Pandas plotten?** -->
 
 #### Dailight Saving Time
 ::: {.border layout="[5, 90, 5]"}
@@ -128,16 +128,18 @@ Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umg
 &nbsp;
 :::
 
-**Können wir die Länder mit Zeitumstellung mit Pandas plotten?**
+<!-- **Können wir die Länder mit Zeitumstellung mit Pandas plotten?** -->
 
 ### Kalender
 **to do**
 
 Die Module calendar, NumPy und Pandas verwenden den um die Zeit vor seiner Einführung 1582 erweiterten Gregorianische Kalender, den [proleptischen Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar). Während das Modul date nur die Jahre 1-9999 nach unserer Zeit unterstützt, erlaubt der Datentyp `datetime64` auch Jahre vor unserer Zeit in [astronomischer Jahresnumerierung](https://en.wikipedia.org/wiki/Astronomical_year_numbering). Das bedeutet, es gibt ein Jahr 0 (das erste Jahr vor unserer Zeit) und vorausgehende Jahre werden mit negativen Zahlen dargestellt (-1 ist das zweite Jahr vor unserer Zeit). [NumPy Dokumentation] (https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions)
 
-  - Schaltjahre **im w-Python kleines Programm schreiben lassen, dass auf Schaltjahre prüft**
+  - Schaltjahre 
 
   - Welche wichtigen Kalender gibt es (jüdischen Kalender, muslimischen Kalender, chinesischen Kalender)
 
     - Mögliche Aufgabe: Kalender hin und her konvertieren, falls das relevant ist (in der Diss hatte ich den thailändischen (?!) Kalender)
+
+<!-- **im w-Python kleines Programm schreiben lassen, dass auf Schaltjahre prüft** -->
 
