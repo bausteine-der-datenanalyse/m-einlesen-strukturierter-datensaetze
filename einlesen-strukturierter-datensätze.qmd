@@ -2197,15 +2197,15 @@ Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestell
 
 #### Leicht: Englisches Datumsformat einlesen
 
-**Aufgabe: Lesen Sie die Datei 'Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden. (Hinweise zur Datei siehe @wrn-SMARD, siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))**
+**Aufgabe: Lesen Sie die Datei Dateipfad: 'aufgaben/01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden. (Hinweise zur Datei siehe @wrn-SMARD, siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))**
 
-**Die Musterlösung kann Marc machen. Dateipfad: "aufgaben/01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv"**
 
 ::: {#tip-strompreise .callout-tip collapse="true"}
 ## Musterlösung Strompreise
 
-``` {python}
+:::: {.border}
 
+``` {python}
 import pandas as pd
 
 dateipfad = "aufgaben/01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv"
@@ -2232,6 +2232,8 @@ data.info()
 
 ```
 
+Musterlösung von Marc Sönnecken. Zur Verbesserung der Lesbarkeit wurde die Ausgabe mit `print(data.head(10))` ersetzt durch `print(data.iloc[0:10, 0:2], "\n") `. Um sich einen Überblick über einen Datensatz zu verschaffen, ist die Methode `.head()` jedoch besser geeignet
+::::
 :::
 
 #### Mittel: Strommarktdaten Österreich
