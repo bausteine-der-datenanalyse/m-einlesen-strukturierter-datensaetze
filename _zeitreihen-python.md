@@ -110,13 +110,27 @@ for timezone in sorted(available_timezones()):
 
 ### Zeit
 NumPy nutzt die Internationale Atomzeit (abgekürzt TAI für französisch Temps Atomique International). Diese nimmt für jeden Kalendertag eine Länge von 86.400 Sekunden an, kennt also keine Schaltsekunde. Die Atomzeit bildet die Grundlage für die koordinierte Weltzeit UTC. UTC steht für Coordinated Universal Time (auch bekannt als Greenwich Mean Time). Das Kürzel UTC ist ein Kompromiss für die englische und die französische Sprache. Die koordinierte Weltzeit gleicht die Verlangsamung der Erdrotation (astronomisch gemessen als Universalzeit, Universal Time UT) durch Schaltsekunden aus, um die geringfügige Verlängerung eines Tages auzugleichen. Die TAI geht deshalb gegenüber der UTC vor. Seit 1972 unterscheiden sich beide Zeiten um eine ganzzahlige Anzahl von Sekunden. Aktuell (2024) geht die TAI 37 Sekunden gegenüber UTC vor.
-Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umgesetzt. ([Dokumentation NumPy](https://numpy.org/doc/stable/reference/arrays.datetime.html), [Wikipedia](https://de.wikipedia.org/wiki/Internationale_Atomzeit))
-<!-- (**wie ist das in Pandas?! Der Absatz ist fast wörtlich übernommen.**)  -->
+Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umgesetzt. ([Dokumentation NumPy](https://numpy.org/doc/stable/reference/arrays.datetime.html), [Wikipedia](https://de.wikipedia.org/wiki/Internationale_Atomzeit)).
 
 #### Zeitzonen
-**ergänzen** <https://de.wikipedia.org/wiki/Zeitzone>
+Pandas kann mit Zeitzonen umgehen und datetime-Objekte von einer in eine andere Zeitzone umwandeln. Über das Argument `tz` kann in verschiedenen Funktionen die Zeitzone angegeben werden.
 
-<!-- **Können wir die mit Pandas plotten?** -->
+``` {python}
+zeitreihe = pd.Series(pd.date_range(start = "2023-03-26T00:00", end = "2023-03-27T00:00", freq = "h", tz = "turkey"))
+zeitreihe
+```
+
+Mit der Funktion `pd.to_datetime(arg, utc = True)` kann die Zeitzone in die koordinierte Universalzeit UTC umgewandelt werden.
+
+``` {python}
+pd.to_datetime(zeitreihe, utc = True)
+```
+
+Eine Umwandlung in beliebige Zeitzonen ist mit der Methode `pd.Series.dt.tz_convert(tz = 'utc')` möglich.
+
+``` {python}
+zeitreihe.dt.tz_convert(tz = 'portugal')
+```
 
 #### Dailight Saving Time
 ::: {.border layout="[5, 90, 5]"}
@@ -127,6 +141,8 @@ Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umg
 
 &nbsp;
 :::
+
+die Türkei hat keine Zeitumstellung, das kann Pandas aber ohnehin nicht
 
 <!-- **Können wir die Länder mit Zeitumstellung mit Pandas plotten?** -->
 

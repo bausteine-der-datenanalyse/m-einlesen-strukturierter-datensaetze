@@ -765,8 +765,6 @@ Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, 
 ## Tidy data {#sec-tidydata}
 Datensätze werden mit verschiedenen Zielstellungen angelegt, etwa dass eine bequeme Dateneingabe möglich ist. Dies führt aber häufig dazu, dass Datensätze für die skriptbasierte Datenanalyse zunächst aufwändig aufgeräumt werden müssen.
 
-<!-- Konzept als Einführung gedacht: Was ist überhaupt das Ziel des Einlesens? (ist aber inkompatibel mit dem Multiindex in Python und den fehlenden Spaltenbeschriftungen in Numpy) -->
-
 ::: {.border layout="[5, 90, 5]"}
 
 &nbsp;
@@ -2053,16 +2051,7 @@ print(preise.info())
 :::
 
 ## Zugriff auf Zeitreihen
-Die Module NumPy und Pandas bieten zahlreiche Möglichkeiten, um auf Zeitreihen zuzugreifen. Angenommen, wir interessieren uns für die durchschnittlichen Strompreise an Werktagen und am Wochenende.
-
-::: {.panel-tabset}
-
-## NumPy
-**to do**
-
-## Pandas
-
-Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
+Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. NumPy unterstützt vergleichbare Funktionen derzeit nicht nativ. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
 
 ``` {python}
 # Attribute
@@ -2115,7 +2104,7 @@ print("\nName des Monats:", pd.Series(pd.to_datetime(0)).dt.month_name())
 
 :::
 
-**Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
+Die im vorherigen Abschnitt eingelesenen Großhandelspreise für Strom 2023 sollen auf die Unterschiede an Werktagen und am Wochenende untersucht werden. **Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
 
 ::: {#tip-Durchschnittspreis .callout-tip collapse="true"}
 ## Musterlösung Strompreisvergleich
@@ -2698,46 +2687,266 @@ pfadliste = glob.glob(pathname = '**', root_dir = ordnerpfad, recursive = True)
 print(pfadliste)
 
 ```
-**Elemente erklären**
 
-**Alle Unfallorte.csv speichern**
+Im angegebenen pfad 'skript/01-daten/glob' liegen die Dateien 'hintergrund.png', 'ToothGrowth.csv', 'Unfallorte2020_LinRef.csv', 'Unfallorte2022_LinRef.csv' sowie der Unterordner 'Unterordner glob'. In diesem Unterordner liegen die Dateien 'Unfallorte2021_LinRef.csv' und 'Unfallorte2023_LinRef.csv'.
 
-``` {.raw}
-Um mehrere Dateien einzulesen kann entsprechend eine Schleife über alle zu lesenden Dateien erstellt werden. Ist diese Liste jedoch nicht bekannt und soll z.B. über alle Dateien mit bestimmten Merkmalen iteriert werden, kann das glob-Modul verwendet werden.
+Um die Suchergebnisse auf die Dateien 'Unfallorte2020_LinRef.csv', 'Unfallorte2021_LinRef.csv', 'Unfallorte2022_LinRef.csv' und 'Unfallorte2023_LinRef.csv' zu beschränken, muss der im Argument `pathname` übergebene Dateipfad angepasst werden.  **Schauen Sie in die [Dokumentation des Moduls glob](https://docs.python.org/3/library/glob.html#module-glob) und übergeben einen geeigneten Dateipfad.**
 
-Folgender Aufruf listet alle Dateien im Verzeichnis dateien auf: 
+::: {#tip-glob .callout-tip collapse="true"}
+## Tipp und Musterlösung
 
-import glob
-l1 = glob.glob('dateien/*')
-print(f"Anzahl der gefundenen Dateien: {len(l1)}")
-print("Dateienliste:")
-for i in l1:
-    print("  ", i)
-    
-So kann die erste Zeile aller gefundenen Dateien ausgegeben werden:
-l3 = glob.glob('dateien/*.txt')
-for dname in l3:
-    datei = open(dname, 'r', encoding='UTF-8')
-    zeile = datei.readline()
-    datei.close()
-    print(f"Erste Zeile der Datei '{dname}':")
-    print(zeile)
+Tipp: Die gesuchten Dateien beginnen mit dem Buchstaben 'U' und enden mit der Dateiendung '.csv'. Wie Sie Dateien aus einem Ordner und aus einem Unterordner auslesen, sehen Sie in der verlinkten Dokumentation unter Examples. 
 
+:::: {#tip-glob .callout-tip collapse="true"}
+## Musterlösung glob
+
+``` {python}
+pfadliste = glob.glob(pathname = '**/U*.csv', root_dir = ordnerpfad, recursive = True)
+print(pfadliste)
+
+```
+
+::::
+:::
+
+Mit den Dateipfaden können die Dateien mit Hilfe einer Schleife in eine Liste eingelesen werden (aus Gründen der Lesbarkeit jeweils 3 Zeilen und 3 Spalten).
+
+``` {python}
+list_of_files = []
+for pfad in pfadliste:
+  zwischenspeicher = pd.read_csv(filepath_or_buffer = ordnerpfad + '/' + pfad, 
+  delimiter = ';', nrows = 3, usecols = [0, 1, 2])
+  list_of_files.append(zwischenspeicher)
+  print(pfad, "\n", zwischenspeicher, "\n")
+
+```
+
+Aus der Liste können die Datensätze dann eigenen Objekten zugewiesen werden.
+
+``` {python}
+unfalldaten2020 = list_of_files[0] 
+unfalldaten2021 = list_of_files[2] 
+unfalldaten2022 = list_of_files[1] 
+unfalldaten2023 = list_of_files[3] 
+
+print(unfalldaten2020, "\n")
+print(unfalldaten2020.dtypes)
+```
+
+Die Objekte könnten auch in einem DataFrame zusammengeführt werden.
+
+``` {python}
+# Spalte OID_ / OBJECTID vereinheitlichen
+unfalldaten = pd.concat([unfalldaten2020.iloc[: , 1:3], unfalldaten2022.iloc[: , 1:3], unfalldaten2023.iloc[: , 1:3] ], ignore_index = True)
+unfalldaten.insert(loc = 0, column = 'OBJECTID', value = pd.Series(range(1, unfalldaten.shape[0] + 1)))
+unfalldaten = unfalldaten.astype('uint64')
+
+unfalldaten
 ```
 
 [@Arnold-2023-funktionen-module-dateien]
 
 :::
 
-## Übungen mehrere Dateien
+## Übungen Modul glob
 
-schwer: marode Infrastruktur? Verkehrsdaten von <https://unfallatlas.statistikportal.de/> abgerufen am 13.09.2024
+#### Leicht: US State Facts and Figures
+Im Ordner "aufgaben/01-daten/glob leicht" liegen verschiedene .CSV-Dateien mit Daten zu den US-Bundesstaaten. **Lesen Sie die Dateien in einen neuen Datensatz  ein.**
 
-Variable des Straßenzustands: Die heißt mal "STRZUSTAND", mal "USTRZUSTAND" und mal "IstStrassenzustand". Alle Werte eines Jahres in einer Spalte speichern und Durchschnitt berechnen.
+  - Wie heißen die Dateien?
 
-- Dateien mit glob durchgehen und Spaltennamen mit str.replace vereinheitlichen. (try Spalte extrahieren STRZUSTAND, else USTRZUSTAND, ...)
+  - Welche Regionen werden in den Datensätzen unterschieden?
+  
+  - Wie viele Staaten gehören zu jeder Region?
+  
+  - Welche Region ist flächenmäßig die größte?
 
-- mit NumPy kann man leicht mehrdimensionale Dateien einlesen, die Werte sind alle numerisch.
+::: {.border}
+
+US State Facts and Figures von Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth & Brooks/Cole. [rdocumentation.org](https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/state). Datensätze:
+
+  - state.abb
+
+  - state.area
+
+  - state.name
+
+  - state.region
+
+Die Datensätze können in R durch Eingabe des Datensatznamens in der Konsole aufgerufen werden.
+:::
+
+::: {#tip-musterloesung-glob .callout-tip collapse="true"}
+## Musterlösung US State Facts and Figures
+Mit dem Modul glob werden die Pfade der im Ordner liegenden Dateien in einer Liste gespeichert. In einer Schleife wird mit der Funktion `open()` jede Datei als Dateiobjekt geöffnet, aus dem der Dateiname und der Dateiinhalte ausgelesen werden, um diese zu betrachten.
+
+``` {python}
+ordnerpfad = "aufgaben/01-daten/glob leicht" 
+pfadliste = glob.glob(pathname = '*', root_dir = ordnerpfad, recursive = False)
+
+list_of_files = []
+names_of_files = []
+for pfad in pfadliste:
+
+  # Dateiobjekt öffnen
+  zwischenspeicher = open(ordnerpfad + '/' + pfad, 'r')
+  
+  # Dateinamen extrahieren
+  name = os.path.basename(zwischenspeicher.name)
+  names_of_files.append(name)
+
+  # Datei auslesen
+  datei = zwischenspeicher.read()
+  list_of_files.append(datei)
+
+  # Ausgabe
+  print(name, "Encoding:", zwischenspeicher.encoding)
+  print(datei[0:40], "\n")
+
+  # Dateiobjekt schließen
+  zwischenspeicher.close()
+
+print(f"Die Dateien heißen:\n{names_of_files}")
+```
+
+Als nächstes werden die Daten in einem Datensatz 'states' gespeichert. Als Spaltennamen bieten sich die Dateinamen ohne Dateiendung an. 
+
+``` {python}
+# Spaltennamen vorbereiten
+i = 0
+for name in names_of_files:
+  names_of_files[i] = name[0:-4]
+  i+= 1
+
+# DataFrame erstellen
+states = pd.DataFrame()
+i = 0
+list_of_files = []
+for pfad in pfadliste:
+  zwischenspeicher = open(ordnerpfad + '/' + pfad, 'r')
+  states[i] = pd.read_csv(filepath_or_buffer = zwischenspeicher, sep = ' ', usecols = [1]) # skiprows = 1 überspringt den ersten Staat
+  zwischenspeicher.close()
+  i+= 1
+
+# Spaltennamen eintragen
+states.columns = names_of_files
+
+print(f"Es gibt die Regionen:\n{states['state region'].unique()}\n")
+
+states.head()
+```
+
+Im nächsten Schritt können die Anzahl der Staaten und die Fläche je Region bestimmt werden.
+
+``` {python}
+print(f"Die Anzahl der Staaten je Region beträgt:\n{states.groupby('state region')['state name'].apply(len)}\n")
+print(f"Die Fläche der Regionen beträgt:\n{states.groupby('state region')['state area'].apply(sum)}\n")
+
+```
+
+:::
+
+#### Schwer: DSB Unfallatlas
+Im Skript wurden bereits Daten aus dem DSB Unfallatlas eingelesen. Aus Gründen der Lesbarkeit wurden jedoch nur die ersten drei Zeilen und Spalten eingelesen. Für diese Aufgabe sollen nun die Dateien im Dateipfad 'aufgaben/01-daten/glob schwer' vollständig eingelesen und zu einem Datensatz zusammengeführt werden. Dabei soll das Jahr der Datenerhebung als Variable (also als Spalte) in den Datensatz aufgenommen werden. Ein Problem dabei ist, dass die Spaltenbeschriftungen nicht einheitlich sind.
+
+::: {.border}
+
+Unfallatlas Deutschland. von Statistische Ämter des Bundes und der Länder steht unter der Lizenz [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.de) und ist verfügbar auf dem [Statistikportal des Bundes und der Länder](https://unfallatlas.statistikportal.de/ ). 2024
+
+:::
+
+
+**man guckt einfach, welche Spaltennamen nicht in den anderen Datensätzen vorkommen**  
+**to do**: (zu) schwer?! - eigentlich nicht - das Prinzip wurde ja schon gezeigt:
+
+  - Unfalldaten von <https://unfallatlas.statistikportal.de/> abgerufen am 13.09.2024  
+  Variable des Straßenzustands: Die heißt mal "STRZUSTAND", mal "USTRZUSTAND" und mal "IstStrassenzustand". Alle Werte eines Jahres in einer Spalte speichern und Durchschnitt berechnen.
+
+**zum Aufklapper Musterlösung machen**
+
+::: {.border}
+## Musterlösung Unfallatlas.
+
+Zuerst werden der Inhalt des Ordners und anschließend die Dateipfade ausgelesen.
+``` {python}
+# Inhalt Ordner auslesen
+ordnerpfad = 'aufgaben/01-daten/glob schwer'
+pfadliste = glob.glob(pathname = '**', root_dir = ordnerpfad, recursive = True)
+print(f"Im Suchpfad liegen {len(pfadliste)} Elemente. Die Bezeichnungen lauten:\n{pfadliste}\n")
+
+# Dateipfade auslesen
+pfadliste = glob.glob(pathname = '**/U*.csv', root_dir = ordnerpfad, recursive = True)
+print(f"Im Suchpfad liegen {len(pfadliste)} Dateien. Die Dateinamen lauten:\n{pfadliste}\n")
+
+```
+
+Als nächstes werden die Jahreszahlen aus den Pfadnamen extrahiert sowie die Spaltennamen ausgelesen. Um die Jahreszahlen aus den Dateinamen zu extrahieren, können die Zeichenketten manuell beschnitten werden (Die Jahreszahl steht an den Indexpositionen 10 bis exklusiv 14). Alternativ kann ein regulärer Ausdruck verwendet werden. Reguläre Ausdrücke werden mit dem Modul re verarbeitet. Die Funktion `re.search(string = x, pattern = '[0-9]+')` sucht im Objekt x nach dem im Argument `pattern` spezifizierten Ausdruck, hier nach einer Zahl von 0 bis 9 `[0-9]` und jeder darauf folgenden Zahl `+`. Die Funktion `re.search()` erzeugt ein Match-Objekt, dessen Inhalt mit der Methode `Match.group()` ausgegeben werden kann, die einen string zurückgibt. (siehe [Dokumentation Modul re](https://docs.python.org/3/library/re.html#match-objects))
+
+**erklären, was gemacht wird, um die Spaltennamen einzulesen**
+
+``` {python}
+# Die Jahreszahlen auslesen
+import re
+
+jahreszahlen = []
+for pfad in pfadliste:
+  zwischenspeicher = re.search(string = pfad, pattern = '[0-9]+').group()
+  jahreszahlen.append(int(zwischenspeicher))
+
+print(f"Aus den Dateinamen extrahierte Jahreszahlen:\t{jahreszahlen}\n")
+
+# Die unstimmigen Spaltennamen identifizieren
+
+## Spaltennamen durch Einlesen der ersten Zeile extrahieren, header = None
+i = 0
+list_of_columns = []
+for pfad in pfadliste:
+
+  zwischenspeicher = pd.read_csv(filepath_or_buffer = ordnerpfad + '/' + pfad, 
+  delimiter = ';', nrows = 1, header = None).transpose()
+
+  list_of_columns.append(zwischenspeicher)
+  i += 1
+
+df_of_columns = pd.concat(list_of_columns, axis = 1, ignore_index = True)
+df_of_columns.columns = jahreszahlen
+
+print(f"Ein DataFrame der Spaltennamen:\n{df_of_columns}")
+
+## Spaltennamen abgleichen
+## manuell oder algorithmisch
+
+### vergleiche jede Spalte gegen alle anderen Spalten
+for i in range(0, df_of_columns.shape[1]):
+
+  aktuelle_spalte = df_of_columns.iloc[:, i]
+
+  vergleichs_df = df_of_columns.drop(df_of_columns.columns[i], axis = 1)
+
+  j = 0
+  for vergleichsspalte in vergleichs_df: # vergleichsspalte ist der Spaltenname (als int) 2020, 2021 usw.
+    
+    # print(vergleichsspalte)
+    maske_fehlender_spaltennamen = aktuelle_spalte.isin(vergleichs_df.loc[:, vergleichsspalte])
+    maske_fehlender_spaltennamen = np.invert(maske_fehlender_spaltennamen) # pandas hat keine Methode .invert()
+    
+    # WENN Spaltennamen fehlen DANN
+    if maske_fehlender_spaltennamen.sum() > 0:
+
+      print(f"In den Unfalldaten {df_of_columns.columns[i]} treten die Spaltennamen {aktuelle_spalte[maske_fehlender_spaltennamen].values} auf, die nicht im Objekt {vergleichs_df.columns[j]} enthalten sind.\n")
+
+    j +=1
+
+```
+
+**Output für die Ausgabe verschlanken, die auftretenden Spaltennamen in einer Series speichern und unique ausgeben.**
+:::
+
+
+
+**-> die Baugenehmigungen können zu den Übungen.**
+
+  - Baugenehmigungen Statistisches Bundesamt: https://www-genesis.destatis.de/datenbank/online/table/31111-0006/sequenz=tabelleErgebnis&selectionname=31111-0006&zeitscheiben=1
 
 # Spezialformate {#sec-spezialformate}
 
@@ -2759,7 +2968,7 @@ Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestell
 ``` {python}
 import numpy.ma as ma
 
-print(f"NumPy-Array:\t\t{np_array_with_none}") 
+print(f"NumPy-Array:/t\t{np_array_with_none}") 
 
 maskiertes_array = ma.masked_array(data = np_array_with_none, mask = [0, 0, 1, 1])
 print(f"maskiertes Array:\t{maskiertes_array}")
@@ -2959,7 +3168,7 @@ Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw
   * Übungsaufgaben (kleine Projekte)
 
 ## Übung
-Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei [Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx.) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
+Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei [Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
   
   - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
   

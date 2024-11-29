@@ -9,6 +9,8 @@ Module:
 
   - Modul os
 
+  - Modul re (optional)
+
   - Module datetime, time, pytz, zoneinfo
 
   - Module NumPy, numpy.ma 
@@ -34,6 +36,8 @@ Im Baustein werden folgende Daten verwendet:
   - Kursdaten des amerikanischen Aktienindexes S&P500 ([XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887)).
 
   - Europäische Gaspreise von Eurostat [XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx.)
+
+  - US State Facts and Figures 
 
 
 Querverweis auf:
