@@ -2847,7 +2847,7 @@ print(f"Die Fläche der Regionen beträgt:\n{states.groupby('state region')['sta
 :::
 
 #### Schwer: DSB Unfallatlas
-Im Skript wurden bereits Daten aus dem DSB Unfallatlas eingelesen. Aus Gründen der Lesbarkeit wurden jedoch nur die ersten drei Zeilen und Spalten eingelesen. Für diese Aufgabe sollen nun die Dateien im Dateipfad 'aufgaben/01-daten/glob schwer' vollständig eingelesen und zu einem Datensatz zusammengeführt werden. Dabei soll das Jahr der Datenerhebung als Variable (also als Spalte) in den Datensatz aufgenommen werden. Ein Problem dabei ist, dass die Spaltenbeschriftungen nicht einheitlich sind.
+Im Skript wurden bereits Daten aus dem DSB Unfallatlas eingelesen. Aus Gründen der Lesbarkeit wurden jedoch nur die ersten drei Zeilen und Spalten eingelesen. Für diese Aufgabe sollen nun die Dateien im Dateipfad 'aufgaben/01-daten/glob schwer' vollständig eingelesen und zu einem Datensatz zusammengeführt werden. Ein Problem dabei ist, dass die Spaltenbeschriftungen für den Straßenzustand und die ID-Variable nicht einheitlich sind.
 
 ::: {.border}
 
@@ -2855,17 +2855,10 @@ Unfallatlas Deutschland. von Statistische Ämter des Bundes und der Länder steh
 
 :::
 
+:::  {#tip-musterloesung-unfallatlas .callout-tip collapse="true"}
+## Musterlösung Unfallatlas
 
-**man guckt einfach, welche Spaltennamen nicht in den anderen Datensätzen vorkommen**  
-**to do**: (zu) schwer?! - eigentlich nicht - das Prinzip wurde ja schon gezeigt:
-
-  - Unfalldaten von <https://unfallatlas.statistikportal.de/> abgerufen am 13.09.2024  
-  Variable des Straßenzustands: Die heißt mal "STRZUSTAND", mal "USTRZUSTAND" und mal "IstStrassenzustand". Alle Werte eines Jahres in einer Spalte speichern und Durchschnitt berechnen.
-
-**zum Aufklapper Musterlösung machen**
-
-::: {.border}
-## Musterlösung Unfallatlas.
+Das Erhebungsjahr ist eine Variable im Datensatz. Dennoch wird gezeigt, wie dieses aus dem Dateinamen ausgelesen werden kann.
 
 Zuerst werden der Inhalt des Ordners und anschließend die Dateipfade ausgelesen.
 ``` {python}
@@ -2876,14 +2869,19 @@ print(f"Im Suchpfad liegen {len(pfadliste)} Elemente. Die Bezeichnungen lauten:\
 
 # Dateipfade auslesen
 pfadliste = glob.glob(pathname = '**/U*.csv', root_dir = ordnerpfad, recursive = True)
-print(f"Im Suchpfad liegen {len(pfadliste)} Dateien. Die Dateinamen lauten:\n{pfadliste}\n")
+print(f"Im Suchpfad liegen {len(pfadliste)} CSV-Dateien. Die Dateinamen lauten:\n{pfadliste}\n")
 
 ```
 
-Als nächstes werden die Jahreszahlen aus den Pfadnamen extrahiert sowie die Spaltennamen ausgelesen. Um die Jahreszahlen aus den Dateinamen zu extrahieren, können die Zeichenketten manuell beschnitten werden (Die Jahreszahl steht an den Indexpositionen 10 bis exklusiv 14). Alternativ kann ein regulärer Ausdruck verwendet werden. Reguläre Ausdrücke werden mit dem Modul re verarbeitet. Die Funktion `re.search(string = x, pattern = '[0-9]+')` sucht im Objekt x nach dem im Argument `pattern` spezifizierten Ausdruck, hier nach einer Zahl von 0 bis 9 `[0-9]` und jeder darauf folgenden Zahl `+`. Die Funktion `re.search()` erzeugt ein Match-Objekt, dessen Inhalt mit der Methode `Match.group()` ausgegeben werden kann, die einen string zurückgibt. (siehe [Dokumentation Modul re](https://docs.python.org/3/library/re.html#match-objects))
+Als nächstes werden die Jahreszahlen aus den Pfadnamen extrahiert sowie die Spaltennamen ausgelesen.
 
-**erklären, was gemacht wird, um die Spaltennamen einzulesen**
+Um die Jahreszahlen aus den Dateinamen zu extrahieren, können die Zeichenketten manuell beschnitten werden (Die Jahreszahl steht an den Indexpositionen 10 bis exklusiv 14). Alternativ kann ein regulärer Ausdruck verwendet werden. Reguläre Ausdrücke werden mit dem Modul re verarbeitet. Die Funktion `re.search(string = x, pattern = '[0-9]+')` sucht im Objekt x nach dem im Argument `pattern` spezifizierten Ausdruck, hier nach einer Zahl von 0 bis 9 `[0-9]` und jeder darauf folgenden Zahl `+`. Die Funktion `re.search()` erzeugt ein Match-Objekt, dessen Inhalt mit der Methode `Match.group()` ausgegeben werden kann, die einen string zurückgibt. (siehe [Dokumentation Modul re](https://docs.python.org/3/library/re.html#match-objects))
 
+Um die Spaltennamen auszulesen, wird die Funktion `pd.read_csv()` mit den Argumenten `nrows = 1, header = 0` angewiesen, die erste Zeile auszulesen. Anschließend können die Spaltennamen visuell abgeglichen werden - dies ist im Reiter DataFrame der Spaltennamen umgesetzt. Für größere Datensätze ist dies aber nicht mehr praktikabel. Eine algorithmische Lösung ist im Reiter Spaltennamen finden umgesetzt. Dazu wird jede Spalte des DataFrames gegen alle anderen Spalten mit der Methode `pd.Series.isin(df)` abgeglichen.
+
+:::: {.panel-tabset}
+
+## Jahreszahlen und Spaltennamen auslesen
 ``` {python}
 # Die Jahreszahlen auslesen
 import re
@@ -2895,9 +2893,7 @@ for pfad in pfadliste:
 
 print(f"Aus den Dateinamen extrahierte Jahreszahlen:\t{jahreszahlen}\n")
 
-# Die unstimmigen Spaltennamen identifizieren
-
-## Spaltennamen durch Einlesen der ersten Zeile extrahieren, header = None
+# Spaltennamen durch Einlesen der ersten Zeile extrahieren, header = None
 i = 0
 list_of_columns = []
 for pfad in pfadliste:
@@ -2910,13 +2906,25 @@ for pfad in pfadliste:
 
 df_of_columns = pd.concat(list_of_columns, axis = 1, ignore_index = True)
 df_of_columns.columns = jahreszahlen
+```
 
+Die Spaltennamen werden im nächsten Reiter ausgegeben.
+
+## DataFrame der Spaltennamen
+Mit der Ausgabe des DataFrames können die ungleichen Spaltennamen visuell identifiziert werden.
+
+``` {python}
 print(f"Ein DataFrame der Spaltennamen:\n{df_of_columns}")
+```
 
-## Spaltennamen abgleichen
-## manuell oder algorithmisch
+## Spaltennamen finden
+Der Abgleich der ungleichen Spaltennamen kann auch algorithmisch gelöst werden.
 
-### vergleiche jede Spalte gegen alle anderen Spalten
+``` {python}
+# Spaltennamen algorithmisch abgleichen
+ungleiche_spaltennamen = pd.Series()
+
+## vergleiche jede Spalte gegen alle anderen Spalten
 for i in range(0, df_of_columns.shape[1]):
 
   aktuelle_spalte = df_of_columns.iloc[:, i]
@@ -2933,20 +2941,78 @@ for i in range(0, df_of_columns.shape[1]):
     # WENN Spaltennamen fehlen DANN
     if maske_fehlender_spaltennamen.sum() > 0:
 
-      print(f"In den Unfalldaten {df_of_columns.columns[i]} treten die Spaltennamen {aktuelle_spalte[maske_fehlender_spaltennamen].values} auf, die nicht im Objekt {vergleichs_df.columns[j]} enthalten sind.\n")
+      print(f"In den Unfalldaten {df_of_columns.columns[i]} treten die Spaltennamen {aktuelle_spalte[maske_fehlender_spaltennamen].values} auf, die nicht in den Unfalldaten {vergleichs_df.columns[j]} enthalten sind.\n")
+
+      ungleiche_spaltennamen = pd.concat([ungleiche_spaltennamen, pd.Series(aktuelle_spalte[maske_fehlender_spaltennamen].values)])
 
     j +=1
 
+ungleiche_spaltennamen = ungleiche_spaltennamen.dropna().unique()
+
+print(f"Folgende Spaltennamen müssen vereinheitlicht werden:\n{ungleiche_spaltennamen}")
+
 ```
 
-**Output für die Ausgabe verschlanken, die auftretenden Spaltennamen in einer Series speichern und unique ausgeben.**
+::::
+
+&nbsp; 
+
+Die Spaltennamen 'STRZUSTAND', 'IstStrassenzustand' und 'USTRZUSTAND' sowie 'OBJECTID', und 'OID_' müssen beim Einlesen der Daten vereinheitlicht werden. Die Spalte 'PLST' wurde nur im Jahr 2023 erhoben und kann entfallen (siehe Unfallatlas Metadaten). Dafür wird der Methode `pd.DataFrame.drop()` das Argument `errors = 'ignore'` übergeben, da in einem Datensatz nicht vorhandene Spalten andernfalls zu einer Fehlermeldung führen.
+
+Die Spalte 'UIDENTSTLAE' enthält sehr große Ganzzahlen, weshalb diese als String eingelesen wird.
+
+``` {python}
+
+## Dateien einlesen
+unfallatlas = pd.DataFrame()
+
+for pfad in pfadliste:
+
+  ### Datei einlesen
+  zwischenspeicher = pd.read_csv(filepath_or_buffer = ordnerpfad + '/' + pfad, 
+  delimiter = ';', dtype = {'UIDENTSTLAE': 'string'})
+
+  ### Spaltennamen vereinheitlichen
+  zwischenspeicher.rename(columns = {"IstStrassenzustand": "STRZUSTAND", "USTRZUSTAND": "STRZUSTAND", "OID_": "OBJECTID"}, inplace = True)
+  zwischenspeicher.drop(columns = "PLST", inplace = True, errors = 'ignore')
+  
+  unfallatlas = pd.concat([unfallatlas, zwischenspeicher])
+
+# Ausgabe
+print(unfallatlas.info(), "\n")
+unfallatlas.head()
+```
+
+&nbsp;
+
+Abschließend kann der Datensatz aufgeräumt werden:
+
+  - der Datensatz wird nach dem Jahr sortiert (wichtig: als erstes ausführen),
+  
+  - der Index wird zurückgesetzt (wichtig: als zweites),
+
+
+
+  - die Spalte 'OBJECTID' wird neu erstellt, um die beim Einlesen erzeugten Duplikate zu entfernen und
+
+
+
+
+``` {python}
+# Datensatz nach Jahr sortieren
+unfallatlas.sort_values(by = 'UJAHR', inplace = True)
+
+# Index zurücksetzen
+unfallatlas.reset_index(drop = True, inplace = True)
+
+# Spalte 'OBJECTID' neu generieren
+unfallatlas['OBJECTID'] = pd.Series(range(1, unfallatlas.shape[0] + 1))
+
+print(unfallatlas.info(), "\n")
+unfallatlas.head()
+```
+
 :::
-
-
-
-**-> die Baugenehmigungen können zu den Übungen.**
-
-  - Baugenehmigungen Statistisches Bundesamt: https://www-genesis.destatis.de/datenbank/online/table/31111-0006/sequenz=tabelleErgebnis&selectionname=31111-0006&zeitscheiben=1
 
 # Spezialformate {#sec-spezialformate}
 
@@ -3163,18 +3229,20 @@ Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw
 
 # Lernzielkontrolle
 
-  * Kompetenzquiz (ggf. aufklappbarer Callout Block, Textverweis für PDF, polierte Lösungen evntl. via Lumi später entscheiden)
+## Kompetenzquiz
+**to do**
 
-  * Übungsaufgaben (kleine Projekte)
 
-## Übung
+## Übungsaufgaben
+
+#### Ein sehr unordentlicher Datensatz
 Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei [Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
   
   - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
   
-  - in entweder in einer zweidimensionalen Struktur jede Zeile eine Beobachtung und jede Beobachtung eine Zeile sowie jede Spalte eine Variable und jede Variable eine Spalte ist.  
+  - ENTWEDER in einer zweidimensionalen Struktur jede Zeile eine Beobachtung und jede Beobachtung eine Zeile sowie jede Spalte eine Variable und jede Variable eine Spalte ist.  
 
-  - oder wählen Sie eine sinnvolle mehrdimensionale Struktur.
+  - ODER wählen Sie eine sinnvolle mehrdimensionale Struktur.
 
 <!-- Merkmale: 
 Leerzeilen und Leerspalten
@@ -3188,7 +3256,23 @@ Sinnvoll wäre in einem zweidimensionalen Datensatz die Umbenennung der Variable
 ::: {style="font-size: 90%;"}
 | Daten | Dateiname |
 |---|---|
-| Preise für Erdgas | SE_figures_for_Gas_2023S2_v3.xlsx |
+| Preise für Erdgas | "aufgaben/01-daten/SE_figures_for_Gas_2023S2_v3.xlsx" |
 :::
 
+#### Ein schwieriges Format
+Das statistische Bundesamt veröffentlicht eine Statistik der erteilten Baugenehmigungen, die zum Zeitpunkt der Erstellung diese Bausteins für die Jahre 2015 bis 2023 vorliegt. Die Daten können hier abgerufen werden: <https://www-genesis.destatis.de/datenbank/online/table/31111-0006/sequenz=tabelleErgebnis&selectionname=31111-0006&zeitscheiben=1>.
+
+Laden Sie mindestens zwei Jahrgänge herunter und lesen Sie die Dateien in einem gemeinsamen Datensatz ein. Ordnen Sie jedem Wert das Jahr der Beobachtung zu, indem Sie eine Variable 'Jahr' einfügen und den Datensatz entsprechend strukturieren.
+
+  - Wie können Sie das Jahr aus dem Datensatz auslesen?
+
+  - Liegen alle Variablen in Spalten vor?
+
+Dem Skript liegen die Dateien in folgendem Pfad bei:
+
+::: {style="font-size: 90%;"}
+| Daten | Ordnerpfad |
+|---|---|
+| Baugenehmigungen verschiedener Jahre | "aufgaben/01-daten/baugenehmigungen" |
+:::
 
