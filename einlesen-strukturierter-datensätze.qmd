@@ -3014,97 +3014,202 @@ unfallatlas.head()
 
 :::
 
-# Spezialformate {#sec-spezialformate}
+# Maskierte Arrays
+Maskierte Arrays sind eine Erweiterung für NumPy, um Probleme mit fehlenden Werten insbesondere bei Ganzzahlen zu umgehen.
 
-## HDF5, netCDF
+::: {.border layout="[5, 90, 5]"}
 
-### Räumliche Daten
-Geopandas?!
+&nbsp;
 
-HDF5 ...
+"**nan**, short for 'not a number' [...] was specifically designed to address the problem of missing values, but the reality is that different platforms behave differently, making life more difficult. On some platforms, the presence of **nan** slows calculations 10-100 times. For integer data, no **nan** value exists. [...] Those wishing to avoid potential headaches will be interested in an alternative solution which has a long history in NumPy’s predecessors – **masked arrays**. [...] Despite their additional memory requirement, masked arrays are faster than nans on many floating point units." (SciPy.org Frequently Askend Questions, Zugriff via [waybackmachine](https://web.archive.org/web/20191007223944/https://scipy.org/scipylib/faq.html#does-numpy-support-nan))
 
-netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
-https://stackoverflow.com/questions/28170623/how-to-read-hdf5-files-in-python
+&nbsp;
 
-## Maskierte Arrays
-Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestellt. Maskierte Arrays erlauben es, Werte als ungültig oder fehlend zu markieren, ohne diese zu ersetzen oder zu löschen. Ein maskiertes Array besteht aus drei Elementen. Dies sind erstens ein normales NumPy-Array und zweitens eine Maske. Die Maske hat entweder den Wert `numpy.ma.nomask`, wenn kein Wert ungültig ist oder fehlt. Andernfalls besteht die Maske aus einem Array mit Wahrheitswerten für jedes Element des NumPy-Arrays, ob ein ungültiger/fehlender Wert `True` vorliegt oder nicht `False`. Alle Elemente des NumPy-Arrays, die in der zugehörigen Maske den Wahrheitswert `True` haben, werden im maskierten Array durch eine Zeichenkette ersetzt. Standardmäßig ist dies die Zeichenkette`numpy.ma.masked_print_option = '--'`, die mit dem genannten Argument geändert werden kann. Über die Attribute `.data` und `mask` kann auf das zugrundeliegende NumPy-Array und die Maske zugegriffen werden.
+:::
 
-**ergänzen: masked_array ist ein Alias von MaskedArray; 16 weitere Methoden ein maskiertes Array zu erzeugen unter: <https://numpy.org/doc/stable/reference/maskedarray.generic.html#constructing-masked-arrays> - einige davon sind wirklich praktisch**
+&nbsp;
+
+``` {python}
+# Fehlende Werte für Ganzzahlen sind in Pandas kein Problem
+print("Eine pd.Series vom dtype Int64 mit einem fehlenden Wert:")
+print(pd.Series([0, 1, np.nan], dtype = 'Int64'), "\n")
+
+# In NumPy ist das anders
+try:
+  np.array([0, 1, np.nan], dtype = 'int')
+except ValueError as error:
+  print("Da np.nan vom Datentyp float ist, haben Integer-Arrays keinen fehlenden Wert.\n Die Eingabe np.array([0, 1, np.nan], dtype = 'int') führt zu der Fehlermeldung:\n", error)
+else:
+  np.array([0, 1, np.nan], dtype = 'int')
+
+print(f"Die Ursache ist der Datentyp von NaN: type(np.nan)\n{type(np.nan)}\n")
+```
+
+Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestellt und erlauben es, Werte als ungültig oder fehlend zu markieren, ohne diese zu ersetzen oder zu löschen. Ein maskiertes Array besteht aus drei Elementen:
+
+  1. einem normalen NumPy-Array, das die Daten enthält.
+  
+  2. einer Maske, die entweder den Wert `numpy.ma.nomask` hat, wenn kein Wert ungültig ist oder fehlt, oder aus einem NumPy-Array mit Wahrheitswerten für jedes Element des datentragenden NumPy-Arrays besteht: `True` kennzeichnet einen ungültigen/fehlenden Wert, `False` einen gülten Wert.
+  
+  3. dem Füllwert, mit dem in der Maske mit `True` markierte Werte ersetzt werden. Standardmäßig ist dies die Zeichenkette `'--'`.
+  
+Über die Attribute `.data` und `.mask` kann auf das zugrundeliegende NumPy-Array und die Maske zugegriffen werden. Ebenfalls können die Funktionen `ma.getmask(maskiertes_array)` und `ma.getdata(maskiertes_array)` genutzt werden. Der Füllwert wird mit der Methode `maskiertes_array.filled()` eingesetzt. Dies gibt eine Kopie des datentragenden Arrays zurück, die Daten selbst bleiben erhalten. Beim Aufrufen eines gefüllten Arrays wird die Maske auf den Wert `numpy.ma.nomask` gesetzt und ein normales NumPy-Array mit dem eingesetzten Füllwert ausgegeben. 
 
 ``` {python}
 import numpy.ma as ma
 
-print(f"NumPy-Array:/t\t{np_array_with_none}") 
-
-maskiertes_array = ma.masked_array(data = np_array_with_none, mask = [0, 0, 1, 1])
+maskiertes_array = ma.masked_array(data = np.array([1, 2, 3, 4]), mask = [0, 0, 1, 1])
 print(f"maskiertes Array:\t{maskiertes_array}")
 
 print(f"Daten:\t\t\t\t{maskiertes_array.data}")
 
 print(f"Maske:\t\t\t\t{maskiertes_array.mask}")
+
+print(f"Zugriff über Funktionen ma.getdata() und ma.getmask():\n{ma.getdata(maskiertes_array), ma.getmask(maskiertes_array)}\n")
+
+print(f"gefülltes Array:\t\t\t\t{maskiertes_array.filled()}")
+
+print(f"Das maskierte Array bleibt unverändert: {maskiertes_array}")
 ```
 
-Das dritte Element eines maskierten Arrays ist der Füllwert, der beim Anlegen des maskierten Arrays mit dem Argument `fill_value` übergeben werden kann. Der Füllwert wird zunächst nur gespeichert und kann später verwendet werden, um ungültige bzw. fehlende Werte zu ersetzen. Der Füllwert wird mit der `Methode.filled()` aktiviert. Dann wird die Maske auf den Wert `numpy.ma.nomask` gesetzt und ein normales NumPy-Array ausgegeben. **Testen: in Pandas fill_value is not stored in the Int64 object.**
+Der Standardfüllwert ist abhängig vom Datentyp des NumPy-Arrays.
+
+| Datentyp | Standardfüllwert |
+|:---:|:---:|
+| bool | True |
+| int | 999999 |
+| float | 1.e20 |
+| complex | 1.e20+0j |
+| object | ‘?’ |
+| string | ‘N/A’ |
+
+Der Standarfüllwert kann mit der Funktion `np.ma.default_fill_value()` ausgegeben werden.
 
 ``` {python}
-# Anlegen eines maskierten Arrays mit einem Füllwert
-fill_value_array = ma.masked_array(data = daten_ohne_fehlende_werte[0:4], mask = [0, 0, 1, 1], fill_value = 42) # np_array_with_none
-
-print(f"In der Ausgabe wird ein normales maskiertes Array zurückgegeben:\n{fill_value_array}\n")
-
-print(f"Der Füllwert wird mit der Methode numpy.ma.filled() aktiviert:\n{fill_value_array.filled()}\n")
-
-fill_value_array.fill_value = 1.5
-print(f"Der Füllwert kann mit np.ma.fill_value = wert geändert werden:\n{fill_value_array.filled()}\n")
-
-fill_value_array.fill_value = None
-print(f"Der Füllwert None bewirkt den Rückgriff auf einen datentypabhängigen Standardwert:\n{fill_value_array.filled()}\n")
-
-print(f"Das maskierte Array ist weiterhin vorhanden:\n{fill_value_array}\n")
+print(np.ma.default_fill_value(1))
+print(np.ma.default_fill_value('1'))
 ```
 
-Der Standardwert des Arguments `fill_value` ist `None`, mit dem beim Aufrufen der `Methode.filled()` abhängig vom Datentyp ein Standardwert eingesetzt wird.
+([NumPy Dokumentation](https://numpy.org/doc/2.1/reference/generated/numpy.ma.default_fill_value.html))
 
-::: {.border}
-``` {python}
-for dt in [np.int32, np.int64, np.float64, np.complex128, np.string_, np.bool_]:
-
-  print(dt, "\t\t", np.ma.array([0, 1], dtype = dt).get_fill_value())
-```
-
-Quelle: <https://numpy.org/doc/stable/reference/maskedarray.baseclass.html#numpy.ma.MaskedArray.fill_value>
-:::
-
-Problemtisch ist die Übergabe des Füllwerts `None`, wenn das initale NumPy-Array None enthält. 
-
-::: {#wrn-fillvalueandnone .callout-warning appearance="simple" collapse="true"}
-## Füllwert bei initialem NumPy-Array mit None
-
+Der Füllwert kann über das Attribut `maskiertes_array.fill_value` geändert werden. Die Übergabe von `maskiertes_array.fill_value = None` setzt den Füllwert auf den Standardwert zurück.
 
 ``` {python}
-# Anlegen eines maskierten Arrays mit Füllwert, initiales NumPy-Array enthält None
-fill_value_array = ma.masked_array(data = np_array_with_none, mask = [0, 0, 1, 1], fill_value = 42)
+# Anlegen eines maskierten Arrays vom Datentyp Integer mit einem ganzzahligen Füllwert
+maskiertes_array = ma.masked_array(data = np.arange(0, 4), mask = [0, 0, 1, 1], fill_value = 42)
 
-print(f"In der Ausgabe wird ein normales maskiertes Array zurückgegeben:\n{fill_value_array}\n")
+print(f"Gefülltes Array vom Datentyp integer mit ganzzahligem Füllwert:\n{maskiertes_array.filled()}\n")
 
-print(f"Der Füllwert wird mit der Methode numpy.ma.filled() aktiviert:\n{fill_value_array.filled()}\n")
+# Ändern des Füllwerts mit Datentyp float
+maskiertes_array.fill_value = 1.5
+print(f"Wird einem maskierten Array vom Datentyp integer ein Füllwert vom Datentyp float übergeben,\n wird nur der ganzzahlige Teil eingesetzt:\n{maskiertes_array.filled()}\n")
 
-fill_value_array.fill_value = 1.5
-print(f"Der Füllwert kann mit np.ma.fill_value = wert geändert werden:\n{fill_value_array.filled()}\n")
+print(f"Wird einem maskierten Array vom Datentyp integer ein Füllwert vom Datentyp string übergeben,\n folgt eine Fehlermeldung:\n")
 
-fill_value_array.fill_value = None
-print(f"Der Füllwert None bewirkt den Rückgriff auf einen datentypabhängigen Standardwert:\n{fill_value_array.filled()}\n")
+try:
+  maskiertes_array.fill_value = '1.5'
+  maskiertes_array.filled()
+except TypeError as error:
+  print(error)
+else:
+  maskiertes_array.fill_value = '1.5'
+  maskiertes_array.filled()  
 
-print(f"Das maskierte Array ist weiterhin vorhanden:\n{fill_value_array}\n")
+# Füllwert None
+maskiertes_array.fill_value = None
+print(f"\nDer Füllwert None bewirkt den Rückgriff auf einen datentypabhängigen Standardwert:\n{maskiertes_array.filled()}")
 
 ```
 
-:::
+## Maskierte Arrays erzeugen
+Maskierte Arrays können auf zahlreichen Wegen erzeugt werden. Eine vollständige Übersicht erhalten Sie in der [Dokumentation](https://numpy.org/doc/stable/reference/maskedarray.generic.html#constructing-masked-arrays).
 
-**Fehlersuche und -bereinigung: None ist in NumPy problematisch und sollte manuell kontrolliert und entfernt werden**
+``` {python}
+a = np.array([1, 10, 100, 1000])
 
-**Fehlersuche und -bereinigung: Dokumentation lesen, Funktionen können unerwartetes Verhalten zeigen. Arbeiten Sie mit Testdaten, die den einzulesenden Datensatz möglichst gut repräsentieren und arbeiten Sie schrittweise an einer Lösung. Wenden Sie die Lösung auf den echten Datensatz an und vergleichen das Ergbnis zu dem Ergebnis der Testdaten.**
+print(f"Die Methode ma.asanyarray(array, dtype = ) legt den Datentyp des maskierten Arrays fest.\n"
+      f"ma.asanyarray(a, dtype = 'float64'):\n"
+      f"{ma.asanyarray(a, dtype = 'float64')}\n")
 
+print(f"Die Methode ma.masked_equal(x = array, value) maskiert alle Werte value.\n"
+      f"ma.masked_equal(a, 100):\n"
+      f"{ma.masked_equal(a, 100)}\n")
+
+print(f"Die Methode ma.masked_greater(x = array, value) maskiert alle Werte größer als value.\n"
+      f"ma.masked_greater(a, 100):\n"
+      f"{ma.masked_greater(a, 100)}\n")
+
+print(f"Die Methode ma.masked_inside(x = array, v1, v2) maskiert alle Werte im Intervall v1 bis v2.\n"
+      f"ma.masked_inside(a, 5, 100):\n"
+      f"{ma.masked_inside(a, 5, 100)}\n")
+
+print(f"Die Methode ma.masked_where(condition, a = array) maskiert alle Werte, für die die Bedingung condition gilt.\n"
+      f"ma.masked_where(a % 2 != 0, a):\n"
+      f"{ma.masked_where(a % 2 != 0, a)}\n")
+
+```
+
+Eine weitere Möglichkeit, Arraybereiche zu maskieren, ist es, einzelnen Werten oder einem Wertebereich eines maskierten Arrays den Wert `ma.masked` zuzuweisen.
+
+``` {python}
+maskiertes_array = ma.masked_array([1, 2, 3, 4])
+
+maskiertes_array[1] = ma.masked
+print(maskiertes_array)
+
+maskiertes_array[1:3] = ma.masked
+print(maskiertes_array)
+```
+
+## Übung maskierte Arrays erzeugen
+
+Gegegben sei das NumPy-Array `np.linspace(1, 1000, 18, dtype = 'int')`. **Erzeugen Sie mit dem NumPy-Array ein maskiertes Array.**
+
+  a. Maskieren Sie jeden Wert im Intervall 250 bis 750. Wie viele Werte sind maskiert?
+  
+  b. Maskieren Sie jeden zweiten Wert. Wie lautet die Summe des maskierten Arrays?
+
+  c. Maskieren Sie jeden geraden Wert.
+
+  d. Maskieren Sie jeden Wert, der mindestens 3 Stellen hat.
+
+::: {#tip-ma .callout-tip collapse="true"}
+## Musterlösung maskierte Arrays erzeugen
+
+``` {python}
+# Array erzeugen
+a = np.linspace(1, 1000, 18, dtype = 'int')
+
+# Maske im Intervall 250-750
+my_ma = ma.masked_inside(x = a, v1 = 250, v2 = 750)
+print("Maske im Intervall 250-750:")
+print(my_ma, "Anzahl maskierter Werte:", my_ma.mask.sum(), "\n")
+
+# jeder 2. Wert maskiert
+my_ma = ma.masked_array(a)
+my_ma[::2] = ma.masked
+print("Jeder 2. Wert maskiert:")
+print(my_ma, "Summe nicht maskierter Werte:", my_ma.sum(), "\n")
+
+# jeder gerade Wert maskiert
+my_ma = ma.masked_where(a % 2 == 0, a)
+print("Jeder gerade Wert maskiert:")
+print(my_ma, "\n")
+
+# jeder mindestens dreistellige Wert maskiert
+my_ma = ma.masked_where(a / 100 >= 1, a)
+print("Jeder mindestens dreistellige Wert maskiert:")
+print(my_ma)
+
+## eine Alternative
+my_mask = [len(str(i)) >= 3 for i in a]
+print(f"ma.masked_array(data = a, mask = my_mask")
+
+
+
+```
+
+::: 
 
 **Operationen mit fill_value(): <https://numpy.org/doc/stable/reference/routines.ma.html#filling-a-masked-array>**
 
@@ -3215,6 +3320,20 @@ Wie hier <https://github.com/numpy/numpy/issues/20850> erwähnt, nutzt keine der
   
   - ma.min/ma.max/ma.argmin/ma.argmax ignore a.fill_value
 
+# Spezialformate {#sec-spezialformate}
+
+## HDF5, netCDF
+
+### Räumliche Daten
+Geopandas?!
+
+HDF5 ...
+
+netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
+https://stackoverflow.com/questions/28170623/how-to-read-hdf5-files-in-python
+
+
+
 
 # Strategien der Fehlersuche und Bereinigung
 Zusammenfassung der bisherigen Tipps.
@@ -3222,8 +3341,12 @@ Zusammenfassung der bisherigen Tipps.
 ## Werte plausibilisieren
 1. zulässigen Wertebereich prüfen
 
-2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen
+2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen (Methoden `.describe()`, `.head()`, `.tail()`)
 Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
+
+**Fehlersuche und -bereinigung: None ist in NumPy problematisch und sollte manuell kontrolliert und entfernt werden**
+
+**Fehlersuche und -bereinigung: Dokumentation lesen, Funktionen können unerwartetes Verhalten zeigen. Arbeiten Sie mit Testdaten, die den einzulesenden Datensatz möglichst gut repräsentieren und arbeiten Sie schrittweise an einer Lösung. Wenden Sie die Lösung auf den echten Datensatz an und vergleichen das Ergbnis zu dem Ergebnis der Testdaten.**
 
 # Das Wichtigste (vielleicht als Video)
 
