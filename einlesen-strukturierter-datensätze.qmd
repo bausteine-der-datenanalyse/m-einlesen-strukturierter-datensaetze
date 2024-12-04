@@ -3053,7 +3053,7 @@ Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestell
   
   3. dem Füllwert, mit dem in der Maske mit `True` markierte Werte ersetzt werden. Standardmäßig ist dies die Zeichenkette `'--'`.
   
-Über die Attribute `.data` und `.mask` kann auf das zugrundeliegende NumPy-Array und die Maske zugegriffen werden. Ebenfalls können die Funktionen `ma.getmask(maskiertes_array)` und `ma.getdata(maskiertes_array)` genutzt werden. Der Füllwert wird mit der Methode `maskiertes_array.filled()` eingesetzt. Dies gibt eine Kopie des datentragenden Arrays zurück, die Daten selbst bleiben erhalten. Beim Aufrufen eines gefüllten Arrays wird die Maske auf den Wert `numpy.ma.nomask` gesetzt und ein normales NumPy-Array mit dem eingesetzten Füllwert ausgegeben. 
+Über die Attribute `.data` und `.mask` kann auf das zugrundeliegende NumPy-Array und die Maske zugegriffen werden. Ebenfalls können die Funktionen `ma.getmask(maskiertes_array)` und `ma.getdata(maskiertes_array)` genutzt werden. Der Füllwert wird mit der Methode `maskiertes_array.filled()` eingesetzt. Dies gibt eine Kopie des datentragenden Arrays zurück, die Daten selbst bleiben unverändert.
 
 ``` {python}
 import numpy.ma as ma
@@ -3108,12 +3108,12 @@ print(f"Wird einem maskierten Array vom Datentyp integer ein Füllwert vom Daten
 
 try:
   maskiertes_array.fill_value = '1.5'
-  maskiertes_array.filled()
+  print(maskiertes_array.filled())
 except TypeError as error:
   print(error)
 else:
   maskiertes_array.fill_value = '1.5'
-  maskiertes_array.filled()  
+  print(maskiertes_array.filled())
 
 # Füllwert None
 maskiertes_array.fill_value = None
@@ -3147,6 +3147,14 @@ print(f"Die Methode ma.masked_where(condition, a = array) maskiert alle Werte, f
       f"ma.masked_where(a % 2 != 0, a):\n"
       f"{ma.masked_where(a % 2 != 0, a)}\n")
 
+```
+
+Die NumPy-Funktion `genfromtxt(usemask = True)` erzeugt mit dem entsprechenden Argument ein maskiertes Array.
+
+``` {python}
+dateipfad = 'skript/01-daten/TC01_double_hyphen.csv'
+daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', usemask = True)
+daten_double_hypen
 ```
 
 Eine weitere Möglichkeit, Arraybereiche zu maskieren, ist es, einzelnen Werten oder einem Wertebereich eines maskierten Arrays den Wert `ma.masked` zuzuweisen.
@@ -3205,120 +3213,127 @@ print(my_ma)
 my_mask = [len(str(i)) >= 3 for i in a]
 print(f"ma.masked_array(data = a, mask = my_mask")
 
-
-
 ```
 
 ::: 
 
-**Operationen mit fill_value(): <https://numpy.org/doc/stable/reference/routines.ma.html#filling-a-masked-array>**
+## Operationen mit maskierten Arrays
+Arithmetische und vergleichende Operationen mit maskierten Arrays werden nicht auf die maskierten Elemente angewendetet.
 
-### Operationen mit maskierten Arrays
-Wie rechnet man jetzt damit? Der Platzhalter '--' ist vom NoneType, damit kann man nicht rechnen, wenigstens nicht mit mehreren Arrays. Siehe:  
 <https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays>
 
+<https://numpy.org/doc/2.1/reference/routines.ma.html>
+
 ``` {python}
+# Array erzeugen
+a = np.linspace(1, 1000, 18, dtype = 'int')
+maskiertes_array = ma.masked_array(a)
+maskiertes_array[::2] = ma.masked
 
+# Ausgewählte Operationen
 print(maskiertes_array.sum())
-
-print(len(maskiertes_array))
-
-print(np_array_with_nan, np_array_with_nan.dtype)
-
-print(maskiertes_array, maskiertes_array.dtype)
-
-try:
-  result = np_array_with_nan + maskiertes_array
-except TypeError as error:
-  print("\nDie Eingabe führt zu der Fehlermeldung:\n", error)
-else:
-  print(result)
-
-try:
-  result = np_array_with_nan + maskiertes_array.data
-except TypeError as error:
-  print("\nDie Eingabe führt zu der Fehlermeldung:\n", error)
-else:
-  print(result)
-
-try:
-  result = np.ma.masked_array(np_array_with_nan) + maskiertes_array.data
-except TypeError as error:
-  print("\nDie Eingabe führt zu der Fehlermeldung:\n", error)
-else:
-  print(result)
-
+print(maskiertes_array > 222)
 ```
 
-The result of a unary ufunc is masked wherever the input is masked ... or  wherever the corresponding input fall outside the validity domain. (siehe: [Dokumentation](https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays))
+Arithmetische und vergleichende Operationen mit maskierten Elementen führen immer zu maskierten Ergebnissen.
 
-**In der Doku steht eine Warnung, dass man sich nicht darauf verlassen kann, dass maskierte Werte nicht von Operationen manipuliert werden.**
+``` {python}
+print("NumPy ist bei Operationen mit np.nan nicht konsistent.")
+print(f"np.nan ** 0:\t{np.nan ** 0}")
+print(f"1 ** np.nan:\t{1 ** np.nan}")
+print(f"np.nan == np.nan:\t{np.nan == np.nan}\n")
 
-::: {.border layout="[[5, 90, 5], [5, 90, 5], [1]]"}
+print("Maskierte Arrays verhalten sich dagegen konsistent.")
+print(f"maskiertes_array[0] ** 0:\t\t\t\t\t{maskiertes_array[0] ** 0}")
+print(f"1 ** maskiertes_array[0]:\t\t\t\t\t{1 ** maskiertes_array[0]}")
+print(f"maskiertes_array[0] == maskiertes_array[2]:\t{maskiertes_array[0] == maskiertes_array[2]}")
+print(f"maskiertes_array[0] == np.nan:\t\t\t\t{maskiertes_array[0] == np.nan}")
+```
+
+Das Modul `numpy.ma` implementiert die meisten NumPy-Funktionen (siehe [NumPy Dokumentation](https://numpy.org/doc/2.1/reference/routines.ma.html)). Funktionen, die nur einen bestimmten Wertebereich als Eingabe akzeptieren, geben den Wert `masked` zurück, wenn Werte außerhalb des gültigen Bereichs übergeben werden. Ein Beispiel ist die Funktion `ma.log()`.
+
+``` {python}
+ma.log([-1, 0, 1, 2])
+``` 
+
+Auch Operation mit mehreren Arrays sind möglich. Im Ergebnis ist jedes in der Eingabe maskierte Element ebenfalls maskiert.
+
+``` {python}
+print(a + maskiertes_array)
+print(np.logical_or(a, maskiertes_array))
+```
+
+Zusammenfassende Funktionen wie `len()` oder `ma.unique(masked_array)` werden auch auf die maskierten Elemente angewendet.
+
+``` {python}
+# Ausgewählte Operationen
+print(len(maskiertes_array))
+print(ma.unique(maskiertes_array))
+```
+
+::: {#nte-masked-arrays .callout-note}
+## Warnhinweis maskierte Arrays
+
+In der Dokumentation steht eine Warnung, dass man sich nicht darauf verlassen kann, dass maskierte Werte nicht von Operationen manipuliert werden. Welche Operationen dies betrifft, ist nicht angegeben.
+
+:::: {.border layout="[[5, 90, 5], [5, 90, 5], [1]]"}
 
 &nbsp;
 
-Arithmetic and comparison operations are supported by masked arrays. As much as possible, invalid entries of a masked array are not processed, meaning that the corresponding `data` entries *should* be the same before and after the operation.
+"Arithmetic and comparison operations are supported by masked arrays. As much as possible, invalid entries of a masked array are not processed, meaning that the corresponding `data` entries *should* be the same before and after the operation.
 
 &nbsp;
 
 &nbsp;
 
 :::: {.callout-warning}
-We need to stress that this behavior may not be systematic, that masked data may be affected by the operation in some cases and therefore users should not rely on this data remaining unchanged.
+We need to stress that this behavior may not be systematic, that masked data may be affected by the operation in some cases and therefore users should not rely on this data remaining unchanged."
 ::::
 
 &nbsp;
 
 <https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays>
 
+::::
 :::
 
-**Unklar ist, welche Operationen nicht verlässlich funktionieren.**
+## Übungen Operationen mit maskierten Arrays
 
-Das Prinzip: Das Modul `numpy.ma` implementiert die meisten NumPy-Funktionen. Funktionen, die nur einen bestimmten Wertebereich als Eingabe akzeptieren, geben den Wert `masked` zurück, wenn Werte außerhalb des gültigen Bereichs übergeben werden. Ein Beispiel ist die  `ma.log()`.
+**Lukas fragen, was sinnvoll zu beüben ist.**
+
+1. Erstellen Sie ein zweidimensionales Array (10x10) der Zahlen 1 bis 100. Maskieren Sie alle ungeraden Werte, die ganzzahlig durch 3 teilbar sind.
+
+2. Berechnen Sie anschließend die Summe der maskierten und die Summe der unmaskierten Werte.
+
+3. Setzen sie die Maske zurück, sodass keine Werte mehr maskiert sind.
+
+::: {#tip-masked-arrays .callout-tip collapse="true"}
+## Musterlösung
 
 ``` {python}
-
-ma.log([1, 2, 3, -1])
-``` 
-
-In der Ausgabe wird der 
-Man kann auch Werte maskieren, das ist aber abgesehen von Integer nicht exakt. Für Fließkommazahlen werden auch minimal größere oder kleinere Werte maskiert. Siehe: <https://numpy.org/doc/stable/reference/generated/numpy.ma.masked_values.html>
-Fehlende Werte in NumPy maskieren
-<https://numpy.org/doc/stable/reference/maskedarray.html>
-
-... können auch mit genfromtxt erzeugt werden
-`usemask`
-We may also want to keep track of the occurrence of missing data by constructing a boolean mask, with True entries where data was missing and False otherwise. To do that, we just have to set the optional argument usemask to True (the default is False). The output array will then be a MaskedArray.
-
-**Rückkehr des fill_value nach <https://github.com/numpy/numpy/issues/20850#issuecomment-2077856842>**
-
+# 1. NumPy-Array erstellen und maskieren
+mein_array = np.arange(1, 100 + 1).reshape(10, 10)
+mein_array = ma.masked_where(condition = (mein_array % 2 != 0) & (mein_array % 3 == 0), a = mein_array)
+print(mein_array, "\n")
 ```
->>> arr1 = np.ma.masked_equal(arr, value=0)
->>> arr1.fill_value
-0.0
->>> arr2 = np.ma.masked_less_equal(arr, value=0)
->>> arr2.fill_value
-1e+20
+
+``` {python}
+# 2. Summen bilden
+print(f"Summe der maskierten Werte: {mein_array.data[mein_array.mask].sum()}\tSumme der unmaskierten Werte: {mein_array.sum()}\n")
 ```
+
+``` {python}
+# 3. Maske zurücksetzen
+mein_array.mask = False
+print(mein_array, "\n")
+```
+
+:::
 
 ### Unmasking and hard masks
 <https://numpy.org/doc/stable/reference/maskedarray.generic.html#unmasking-an-entry>
 
-Wie hier <https://github.com/numpy/numpy/issues/20850> erwähnt, nutzt keine der genannten Methoden fill_value und das Verhalten sei inkonstistent: **testen, das Verhalten von fill_value = None ist seltsam, aber works as designed**
-
-  - ma.MaskedArray.filled(fill_value=None) uses a.fill_value when fill_value is None
-  
-  - a.mask = ma.unmasked ignores a.fill_value
-  
-  - ma.fix_invalid(a, mask=False, copy=True, fill_value=None) uses a.fill_value when fill_value is None
-  
-  - ma.MaskedArray.tolist(fill_value=None) ignores a.fill_value
-  
-  - ma.MaskedArray.tobytes(fill_value=None, order='C') uses a.fill_value when fill_value is None
-  
-  - ma.min/ma.max/ma.argmin/ma.argmax ignore a.fill_value
+(siehe auch bei den masked array Operationen ... soften ... harden)
 
 # Spezialformate {#sec-spezialformate}
 
