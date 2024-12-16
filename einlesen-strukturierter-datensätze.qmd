@@ -2273,13 +2273,42 @@ print(bis[8070:8078], "\n")
 
 **Datei einlesen und String-Manipulation**
 
-Zunächst wird die Datei eingelesen. Damit die Datumsspalten korrekt eingelesen werden können, werden die Zeichenfolgen "2A" und "2B" mit der Methode `str.replace()` durch "02" ersetzt. Dadurch wird eine Dublette im Datensatz erzeugt.
+Zunächst wird die Datei eingelesen. Die Zellen, die sich nicht in datetime umwandeln lassen, können mit Python ausgegeben werden.
 
 ``` {python}
-
+# Datei einlesen
 erzeugung_austria = pd.read_csv(filepath_or_buffer = "aufgaben/01-daten/AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv",
                                 sep = ";", decimal = ",", thousands = ".")
 
+# Zellen mit fehlerhaften datetime strings identifizieren
+print("Spalte 'Zeit von [CET/CEST]'")
+i = 0
+position_element = []
+for element in erzeugung_austria['Zeit von [CET/CEST]']:
+  try:
+    pd.to_datetime(element, format = "%d.%m.%Y %H:%M:%S")
+  except:
+    print(element)
+    position_element.append(i)
+  i += 1
+print("\nDie Zellen haben den Zeilenindex: ", position_element, "\n")
+
+print("Spalte 'Zeit bis [CET/CEST]'")
+i = 0
+position_element = []
+for element in erzeugung_austria['Zeit bis [CET/CEST]']:
+  try:
+    pd.to_datetime(element, format = "%d.%m.%Y %H:%M:%S")
+  except:
+    print(element)
+    position_element.append(i)
+  i += 1
+print("\nDie Zellen haben den Zeilenindex: ", position_element, "\n")
+```
+
+Damit die Datumsspalten korrekt eingelesen werden können, werden die Zeichenfolgen "2A" und "2B" mit der Methode `str.replace()` durch "02" ersetzt. Dadurch wird eine Dublette im Datensatz erzeugt.
+
+``` {python}
 # string replace & als Datum einlesen
 ## Spalte Zeit von [CET/CEST]
 erzeugung_austria['Zeit von [CET/CEST]'] = erzeugung_austria['Zeit von [CET/CEST]'].str.replace(pat = '2A', repl = '02')
@@ -3217,6 +3246,102 @@ print(f"ma.masked_array(data = a, mask = my_mask")
 
 ::: 
 
+## unmasking, soft und hard masks
+Ein maskiertes Array kann auf verschiedene Weise demaskiert werden.
+
+``` {python}
+unmask_me = my_ma.copy()
+unmask_me.mask = ma.nomask
+print(f"Die Maske kann auf ma.nomask oder False gesetzt werden.\n"
+      f"unmask_me.mask = ma.nomask: {unmask_me}\n")
+
+unmask_me = my_ma.copy()
+unmask_me.mask = False
+print(f"unmask_me.mask = False: {unmask_me}\n")
+
+unmask_me = my_ma.copy()
+unmask_me = np.linspace(1, 1000, 18, dtype = 'int')
+print(f"Die Maskierung wird auch durch eine Wertzuweisung aufgehoben.\nDas Objekt wird neu angelegt.")
+print(f"unmask_me = np.linspace(1, 1000, 18, dtype = 'int'):\n"
+      f"{unmask_me}\n")
+```
+
+Die Demaskierung ist auch für Indexbereiche möglich.
+
+``` {python}
+unmask_me = my_ma.copy()
+unmask_me[6:10].mask = ma.nomask
+print(f"Die Maske kann auf ma.nomask oder False gesetzt werden.\n"
+      f"unmask_me[6:10].mask = ma.nomask: {unmask_me}\n")
+
+unmask_me = my_ma.copy()
+unmask_me[6:10].mask = False
+print(f"unmask_me[6:10].mask = False: {unmask_me}\n")
+
+unmask_me = my_ma.copy()
+unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int')
+print(f"Die Maskierung wird auch durch eine Wertzuweisung aufgehoben.")
+print(f"unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):\n"
+      f"{unmask_me}\n")
+```
+
+Insbesondere die Demaskierung durch eine Wertzuweisung in einem Indexbereich kann ein unerwünschtes Verhalten sein.
+
+#### soft und hard masks
+Die Maske eines maskierten Arrays ist eine veränderliche, sogenannte soft mask. Um die Maske vor Änderungen zu schützen, kann die Maske mit dem Argument ` ma.array(data = [data], mask = [mask], hard_mask = True)` oder mit der Methode `masked_array.harden_mask()` in eine hard mask verwandelt werden.
+
+
+``` {python}
+unmask_me = my_ma.copy()
+unmask_me.harden_mask()
+unmask_me.mask = ma.nomask
+print(f"Die hard mask wird auf ma.nomask gesetzt.\n"
+      f"unmask_me.mask = ma.nomask: {unmask_me}\n")
+
+unmask_me.mask = False
+print(f"unmask_me.mask = False: {unmask_me}\n")
+
+unmask_me = np.linspace(1, 1000, 18, dtype = 'int')
+print(f"Die hard mask wird dennoch durch eine Wertzuweisung aufgehoben.\nDas Objekt wird neu angelegt.")
+print(f"unmask_me = np.linspace(1, 1000, 18, dtype = 'int'):\n"
+      f"{unmask_me}\n")
+```
+
+Eine hard mask schützt einen Indexbereich vor der Demaskierung, auch durch eine Wertzuweisung.
+
+``` {python}
+unmask_me = my_ma.copy()
+unmask_me.harden_mask()
+unmask_me[6:10].mask = ma.nomask
+print(f"Die hard mask wird auf ma.nomask gesetzt.\n"
+      f"unmask_me.mask[6:10] = ma.nomask: {unmask_me}\n")
+
+unmask_me[6:10].mask = False
+print(f"unmask_me[6:10].mask = False: {unmask_me}\n")
+
+unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int')
+print(f"Die hard mask wird nicht (!) durch eine Wertzuweisung im Indexbereich aufgehoben.")
+print(f"unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):\n"
+      f"{unmask_me}\n")
+```
+
+Eine hard mask kann jedoch auf weitere Indexbereiche erweitert werden.
+
+``` {python}
+unmask_me[0:2] = ma.masked
+print(f"Die Maskierungen zusätzlicher Elemente ist mit einer hard mask möglich.\n"
+      f"{unmask_me}") 
+```
+
+Eine hard mask kann mit der Methode `masked_array.soften_mask()` aufgehoben werden.
+``` {python}
+unmask_me.soften_mask()
+unmask_me.mask = ma.nomask
+print(f"{unmask_me}") 
+```
+
+([NumPy Dokumentation](https://numpy.org/doc/stable/reference/maskedarray.generic.html#unmasking-an-entry))
+
 ## Operationen mit maskierten Arrays
 Arithmetische und vergleichende Operationen mit maskierten Arrays werden nicht auf die maskierten Elemente angewendetet.
 
@@ -3231,8 +3356,8 @@ maskiertes_array = ma.masked_array(a)
 maskiertes_array[::2] = ma.masked
 
 # Ausgewählte Operationen
-print(maskiertes_array.sum())
-print(maskiertes_array > 222)
+print(f"Summe maskiertes_array: {maskiertes_array.sum()}\tSumme maskiertes_array.data: {maskiertes_array.data.sum()}")
+print(f"maskiertes_array > 222:\n{maskiertes_array > 222}")
 ```
 
 Arithmetische und vergleichende Operationen mit maskierten Elementen führen immer zu maskierten Ergebnissen.
@@ -3271,10 +3396,10 @@ print(len(maskiertes_array))
 print(ma.unique(maskiertes_array))
 ```
 
-::: {#nte-masked-arrays .callout-note}
+::: {#wrn-masked-arrays appearance="simple" .callout-warning}
 ## Warnhinweis maskierte Arrays
 
-In der Dokumentation steht eine Warnung, dass man sich nicht darauf verlassen kann, dass maskierte Werte nicht von Operationen manipuliert werden. Welche Operationen dies betrifft, ist nicht angegeben.
+Die Dokumentation warnt, dass maskierte Werte nicht zuverlässig von Operationen ausgenommen sind. Welche Operationen dies betrifft, ist nicht angegeben.
 
 :::: {.border layout="[[5, 90, 5], [5, 90, 5], [1]]"}
 
@@ -3299,59 +3424,470 @@ We need to stress that this behavior may not be systematic, that masked data may
 
 ## Übungen Operationen mit maskierten Arrays
 
-**Lukas fragen, was sinnvoll zu beüben ist.**
-
 1. Erstellen Sie ein zweidimensionales Array (10x10) der Zahlen 1 bis 100. Maskieren Sie alle ungeraden Werte, die ganzzahlig durch 3 teilbar sind.
 
 2. Berechnen Sie anschließend die Summe der maskierten und die Summe der unmaskierten Werte.
 
 3. Setzen sie die Maske zurück, sodass keine Werte mehr maskiert sind.
 
+4. Primzahlensieb: Maskieren Sie alle Elemente, die den Wert 1 haben oder Vielfache von Primzahlen sind, bis das gefüllte Array nur noch aus Primzahlen besteht (siehe [Sieb des Eratosthenes](https://de.wikipedia.org/wiki/Sieb_des_Eratosthenes)).
+
+5. Wie viele Primzahlen sind in dem Array? Welches ist die größte, welches die kleinste Primzahl? Sortieren Sie die Primzahlen absteigend.
+
 ::: {#tip-masked-arrays .callout-tip collapse="true"}
 ## Musterlösung
 
 ``` {python}
 # 1. NumPy-Array erstellen und maskieren
-mein_array = np.arange(1, 100 + 1).reshape(10, 10)
-mein_array = ma.masked_where(condition = (mein_array % 2 != 0) & (mein_array % 3 == 0), a = mein_array)
-print(mein_array, "\n")
+maskiertes_array = np.arange(1, 100 + 1).reshape(10, 10)
+maskiertes_array = ma.masked_where(condition = (maskiertes_array % 2 != 0) & (maskiertes_array % 3 == 0), a = maskiertes_array)
+print(maskiertes_array, "\n")
 ```
 
 ``` {python}
 # 2. Summen bilden
-print(f"Summe der maskierten Werte: {mein_array.data[mein_array.mask].sum()}\tSumme der unmaskierten Werte: {mein_array.sum()}\n")
+print(f"Summe der maskierten Werte: {maskiertes_array.data[maskiertes_array.mask].sum()}\tSumme der unmaskierten Werte: {maskiertes_array.sum()}\n")
 ```
 
 ``` {python}
 # 3. Maske zurücksetzen
-mein_array.mask = False
-print(mein_array, "\n")
+maskiertes_array.mask = False
+print(maskiertes_array, "\n")
+```
+
+``` {python}
+# 4. Primzahlsieb
+## 1
+i = 1
+bedingung1 = maskiertes_array == i
+sieb = ma.masked_where(bedingung1, maskiertes_array)
+print(f"i = {i}\n{sieb}\n")
+
+## 2
+i = 2
+bedingung2 = (maskiertes_array > i) & (maskiertes_array % i == 0)
+sieb = ma.masked_where(bedingung1 | bedingung2, maskiertes_array)
+print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+
+## 3
+i = 3
+bedingung3 = (maskiertes_array > i) & (maskiertes_array % i == 0)
+sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3, maskiertes_array)
+print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+
+## 5
+i = 5
+bedingung5 = (maskiertes_array > i) & (maskiertes_array % i == 0)
+sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3 | bedingung5, maskiertes_array)
+print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+
+## 7
+i = 7
+bedingung7 = (maskiertes_array > i) & (maskiertes_array % i == 0)
+sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3 | bedingung5 | bedingung7, maskiertes_array)
+print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+
+```
+
+``` {python}
+# 5. verschiedene Aufgaben
+## Wie viele Primzahlen sind in dem Array?
+print("Anzahl Primzahlen:", sieb.size - sieb.mask.sum())
+
+## Welches ist die größte, welches die kleinste Primzahl?
+print(sieb.max(), sieb.min())
+
+## Primzahlen absteigend sortiert
+### ma.sort() sortiert nur aufsteigend, deshalb:
+### Übergabe des eindimensionalen arrays sieb.flatten() in umgekehrter Reihenfolge [::-1]
+### anschließend umformen in 2D-Array
+### endwith = False missing values are treated as smallest values
+print(ma.sort(sieb.flatten(), endwith = False)[::-1].reshape(sieb.shape))
+```
+:::
+
+# Wissenschaftliche Dateiformate {#sec-spezialformate}
+Wissenschaftliche Datensätze können extrem groß sein. Beispielsweise hat das Kernforschungszentrum CERN im November 2018 15,8 Petabyte Daten aufgezeichnet ([Key Facts and Figures - CERN Data Centre](https://information-technology.web.cern.ch/sites/default/files/CERNDataCentre_KeyInformation_July2022_V3.pdf)). Für den Austausch großer Datenmengen wurden Datenformate wie das Hierarchical Data Format (HDF) und Network Common Data Format (netCDF) entwickelt. Diese erlauben es unter anderem, Datensätze direkt vom Massenspeicher des Computers auszulesen, sodass eine mögliche Begrenzung durch den Arbeitsspeicher vermieden wird.
+
+## HDF5
+HDF5 bedeutet Hierarchical Data Format Version 5. HDF organisiert Daten in einer Ordnerstruktur, die mit der Ordnerstruktur eines Computers vergleichbar ist, und enthält beschreibende Metadaten, weshalb HDF als selbstbeschreibend gilt. Die HDF-Verzeichnisstruktur wird mit bestimmten Begriffen beschrieben.
+
+  - Gruppen oder `groups` bezeichnen die Verzeichnisse (Unterordner) innerhalb der HDF-Datei.
+
+  - Dateien oder `datasets` entsprechen einzelnen Dateien.
+
+`groups` können weitere Gruppen oder `datasets` enthalten.
+
+**Grafik einbinden (Lizenz klären oder ähnliche): https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/HDF5-general/hdf5_structure4.jpg**
+
+https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5
+
+In Python können die Pakete [PyTables](https://www.pytables.org/) (`pip install tables`), das von Pandas verwendet wird, und h5py (`pip install h5py`) mit HDF5 umgehen. Das Einlesen von HDF5-Dateien funktioniert ähnlich wie das Einlesen von Dateien in der Pythonbasis: Der Zugriff auf die Datei erfolgt mit einem Dateiobjekt, über das verschiedene Methoden zum Lesen und Schreiben bereitgestellt werden. Abschließend wird das Dateiobjekt wieder geschlossen.
+
+Die Integration des Pakets PyTables in Pandas ist auf die Verwendung von Pandas-Objekten ausgelegt. Es wird eine spezifische Dateistruktur genutzt und erwartet. Anders aufgebaute HDF5-Dateien können nicht eingelesen werden. Deshalb wird das Paket hier nur kurz vorgestellt. ([Thema auf stackoverflow](https://stackoverflow.com/questions/71388502/read-hdf5-file-created-with-h5py-using-pandas), [Antwort von Kevin S unter CC-BY-SA 3.0](https://stackoverflow.com/a/33644128))
+
+In diesem Abschnitt wird ein Teil des Datensatzes IceBridge ATM L1B Elevation and Return Strength, Version 2 genutzt ([kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)). Das [Handbuch ist hier verfügbar](https://nsidc.org/sites/default/files/ilatm1b-v002-userguide_2.pdf). Der Datensatz enhält flugzeugbasierte Lasermessungen für die Höhe des Eisschildes in der Arktis und Antarktis mittels des NASA Airborne Topographic Mapper (ATM). ATM hat eine Abtastrate von 3 bis 5 kHz. Jede Datei enthält die Daten von einigen Minuten Flugdauer. Das geografische Referenzsystem ist das World Geodetic System 1984 (WGS 84)
+
+::: {.border}
+Studinger, M. 2013, updated 2020. IceBridge ATM L1B Elevation and Return Strength, Version 2.
+[Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed
+Active Archive Center. https://doi.org/10.5067/19SIM5TXKPGT. [05.12.2024]
+:::
+
+Die Dateien sind nach dem Schema ILATM1B_YYYYMMDD_HHMMSS.ATM4BT4.h5 benannt:
+
+  - Datensatz-ID_
+  
+  - Jahr, Monat, Tag der Messung_
+  
+  - Zeitpunkt am Beginn der Messung in Stunden, Minuten, Sekunden_
+
+  - Instrumenten-ID (fünfstellig) und Messwinkel (T2 = 15 Grad, T3 = 23 Grad, T4 = 30 Grad).
+
+  - xxx Dateityp (.h5 = HDF5, h5.xml = zusätzliche Metadatendatei) 
+
+
+### PyTables
+Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierrüber können HDF-Dateien gelesen und geschrieben werden. DAs HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| 'a' | Standardmodus append: öffnet die Datei im Lese- und Schreibmodus. Falls die Datei nicht vorhanden ist, wird diese erstellt. |
+| 'w' | Schreibzugriff, Erstellen einer neuer Datei, Überschreiben einer bestehenden, gleichnamigen Datei |
+| 'r' | Lesezugriff |
+| 'r+' | Lese- und Schreibzugriff wie 'a', Datei muss aber existieren. |
+
+&nbsp;
+
+Über das HDFStore-Objekt kann der Inhalt der Datei ausgelesen werden, sofern das Format kompatibel ist.
+
+  - Die Methode `hdf.info()` gibt Informationen zum Dateiobjekt aus.
+  
+  - Die Methode `hdf.keys(include = 'pandas')` gibt standardmäßig die Schlüssel der Pandas-Objekte im Wurzelverzeichnis zurück. Mit dem Argument `hdf.keys(include = 'native')` sollten auch native HDF5-Objekte ausgegeben werden können, sofern die HDF5-Datei kompatibel ist.
+  
+  - Der Zugriff auf ausgewählte Schlüssel erfolgt mit der Methode `hdf.get('key')` oder durch `hdf['key']`.
+  
+  - Mit der Methode `hdf.close()` wird das HDFStore-Objekt wieder geschlossen.
+
+::: {#nte-HDFStore .callout-note collapse="true"}
+## inkompatible HDF5-Datei
+
+``` {python}
+# Datei öffnen
+dateipfad = "skript/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = pd.HDFStore(dateipfad, mode = 'r')
+
+print(hdf.info(), "\n")
+
+# parameter include: str, default ‘pandas’.  When ‘pandas’ return pandas objects. When ‘native’ return native HDF5 Table objects.
+print(hdf.keys(include = 'native'), "\n") 
+print(hdf.keys(include = 'pandas'), "\n") 
+
+print(hdf.groups(), "\n")
+
+# Test hdf.get()
+try:
+  elevation = hdf.get('elevation')
+  print(type(elevation))
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  elevation = hdf.get('elevation')
+  print(type(elevation))
+
+# Test pd.read_hdf()
+try:
+  elevation = pd.read_hdf(path_or_buf = hdf, key = 'elevation')
+  print(type(elevation))
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  elevation = pd.read_hdf(path_or_buf = hdf, key = 'elevation')
+  print(type(elevation))
+
+# HDFStore-Objekt schließen
+hdf.close()
 ```
 
 :::
 
-### Unmasking and hard masks
-<https://numpy.org/doc/stable/reference/maskedarray.generic.html#unmasking-an-entry>
+Um die Funktionen zu demonstrieren, wird mit eine HDF5-Datei erstellt. Dazu wird ein HDFStore-Objekt im Modus `append` angelegt und mit der Methode `hdf.put(key, value, format)` ein DataFrame gespeichert.
 
-(siehe auch bei den masked array Operationen ... soften ... harden)
+``` {python}
+# HDF5-Datei anlegen
+df = pd.DataFrame({'Spalte1': [1, 2, 3], 'Spalte2': [4, 5, 6]})
+hdf = pd.HDFStore("skript/01-daten/hdf_file_demo.h5", mode = 'a')
+hdf.put('daten', df, format = 'table')
 
-# Spezialformate {#sec-spezialformate}
+hdf.close()
 
-## HDF5, netCDF
+# HDF5-Datei einlesen
+hdf2 = pd.HDFStore("skript/01-daten/hdf_file_demo.h5", mode = 'r')
+print(hdf2.info(), "\n")
+print(hdf2.keys(), "\n")
+
+df2 = hdf2.get(key = "/daten")
+print(df2)
+
+hdf2.close()
+```
+
+Eine Liste verfügbarer Funktionen findet sich [in der Dokumentation](https://pandas.pydata.org/docs/reference/io.html#hdfstore-pytables-hdf5).  
+([Numpy Ninja](https://www.numpyninja.com/post/hdf5-file-format-with-pandas))
+
+### h5py
+Das Modul h5py funktioniert ählich wie PyTables (**?! - keys müsste es da auch geben?!**). Der Zugriff auf eine HDF5-Datei erfolgt über ein Dateiobjekt, das mit der Funktion `h5py.File(Dateipfad, Zugriffsmodus)` erzeugt wird ([siehe h5py Dokumentation](https://docs.h5py.org/en/latest/high/file.html#file)).
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| r | Lesemodus, Datei muss existieren (default) |
+| r+ | Lese- und Schreibmodus, Datei muss existieren |
+| w | Datei erstellen, bestehende Datei kürzen |
+| w- or x | Datei erstellen, abbrechen wenn Datei bereits besteht |
+| a | Lesen / Schreiben, wenn die Datei besteht, andernfalls Datei erstellen |
+
+&nbsp;
+
+Über das Dateiobjekt erfolgt der Zugriff auf Gruppen und Datensätze. Gruppen sind wie dictionaries aufgebaut, der Zugriff erfolgt also über Schlüssel-Wert-Paare (key: value). Die Schlüssel sind die Namen der Elemente in einer Gruppe, die Werte sind die Elemente selbst (Gruppen oder Datasets).
+
+::: {.border}
+
+"The most fundamental thing to remember when using h5py is:
+
+  **Groups work like dictionaries, and datasets work like NumPy arrays**" ([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html), Hervorhebung im Original)
+
+:::
+
+&nbsp;
+
+Die Gruppennamen können mit der Methode Dateiobjekt.keys() abgerufen werden.
+
+``` {python}
+import h5py
+dateipfad = "skript/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = h5py.File(dateipfad, mode = 'r')
+
+print(hdf, "\n")
+print(list(hdf.keys()))
+```
+
+Anhand der Schlüssel kann mit der Funktion `isinstance(item, type)` geprüft werden, ob es sich um Gruppen `h5py.Group` oder Datensätze `h5py.Dataset` handelt. Datasets besitzen wie NumPy-Arrays die Attribute `dtype`, `shape`, `size`, `ndim` (und `nbytes`).
+
+``` {python}
+for key in list(hdf.keys()):
+  
+  object = hdf[key]
+  print(f"Schlüssel:\t{key} ist ein {type(object)}")
+  
+  if isinstance(hdf[key], h5py.Dataset):
+    
+    print(f"\tDatentyp: {object.dtype}\n"
+          f"\tStruktur: {object.shape}\t Dimensionen: {object.ndim}\tAnzahl Elemente: {object.size}\n")
+  
+  elif isinstance(hdf[key], h5py.Group):
+    print(f"\tDie Gruppe {key} enthält die Objekte:\n\t {hdf[key].keys()}\n")
+```
+
+Die Objekte `elevation`, `latitude` und `longitude` sind Datensätze. Die Objekte `ancillary_data` und `instrument_parameters` sind Gruppen. Der Zugriff innerhalb von Gruppen erfolgt wie bei der Eingabe eines Dateipfads: `Dateiobjekt['Gruppe/key']`.
+
+Um mit Datasets zu arbeiten muss eine Kopie z. B. durch Slicing erstellt werden.
+
+``` {python}
+try:
+  print(hdf['elevation'] - 1000)
+except TypeError as error:
+  print("Der Direktzugriff führt zu der Fehlermeldung:\n", error)
+
+# Mit einer Kopie kann gearbeitet werden
+print("\nMit einer Kopie geht es:")
+print(hdf['elevation'][:] - 1000)
+
+# Mit Indexbereichen ebenso
+print("\nEbenso mit ausgewählten Indexbereichen:")
+print(hdf['elevation'][0:10])
+```
+
+Am Ende wird das Dateiobjekt geschlossen.
+``` {python}
+hdf.close()
+```
+
+### Übung Zugriff auf H5P-Datasets
+**Berechnen Sie aus der relativen Zeit `hdf['instrument_parameters/rel_time']'` im Format 'hhmmss' und dem im Dateinamen enthaltenen Beginn der Messung die tatsächliche Zeit der Messung, bspw. im Objekt 'abs_time'.** Der Dateipfad lautet: 'aufgaben/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5'.  
+*Hinweis: Die relative Zeit liegt in Tausendstelsekunden aufgelöst vor. Aufgrund der hohen Abtastrate von ATM kommen Zeiten in der Regel mehrfach vor.*
+
+::: {#tip-Messzeit .callout-tip collapse="true"}
+## Musterlösung absolute Zeit berechnen
+
+``` {python}
+# HDF-Datei öffnen
+dateipfad = "aufgaben/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = h5py.File(dateipfad, mode = 'r')
+
+zeitstempel = int(str(hdf)[29:35])
+print(f"Beginn der Messungen: {zeitstempel}\n")
+
+rel_time = hdf['instrument_parameters/rel_time'][:]
+abs_time = rel_time + zeitstempel
+
+print(f"rel_time[-5:]:\n{rel_time[-5:]}\n\nabs_time[-5:]:\n{abs_time[-5:]}")
+
+# HDF-Datei schließen
+hdf.close()
+
+```
+
+::: 
+
+#### HDF5 Dateien schreiben
+Um Objekte in eine HDF5-Datei zu schreiben, muss diese im Schreibmodus geöffnet werden.
+
+``` {python}
+hdf_neu = h5py.File('skript/01-daten/hdf_neu.h5', mode = 'w')
+hdf_neu['abs_time'] = abs_time
+hdf.close()
+
+# Kontrolle
+hdf_neu = h5py.File('skript/01-daten/hdf_neu.h5', mode = 'r')
+print(hdf_neu.keys())
+hdf.close()
+
+```
+
+
+([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html))
+
+## netCDF4
+Das Paket netCDF4 (Network Common Data Format Version 4) wird mit `pip install netCDF4` installiert. netCDF4 basiert auf HDF5, verwendet aber eine eigene Terminologie. Der Zugriff auf eine netCDF4 Datei erfolgt über das Dataset-Objekt, das der Wurzelgruppe entspricht. Eine netCDF-Datei bzw. das Dataset-Objekt besteht aus:
+
+  - Gruppen (groups): Gruppen sind Unterverzeichnisse des Dataset-Objekts und können Variablen, Dimenseionn, Attribute und weitere Gruppen enthalten.
+  
+  - Variablen (variables): Variablen entsprechen Datensätzen bzw. NumPy-Arrays.
+
+  - Dimensionen (dimensions): Dimensionen beschreiben Eigenschaften der Variablen wie Name (name), Größe (size), Gruppenzugehörigkeit (group)
+
+  - Attribute (attributes): Attribute beschreiben entweder das gesamte Dataset (globale Attribute) oder einzelne Variablen.
+
+Diese Elemente sind als Dictionary aufgebaut und erlauben den Zugriff über Schlüssel-Wert-Paare.
+
+In diesem Abschnitt wird ein Datensatz der NASA zur Blitzdichte (Anzahl Blitze pro Quadratkilometer) verwendet [kostenlose Registrierung bei NASA Earth erforderlich](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lohrfc-2.3.2015). Die netCDF4-Datei enthält verschiedene Datensätze (Variablen), die mit satellitengestützten Messinstrumenten erstellt wurden. Blitze im Bereich von +/- 38 Grad um den Äquator wurden mit dem Lightning Imaging Sensor (LIS) des Satelliten der Tropical Rainfall Measuring Mission (TRMM) gemessen. In höheren und niedrigeren Breitengraden wurden Blitze mit dem Optical Transient Detector (OTD) auf Orbview-1 gemessen. Die Daten liegen in einer Auflösung von 0.5 Grad vor. ([Datensatzdokumentation](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lolrac-2.3.2015), [Poetzsch 2021](https://refubium.fu-berlin.de/handle/fub188/43384): 182-183)
+
+Die Datensätze folgen dem Namensschema HRFC_COM_FR
+
+  - HRFC = High Resolution Full Climatology
+  
+  - COM = Kombination beider Messinstrumente [LIS, OTD]
+  
+  - FR = Flash Rates [RF = Raw Flashes, 1SF = Scaled Flashes]
+
+::: {.border}
+LIS/OTD 0.5 Degree High Resolution Full Climatology (HRFC) V2.3.2015 von Global Hydrometeorology Resource Center DAAC (GHRC DAAC)
+
+DOI https://doi.org/10.5067/LIS/LIS-OTD/DATA302
+
+:::
+
+&nbsp;
+
+Ein Dataset-Objekt wird mit der Funktion `nc.Dataset(filename, mode)` geöffnet. Mit dem Argument `filename` wird der Dateipfad übergeben. Im Argument wird der Zugriffsmodus festgelegt.
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| r | Lesemodus, Datei muss existieren (default) |
+| r+ | Update-Modus, Datei wird ggf. angelegt und kann gelesen und geschrieben werden |
+| w | Schreibmodus Datei erstellen, bestehende Datei überschreiben |
+| x | Datei erstellen, abbrechen wenn Datei bereits besteht |
+| a | Anhängen: Datei wird ggf. angelegt, neue Inhalte werden am Ende der Datei angehängt, bestehende Inhalte werden dabei nicht gelöscht. |
+
+&nbsp;
+
+netCDF-Dateien können verschiedene Versionen haben (NETCDF3_CLASSIC, NETCDF3_64BIT_OFFSET, NETCDF3_64BIT_DATA, NETCDF4_CLASSIC, NETCDF4). Um die Version abzurufen, kann das Attribut `cdf.data_model` abgerufen werden.
+
+``` {python}
+import netCDF4 as nc
+
+dateipfad = "skript/01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'r')
+print(f"Dateiversion: {cdf.data_model}\n")
+```
+
+Die wesentlichen Informationen können mit der print-Funktion ausgegeben werden `print(cdf)`. Die Ausgabe ist besonders für komplexere Dateien jedoch unübersichtlich.
+
+Die Gruppen der Datei können mit dem Attribut `print(cdf.groups)` ausgegeben werden.
+
+``` {python}
+print(cdf.groups)
+```
+
+Die Ausgabe ist ein Dictionary, das in diesem Fall leer ist. Die Datei verfügt also über keine Unterverzeichnisse (Gruppen).
+
+Die Variablen (die Datensätze) können mit dem Attribut `print(cdf.variables)` ausgegeben werden, die Ausgabe ist ebenfalls ein Dictionary.
+
+``` {python}
+variables = cdf.variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+```
+
+Ebenso können die Dimensionen (`cdf.dimensions`) und die globalen Attribute des Datasets (`cdf.__dict__` oder als Liste mit `cdf.ncattrs()`) ausgegeben werden. Ebenso können die Attribute einer Variablen ausgegeben werden. Variablen werden direkt über den Schlüssel `variable = cdf['key']` oder mit der Funktion `variable = cdf.variables['key']` abgerufen.
+
+::: {.panel-tabset}
+## Dimensionen
+
+``` {python}
+dimensions = cdf.dimensions
+
+for key, value in dimensions.items():
+    print(key)
+    print(value, "\n")
+```
+
+## globale Attribute
+
+``` {python}
+print(cdf.ncattrs(), "\n")
+global_attributes = cdf.__dict__
+
+for key, value in global_attributes.items():
+    print(key)
+    print(value, "\n")
+```
+
+## Attribute einer Variablen
+
+``` {python}
+variable = cdf['HRFC_OTD_FR']
+# Alternativ:
+# variable = cdf.variables['HRFC_OTD_FR']
+
+print("\nAttribute einer Variablen")
+print(f"Als Liste mit variable.ncattrs():\n{variable.ncattrs()}\n")
+
+print(f"Als Dictionary mit variable.__dict__:\n{variable.__dict__}\n")
+```
+
+:::
+
+Am Ende wird die netCDF4-Datei geschlossen.
+``` {python}
+cdf.close()
+
+```
 
 ### Räumliche Daten
 Geopandas?!
 
-HDF5 ...
 
-netCDF mit eigenem Namensschema: dimensions (Name, Datentyp und Länge der Variablen), data variables (die eigentlichen Datensätze), attributes (Informationen über die Daten).
-https://stackoverflow.com/questions/28170623/how-to-read-hdf5-files-in-python
+
 
 
 
 
 # Strategien der Fehlersuche und Bereinigung
 Zusammenfassung der bisherigen Tipps.
+
+In kleinen Schritten vorgehen und Zwischenergebnisse überprüfen. Funktionen können ein unerwartetes Verhalten aufweisen oder ohne Fehlermeldung abbrechen.
 
 ## Werte plausibilisieren
 1. zulässigen Wertebereich prüfen

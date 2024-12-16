@@ -11,7 +11,7 @@ Module:
 
   - Modul re (optional)
 
-  - Module datetime, time, pytz, zoneinfo
+  - Module datetime, time, pytz, zoneinfo (optional)
 
   - Module NumPy, numpy.ma 
   
@@ -20,6 +20,8 @@ Module:
     - openpyxl `pip install openpyxl`
 
     - xlrd `pip install xlrd`
+
+    - pytables `pip install tables`
 
   - Modul Matplotlib
 
@@ -42,6 +44,8 @@ Im Baustein werden folgende Daten verwendet:
   - Europäische Gaspreise von Eurostat [XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx.)
 
   - Baugenehmigungen, verfügbar beim [Statistischen Bundesamt](https://www-genesis.destatis.de/datenbank/online/table/31111-0006/sequenz=tabelleErgebnis&selectionname=31111-0006&zeitscheiben=1)
+
+  - Daten zur Blitzdichte [kostenlose Registrierung bei NASA Earth erforderlich](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lohrfc-2.3.2015)
 
 Querverweis auf:
 
