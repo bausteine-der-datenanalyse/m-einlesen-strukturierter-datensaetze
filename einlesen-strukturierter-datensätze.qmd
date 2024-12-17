@@ -3509,6 +3509,8 @@ print(ma.sort(sieb.flatten(), endwith = False)[::-1].reshape(sieb.shape))
 # Wissenschaftliche Dateiformate {#sec-spezialformate}
 Wissenschaftliche Datensätze können extrem groß sein. Beispielsweise hat das Kernforschungszentrum CERN im November 2018 15,8 Petabyte Daten aufgezeichnet ([Key Facts and Figures - CERN Data Centre](https://information-technology.web.cern.ch/sites/default/files/CERNDataCentre_KeyInformation_July2022_V3.pdf)). Für den Austausch großer Datenmengen wurden Datenformate wie das Hierarchical Data Format (HDF) und Network Common Data Format (netCDF) entwickelt. Diese erlauben es unter anderem, Datensätze direkt vom Massenspeicher des Computers auszulesen, sodass eine mögliche Begrenzung durch den Arbeitsspeicher vermieden wird.
 
+Im Folgenden werden knapp die Grundfunktionen für das Arbeiten mit HDF5- und netCDF4-Dateien vorgestellt. Weitere Informationen, insbesondere zum Anlegen entsprechender Dateien inklusive Metadaten, finden Sie in der jeweiligen Dokumentation.
+
 ## HDF5
 HDF5 bedeutet Hierarchical Data Format Version 5. HDF organisiert Daten in einer Ordnerstruktur, die mit der Ordnerstruktur eines Computers vergleichbar ist, und enthält beschreibende Metadaten, weshalb HDF als selbstbeschreibend gilt. Die HDF-Verzeichnisstruktur wird mit bestimmten Begriffen beschrieben.
 
@@ -3737,25 +3739,25 @@ hdf.close()
 
 ```
 
-::: 
-
 #### HDF5 Dateien schreiben
 Um Objekte in eine HDF5-Datei zu schreiben, muss diese im Schreibmodus geöffnet werden.
 
 ``` {python}
 hdf_neu = h5py.File('skript/01-daten/hdf_neu.h5', mode = 'w')
 hdf_neu['abs_time'] = abs_time
-hdf.close()
+hdf_neu.close()
 
 # Kontrolle
 hdf_neu = h5py.File('skript/01-daten/hdf_neu.h5', mode = 'r')
 print(hdf_neu.keys())
-hdf.close()
+hdf_neu.close()
 
 ```
 
-
 ([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html))
+
+
+::: 
 
 ## netCDF4
 Das Paket netCDF4 (Network Common Data Format Version 4) wird mit `pip install netCDF4` installiert. netCDF4 basiert auf HDF5, verwendet aber eine eigene Terminologie. Der Zugriff auf eine netCDF4 Datei erfolgt über das Dataset-Objekt, das der Wurzelgruppe entspricht. Eine netCDF-Datei bzw. das Dataset-Objekt besteht aus:
@@ -3778,7 +3780,7 @@ Die Datensätze folgen dem Namensschema HRFC_COM_FR
   
   - COM = Kombination beider Messinstrumente [LIS, OTD]
   
-  - FR = Flash Rates [RF = Raw Flashes, 1SF = Scaled Flashes]
+  - FR = Flash Rates [RF = Raw Flash Rates, SF = Scaled Flash Rates]
 
 ::: {.border}
 LIS/OTD 0.5 Degree High Resolution Full Climatology (HRFC) V2.3.2015 von Global Hydrometeorology Resource Center DAAC (GHRC DAAC)
@@ -3789,7 +3791,7 @@ DOI https://doi.org/10.5067/LIS/LIS-OTD/DATA302
 
 &nbsp;
 
-Ein Dataset-Objekt wird mit der Funktion `nc.Dataset(filename, mode)` geöffnet. Mit dem Argument `filename` wird der Dateipfad übergeben. Im Argument wird der Zugriffsmodus festgelegt.
+Ein Dataset-Objekt wird mit der Funktion `nc.Dataset(filename, mode)` geöffnet. Mit dem Argument `filename` wird der Dateipfad übergeben. Im Argument `mode` wird der Zugriffsmodus festgelegt.
 
 | Zugriffsmodus | Beschreibung |
 |---|----------------------|
@@ -3811,7 +3813,7 @@ cdf = nc.Dataset(filename = dateipfad, mode = 'r')
 print(f"Dateiversion: {cdf.data_model}\n")
 ```
 
-Die wesentlichen Informationen können mit der print-Funktion ausgegeben werden `print(cdf)`. Die Ausgabe ist besonders für komplexere Dateien jedoch unübersichtlich.
+Die wesentlichen Informationen können mit der print-Funktion ausgegeben werden `print(cdf)`. Die Ausgabe ist jedoch besonders für komplexere Dateien unübersichtlich.
 
 Die Gruppen der Datei können mit dem Attribut `print(cdf.groups)` ausgegeben werden.
 
@@ -3821,14 +3823,27 @@ print(cdf.groups)
 
 Die Ausgabe ist ein Dictionary, das in diesem Fall leer ist. Die Datei verfügt also über keine Unterverzeichnisse (Gruppen).
 
-Die Variablen (die Datensätze) können mit dem Attribut `print(cdf.variables)` ausgegeben werden, die Ausgabe ist ebenfalls ein Dictionary.
+Die Variablen (die Datensätze) können mit dem Attribut `print(cdf.variables)` ausgegeben werden, die Ausgabe ist ebenfalls ein Dictionary. Die vollständige Ausgabe findet sich im folgenden Beispiel.
 
 ``` {python}
 variables = cdf.variables
 for key, value in variables.items():
     print(key)
     print(value, "\n")
+    break # Abbruch nach erstem Schlüssel-Wert-Paar
 ```
+
+::: {#nte-cdf .callout-note collapse="true"}
+## vollständige Ausgabe cdf.variables
+``` {python}
+variables = cdf.variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+
+```
+
+:::
 
 Ebenso können die Dimensionen (`cdf.dimensions`) und die globalen Attribute des Datasets (`cdf.__dict__` oder als Liste mit `cdf.ncattrs()`) ausgegeben werden. Ebenso können die Attribute einer Variablen ausgegeben werden. Variablen werden direkt über den Schlüssel `variable = cdf['key']` oder mit der Funktion `variable = cdf.variables['key']` abgerufen.
 
@@ -3869,13 +3884,106 @@ print(f"Als Dictionary mit variable.__dict__:\n{variable.__dict__}\n")
 
 :::
 
+## Daten in netCDF4-Dateien schreiben
+Um Objekte in eine netCDF4-Datei zu schreiben, muss diese in einem der Schreibmodi geöffnet werden `Dataset = nc.Dataset('pfad', mode = 'w')`. Anders als HDF5 unterstützt netCDF keine Objektzuweisung in der Form `cdf['neuer Schlüssel'] = Objekt`.
+
+  - Gruppen werden mit der Funktion `Dataset.createGroup("Gruppenname")` angelegt. Unterverzeichnisse werden analog angelegt: `Dataset.createGroup("/Gruppenname/Unterverzeichnis")` 
+
+  - Dimensionen beschreiben die Größe einer Variablen und müssen vor der Variablen angelegt werden (Ein Skalar, also ein Einzelwert, hat keine Dimension): `Dataset.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)`. Durch die Übergabe von None oder 0 als Größe, wird eine unbegrenzt große Dimension angelegt (netCDF4-Variablen verhalten sich wie NumPy-Arrays, besitzen aber keine feste Größe. Das bedeutet, es können weitere Daten angehängt werden.).
+
+  - Variablen werden mit der Funktion `Dataset.createVariable('name oder pfad', 'Datentypkürzel', ('Name der Dimension')). Die Argumente 'name oder pfad' und 'Datentypkürzel' sind Pflichtangaben. Die Dimensionen der Variable wurden zuvor mit `cdf_neu.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)` definiert und werden als Tupel übergeben. Ein Einzelwert wird erstellt, indem die Angabe der Dimension weggelassen wird. 
+
+| Datentypkürzel | Datentyp |
+|:---:|:---:|
+| 'f4' | 32-bit floating point |
+| 'f8' | 64-bit floating point |
+| 'i4' | 32-bit signed integer |
+| 'i2' | 16-bit signed integer |
+| 'i8' | 64-bit signed integer |
+| 'i1' | 8-bit signed integer |
+| 'u1' | 8-bit unsigned integer |
+| 'u2' | 16-bit unsigned integer |
+| 'u4' | 32-bit unsigned integer |
+| 'u8' | 64-bit unsigned integer |
+| 'S1' | single-character string |
+
+Im folgenden Code wird das Objekt abs_time aus dem vorherigen Abschnitt in einer netCDF4-Datei gespeichert. Mit dem Attribut `variablenname.units` werden die Metadaten zur Einheit (hier: Millisekunden) hinterlegt. Dazu wird die Anweisung zum Erstellen der Variable einem Objekt `variablename` zugewiesen.
+
+
+``` {python}
+# Neues Dataset im Schreibmodus öffnen
+cdf_neu = nc.Dataset('skript/01-daten/cdf_neu.nc', mode = 'w')
+
+# Gruppe 'Daten' anlegen
+## Muss das einem Objekt zugewiesen werden?
+cdf_neu.createGroup("Daten")
+
+# Dimension anlegen
+cdf_neu.createDimension('abs_time', abs_time.shape[0])
+
+# Variable anlegen als 'f4' 32-bit float und einem Objekt zuweisen.
+variablename = cdf_neu.createVariable('/Daten/abs_time', 'f4', ('abs_time'))
+variablename.units = 'Millisekunden'
+
+# Dataset schließen
+cdf_neu.close()
+
+# Kontrolle
+cdf_neu = nc.Dataset('skript/01-daten/cdf_neu.nc', mode = 'r')
+print(cdf_neu.groups, "\n")
+
+variables = cdf_neu['/Daten'].variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+
+cdf_neu.close()
+```
+
+
+
+
+
+
+#### Operationen mit Variablen
+Wie bei HDF5-Dateien können Operationen mit Variablen nicht direkt ausgeführt werden.
+
+``` {python}
+try:
+  print(cdf['HRFC_OTD_FR'] - 1)
+except TypeError as error:
+  print("Der Direktzugriff führt zu der Fehlermeldung:\n", error)
+
+# Mit einer Kopie kann gearbeitet werden
+print("\nMit einer Kopie geht es:")
+print(cdf['HRFC_OTD_FR'][ :, :])
+
+# Mit Indexbereichen ebenso
+print("\nEbenso mit ausgewählten Indexbereichen:")
+print(cdf['HRFC_OTD_FR'][0:10, 0:10])
+```
+
+## Übung Zugriff auf netCDF-Datasets
+**Greifen Sie auf die Variable 'HRFC_LIS_RF' zu.**
+
+  - Geben Sie die Attribute der Variablen aus.
+  
+  - Bestimmen Sie die minimale, maximale und die durchschnittliche Anzahl der Blitze.
+
+  - Zentrieren Sie die Daten und hängen Sie eine neue Variable 'HRFC_LIS_RF_centered' an das Dataset an.
+
+
+
+
+
+
 Am Ende wird die netCDF4-Datei geschlossen.
 ``` {python}
 cdf.close()
 
 ```
 
-### Räumliche Daten
+# Räumliche Daten
 Geopandas?!
 
 
