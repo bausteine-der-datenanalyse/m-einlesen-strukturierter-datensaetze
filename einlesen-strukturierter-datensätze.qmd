@@ -115,7 +115,7 @@ Das Einlesen strukturierter Datensätze umfasst somit den gesamten Prozess des t
 In der praktischen Datenanalyse helfen zwei einfache Tipps beim Einlesen strukturierter Datensätze:
 
 ::: {#tip-editor .callout-tip collapse="false"}
-**Schauen Sie sich Ihre Daten an, bevor Sie diese mit Python einlesen!** Dafür reicht ein Texteditor oder ein Tabellenkalkulationsprogramm. Ein kurzer Blick genügt, um die verwendeten Zeichentrenner, Tausendertrennzeichen, Datumsformate, die Kodierung fehlender Werte und die Unicode-Kodierung (wie UTF-8) zu identifizieren.
+**Schauen Sie sich Ihre Daten an, bevor Sie diese mit Python einlesen!** Dafür reicht ein Texteditor oder ein Tabellenkalkulationsprogramm (hier die automatische Erkennung und Umwandlung von Datumsformaten beachten). Ein kurzer Blick genügt, um die verwendeten Zeichentrenner, Tausendertrennzeichen, Datumsformate, die Kodierung fehlender Werte und die Unicode-Kodierung (wie UTF-8) zu identifizieren.
 :::
   
 Dies ist aber nicht immer möglich, beispielsweise wenn Ihr Datensatz aus hunderten Spalten und zehntausenden Zeilen besteht. Dieser Baustein vermittelt deshalb die Handwerkszeuge, um Datensätze ausschließlich mit den in Python verfügbaren Mitteln einzulesen.
@@ -415,7 +415,9 @@ messung1_long_cast
 :::
 
 ### Drei- und mehrdimensionale Datensätze
-Drei- oder mehrdimensionale Datensätze organisieren komplexe Datenstrukturen in sogenannten **Arrays**. Arrays sind n-dimensionale Datenstrukturen und damit zugleich ein Oberbegriff. So ist eine Liste ein eindimensionales Array, eine Matrix ein zweidimensionales Array und eine Excel-Datei mit mehreren Arbeitsblättern für jährlich erhobene Umfragedaten ein 3-dimensionales Array (Arbeitsblätter, Zeilen, Spalten). Abhängig vom verwendeten Modul können Arrays ein oder mehrere Datentypen enthalten. **ggf. ergänzen: Modul xarray <https://docs.xarray.dev/en/stable/user-guide/pandas.html>**
+Drei- oder mehrdimensionale Datensätze organisieren komplexe Datenstrukturen in sogenannten **Arrays**. Arrays sind n-dimensionale Datenstrukturen und damit zugleich ein Oberbegriff. So ist eine Liste ein eindimensionales Array, eine Matrix ein zweidimensionales Array und eine Excel-Datei mit mehreren Arbeitsblättern für jährlich erhobene Umfragedaten ein 3-dimensionales Array (Arbeitsblätter, Zeilen, Spalten). Abhängig vom verwendeten Modul können Arrays ein oder mehrere Datentypen enthalten.
+
+<!-- ggf. ergänzen: Modul xarray <https://docs.xarray.dev/en/stable/user-guide/pandas.html> -->
 
 ::: {.border}
 ![dreidimensionale Datensätze](skript/00-bilder/dreidimensionaler-datensatz-slicing-mf-mp.png){width="50%" fig-alt="Dargestellt ist ein dreidimensionaler Block, der einen dreidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die drei Achsen. Die nullte Achse entspricht der Tiefe, die erste Achse der Länge (von oben nach unten) und die zweite Achse der Breite des Datensatzes."}
@@ -902,7 +904,7 @@ In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und 
 ## Datentypen erkennen und festlegen
 Der Datentyp bestimmt, wie bereits ausgeführt, den zulässigen Wertebereich einer Variablen, zulässige Operationen und die Ausführung von Operatoren und Funktionen in Python. Die Module NumPy und Pandas bieten eine Reihe von Funktionen, um den Datentyp von Variablen zu kontrollieren und festzulegen. 
 
-**ergänzen: Datumsformat Hinweis auf Zeitreihen [@sec-zeitreihen]**
+*Hinweis: Der Datentyp datetime wird in [@sec-zeitreihen] behandelt.*
 
 ### NumPy
 Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argument `dtype` festgelegt werden `np.loadtxt(fname = data.txt, dtype = 'float')`. Das Argument `dtype` akzeptiert die Angabe eines Datentyps, Schlüsselwörter oder Kürzel. Weiter Informationen erhalten Sie in der [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.dtypes.html).
@@ -981,7 +983,7 @@ print(meerschweinchen.dtypes)
 
 :::
 
-#### Nützliche Funktionen zur Beschreibung von Datensätzen
+#### Nützliche Funktionen für die deskriptive Datenanalyse
 Pandas bietet einige praktische Funktionen, um den Aufbau eines Datensatzes zu beschreiben.
 
 Das Attribut `.columns` gibt die Spaltenbeschriftungen als Liste zurück. Ebenfalls ist darüber ein Schreibzugriff möglich.
@@ -1075,6 +1077,8 @@ taxes.dtypes
 ## Umgang mit fehlenden Werten
 Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind. Die Module NumPy und Pandas bieten Funktionen, um fehlende Werte bereits beim Einlesen zu erkennen und umzuwandeln.
 
+*Hinweis: Maskierte NumPy-Arrays werden in [@sec-ma] behandelt.*
+
 ### NumPy
 Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen mit mehreren Arrays zu Fehlern führen.
 
@@ -1139,7 +1143,7 @@ print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
 print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
 ```
 
-Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlemeldung.
+Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlermeldung.
 
 ``` {python}
 
@@ -2684,7 +2688,6 @@ shiller_data.info()
 # Zugriff auf mehrere lokale Dateien: Modul glob
 
 ::: {.border}
-Das Modul glob: Vorlesung SA03
 Das Modul [glob](https://docs.python.org/3/library/glob.html#module-glob) erlaubt es, mit der Funktion `glob.glob(pathname, *, root_dir = None, recursive = False)` aus einem Ordner alle Dateipfade, die dem im Argument `pathname` spezifizierten Muster entsprechen zurückzugeben. Das Argument `pathname` kann als Schlüsselwort oder positional übergeben werden, die übrigen Argumente müssen als Schlüsselwort übergeben werden (dies signalisiert das Zeichen `*`). Die Speicheradresse des Ordners wird mit dem Argument `root_dir` übergeben, dessen Standardwert das aktuelle Arbeitsverzeichnis ist. 
 Im Argument `pathname` können Platzhalter, sogenannte Wildcards, verwendet werden, um beliebige Zeichen und Zeichenfolgen zu spezifizieren.
 
@@ -3043,7 +3046,7 @@ unfallatlas.head()
 
 :::
 
-# Maskierte Arrays
+# Maskierte Arrays {#sec-ma}
 Maskierte Arrays sind eine Erweiterung für NumPy, um Probleme mit fehlenden Werten insbesondere bei Ganzzahlen zu umgehen.
 
 ::: {.border layout="[5, 90, 5]"}
@@ -3467,25 +3470,25 @@ print(f"i = {i}\n{sieb}\n")
 i = 2
 bedingung2 = (maskiertes_array > i) & (maskiertes_array % i == 0)
 sieb = ma.masked_where(bedingung1 | bedingung2, maskiertes_array)
-print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+print(f"zusätzlich Vielfache von {i}\n{sieb}\n")
 
 ## 3
 i = 3
 bedingung3 = (maskiertes_array > i) & (maskiertes_array % i == 0)
 sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3, maskiertes_array)
-print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+print(f"zusätzlich Vielfache von {i}\n{sieb}\n")
 
 ## 5
 i = 5
 bedingung5 = (maskiertes_array > i) & (maskiertes_array % i == 0)
 sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3 | bedingung5, maskiertes_array)
-print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+print(f"zusätzlich Vielfache von {i}\n{sieb}\n")
 
 ## 7
 i = 7
 bedingung7 = (maskiertes_array > i) & (maskiertes_array % i == 0)
 sieb = ma.masked_where(bedingung1 | bedingung2 | bedingung3 | bedingung5 | bedingung7, maskiertes_array)
-print(f"zusätzlich Primzahlen bis {i}\n{sieb}\n")
+print(f"zusätzlich Vielfache von {i}\n{sieb}\n")
 
 ```
 
@@ -3509,32 +3512,30 @@ print(ma.sort(sieb.flatten(), endwith = False)[::-1].reshape(sieb.shape))
 # Wissenschaftliche Dateiformate {#sec-spezialformate}
 Wissenschaftliche Datensätze können extrem groß sein. Beispielsweise hat das Kernforschungszentrum CERN im November 2018 15,8 Petabyte Daten aufgezeichnet ([Key Facts and Figures - CERN Data Centre](https://information-technology.web.cern.ch/sites/default/files/CERNDataCentre_KeyInformation_July2022_V3.pdf)). Für den Austausch großer Datenmengen wurden Datenformate wie das Hierarchical Data Format (HDF) und Network Common Data Format (netCDF) entwickelt. Diese erlauben es unter anderem, Datensätze direkt vom Massenspeicher des Computers auszulesen, sodass eine mögliche Begrenzung durch den Arbeitsspeicher vermieden wird.
 
-Im Folgenden werden knapp die Grundfunktionen für das Arbeiten mit HDF5- und netCDF4-Dateien vorgestellt. Weitere Informationen, insbesondere zum Anlegen entsprechender Dateien inklusive Metadaten, finden Sie in der jeweiligen Dokumentation.
+Im Folgenden werden knapp die Grundfunktionen für das Arbeiten mit HDF5- und netCDF4-Dateien vorgestellt. Detailliertere Informationen finden Sie in der jeweiligen Dokumentation.
 
 ## HDF5
 HDF5 bedeutet Hierarchical Data Format Version 5. HDF organisiert Daten in einer Ordnerstruktur, die mit der Ordnerstruktur eines Computers vergleichbar ist, und enthält beschreibende Metadaten, weshalb HDF als selbstbeschreibend gilt. Die HDF-Verzeichnisstruktur wird mit bestimmten Begriffen beschrieben.
 
-  - Gruppen oder `groups` bezeichnen die Verzeichnisse (Unterordner) innerhalb der HDF-Datei.
+  - Gruppen oder `groups` bezeichnen die Verzeichnisse (Unterordner) innerhalb der HDF-Datei. `groups` können weitere Gruppen oder `datasets` enthalten.
 
   - Dateien oder `datasets` entsprechen einzelnen Dateien.
 
-`groups` können weitere Gruppen oder `datasets` enthalten.
+::: {.border}
+![HDF5-Verzeichnisstruktur](skript/00-bilder/hdf5_structure4-by-neonscience.org.jpg){width="80%" fig-alt="Darstellung der Verzeichnisstruktur von HDF5. Dargestellt sind das Wurzelverzeichnis, dem Metadaten zugeordnet sind, und darin enthaltene Gruppen, die weitere Gruppen oder Datensätze enthalten. Den Objekten sind jeweils Metadaten zugeordnet."}
 
-**Grafik einbinden (Lizenz klären oder ähnliche): https://raw.githubusercontent.com/NEONScience/NEON-Data-Skills/dev-aten/graphics/HDF5-general/hdf5_structure4.jpg**
+An illsturation of a HDF...and associated metadata von U.S National Science Foundation's National Ecological Observatory Network (NEON) ist abrufbar unter <https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5>.
+::: 
 
-https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5
+&nbsp;
 
-In Python können die Pakete [PyTables](https://www.pytables.org/) (`pip install tables`), das von Pandas verwendet wird, und h5py (`pip install h5py`) mit HDF5 umgehen. Das Einlesen von HDF5-Dateien funktioniert ähnlich wie das Einlesen von Dateien in der Pythonbasis: Der Zugriff auf die Datei erfolgt mit einem Dateiobjekt, über das verschiedene Methoden zum Lesen und Schreiben bereitgestellt werden. Abschließend wird das Dateiobjekt wieder geschlossen.
+In Python können die Pakete [PyTables](https://www.pytables.org/), das von Pandas verwendet wird, und h5py mit HDF5 umgehen. Das Einlesen von HDF5-Dateien funktioniert ähnlich wie das Einlesen von Dateien in der Pythonbasis: Der Zugriff auf die Datei erfolgt mit einem Dateiobjekt, über das verschiedene Methoden zum Lesen und Schreiben bereitgestellt werden. Abschließend wird das Dateiobjekt wieder geschlossen.
 
 Die Integration des Pakets PyTables in Pandas ist auf die Verwendung von Pandas-Objekten ausgelegt. Es wird eine spezifische Dateistruktur genutzt und erwartet. Anders aufgebaute HDF5-Dateien können nicht eingelesen werden. Deshalb wird das Paket hier nur kurz vorgestellt. ([Thema auf stackoverflow](https://stackoverflow.com/questions/71388502/read-hdf5-file-created-with-h5py-using-pandas), [Antwort von Kevin S unter CC-BY-SA 3.0](https://stackoverflow.com/a/33644128))
 
+::: {#wrn-hdfdata .callout-warning appearance="simple"}
+## Datensatz
 In diesem Abschnitt wird ein Teil des Datensatzes IceBridge ATM L1B Elevation and Return Strength, Version 2 genutzt ([kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)). Das [Handbuch ist hier verfügbar](https://nsidc.org/sites/default/files/ilatm1b-v002-userguide_2.pdf). Der Datensatz enhält flugzeugbasierte Lasermessungen für die Höhe des Eisschildes in der Arktis und Antarktis mittels des NASA Airborne Topographic Mapper (ATM). ATM hat eine Abtastrate von 3 bis 5 kHz. Jede Datei enthält die Daten von einigen Minuten Flugdauer. Das geografische Referenzsystem ist das World Geodetic System 1984 (WGS 84)
-
-::: {.border}
-Studinger, M. 2013, updated 2020. IceBridge ATM L1B Elevation and Return Strength, Version 2.
-[Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed
-Active Archive Center. https://doi.org/10.5067/19SIM5TXKPGT. [05.12.2024]
-:::
 
 Die Dateien sind nach dem Schema ILATM1B_YYYYMMDD_HHMMSS.ATM4BT4.h5 benannt:
 
@@ -3548,9 +3549,15 @@ Die Dateien sind nach dem Schema ILATM1B_YYYYMMDD_HHMMSS.ATM4BT4.h5 benannt:
 
   - xxx Dateityp (.h5 = HDF5, h5.xml = zusätzliche Metadatendatei) 
 
+:::: {.border}
+Studinger, M. 2013, updated 2020. IceBridge ATM L1B Elevation and Return Strength, Version 2.
+[Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed
+Active Archive Center. https://doi.org/10.5067/19SIM5TXKPGT. [05.12.2024]
+::::
+:::
 
 ### PyTables
-Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierrüber können HDF-Dateien gelesen und geschrieben werden. DAs HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
+Das Paket PyTables wird mit dem Befehl `pip install tables` installiert. Die Funktionen des Pakets sind in Pandas integriert. Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierrüber können HDF-Dateien gelesen und geschrieben werden. DAs HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
 
 | Zugriffsmodus | Beschreibung |
 |---|----------------------|
@@ -3638,7 +3645,7 @@ Eine Liste verfügbarer Funktionen findet sich [in der Dokumentation](https://pa
 ([Numpy Ninja](https://www.numpyninja.com/post/hdf5-file-format-with-pandas))
 
 ### h5py
-Das Modul h5py funktioniert ählich wie PyTables (**?! - keys müsste es da auch geben?!**). Der Zugriff auf eine HDF5-Datei erfolgt über ein Dateiobjekt, das mit der Funktion `h5py.File(Dateipfad, Zugriffsmodus)` erzeugt wird ([siehe h5py Dokumentation](https://docs.h5py.org/en/latest/high/file.html#file)).
+Das Paket h5py wird mit dem Befehl `pip install h5py` installiert. Das Modul h5py funktioniert ählich wie PyTables. Der Zugriff auf eine HDF5-Datei erfolgt über ein Dateiobjekt, das mit der Funktion `h5py.File(Dateipfad, Zugriffsmodus)` erzeugt wird ([siehe h5py Dokumentation](https://docs.h5py.org/en/latest/high/file.html#file)).
 
 | Zugriffsmodus | Beschreibung |
 |---|----------------------|
@@ -3715,7 +3722,7 @@ hdf.close()
 ```
 
 ### Übung Zugriff auf H5P-Datasets
-**Berechnen Sie aus der relativen Zeit `hdf['instrument_parameters/rel_time']'` im Format 'hhmmss' und dem im Dateinamen enthaltenen Beginn der Messung die tatsächliche Zeit der Messung, bspw. im Objekt 'abs_time'.** Der Dateipfad lautet: 'aufgaben/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5'.  
+**Berechnen Sie aus der relativen Zeit `hdf['instrument_parameters/rel_time']` im Format 'hhmmss' und dem im Dateinamen enthaltenen Beginn der Messung die tatsächliche Zeit der Messung.** Der Dateipfad lautet: 'aufgaben/01-daten/ILATM1B_20191120_041200.ATM6AT6.h5'.  
 *Hinweis: Die relative Zeit liegt in Tausendstelsekunden aufgelöst vor. Aufgrund der hohen Abtastrate von ATM kommen Zeiten in der Regel mehrfach vor.*
 
 ::: {#tip-Messzeit .callout-tip collapse="true"}
@@ -3739,6 +3746,8 @@ hdf.close()
 
 ```
 
+:::
+
 #### HDF5 Dateien schreiben
 Um Objekte in eine HDF5-Datei zu schreiben, muss diese im Schreibmodus geöffnet werden.
 
@@ -3757,21 +3766,31 @@ hdf_neu.close()
 ([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html))
 
 
-::: 
-
 ## netCDF4
 Das Paket netCDF4 (Network Common Data Format Version 4) wird mit `pip install netCDF4` installiert. netCDF4 basiert auf HDF5, verwendet aber eine eigene Terminologie. Der Zugriff auf eine netCDF4 Datei erfolgt über das Dataset-Objekt, das der Wurzelgruppe entspricht. Eine netCDF-Datei bzw. das Dataset-Objekt besteht aus:
 
-  - Gruppen (groups): Gruppen sind Unterverzeichnisse des Dataset-Objekts und können Variablen, Dimenseionn, Attribute und weitere Gruppen enthalten.
+  - Gruppen (groups): Gruppen sind Unterverzeichnisse des Dataset-Objekts und können Variablen, Dimensionen, Attribute und weitere Gruppen enthalten.
   
   - Variablen (variables): Variablen entsprechen Datensätzen bzw. NumPy-Arrays.
 
   - Dimensionen (dimensions): Dimensionen beschreiben Eigenschaften der Variablen wie Name (name), Größe (size), Gruppenzugehörigkeit (group)
 
-  - Attribute (attributes): Attribute beschreiben entweder das gesamte Dataset (globale Attribute) oder einzelne Variablen.
+  - Attribute (attributes): Attribute beschreiben entweder das gesamte Dataset (globale Attribute) oder einzelne Variablen. Attribute speichern die Metadaten.
 
+    - `Dataset.description = 'Beschreibung des Datensatzes'`
+
+    - `Dataset.history = 'Zeitpunkt der Erstellung'`
+
+    - `Dataset.source = 'Quelle'`
+
+    - `Dataset.units = 'Beschreibung der Messeinheit'`
+
+    - `Dataset.calender = 'gregorianischer Kalender'`
+    
 Diese Elemente sind als Dictionary aufgebaut und erlauben den Zugriff über Schlüssel-Wert-Paare.
 
+::: {#wrn-netcdfdata .callout-wrn appearance="simple"}
+## Datensatz
 In diesem Abschnitt wird ein Datensatz der NASA zur Blitzdichte (Anzahl Blitze pro Quadratkilometer) verwendet [kostenlose Registrierung bei NASA Earth erforderlich](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lohrfc-2.3.2015). Die netCDF4-Datei enthält verschiedene Datensätze (Variablen), die mit satellitengestützten Messinstrumenten erstellt wurden. Blitze im Bereich von +/- 38 Grad um den Äquator wurden mit dem Lightning Imaging Sensor (LIS) des Satelliten der Tropical Rainfall Measuring Mission (TRMM) gemessen. In höheren und niedrigeren Breitengraden wurden Blitze mit dem Optical Transient Detector (OTD) auf Orbview-1 gemessen. Die Daten liegen in einer Auflösung von 0.5 Grad vor. ([Datensatzdokumentation](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lolrac-2.3.2015), [Poetzsch 2021](https://refubium.fu-berlin.de/handle/fub188/43384): 182-183)
 
 Die Datensätze folgen dem Namensschema HRFC_COM_FR
@@ -3782,11 +3801,12 @@ Die Datensätze folgen dem Namensschema HRFC_COM_FR
   
   - FR = Flash Rates [RF = Raw Flash Rates, SF = Scaled Flash Rates]
 
-::: {.border}
+:::: {.border}
 LIS/OTD 0.5 Degree High Resolution Full Climatology (HRFC) V2.3.2015 von Global Hydrometeorology Resource Center DAAC (GHRC DAAC)
 
 DOI https://doi.org/10.5067/LIS/LIS-OTD/DATA302
 
+::::
 :::
 
 &nbsp;
@@ -3884,14 +3904,14 @@ print(f"Als Dictionary mit variable.__dict__:\n{variable.__dict__}\n")
 
 :::
 
-## Daten in netCDF4-Dateien schreiben
-Um Objekte in eine netCDF4-Datei zu schreiben, muss diese in einem der Schreibmodi geöffnet werden `Dataset = nc.Dataset('pfad', mode = 'w')`. Anders als HDF5 unterstützt netCDF keine Objektzuweisung in der Form `cdf['neuer Schlüssel'] = Objekt`.
+### Daten in netCDF4-Dateien schreiben
+Um Daten in eine netCDF4-Datei zu schreiben, muss diese in einem der Schreibmodi geöffnet werden `Dataset = nc.Dataset('pfad', mode = 'a')`. Um eine neue Variable anzulegen, muss eine entsprechende Dimension angelegt werden. Wenn die Variable in einen noch nicht bestehenden Pfad gespeichert werden soll, sind auch die entsprechenden Gruppen anzulegen.
 
-  - Gruppen werden mit der Funktion `Dataset.createGroup("Gruppenname")` angelegt. Unterverzeichnisse werden analog angelegt: `Dataset.createGroup("/Gruppenname/Unterverzeichnis")` 
+  - Gruppen im Wurzelverzeichnis werden mit der Funktion `Dataset.createGroup("Gruppenname")` angelegt. Unterverzeichnisse werden analog als Pfad angelegt: `Dataset.createGroup("/Gruppenname/Unterverzeichnis")` (führenden '/' beachten).
 
-  - Dimensionen beschreiben die Größe einer Variablen und müssen vor der Variablen angelegt werden (Ein Skalar, also ein Einzelwert, hat keine Dimension): `Dataset.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)`. Durch die Übergabe von None oder 0 als Größe, wird eine unbegrenzt große Dimension angelegt (netCDF4-Variablen verhalten sich wie NumPy-Arrays, besitzen aber keine feste Größe. Das bedeutet, es können weitere Daten angehängt werden.).
+  - Dimensionen beschreiben die Größe einer Variablen und müssen vor der Variablen angelegt werden (Ein Skalar, also ein Einzelwert, hat keine Dimension): `Dataset.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)`. Durch die Übergabe von None oder 0 als Größe, wird eine unbegrenzt große Dimension angelegt (netCDF4-Variablen verhalten sich wie NumPy-Arrays, besitzen aber keine feste Größe. Das bedeutet, es können weitere Daten angehängt werden.). Um beispielsweise eine zweidimensionale Datenstruktur mit 10 Zeilen und 5 Spalten anzulegen, müssen beide Dimensionen seperat deklariert werden: `Dataset.createDimension('Dimension1', 10)`, `Dataset.createDimension('Dimension2', 5)`.
 
-  - Variablen werden mit der Funktion `Dataset.createVariable('name oder pfad', 'Datentypkürzel', ('Name der Dimension')). Die Argumente 'name oder pfad' und 'Datentypkürzel' sind Pflichtangaben. Die Dimensionen der Variable wurden zuvor mit `cdf_neu.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)` definiert und werden als Tupel übergeben. Ein Einzelwert wird erstellt, indem die Angabe der Dimension weggelassen wird. 
+  - Variablen werden mit der Funktion `Dataset.createVariable('Name oder Pfad', 'Datentypkürzel', ('Name der Dimension', )). Die Argumente 'Name oder Pfad' und 'Datentypkürzel' sind Pflichtangaben. Die Dimensionen der Variable wurden zuvor mit `cdf_neu.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)` definiert und werden als Tupel übergeben. Ein Einzelwert wird erstellt, indem die Angabe der Dimension weggelassen wird. Eine zweidimensionale Datenstruktur lässt sich so anlegen: `Dataset.createVariable('Name oder Pfad der Variablen', 'Datentypkürzel', ('Dimension1', 'Dimension2', ))` [siehe Dokumentation](https://unidata.github.io/netcdf4-python/#variables-in-a-netcdf-file).
 
 | Datentypkürzel | Datentyp |
 |:---:|:---:|
@@ -3907,7 +3927,9 @@ Um Objekte in eine netCDF4-Datei zu schreiben, muss diese in einem der Schreibmo
 | 'u8' | 64-bit unsigned integer |
 | 'S1' | single-character string |
 
-Im folgenden Code wird das Objekt abs_time aus dem vorherigen Abschnitt in einer netCDF4-Datei gespeichert. Mit dem Attribut `variablenname.units` werden die Metadaten zur Einheit (hier: Millisekunden) hinterlegt. Dazu wird die Anweisung zum Erstellen der Variable einem Objekt `variablename` zugewiesen.
+&nbsp;
+
+Im folgenden Code wird das Objekt abs_time aus dem vorherigen Abschnitt in einer netCDF4-Datei gespeichert. Mit den Attributen `variablenname.description`, `variablename.source` und `variablenname.units` werden die Metadaten zur Einheit (hier: Millisekunden) hinterlegt. Dazu wird die Anweisung zum Erstellen der Variable einem Objekt `variablename` zugewiesen.
 
 
 ``` {python}
@@ -3915,15 +3937,19 @@ Im folgenden Code wird das Objekt abs_time aus dem vorherigen Abschnitt in einer
 cdf_neu = nc.Dataset('skript/01-daten/cdf_neu.nc', mode = 'w')
 
 # Gruppe 'Daten' anlegen
-## Muss das einem Objekt zugewiesen werden?
 cdf_neu.createGroup("Daten")
 
 # Dimension anlegen
 cdf_neu.createDimension('abs_time', abs_time.shape[0])
 
 # Variable anlegen als 'f4' 32-bit float und einem Objekt zuweisen.
-variablename = cdf_neu.createVariable('/Daten/abs_time', 'f4', ('abs_time'))
+variablename = cdf_neu.createVariable('/Daten/abs_time', 'f4', ('abs_time', ))
+
+## Attribute anlegen
+variablename.description = 'sehr wichtige Zeitinformationen'
+variablename.source = 'berechnet aus IceBridge ATM L1B Elevation and Return Strength, Version 2'
 variablename.units = 'Millisekunden'
+
 
 # Dataset schließen
 cdf_neu.close()
@@ -3940,11 +3966,6 @@ for key, value in variables.items():
 cdf_neu.close()
 ```
 
-
-
-
-
-
 #### Operationen mit Variablen
 Wie bei HDF5-Dateien können Operationen mit Variablen nicht direkt ausgeführt werden.
 
@@ -3960,22 +3981,8 @@ print(cdf['HRFC_OTD_FR'][ :, :])
 
 # Mit Indexbereichen ebenso
 print("\nEbenso mit ausgewählten Indexbereichen:")
-print(cdf['HRFC_OTD_FR'][0:10, 0:10])
+print(cdf['HRFC_OTD_FR'][30:40, 30:40])
 ```
-
-## Übung Zugriff auf netCDF-Datasets
-**Greifen Sie auf die Variable 'HRFC_LIS_RF' zu.**
-
-  - Geben Sie die Attribute der Variablen aus.
-  
-  - Bestimmen Sie die minimale, maximale und die durchschnittliche Anzahl der Blitze.
-
-  - Zentrieren Sie die Daten und hängen Sie eine neue Variable 'HRFC_LIS_RF_centered' an das Dataset an.
-
-
-
-
-
 
 Am Ende wird die netCDF4-Datei geschlossen.
 ``` {python}
@@ -3983,37 +3990,182 @@ cdf.close()
 
 ```
 
-# Räumliche Daten
-Geopandas?!
+### Übung Zugriff auf netCDF-Datasets
+**Greifen Sie in der Datei unter dem Pfad 'aufgaben/01-daten/LISOTD_HRFC_V2.3.2015.nc' auf die Variable 'HRFC_LIS_RF' zu.**
+
+  - Geben Sie die Attribute der Variablen aus.
+  
+  - Bestimmen Sie die minimale, maximale und die durchschnittliche Anzahl der Blitze.
+
+  - Zentrieren Sie die Daten (Wert - Mittelwert) und hängen Sie eine neue Variable 'HRFC_LIS_RF_centered' an das Dataset an.
 
 
+::: {#tip-netCDF .callout-tip collapse="true"}
 
+Da die Ausführung des Codes die Datei entsprechend der Aufgabenstellung verändert, ist der Code nicht als Python-Code eingebunden.
 
+``` {.raw}
+# Datei im Modus append einlesen
+dateipfad = "aufgaben/01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'a')
+print(cdf.data_model, "\n")
 
+# Variable einlesen
+lis_rf =  cdf['HRFC_LIS_RF']
 
+# Attribute der Variablen ausgeben
+print("Attribute der Variablen 'HRFC_LIS_RF':", lis_rf.ncattrs(), "\n")
+
+# Daten aus der Variablen auslesen
+lis_rf_data =  cdf['HRFC_LIS_RF'][: , :]
+print(f"min: {lis_rf_data.min()}\tmax: {lis_rf_data.max()}\tmean: {lis_rf_data.mean()}\n")
+
+# Daten zentrieren
+# runden wegen interner Darstellung von Gleitkommazahlen - optional
+lis_rf_data_centered = lis_rf_data - lis_rf_data.mean()
+print(f"min: {lis_rf_data_centered.min()}\tmax: {lis_rf_data_centered.max()}\tmean: {lis_rf_data_centered.mean()}\tmean gerundet: {round(lis_rf_data_centered.mean())}\n")
+
+# Daten an die netCDF4-Datei anhängen
+
+## Dimension anlegen
+## latitute und longitude sind die Dimensionen des 2-dimensionalen Arrays
+## Code kann nur einmal ausgeführt werden, prüfen mit try: legt die Dimension bereits an
+## deshalb Konstruktion mit not in, um zu prüfen, ob Dimension bereites existiert
+
+dimensions = cdf.dimensions
+
+### latitude
+DIMENSION = 'latitude'
+if DIMENSION not in dimensions:
+  print(f"Die Dimension {DIMENSION} existiert nicht und wird angelegt.")
+  cdf.createDimension(DIMENSION, lis_rf_data_centered.shape[0])
+else:
+  print(f"Die Dimension {DIMENSION} existiert bereits.")
+
+### longitude
+DIMENSION = 'longitude'
+if DIMENSION not in dimensions:
+  print(f"Die Dimension {DIMENSION} existiert nicht und wird angelegt.")
+  cdf.createDimension(DIMENSION, lis_rf_data_centered.shape[1])
+else:
+  print(f"Die Dimension {DIMENSION} existiert bereits.")
+
+## Variable 'lis_rf_data_centered' anlegen als 'f4' 32-bit float und dem Objekt variablename zuweisen.
+## latitute und longitude sind die Dimensionen des 2-dimensionalen Arrays
+## Code kann nur einmal ausgeführt werden, prüfen mit try: legt die Variable bereits an, deshalb Konstruktion mit not in
+variables = cdf.variables
+
+VARIABLE = 'lis_rf_data_centered'
+
+if VARIABLE not in variables:
+  print(f"Die Variable {VARIABLE} existiert nicht und wird angelegt.\n")
+  variablename = cdf.createVariable('lis_rf_data_centered', 'f4', ('latitude', 'longitude', ))
+
+  ### Daten einsetzen
+  variablename[ :, :] = lis_rf_data_centered
+
+  ### Attribute anlegen
+  variablename.description = 'zentrierte Blitzanzahl'
+  variablename.units = 'absolute Abweichung vom Mittelwert'
+else:
+  print(f"Die Variable {VARIABLE} existiert bereits.\n")
+
+# Dataset schließen
+cdf.close()
+
+# Kontrolle
+dateipfad = "aufgaben/01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'r')
+
+variables = cdf.variables
+for key, value in variables.items():
+  print(key)
+  # print(value, "\n")
+
+kontrolle =  cdf['lis_rf_data_centered'][: , :]
+
+print(f"\nTyp der Datenstruktur lis_rf_data_centered: {type(kontrolle)}\nAnzahl der Elemente: {kontrolle.size}\tAnzahl Werte: {kontrolle.mask.sum()}\tMittelwert der Werte: {kontrolle.mean()}")
+```
+::: 
 
 # Strategien der Fehlersuche und Bereinigung
-Zusammenfassung der bisherigen Tipps.
+Das Einlesen strukturierter Datensätze mag nach der Bearbeitung dieses Bausteins wie ein undurchdringlicher Dschungel aus erforderlichem Detailwissen scheinen: verschiedene technische Formate, die große Auswahl an Paketen und Funktionen und ein häufig nicht sonderlich intuitiver innerer Aufbau, der aufgeräumt werden muss. Im Rahmen dieses Bausteins wurden dazu verschiedene Tipps gegeben, die an dieser Stelle nicht alle einzeln wiederholt werden sollen.
 
-In kleinen Schritten vorgehen und Zwischenergebnisse überprüfen. Funktionen können ein unerwartetes Verhalten aufweisen oder ohne Fehlermeldung abbrechen.
+Vielmehr soll vermittelt werden, dass der Erfolg beim Einlesen schwieriger Datensätze weniger in der korrekten Anwendung der benötigten Funktionen als im strukturierten Vorgehen liegt. Eine korrekte Anwendung von Funktionen ist zwar unerlässlich, aber korrekte Syntax kann und sollte man in der Dokumentation nachschlagen (@tip-dokumentation).
+Ein strukturiertes Vorgehen erreichen Sie mit diesen drei Tipps:
 
-## Werte plausibilisieren
-1. zulässigen Wertebereich prüfen
+  1. Arbeiten Sie mit einem Paket, das Ihnen liegt und mit dem Sie gut vertraut sind. So vermeiden Sie Fehler durch unerwartetes oder undokumentiertes Verhalten. Dies betrifft beispielsweise Operationen mit fehlenden Werten oder Funktionen, die ohne Fehlermeldung fehlschlagen.
 
-2. zulässige Werte auf Konsistenz mit fachlicher, ggf. Alltagserfahrung prüfen (Methoden `.describe()`, `.head()`, `.tail()`)
-Ein Beispiel für Alltagserfahrung: <https://www.youtube.com/watch?v=FcxiSwZcPvw> (Anzahl Schuhe usw.)
+  2. Kontrollieren Sie für Datensätze, mit denen Sie arbeiten möchten, wesentliche Merkmale wie die Struktur, die Datentypen, den Wertebereich sowie das Vorhandensein und die Kennzeichnung fehlender Werte. Nutzen Sie die dafür verfügbaren Funktionen der deskriptiven Datenanalyse (@tip-pandasinfo).
 
-**Fehlersuche und -bereinigung: None ist in NumPy problematisch und sollte manuell kontrolliert und entfernt werden**
-
-**Fehlersuche und -bereinigung: Dokumentation lesen, Funktionen können unerwartetes Verhalten zeigen. Arbeiten Sie mit Testdaten, die den einzulesenden Datensatz möglichst gut repräsentieren und arbeiten Sie schrittweise an einer Lösung. Wenden Sie die Lösung auf den echten Datensatz an und vergleichen das Ergbnis zu dem Ergebnis der Testdaten.**
+  3. Gehen Sie in kleinen Schritten vor: Geben Sie das Ergebnis jedes Zwischenschritts mit der Funktion print() (ausschnittsweise) zur visuellen Kontrolle aus. Ist die Ausgabe plausibel? Nutzen Sie bei der Beurteilung Ihre fachliche Erfahrung. Unwesentliche print()-Anweisungen können Sie später wieder aus dem Skript entfernen.  
+  Für sehr große Datensätze ist eine visuelle Kontrolle nicht immer praktikabel. Hier ist es hilfreich, sich Testdaten zu schreiben, die die erwartete Struktur des Datensatzes widerspiegeln, um damit die einzelnen Schritte zu programmieren. Vergleichen Sie anschließend das Resultat für die Testdaten mit dem für den eigentlichen Datensatz wie im vorherigen Tipp. 
 
 # Das Wichtigste (vielleicht als Video)
 
 # Lernzielkontrolle
 
 ## Kompetenzquiz
-**to do**
 
+
+1. Unter dem Dateipfad 'aufgaben/01-daten/quiz-aufgabe1.csv' liegt folgender Datensatz.
+
+| ID | Name | Geburtsdatum | Gehalt |
+|---|---|---|---|
+| 1 | Anna | 1986-04-12 | 55000 |
+| 2 | Bernd | 1990-05-23 | 62000 |
+| 3 | Carla | 1982-11-30 | 71000 |
+| 4 | David | 1975-03-15 | 58000 |
+
+Welche Argumente müssen der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` übergeben werden, damit der Datensatz korrekt eingelesen wird?
+
+2. Ein Fehler bei der Datenerhebung soll korrigiert werden. Kennzeichnen Sie alle Beobachtungen für Personen, die vor 1980 geboren wurden als ungültig.
+
+::: {.callout-tip collapse="true"}
+## Lösungen
+
+Aufgabe 1: pd.read_csv()
+
+``` {python}
+dateipfad = 'aufgaben/01-daten/quiz-aufgabe1.csv'
+aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', parse_dates = ['Geburtsdatum'], dtype = {'Name': 'string'})
+print(aufgabe1.info())
+```
+
+Aufgabe 2: Beobachtungen als ungültig markieren
+
+``` {python}
+bedingung = aufgabe1['Geburtsdatum'].dt.year < 1980
+print(bedingung)
+
+# pd.NA für Zeichenketten und Ganzzahlen
+## NumPy-Datentyp int64 führt zur Umwandlung des Datentyps der Spalte Gehalt
+aufgabe2 = aufgabe1.copy()
+aufgabe2.loc[bedingung, :] = pd.NA
+print(aufgabe2)
+# 3  NaN   <NA>          NaT      NaN
+
+## Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen
+aufgabe2 = aufgabe1.copy()
+aufgabe2['Gehalt'] = aufgabe2['Gehalt'].astype('Int64')
+aufgabe2.loc[bedingung, :] = pd.NA
+print(aufgabe2)
+# 3  NaN   <NA>          NaT    <NA>
+```
+
+::: 
+``` {python}
+import pandas as pd
+
+dateipfad = 'aufgaben/01-daten/quiz-aufgabe1.csv'
+aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad)
+print(aufgabe1.info())
+```
+
+
+Datensatzkopf, Funktion und Fehlermeldung zeigen ... sep wurde nicht übergeben
+
+Datensatzkopf, Funktion und Fehlermeldung zeigen ... Fehler im Format-String
 
 ## Übungsaufgaben
 

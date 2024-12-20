@@ -144,7 +144,7 @@ zeitreihe.dt.tz_convert(tz = 'portugal')
 
 die Türkei hat keine Zeitumstellung, das kann Pandas aber ohnehin nicht
 
-<!-- **Können wir die Länder mit Zeitumstellung mit Pandas plotten?** -->
+<!-- **Länder mit Zeitumstellung mit Pandas plotten?** -->
 
 ### Kalender
 **to do**
