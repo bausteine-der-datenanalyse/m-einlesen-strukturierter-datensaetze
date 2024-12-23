@@ -4119,7 +4119,38 @@ Ein strukturiertes Vorgehen erreichen Sie mit diesen drei Tipps:
 
 Welche Argumente müssen der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` übergeben werden, damit der Datensatz korrekt eingelesen wird?
 
+``` {python}
+import pandas as pd
+
+dateipfad = 'aufgaben/01-daten/quiz-aufgabe1.csv'
+aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad)
+print(aufgabe1.info())
+```
+
 2. Ein Fehler bei der Datenerhebung soll korrigiert werden. Kennzeichnen Sie alle Beobachtungen für Personen, die vor 1980 geboren wurden als ungültig.
+
+3. Sortieren Sie die Spalte Geburtsdatum aufsteigend (jüngste Person zuerst). Sortieren Sie den gesamten Dataframe aufsteigend.
+
+4. Warum ist das Geburtsdatum der jüngsten Person "größer" als das der nächstälteren Person?
+
+5. In einem Ordner liegen folgende Dateien: ['Datei0.jpg', 'Datei1.csv', 'Datei2.txt', 'Datei3.png']. Sie möchten alle Dateien mit der Endung .csv und .txt mit dem Modul glob einlesen. Wie könnte der Dateipfad im Argument 'pathname' beschrieben werden, um alle Dateien einzulesen `glob.glob(pathname = ordnerpfad + '...')`?
+
+6. Maske aufheben: Das maskierte Array m_daten soll demaskiert werden. Jedoch bleibt der Befehl `m_daten.mask = ma.nomask` ohne Erfolg. Was könnte die Ursache sein?
+
+``` {python}
+#| include: false
+m_daten = ma.MaskedArray([1, 2, 3, 4])
+m_daten[2] = ma.masked
+m_daten.harden_mask()
+```
+
+
+``` {python}
+print(m_daten, "\n")
+
+m_daten.mask = ma.nomask
+print(m_daten, "\n")
+```
 
 ::: {.callout-tip collapse="true"}
 ## Lösungen
@@ -4136,36 +4167,65 @@ Aufgabe 2: Beobachtungen als ungültig markieren
 
 ``` {python}
 bedingung = aufgabe1['Geburtsdatum'].dt.year < 1980
-print(bedingung)
+print(bedingung, "\n")
 
 # pd.NA für Zeichenketten und Ganzzahlen
 ## NumPy-Datentyp int64 führt zur Umwandlung des Datentyps der Spalte Gehalt
 aufgabe2 = aufgabe1.copy()
 aufgabe2.loc[bedingung, :] = pd.NA
-print(aufgabe2)
+print("NumPy-Datentyp int64 führt zur Umwandlung des Datentyps der Spalte Gehalt")
+print(aufgabe2, "\n")
 # 3  NaN   <NA>          NaT      NaN
 
 ## Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen
 aufgabe2 = aufgabe1.copy()
 aufgabe2['Gehalt'] = aufgabe2['Gehalt'].astype('Int64')
+aufgabe2['ID'] = aufgabe2['ID'].astype('Int64')
 aufgabe2.loc[bedingung, :] = pd.NA
+print("Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen")
 print(aufgabe2)
 # 3  NaN   <NA>          NaT    <NA>
 ```
 
-::: 
-``` {python}
-import pandas as pd
+Aufgabe 3: datetime aufsteigend sortieren
 
-dateipfad = 'aufgaben/01-daten/quiz-aufgabe1.csv'
-aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad)
-print(aufgabe1.info())
+``` {python}
+aufgabe3 = aufgabe2.copy()
+print(aufgabe3['Geburtsdatum'].sort_values(ascending = False), "\n")
+
+# Sortieren des DataFrames
+print(aufgabe3.sort_values(by = 'Geburtsdatum', ascending = False, inplace = True), "\n")
+
 ```
 
+Aufgabe 4: Welches Datum ist größer und warum?
 
-Datensatzkopf, Funktion und Fehlermeldung zeigen ... sep wurde nicht übergeben
+Python zählt die Zeit ausgehend von der sogenannten Epoche `pd.to_datetime(0)`. Jüngere Menschen wurden in größerem Abstand zur Epoche geboren.
 
-Datensatzkopf, Funktion und Fehlermeldung zeigen ... Fehler im Format-String
+``` {python}
+aufgabe4 = pd.DataFrame({'Geburtsdatum': aufgabe3['Geburtsdatum'].sort_values(ascending = False)})
+aufgabe4['timedelta zur Epoche'] = aufgabe4['Geburtsdatum'] - pd.to_datetime(0)
+
+print(aufgabe4)
+
+```
+
+Aufgabe 5: glob
+
+`glob.glob(pathname = 'ordnerpfad' + '?????[1-2].*')` oder  
+`glob.glob(pathname = 'ordnerpfad' + 'Datei[1-2].*')` oder  
+`glob.glob(pathname = 'ordnerpfad' + '*[1-2].*')`
+
+Aufgabe 6: masked Array
+
+Das maskierte Array hat eine hard mask.
+
+``` {python}
+m_daten.soften_mask()
+m_daten.mask = ma.nomask
+print(m_daten, "\n")
+```
+::: 
 
 ## Übungsaufgaben
 
