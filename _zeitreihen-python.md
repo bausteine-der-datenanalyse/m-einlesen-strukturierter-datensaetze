@@ -1,6 +1,3 @@
-**Notiz für die Fertigstellung des Bausteins: folgende Teilkapitel werden in den w-Python ausgelagert: Datums- und Zeitinformationen in Python, Alles ist relativ: die Epoche, Naive und bewusste Datetime-Objekte, Zeit, Zeitzonen, Kalender**  
-**Die Einführung in [grundlegende Zeittypen](https://pandas.pydata.org/docs/user_guide/timeseries.html#overview) sollte in w-Pandas erfolgen.**
-
 ## Datums- und Zeitinformationen in Python
 Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschiedene Module ermöglicht. Im Folgenden wird die Arbeit mit Zeitreihen mit den Modulen NumPy und Pandas weiter ausgeführt. Dennoch sollten Sie die hier aufgezählten Module kennen, da in der Dokumentation gelegentlich auf diese verwiesen wird.
 
@@ -10,7 +7,7 @@ Die Verarbeitung von Datums- und Zeitinformationen wird in Python durch verschie
        
   - Das Modul calendar führt verschiedene Kalenderfunktionen ein und erweitert den verarbeitbaren Zeitraum. Basierend auf dem Gregorianischen Kalender reicht dieser in beide Richtungen ins Unendliche. ([Dokumentation des Moduls calendar](https://docs.python.org/3/library/calendar.html#module-calendar))
 
-  - Das Modul pytz führt die IANA-Zeitzonendatenbank (Internet Assigned Numbers Authority) für Anwendungsprogramme und Betriebssysteme ein (auch Olsen-Datenbank genannt). Die IANA-Datenbank beinhaltet die Zeitzonen und Änderungen der Zeit seit 1970. ([Wikipedia](https://de.wikipedia.org/wiki/Zeitzonen-Datenbank)) Das Modul pytz sorgt für eine korrekte Berechnung von Zeiten zum Ende der Zeitumstellung (Ende Sommerzeit) über Zeitzonen hinweg. ([Dokumentation pytz](https://pythonhosted.org/pytz/)) **Hinweis für mich: This library differs from the documented Python API for tzinfo implementations.**
+  - Das Modul pytz führt die IANA-Zeitzonendatenbank (Internet Assigned Numbers Authority) für Anwendungsprogramme und Betriebssysteme ein (auch Olsen-Datenbank genannt). Die IANA-Datenbank beinhaltet die Zeitzonen und Änderungen der Zeit seit 1970. ([Wikipedia](https://de.wikipedia.org/wiki/Zeitzonen-Datenbank)) Das Modul pytz sorgt für eine korrekte Berechnung von Zeiten zum Ende der Zeitumstellung (Ende Sommerzeit) über Zeitzonen hinweg. ([Dokumentation pytz](https://pythonhosted.org/pytz/))
 
   - NumPy führt die Datentypen `datetime64` und `timedelta64` ein. Diese basieren auf dem Gregorianischen Kalender und reichen in beide Richtungen ins Unendliche. <https://numpy.org/doc/stable/reference/arrays.datetime.html>
 
@@ -116,7 +113,7 @@ Eine Umwandlung in die koordinierte Weltzeit ist in NumPy bislang noch nicht umg
 Pandas kann mit Zeitzonen umgehen und datetime-Objekte von einer in eine andere Zeitzone umwandeln. Über das Argument `tz` kann in verschiedenen Funktionen die Zeitzone angegeben werden.
 
 ``` {python}
-zeitreihe = pd.Series(pd.date_range(start = "2023-03-26T00:00", end = "2023-03-27T00:00", freq = "h", tz = "turkey"))
+zeitreihe = pd.Series(pd.date_range(start = "2023-03-26T00:00", end = "2023-03-27T00:00", freq = "3h", tz = "turkey"))
 zeitreihe
 ```
 
@@ -142,8 +139,14 @@ zeitreihe.dt.tz_convert(tz = 'portugal')
 &nbsp;
 :::
 
-die Türkei hat keine Zeitumstellung, das kann Pandas aber ohnehin nicht
+die Türkei hat keine Zeitumstellung
 
+  - pandas.Timestamp.dst() Return the daylight saving time (DST) adjustment.
+
+"UTC isn’t actually a time zone, rather it’s the standard around which all time zones worldwide are based. UTC doesn’t change based on Daylight Saving Time, which is why it’s often used internally for data storage."
+https://www.dataschool.io/time-zones-in-pandas/
+
+List of Timezones (Liste der Bezeichnungen): https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 <!-- **Länder mit Zeitumstellung mit Pandas plotten?** -->
 
 ### Kalender

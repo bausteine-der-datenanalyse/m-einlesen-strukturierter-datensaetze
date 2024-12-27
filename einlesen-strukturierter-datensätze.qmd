@@ -1649,6 +1649,8 @@ print("Summe:\t\t ", counting_df.sum().sum())
 
 {{< include _zeitreihen-python.md >}}
 
+<!-- include wird in w-python / w-NumPy / w-Pandas verschoben -->
+
 
 ## Datum und Zeit in NumPy und Pandas
 Die Module NumPy und Pandas nutzen den Datentyp `datetime64`, um Datums- und Zeitinformationen zu verarbeiten.
@@ -2105,8 +2107,6 @@ print("\nName des Monats:", pd.Series(pd.to_datetime(0)).dt.month_name())
 ```
 
 ::::
-
-:::
 
 Die im vorherigen Abschnitt eingelesenen Großhandelspreise für Strom 2023 sollen auf die Unterschiede an Werktagen und am Wochenende untersucht werden. **Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
 
@@ -2720,7 +2720,7 @@ print(pfadliste)
 
 ```
 
-Im angegebenen pfad 'skript/01-daten/glob' liegen die Dateien 'hintergrund.png', 'ToothGrowth.csv', 'Unfallorte2020_LinRef.csv', 'Unfallorte2022_LinRef.csv' sowie der Unterordner 'Unterordner glob'. In diesem Unterordner liegen die Dateien 'Unfallorte2021_LinRef.csv' und 'Unfallorte2023_LinRef.csv'.
+Im angegebenen Pfad 'skript/01-daten/glob' liegen die Dateien 'hintergrund.png', 'ToothGrowth.csv', 'Unfallorte2020_LinRef.csv', 'Unfallorte2022_LinRef.csv' sowie der Unterordner 'Unterordner glob'. In diesem Unterordner liegen die Dateien 'Unfallorte2021_LinRef.csv' und 'Unfallorte2023_LinRef.csv'.
 
 Um die Suchergebnisse auf die Dateien 'Unfallorte2020_LinRef.csv', 'Unfallorte2021_LinRef.csv', 'Unfallorte2022_LinRef.csv' und 'Unfallorte2023_LinRef.csv' zu beschränken, muss der im Argument `pathname` übergebene Dateipfad angepasst werden.  **Schauen Sie in die [Dokumentation des Moduls glob](https://docs.python.org/3/library/glob.html#module-glob) und übergeben einen geeigneten Dateipfad.**
 
@@ -4088,7 +4088,7 @@ print(f"\nTyp der Datenstruktur lis_rf_data_centered: {type(kontrolle)}\nAnzahl 
 ```
 ::: 
 
-# Strategien der Fehlersuche und Bereinigung
+# Das Wichtigste (vielleicht als Video)
 Das Einlesen strukturierter Datensätze mag nach der Bearbeitung dieses Bausteins wie ein undurchdringlicher Dschungel aus erforderlichem Detailwissen scheinen: verschiedene technische Formate, die große Auswahl an Paketen und Funktionen und ein häufig nicht sonderlich intuitiver innerer Aufbau, der aufgeräumt werden muss. Im Rahmen dieses Bausteins wurden dazu verschiedene Tipps gegeben, die an dieser Stelle nicht alle einzeln wiederholt werden sollen.
 
 Vielmehr soll vermittelt werden, dass der Erfolg beim Einlesen schwieriger Datensätze weniger in der korrekten Anwendung der benötigten Funktionen als im strukturierten Vorgehen liegt. Eine korrekte Anwendung von Funktionen ist zwar unerlässlich, aber korrekte Syntax kann und sollte man in der Dokumentation nachschlagen (@tip-dokumentation).
@@ -4096,12 +4096,10 @@ Ein strukturiertes Vorgehen erreichen Sie mit diesen drei Tipps:
 
   1. Arbeiten Sie mit einem Paket, das Ihnen liegt und mit dem Sie gut vertraut sind. So vermeiden Sie Fehler durch unerwartetes oder undokumentiertes Verhalten. Dies betrifft beispielsweise Operationen mit fehlenden Werten oder Funktionen, die ohne Fehlermeldung fehlschlagen.
 
-  2. Kontrollieren Sie für Datensätze, mit denen Sie arbeiten möchten, wesentliche Merkmale wie die Struktur, die Datentypen, den Wertebereich sowie das Vorhandensein und die Kennzeichnung fehlender Werte. Nutzen Sie die dafür verfügbaren Funktionen der deskriptiven Datenanalyse (@tip-pandasinfo).
+  2. Kontrollieren Sie für Datensätze, mit denen Sie arbeiten möchten, wesentliche Merkmale wie die Struktur, die Datentypen, den Wertebereich sowie das Vorhandensein und die Kennzeichnung fehlender Werte. Nutzen Sie die dafür verfügbaren Funktionen der deskriptiven Datenanalyse (@tip-pandasinfo). Schreiben Sie sich bei Bedarf Hilfsfunktionen, um sich bestimmte Elemente oder ihre Position ausgeben zu lassen.
 
   3. Gehen Sie in kleinen Schritten vor: Geben Sie das Ergebnis jedes Zwischenschritts mit der Funktion print() (ausschnittsweise) zur visuellen Kontrolle aus. Ist die Ausgabe plausibel? Nutzen Sie bei der Beurteilung Ihre fachliche Erfahrung. Unwesentliche print()-Anweisungen können Sie später wieder aus dem Skript entfernen.  
   Für sehr große Datensätze ist eine visuelle Kontrolle nicht immer praktikabel. Hier ist es hilfreich, sich Testdaten zu schreiben, die die erwartete Struktur des Datensatzes widerspiegeln, um damit die einzelnen Schritte zu programmieren. Vergleichen Sie anschließend das Resultat für die Testdaten mit dem für den eigentlichen Datensatz wie im vorherigen Tipp. 
-
-# Das Wichtigste (vielleicht als Video)
 
 # Lernzielkontrolle
 
@@ -4117,7 +4115,7 @@ Ein strukturiertes Vorgehen erreichen Sie mit diesen drei Tipps:
 | 3 | Carla | 1982-11-30 | 71000 |
 | 4 | David | 1975-03-15 | 58000 |
 
-Welche Argumente müssen der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` übergeben werden, damit der Datensatz korrekt eingelesen wird?
+Jedoch gelingt das Einlesen mit der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` nicht wie gewünscht.
 
 ``` {python}
 import pandas as pd
@@ -4126,6 +4124,8 @@ dateipfad = 'aufgaben/01-daten/quiz-aufgabe1.csv'
 aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad)
 print(aufgabe1.info())
 ```
+
+Welche Argumente müssen der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` übergeben werden, damit der Datensatz korrekt eingelesen wird?
 
 2. Ein Fehler bei der Datenerhebung soll korrigiert werden. Kennzeichnen Sie alle Beobachtungen für Personen, die vor 1980 geboren wurden als ungültig.
 
@@ -4144,13 +4144,24 @@ m_daten[2] = ma.masked
 m_daten.harden_mask()
 ```
 
-
 ``` {python}
 print(m_daten, "\n")
 
 m_daten.mask = ma.nomask
 print(m_daten, "\n")
 ```
+
+7. Welche Aussagen treffen zu?
+
+    A) HDF5 und netCDF4 sind speziell für den Umgang mit großen, komplexen wissenschaftlichen Datensätzen optimiert und unterstützen mehrdimensionale Arrays.
+
+    B) HDF5 ist eine hierarchische Datenstruktur, deren Aufbau der Verzeichnisstruktur eines Computers gleicht. NetCDF4 ist dagegen eine flache Datenstruktur und unterstützt verzeichnisartige Datenstrukturen nicht.
+
+    C) Beide Formate, HDF5 und netCDF4, können ausschließlich ein- und zweidimensionale Datensätze speichern.
+
+    D) Mit HDF5 und netCDF4 können umfangreiche Metadaten hinterlegt werden. Die Formate gelten deshalb als selbstbeschreibend.
+
+
 
 ::: {.callout-tip collapse="true"}
 ## Lösungen
@@ -4225,27 +4236,23 @@ m_daten.soften_mask()
 m_daten.mask = ma.nomask
 print(m_daten, "\n")
 ```
+
+Aufgabe 7: HDF5 und netCDF4
+
+Richtige Antworten: A) und D)
+
 ::: 
 
 ## Übungsaufgaben
 
 #### Ein sehr unordentlicher Datensatz
-Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei [Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
+Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei ([Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx)) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
   
   - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
   
   - ENTWEDER in einer zweidimensionalen Struktur jede Zeile eine Beobachtung und jede Beobachtung eine Zeile sowie jede Spalte eine Variable und jede Variable eine Spalte ist.  
 
   - ODER wählen Sie eine sinnvolle mehrdimensionale Struktur.
-
-<!-- Merkmale: 
-Leerzeilen und Leerspalten
-Multilevel-Index
-„:“ als Zeichen fehlender Werte
-Punkt UND Komma als Dezimaltrennzeichen
-Metadaten mitten im Datensatz
-
-Sinnvoll wäre in einem zweidimensionalen Datensatz die Umbenennung der Variablen in 'Haushaltspreise 2. HJ 2021', 'Haushaltspreise 2. HJ 2022', ... 'Nicht-Haushaltspreise 2. HJ 2023' -->
 
 ::: {style="font-size: 90%;"}
 | Daten | Dateiname |
