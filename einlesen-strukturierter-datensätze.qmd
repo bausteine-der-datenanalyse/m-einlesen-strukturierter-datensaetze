@@ -542,7 +542,7 @@ print(logo[0:2, 0:2, : ])
 Der Datentyp gibt an, wie die in einem Datensatz einhaltenen Werte von Python interpretiert werden sollen. Beispielsweise kann der Wert "1" ein Zeichen, eine Ganzzahl, einen Wahrheitswert, den Monat Januar oder die Ausprägung einer kategorialen Variablen repräsentieren. Python unterstützt als vielseitig einsetzbare Programmiersprache zahlreiche Datentypen, die den Kategorien: numerics, sequences, mappings, classes, instances and exceptions zugeordnet sind. Nähere Informationen dazu finden Sie in der [Dokumentation](https://docs.python.org/3/library/stdtypes.html).
 
 ::: {.border}
-![Datentypen in Python](skript/00-bilder/python3-standard-type-hierarchy.png){width="60%" fig-alt="Dargestellt ist eine Kategorisierung der Standardtypen in Python. Die Kategorisierung ist nicht vollständig deckungsgleich zu den in der Dokumentation genannten Kategorien von Datentypen. Der Typ None für Nullwerte hat keine weitere Unterteilung. Die Kategorie Numbers unterteilt sich in Zahlenwerte (Ganzzahlen, boolsche Wahrheitswerte), reele Zahlen (floats) und komplexe Zahlen. Die Kategorie Sequences unterteilt sich in Unveränderliche (Strings, Tuple, Bytes) und Veränderliche (Listen, Byte Arrays). Die Kategorie Set Types unterteilt sich in Sets (Mengen) und Frozen Sets. Die Kategorie Mappings enthält Dictionaries (Wörterbücher). Die Kategorie Callable umfasst FUnktionen, Methoden und Klassen. Außerdem gibt es die Kategorie Module."}
+![Datentypen in Python](skript/00-bilder/python3-standard-type-hierarchy.png){width="60%" fig-alt="Dargestellt ist eine Kategorisierung der Standardtypen in Python. Die Kategorisierung ist nicht vollständig deckungsgleich zu den in der Dokumentation genannten Kategorien von Datentypen. Der Typ None für Nullwerte hat keine weitere Unterteilung. Die Kategorie Numbers unterteilt sich in Zahlenwerte (Ganzzahlen, boolsche Wahrheitswerte), reele Zahlen (floats) und komplexe Zahlen. Die Kategorie Sequences unterteilt sich in Unveränderliche (Strings, Tuple, Bytes) und Veränderliche (Listen, Byte Arrays). Die Kategorie Set Types unterteilt sich in Sets (Mengen) und Frozen Sets. Die Kategorie Mappings enthält Dictionaries (Wörterbücher). Die Kategorie Callable umfasst Funktionen, Methoden und Klassen. Außerdem gibt es die Kategorie Module."}
 
 Python 3. The standard type hierarchy. von Максим Пе ist lizensiert unter [CC BY SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.de) und abrufbar auf [wikimedia](https://commons.wikimedia.org/wiki/File:Python_3._The_standard_type_hierarchy.png). 2018
 :::
@@ -561,30 +561,7 @@ Durch Module werden weitere Datentypen hinzugefügt. In der Datenanalyse häufig
 
   - Kategorie<!-- Faktor in R--> (aus dem Modul [Pandas](https://pandas.pydata.org/docs/user_guide/categorical.html))
 
-Python enthält Funktionen, um den Datentyp eines Werts zu bestimmen und ggf. umzuwandeln. Einige dieser Funktionen werden exemplarisch vorgestellt.
-
-``` {python}
-a = 67 
-print(a, type(a))
-
-b = a + 1.8
-print(b, type(b), "\n")
-
-print(f"Umwandlung in Ganzzahlen mit int(): {( a := int(a) ), (b := int(b) )} - Beachten Sie das Abschneiden der Nachkommastelle.\n")
-
-print(f"Umwandlung in ASCII-Zeichen mit chr(): {( a := chr(a) ), ( b := chr(b) )}\n")
-
-print(f"Umwandlung in eine ASCII-Zahl mit ord(): {( a := ord(a) ), ( b := ord(b) )}\n")
-
-print(f"Umwandlung in Fließkommazahlen mit float(): {( a := float(a) ), ( b := float(b) )}\n")
-
-print(f"Umwandlung in Zeichen mit str(): {( a := str(a) ), ( b:= str(b) )}\n")
-
-print(f"Umwandlung in Wahrheitswerte mit bool(): {bool(a), bool(b)}")
-
-``` 
-
-Der Datentyp bestimmt zum einen den zulässigen Wertebereich einer Variablen. Beispielsweise sind 0 und 13 zulässige Ganzzahlen, aber keine gültigen Kodierungen des Monats. Zum anderen definiert der Datentyp, welche Operationen mit den Werten zulässig sind und wie diese von Python ausgeführt werden. Dies betrifft Operatoren und Funktionen.
+Der Datentyp bestimmt zum einen den zulässigen Wertebereich einer Variablen. Beispielsweise sind 0 und 13 zulässige Ganzzahlen, aber keine gültigen Kodierungen des Monats. Zum anderen definiert der Datentyp, welche Operationen mit den Werten zulässig sind und wie diese von Python ausgeführt werden. Dies betrifft Operatoren und Funktionen. Python enthält Funktionen, um den Datentyp eines Werts zu bestimmen und ggf. umzuwandeln (siehe w-Python).
 
 ::: {#nte-operation-nach-datentyp .callout-note}
 # Datentypabhängige Operationen und Funktionen
@@ -707,11 +684,11 @@ for element in bool_values:
   print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
-Dies gilt auch für die [logische Identität](https://de.wikipedia.org/wiki/Identit%C3%A4t_(Logik)).
+Dies gilt auch für die Wertgleichheit.
 ``` {python}
 for element in bool_values:
   result = element == element
-  print("Identität von", element, "ist", result)
+  print("Wertgleichheit von", element, "ist", result)
 ```
 
 :::
@@ -1533,7 +1510,7 @@ for element in bool_values:
 
 ```
 
-Dies gilt auch für die logische Identität.
+Dies gilt auch für die Wertgleichheit.
 ``` {python}
 
 bool_values = [None, float('NaN'), pd.NA]
@@ -1544,7 +1521,7 @@ for element in bool_values:
   except TypeError as error:
       print(error)
   else:
-    print("Identität von", element, "ist", result)
+    print("Wertgleichheit von", element, "ist", result)
 
 ```
 
@@ -2155,7 +2132,7 @@ for element in bool_values:
     print("Wahrheitswert von", element, "ist", bool_value)
 ```
 
-Dies gilt auch für die logische Identität.
+Dies gilt auch für die Wertgleichheit.
 ``` {python}
 for element in bool_values:
   try:
@@ -2163,7 +2140,7 @@ for element in bool_values:
   except TypeError as error:
       print(error)
   else:
-    print("Identität von", element, "ist", result)
+    print("Wertgleichheit von", element, "ist", result)
 ```
 
 :::

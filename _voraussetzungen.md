@@ -53,6 +53,8 @@ Im Baustein werden folgende Daten verwendet:
 
 Querverweis auf:
 
+  - w-Python
+  
   - w-NumPy
 
   - w-Pandas
