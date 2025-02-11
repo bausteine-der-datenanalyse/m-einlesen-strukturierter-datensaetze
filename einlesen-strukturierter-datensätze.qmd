@@ -1550,7 +1550,7 @@ Das Modul Pandas wandelt `None` automatisch in `NaN` um. Das Modul Pandas bietet
   
   - Die Funktionen `pd.isnull()` und `pd.isna()` prüfen auf einen fehlenden Wert und geben einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück. Die Funktionen `pd.notna()` und `pd.notnull()` prüfen den umgekehrten Fall.
 
-  - Die Methode `pd.isna().nonzero()` verwendet die NumPy-Funktion `np.nonzero` und gibt ein Array mit den Indexpositionen der Elemente mit fehlenden Werten zurück.
+  - Die Funktion `np.nonzero(pd.isna())` verwendet die NumPy-Funktion `np.nonzero()` und gibt ein Array mit den Indexpositionen der Elemente mit fehlenden Werten zurück (die Pandas-Funktion pd.nonzero() wird nicht mehr unterstützt).
 
   - `pd.Series.fillna(value = 0)` ersetzt fehlende Werte mit dem im Argument `value` übergebenen Wert. Die Methoden `pd.ffill()` und `pd.bfill()` ersetzen fehlende Werte mit dem letzten bzw. dem nächsten gültigen Wert. Die Methode `pd.Series.interpolate()` ersetzt fehlende Werte durch Interpolation, wofür ein Datentyp definiert sein muss (`dtype = object` funktioniert nicht). Standardmäßig wird linear interpoliert, es stehen aber verschiedene Methoden zur Verfügung (siehe [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/api/pandas.Series.interpolate.html))
 

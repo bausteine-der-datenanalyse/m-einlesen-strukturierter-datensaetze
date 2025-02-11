@@ -88,7 +88,7 @@ Dies ist jedoch für größere Dateien nicht sonderlich praktikabel. Die Ausgabe
 :::: {#tip-zeilenweise .callout-tip collapse="false"}
 ## Daten kontrollieren
 
-Beim Einlesen goßer Datensätze sollten nicht nur die erste(n) Zeile(n) des Datensatzes, sondern auch Ausschnitte aus der Mitte und dem Ende kontrolliert werden. Dies hilft, Fehler etwa bei der Umwandlung von Dezimal- und Tausendertrennzeichen, des Datumsformats oder eine unerwartete Anzahl fehlender Werte und sonstige Auffälligkeiten zu identifizieren.
+Beim Einlesen großer Datensätze sollten nicht nur die erste(n) Zeile(n) des Datensatzes, sondern auch Ausschnitte aus der Mitte und dem Ende kontrolliert werden. Dies hilft, Fehler etwa bei der Umwandlung von Dezimal- und Tausendertrennzeichen, des Datumsformats oder eine unerwartete Anzahl fehlender Werte und sonstige Auffälligkeiten zu identifizieren.
 
 ::::
 
