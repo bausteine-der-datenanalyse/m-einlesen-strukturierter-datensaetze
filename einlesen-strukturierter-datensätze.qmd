@@ -201,16 +201,66 @@ print(f"Das Würfelergebnis an Indexposition 2 lautet: {Augen[2]}")
 
 
 ### Eindimensionale Daten einlesen mit Python
-Maya und Hans haben je sechs Mal einen Würfel geworfen und ihre Wurfergebnisse in einer .txt-Datei protokolliert. Wir wollen mit die Dateien mit Python auswerten, um zu bestimmen, wer von beiden in Summe die höchste Augenzahl erreicht hat.
+An dieser Stelle eine kleine Wiederholung aus dem Werkzeugbaustein Python:  
+Die Pythonbasis greift über Dateiobjekte auf Dateien zu. Die Funktionen und Methoden haben Sie im **Querverweis auf w-python** kennengelernt. Der Zugriff auf Dateien über die Pythonbasis ist eine verlässliche Rückfalloption und darüber hinaus nützlich, um die Enkodierung einer Datei zu bestimmen.
 
-| Daten | Dateiname |
-|---|------|
-| Würfelergebnisse Maya | dice-maya.txt |
-| Würfelergebnisse Hans | dice-hans.txt|
+::: {#tip-openundco .callout-tip collapse="false"}
+## Kleine Wiederholung: Funktionen und Methoden der Pythonbasis
 
-&nbsp;
+- Die Funktion `os.getcwd()` aus dem Modul os gibt das aktuelle Arbeitsverzeichnis aus, mit der Funktion `os.cwd(pfad)` kann es gewechselt werden.
+- Die Funktion `open(dateipfad, mode = 'r')` öffnet eine Datei im Lesemodus und gibt ein Dateiobjekt zurück.
+- Informationen zum Dateiobjekt können durch Ausgabe verschiedener Attribute abgerufen werden: `dateiobjekt.name`, `os.path.basename(dateiobjekt.name)`, `dateiobjekt.closed`, `dateiobjekt.mode`, `dateiobjekt.encoding` 
+- Das Dateiobjekt kann mit Methoden wie `dateiobjekt.read()`, `dateiobjekt.readline()`, `dateiobjekt.readlines()` oder der Funktion `list(dateiobjekt)` ausgelesen werden.
+- Die Methode `dateiobjekt.close()` schließt die Datei und gibt sie somit wieder für andere Programme frei.
 
-{{< include _dateien-einlesen-mit-python.md >}}
+:::
+
+**Lesen Sie die Datei "python.txt" unter dem dateipfad "aufgaben/01-daten/" ein.**
+
+ - Bestimmen Sie die Enkodierung der Datei.
+
+ - Entfernen Sie die die erste Zeile aus dem Text und geben Sie den Text mit Python aus.
+
+ - Wie kann der Text korrekt dargestellt werden?
+
+::: {#tip-pythonbasis .callout-tip collapse="true"}
+## Musterlösung python.txt
+```{python}
+dateipfad = "aufgaben/01-daten/" + "python.txt"
+dateiobjekt = open(dateipfad, mode = 'r')
+
+# Enkodierung der Datei bestimmen
+print(f"Die Enkodierung der Datei lautet: {dateiobjekt.encoding}")
+
+# Text ausgeben
+text_als_liste = list(dateiobjekt)
+
+for i in range(1, len(text_als_liste)):
+  print(text_als_liste[i])
+
+# Datei schließen.
+dateiobjekt.close()
+
+```
+
+Enkodierung UTF-8 auswählen.
+```{python}
+
+# Mit europäischen Sonderzeichen kompatible Enkodierung UTF-8 wählen
+dateiobjekt = open(dateipfad, mode = 'r', encoding = 'utf-8')
+
+# Text ausgeben
+text_als_liste = list(dateiobjekt)
+
+for i in range(1, len(text_als_liste)):
+  print(text_als_liste[i])
+
+# Datei schließen.
+dateiobjekt.close()
+
+```
+
+:::
 
 ### Zweidimensionale Datensätze
 Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**. Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Python stellt das Modul Pandas die DataFrame-Struktur bereit. **[hier Querverweis auf w-Pandas]** 
@@ -1054,10 +1104,10 @@ Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` änd
 # taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
 #   header = 8, na_values = ['..'])
 
-# Variante 2: Index des Werts bestimmen und mit np.NaN überschreiben
+# Variante 2: Index des Werts bestimmen und mit np.nan überschreiben
 indexposition = taxes['Republic of Türkiye'] == '..'
 
-taxes.loc[indexposition, 'Republic of Türkiye'] = np.NaN
+taxes.loc[indexposition, 'Republic of Türkiye'] = np.nan
 taxes['Republic of Türkiye'] = taxes['Republic of Türkiye'].astype('float64')
 
 taxes.dtypes
@@ -1110,7 +1160,7 @@ print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
 print("Struktur:", daten_double_hypen.shape, "dtype:", daten_double_hypen.dtype)
 ```
 
-Durch die Umwandlung fehlender Werte in `NaN`, sind Operationen mit gleichlangen NumPy-Arrays möglich.
+Durch die Umwandlung fehlender Werte in `nan`, sind Operationen mit gleichlangen NumPy-Arrays möglich.
 
 ``` {python}
 daten_differenz = daten_ohne_fehlende_werte - daten_double_hypen
@@ -1210,13 +1260,13 @@ Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
 
   - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück.
 
-  - `np.nonzero(np.isnan(array))` gibt ein Tuple zurück, das ein Array mit den Indexpositionen der Elemente mit dem Wert 'NaN' enthält. Auf das Array kann mit `np.nonzero(np.isnan(array))[0]` zugegriffen werden. Je nach Situation kann die Umwandlung in eine Liste nützlich sein `np.nonzero(np.isnan(array))[0].tolist()`.  
+  - `np.nonzero(np.isnan(array))` gibt ein Tuple zurück, das ein Array mit den Indexpositionen der Elemente mit dem Wert 'nan' enthält. Auf das Array kann mit `np.nonzero(np.isnan(array))[0]` zugegriffen werden. Je nach Situation kann die Umwandlung in eine Liste nützlich sein `np.nonzero(np.isnan(array))[0].tolist()`.  
   Eine ähnliche Funktion ist `np.argwhere(np.isnan(array))`, deren Ausgabe aber nicht für das Slicing mehrdimensionaler Arrays geeignet ist (siehe folgendes Beispiel).  
 
 ::: {#nte-npargwhere .callout-note collapse="true"}
 ## Die Funktion np.argwhere()
 
-Eine andere Funktion, um die Indexposition eines Werts zu bestimmen, ist die Funktion `np.argwhere()`. Der Aufruf der Funktion `np.argwhere(np.isnan(array))` gibt ein NumPy-Array mit den Indexposition Elemente mit dem Wert `NaN` zurück. 
+Eine andere Funktion, um die Indexposition eines Werts zu bestimmen, ist die Funktion `np.argwhere()`. Der Aufruf der Funktion `np.argwhere(np.isnan(array))` gibt ein NumPy-Array mit den Indexposition Elemente mit dem Wert `nan` zurück. 
 
 ``` {python}
 array = np.array([[1, np.nan, np.nan], [4, 5, np.nan]])
@@ -1267,7 +1317,7 @@ else:
 ::::
 :::
 
-  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `NaN` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch `np.inf` durch große positive sowie `-np.inf` durch große negative Zahlen.)  
+  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `nan` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch `np.inf` durch große positive sowie `-np.inf` durch große negative Zahlen.)  
   Die Ersetzung eines bestimmten Werts ist auch mit einem logischen Vektor möglich (siehe folgendes Beispiel).
 
 ::: {#nte-vectorslicing .callout-note collapse="true"}
@@ -1300,7 +1350,7 @@ a[bedingung] = 0
 print(a)
 ```
 
-Auch ein logisches UND ist möglich (aber in Verbindung mit np.NaN nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and` oder die Funktion `np.logical_and(x1, x2)`.
+Auch ein logisches UND ist möglich (aber in Verbindung mit np.nan nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and` oder die Funktion `np.logical_and(x1, x2)`.
 ``` {python}
 a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
 
@@ -1317,9 +1367,9 @@ print(a)
 
 :::
 
-  - `np.delete(arr = array, obj)` gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert `NaN` werden so gelöscht: `np.delete(array, obj = np.nonzero(np.isnan(array)))`  
+  - `np.delete(arr = array, obj)` gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert `nan` werden so gelöscht: `np.delete(array, obj = np.nonzero(np.isnan(array)))`  
 
-NumPy wandelt `None` nicht automatisch in `NaN` um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
+NumPy wandelt `None` nicht automatisch in `nan` um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
 
 ``` {python}
 
@@ -1341,7 +1391,7 @@ np_array_with_nan = np_array_with_none.copy()
 
 print(f"\nArray mit logischer Abfrage von None:\n{np_array_with_none == None}")
 np_array_with_nan[np_array_with_none == None] = np.nan
-print(f"\nArray mit None ersetzt durch NaN:\n{np_array_with_nan, np_array_with_nan.dtype}")
+print(f"\nArray mit None ersetzt durch nan:\n{np_array_with_nan, np_array_with_nan.dtype}")
 ```
 
 ::: 
@@ -1349,18 +1399,18 @@ print(f"\nArray mit None ersetzt durch NaN:\n{np_array_with_nan, np_array_with_n
 &nbsp;
 
 #### Operationen mit fehlenden Werten
-Operationen mit `NaN` ergeben immer `NaN`. Deshalb gibt es in NumPy viele Funktionen, die `NaN` automatisch ignorieren bzw. durch einen geeigneten Wert ersetzen. Diese sind bereits am Funktionsnamen erkennbar. Beispielsweise liefern `np.nansum()` und `np.nancumsum()` die Summe bzw. die kumulierte Summe eines Arrays. In der kumulierten Summe werden `NaN` durch das laufende Ergebnis ersetzt. Eine vollständige Liste der NumPy-Funktionen finden Sie in der [Dokumentation](https://numpy.org/doc/stable/reference/routines.html).
+Operationen mit `nan` ergeben immer `nan`. Deshalb gibt es in NumPy viele Funktionen, die `nan` automatisch ignorieren bzw. durch einen geeigneten Wert ersetzen. Diese sind bereits am Funktionsnamen erkennbar. Beispielsweise liefern `np.nansum()` und `np.nancumsum()` die Summe bzw. die kumulierte Summe eines Arrays. In der kumulierten Summe werden `nan` durch das laufende Ergebnis ersetzt. Eine vollständige Liste der NumPy-Funktionen finden Sie in der [Dokumentation](https://numpy.org/doc/stable/reference/routines.html).
 
 ``` {python}
-print(f"Array mit NaN:\n{np_array_with_nan}\n")
+print(f"Array mit nan:\n{np_array_with_nan}\n")
 
 print(f"Summe des Arrays:\n{np.sum(np_array_with_nan)}\n")
 
-print(f"NaN-Summe des Arrays:\n{np.nansum(np_array_with_nan)}\n")
+print(f"nan-Summe des Arrays:\n{np.nansum(np_array_with_nan)}\n")
 
 print(f"kumulierte Summe des Arrays:\n{np.cumsum(np_array_with_nan)}\n")
 
-print(f"kumulierte NaN-Summe des Arrays:\n{np.nancumsum(np_array_with_nan)}\n")
+print(f"kumulierte nan-Summe des Arrays:\n{np.nancumsum(np_array_with_nan)}\n")
 ```
 
 ### Pandas
@@ -1512,7 +1562,7 @@ Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` un
 
 ``` {python}
 
-bool_values = [None, float('NaN'), pd.NA]
+bool_values = [None, float('nan'), pd.NA]
 
 for element in bool_values:
   try:
@@ -1527,7 +1577,7 @@ for element in bool_values:
 Dies gilt auch für die Wertgleichheit.
 ``` {python}
 
-bool_values = [None, float('NaN'), pd.NA]
+bool_values = [None, float('nan'), pd.NA]
 
 for element in bool_values:
   try:
@@ -1544,7 +1594,7 @@ for element in bool_values:
 ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/missing_data.html))
 
 #### Fehlende Werte in Pandas erzeugen, prüfen, finden, ersetzen, löschen
-Das Modul Pandas wandelt `None` automatisch in `NaN` um. Das Modul Pandas bietet wie das Modul NumPy verschiedene Funktionen, um mit fehlenden Werten zu arbeiten.
+Das Modul Pandas wandelt `None` automatisch in `nan` um. Das Modul Pandas bietet wie das Modul NumPy verschiedene Funktionen, um mit fehlenden Werten zu arbeiten.
 
   - `pd.NA` erzeugt einen fehlenden Wert (Groß- und Kleinschreibung beachten: `pd.na` funktioniert nicht)
   
@@ -2135,7 +2185,7 @@ NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
 
 Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA` und `pd.NaT`. 
 ``` {python}
-bool_values = [None, float('NaN'), pd.NA, pd.NaT]
+bool_values = [None, float('nan'), pd.NA, pd.NaT]
 
 for element in bool_values:
   try:
@@ -2582,7 +2632,7 @@ print("\nzusammengeführte Spaltennamen\n", shiller_head)
 
 #### Verwendung von DF.agg() oder DF.apply()
 
-Die Pandas-Methode `DF.agg()` aggregiert einen DataFrame zeilen- oder spaltenweise durch eine spezifizierbare Funktion. Die Pandas-Methode wendet eine Funktion zeilen- oder spaltenweise auf einen DataFrame `DF.apply()` an. Die Methoden machen also das selbe. Details zur Verwendung des [Lambda-Ausdrucks](https://docs.python.org/3/reference/expressions.html#lambda) und der Methode `join` aus der [Pythonbasis](https://www.w3schools.com/python/ref_string_join.asp) finden Sie in den angegebenen Links.
+Die Pandas-Methode `DF.agg()` aggregiert einen DataFrame zeilen- oder spaltenweise durch eine spezifizierbare Funktion. Die Pandas-Methode `DF.apply()` wendet eine Funktion zeilen- oder spaltenweise auf einen DataFrame an. Die Methoden machen also das selbe. Details zur Verwendung des [Lambda-Ausdrucks](https://docs.python.org/3/reference/expressions.html#lambda) und der Methode `join` aus der [Pythonbasis](https://www.w3schools.com/python/ref_string_join.asp) finden Sie in den angegebenen Links.
 
 ``` {.raw}
 shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
@@ -2804,6 +2854,7 @@ Die Datensätze können in R durch Eingabe des Datensatznamens in der Konsole au
 Mit dem Modul glob werden die Pfade der im Ordner liegenden Dateien in einer Liste gespeichert. In einer Schleife wird mit der Funktion `open()` jede Datei als Dateiobjekt geöffnet, aus dem der Dateiname und der Dateiinhalte ausgelesen werden, um diese zu betrachten.
 
 ``` {python}
+import os
 ordnerpfad = "aufgaben/01-daten/glob leicht" 
 pfadliste = glob.glob(pathname = '*', root_dir = ordnerpfad, recursive = False)
 
@@ -3065,7 +3116,7 @@ except ValueError as error:
 else:
   np.array([0, 1, np.nan], dtype = 'int')
 
-print(f"Die Ursache ist der Datentyp von NaN: type(np.nan)\n{type(np.nan)}\n")
+print(f"Die Ursache ist der Datentyp von nan: type(np.nan)\n{type(np.nan)}\n")
 ```
 
 Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestellt und erlauben es, Werte als ungültig oder fehlend zu markieren, ohne diese zu ersetzen oder zu löschen. Ein maskiertes Array besteht aus drei Elementen:
