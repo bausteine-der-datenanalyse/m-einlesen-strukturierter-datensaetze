@@ -1632,8 +1632,6 @@ print(pd.Series([pd.NA]).cumprod())
 
 Das Verhalten von Methoden wie `pd.Series.sum()` und von Methoden wie `pd.Series.min()` hat für Datenreihen einen vergleichbaren Effekt, produziert für einzelne Werte jedoch unterschiedliche Ergebnisse.
 
-eventuell ergänzen: **Cumulative methods like cumsum() and cumprod() ignore NA values by default preserve them in the result. This behavior can be changed with skipna** (<https://pandas.pydata.org/docs/user_guide/missing_data.html>)
-
 ### Aufgabe fehlende Werte
 Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten. In der Datei 'produkt_st_stunde_20230831_20240630_01303.txt' sind stündliche Stationsmessungen der Solarstrahlung in Essen-Bredeney gespeichert.
 
