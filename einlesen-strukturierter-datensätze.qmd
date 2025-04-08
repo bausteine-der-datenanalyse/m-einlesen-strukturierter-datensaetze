@@ -839,7 +839,7 @@ Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein
 
 &nbsp;
 
-[@R-for-Data-Science, Kapitel 5 Data tidying]
+[@R-for-Data-Science, Kapitel 5 Data tidying, eigene Übersetzung]
 ::::
 :::
 
@@ -1680,16 +1680,6 @@ print("Summe:\t\t ", counting_df.sum().sum())
 :::
 
 # Zeitreihen {#sec-zeitreihen}
-
-<!-- ###### INCLUDE ###### -->
-<!-- ###### INCLUDE ###### -->
-<!-- ###### INCLUDE ###### -->
-<!-- ###### INCLUDE ###### -->
-
-{{< include _zeitreihen-python.md >}}
-
-<!-- include wird in w-python / w-NumPy / w-Pandas verschoben -->
-
 
 ## Datum und Zeit in NumPy und Pandas
 Die Module NumPy und Pandas nutzen den Datentyp `datetime64`, um Datums- und Zeitinformationen zu verarbeiten.
