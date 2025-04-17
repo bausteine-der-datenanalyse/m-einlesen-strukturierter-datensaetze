@@ -1,5 +1,4 @@
 numpy
-numpy.ma 
 pandas
 openpyxl
 xlrd
