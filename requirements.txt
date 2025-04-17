@@ -2,7 +2,6 @@ numpy
 pandas
 openpyxl
 xlrd
-pytables
 h5py
 netCDF4
 matplotlib
