@@ -1,5 +1,6 @@
 project:
   type: book
+  output-dir: output/book/
 
 book:
   # Metadaten / meta data
