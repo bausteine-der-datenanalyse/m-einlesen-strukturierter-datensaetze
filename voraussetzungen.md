@@ -37,7 +37,7 @@ Im Baustein werden folgende Daten verwendet:
 
   - Industriestrompreise in den Mitgliedsländern der Internationalen Energieagentur [XLS-Datei](https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls)
 
-  - Kursdaten des amerikanischen Aktienindexes S&P500 ([XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887)).
+  - Kursdaten des amerikanischen Aktienindexes S&P500 [XLS-Datei](https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887).
 
   - US State Facts and Figures, die in R abgerufen werden können.
 
@@ -50,13 +50,3 @@ Im Baustein werden folgende Daten verwendet:
   - Eisdicke in der Arktis und Antarktis [kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)
 
   - Blitzdichte [kostenlose Registrierung bei NASA Earth erforderlich](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lohrfc-2.3.2015)
-
-Querverweis auf:
-
-  - w-Python
-  
-  - w-NumPy
-
-  - w-Pandas
-
-  - w-rechtliche Grundlagen Datenmanagement

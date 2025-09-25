@@ -97,8 +97,8 @@ print(f"Das Würfelergebnis an Indexposition 2 lautet: {Augen[2]}")
 
 
 ### Eindimensionale Daten einlesen mit Python
-An dieser Stelle eine kleine Wiederholung aus dem Werkzeugbaustein Python:  
-Die Pythonbasis greift über Dateiobjekte auf Dateien zu. Die Funktionen und Methoden haben Sie im **Querverweis auf w-python** kennengelernt. Der Zugriff auf Dateien über die Pythonbasis ist eine verlässliche Rückfalloption und darüber hinaus nützlich, um die Enkodierung einer Datei zu bestimmen.
+An dieser Stelle eine kleine Wiederholung aus dem [Werkzeugbaustein Python](https://bausteine-der-datenanalyse.github.io/w-python/output/book/):  
+Die Pythonbasis greift über Dateiobjekte auf Dateien zu. Die Funktionen und Methoden haben Sie im Werkzeugbaustein Python kennengelernt. Der Zugriff auf Dateien über die Pythonbasis ist eine verlässliche Rückfalloption und darüber hinaus nützlich, um die Enkodierung einer Datei zu bestimmen.
 
 ::: {#tip-openundco .callout-tip collapse="false"}
 ## Kleine Wiederholung: Funktionen und Methoden der Pythonbasis
@@ -159,7 +159,7 @@ dateiobjekt.close()
 :::
 
 ### Zweidimensionale Datensätze
-Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**. Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Python stellt das Modul Pandas die DataFrame-Struktur bereit. **[hier Querverweis auf w-Pandas]** 
+Zweidimensionale Datensätze organisieren Werte in einer aus Zeilen und Spalten bestehenden **Matrix** oder einem **Dataframe**. Eine Matrix enthält nur einen Datentyp (bspw. Zahlen), ein Dataframe kann unterschiedliche Datentypen enthalten (bspw. Zahlen und Wahrheitswerte). In Python stellt das Modul Pandas die DataFrame-Struktur bereit (siehe [Werkzeugbaustein Pandas](https://bausteine-der-datenanalyse.github.io/w-pandas/output/book/)).
 
 ::: {.border}
 ![zweidimensionaler Datensatz](00-bilder/zweidimensionaler-datensatz-slicing-mf-mp.png){width="45%" fig-alt="Dargestellt ist ein zweidimensionaler Block, der einen zweidimensionalen Datensatz repräsentiert. Pfeile repräsentieren die zwei Achsen. Die nullte Achse entspricht der Länge (von oben nach unten) und die erste Achse der Breite des Datensatzes."}
@@ -692,13 +692,10 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
 Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen, in Spaltenbeschriftungen, in zusätzlichen Tabellenblättern oder in separaten Dokumenten (die nicht immer zur Verfügung stehen).
 
-**Im Aufklapper ergänzen: Querverweis auf w-rechtliche Grundlagen Datenmanagement**
-
 ::: {#tip-metadata .callout-tip collapse="false"}
 ## Metadaten
 Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, sofern vorhanden, studiert werden. 
 
-**Hier Querverweis auf w-rechtliche Grundlagen Datenmanagement**
 :::
 
 ## Tidy data {#sec-tidydata}
@@ -746,13 +743,11 @@ Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. 
 
 Eine kurze Übersicht der Vor- und Nachteile:
 
-  * NumPy: n-dimensionale Array-Struktur mit Unterstützung der am häufigsten verwendeten Datentypen sowie zahlreicher numerischer Formate für spezialisierte wissenschaftliche Berechnungen ([siehe Dokumentation](https://numpy.org/devdocs/reference/arrays.scalars.html)). Ein Array kann immer nur einen Datentyp haben und die Größe von Arrays ist unveränderlich. Dafür werden Operationen etwas schneller als in der DataFrame-Struktur von Pandas ausgeführt.  
-  **Querverweis auf w-NumPy**
+  * [NumPy](https://bausteine-der-datenanalyse.github.io/w-python-numpy-grundlagen/output/book/): n-dimensionale Array-Struktur mit Unterstützung der am häufigsten verwendeten Datentypen sowie zahlreicher numerischer Formate für spezialisierte wissenschaftliche Berechnungen ([siehe Dokumentation](https://numpy.org/devdocs/reference/arrays.scalars.html)). Ein Array kann immer nur einen Datentyp haben und die Größe von Arrays ist unveränderlich. Dafür werden Operationen etwas schneller als in der DataFrame-Struktur von Pandas ausgeführt.
 
     - Spaltennamen sind mit einem strukturierten dtype möglich ([siehe Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names))
 
-  * Pandas: 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanummerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.  
-  **Querverweis auf w-Pandas**
+  * [Pandas](https://bausteine-der-datenanalyse.github.io/w-pandas/output/book/): 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanummerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.
 
     - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
 
