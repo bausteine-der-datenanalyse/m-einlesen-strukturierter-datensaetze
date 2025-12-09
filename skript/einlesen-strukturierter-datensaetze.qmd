@@ -275,8 +275,6 @@ messung1_all_id
 
 ![](00-bilder/5f489ffabc91dec1ec2192dc4e993e00.jpg){width="90%" fig-alt="dekoratives Bild eines staunenden Hundes"} 
 
-<!-- wow kommt wieder weg ;-) -->
-
 ::: 
 
 ::: {.border}
