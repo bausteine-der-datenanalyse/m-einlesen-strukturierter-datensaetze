@@ -388,8 +388,6 @@ slicing von Marc Fehr ist lizensiert unter [CC-BY-4.0](https://github.com/bauste
 
 Für drei- und mehrdimensionale Datenstrukturen werden häufig spezialisierte Datenformate verwendet, die im Abschnitt @sec-spezialformate behandelt werden. Dies hat unter anderem den Grund, dass so leichter verschiedene Datentypen verarbeitet und mit Metadaten (siehe @sec-metadaten) dokumentiert werden können.
 
-**optional: Exkurs JSON <https://docs.python.org/3/tutorial/inputoutput.html>**
-
 #### Bilddaten einlesen
 
 ::: {.border}
