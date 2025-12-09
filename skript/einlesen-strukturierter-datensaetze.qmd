@@ -280,7 +280,7 @@ messung1_all_id
 ::: 
 
 ::: {.border}
-Much wow. Such architecture. von Dmitry Kudryavtsev ist verfügbar unter <https://yieldcode.blog/post/bloat-in-software-engineering/>. **Das Bild wird wahrscheinlich wieder entfernt.**
+Much wow. Such architecture. von Dmitry Kudryavtsev ist verfügbar unter <https://yieldcode.blog/post/bloat-in-software-engineering/>.
 :::
 
 **Was passiert, wenn auch die Variable `Summe Augen` dem Argument `id_vars` übergeben wird?**
