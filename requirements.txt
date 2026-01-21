@@ -1,6 +1,6 @@
 numpy
 jupyter
-pandas
+pandas=2.2.3
 openpyxl
 tables
 xlrd
