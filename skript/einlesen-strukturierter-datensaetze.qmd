@@ -1623,7 +1623,7 @@ In Pandas werden `datetime64`-Objekte mit den Funktionen `pd.to_datetime()` oder
 
   - datetime-Objekte anderer Module.
 
-  - Zahlen und eine Zeiteinheit `pd.to_datetime(1, unit = None)` (Standard sind Nanosekunden). Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'W', 'M', 'Y' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Woche, Monat bzw. Jahr entgegen. Erzeugt wird ein Zeitpunkt relativ zur Epoche.
+  - Zahlen und eine Zeiteinheit `pd.to_datetime(1, unit = None)` (Standard sind Nanosekunden). Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'W' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Woche und 'MS' oder 'ME' für einen Monat (für Monatsanfang oder Monatsende) sowie für das Jahr 'YS' oder 'YE' (für Jahresanfang oder Jahresende) entgegen. Erzeugt wird ein Zeitpunkt relativ zur Epoche.
   
 ``` {python}
 print(pd.to_datetime(1000, unit = 'D'))
@@ -1668,12 +1668,11 @@ Die Funktion `pd.date_range()` erzeugt ein Array vom Typ `DatetimeIndex` mit dty
 
 print(pd.date_range(start = '2017', end = '2024', periods = 3), "\n")
 
-print(pd.date_range(start = '2017', end = '2024', freq = 'Y'), "\n")
+print(pd.date_range(start = '2017', end = '2024', freq = 'YE'), "\n")
 
 print(pd.date_range(end = '2024', freq = 'h', periods = 3))
 ```
 
-*Hinweis: Die Funktion `pd.date_range()` wird künftig das Kürzel 'Y' nicht mehr unterstützen. Stattdessen können die Kürzel 'YS' (Jahresbeginn) oder 'YE' (Jahresende) verwendet werden. Ebenso wird das Kürzel 'M' künftig durch 'MS' (Monatsstart), 'ME' (Monatsende) ersetzt.*
 :::
 
 Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
@@ -1713,11 +1712,11 @@ pd.Timedelta(days = 1, hours = 1)
 
 ``` {python}
 try:
-  print( pd.Timedelta(1, 'Y'))
+  print( pd.Timedelta(1, 'YE'))
 except ValueError as error:
   print(error)
 else:
-  print( pd.Timedelta(1, 'Y'))
+  print( pd.Timedelta(1, 'YE'))
 ```
 
 Zum anderen können Zeitdifferenzen mit einer Zeichenkette erzeugt werden.
