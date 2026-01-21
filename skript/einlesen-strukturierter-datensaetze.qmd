@@ -1,5 +1,11 @@
 # Einleitung
 
+<div style="position: relative; width: 100%; aspect-ratio: 16 / 9;">
+  <iframe src="https://av.tib.eu/player/71638" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div>
+
+&nbsp;
+
 2016 stellte eine Studie fest, dass ein Fünftel aller wissenschaftlichen Artikel im Bereich der Genetik auf der Grundlage von durch die Tabellenkalkulation Excel verfälschten Daten durchgeführt wurde [@Ziemann-2016]. Genbezeichnungen wie "MARCH1" wurden fälschlicherweise in ein Datumsformat umgewandelt. 2021 wurde diese Schätzung des Anteils betroffener Arbeiten sogar auf 30 Prozent angehoben. ([heise online](https://www.heise.de/news/Excel-wandelt-Genbezeichnungen-in-Datumsangaben-um-Problem-groesser-als-gedacht-6165902.html))
 
 Am Beginn der computergestützten Datenanalyse steht das Einlesen von Daten aus Dateien. In der Praxis ist das Einlesen von Daten alles andere als trivial. Daten werden in einer Vielzahl von Dateiformaten gespeichert. Deshalb ist es in der Datenanalyse erforderlich, mit verschiedenen Dateiformaten umgehen zu können: mit wenigen Kilobyte großen Textdateien, offenen und proprietären Formaten gängiger Büroanwendungen und mehreren hundert Megabyte großen Dateien in speziell für den Austausch wissenschaftlicher Daten entwickelten Formaten. Programmiersprachen wie Python und R bringen verschiedene Werkzeuge zum Lesen, Bearbeiten und Speichern von verschiedenen Dateiformaten mit. Spezialisierte Pakete ergänzen den Werkzeugkasten.
@@ -4005,23 +4011,20 @@ print(f"\nTyp der Datenstruktur lis_rf_data_centered: {type(kontrolle)}\nAnzahl 
 ```
 ::: 
 
-# Das Wichtigste (vielleicht als Video)
-Das Einlesen strukturierter Datensätze mag nach der Bearbeitung dieses Bausteins wie ein undurchdringlicher Dschungel aus erforderlichem Detailwissen scheinen: verschiedene technische Formate, die große Auswahl an Paketen und Funktionen und ein häufig nicht sonderlich intuitiver innerer Aufbau, der aufgeräumt werden muss. Im Rahmen dieses Bausteins wurden dazu verschiedene Tipps gegeben, die an dieser Stelle nicht alle einzeln wiederholt werden sollen.
+# Das Wichtigste
+Das Einlesen strukturierter Datensätze mag nach der Bearbeitung dieses Bausteins wie ein undurchdringlicher Dschungel aus erforderlichem Detailwissen scheinen: verschiedene technische Formate, die große Auswahl an Paketen und Funktionen und ein häufig nicht sonderlich intuitiver innerer Aufbau, der aufgeräumt werden muss. Der Erfolg beim Einlesen schwieriger Datensätze liegt aber im strukturierten Vorgehen - dazu mehr in dem folgenden Video:
 
-Vielmehr soll vermittelt werden, dass der Erfolg beim Einlesen schwieriger Datensätze weniger in der korrekten Anwendung der benötigten Funktionen als im strukturierten Vorgehen liegt. Eine korrekte Anwendung von Funktionen ist zwar unerlässlich, aber korrekte Syntax kann und sollte man in der Dokumentation nachschlagen (@tip-dokumentation).
-Ein strukturiertes Vorgehen erreichen Sie mit diesen drei Tipps:
+<div style="position: relative; width: 100%; aspect-ratio: 16 / 9;">
+  <iframe src="https://av.tib.eu/player/71639" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+</div>
 
-  1. Arbeiten Sie mit einem Paket, das Ihnen liegt und mit dem Sie gut vertraut sind. So vermeiden Sie Fehler durch unerwartetes oder undokumentiertes Verhalten. Dies betrifft beispielsweise Operationen mit fehlenden Werten oder Funktionen, die ohne Fehlermeldung fehlschlagen.
+&nbsp;
 
-  2. Kontrollieren Sie für Datensätze, mit denen Sie arbeiten möchten, wesentliche Merkmale wie die Struktur, die Datentypen, den Wertebereich sowie das Vorhandensein und die Kennzeichnung fehlender Werte. Nutzen Sie die dafür verfügbaren Funktionen der deskriptiven Datenanalyse (@tip-pandasinfo). Schreiben Sie sich bei Bedarf Hilfsfunktionen, um sich bestimmte Elemente oder ihre Position ausgeben zu lassen.
-
-  3. Gehen Sie in kleinen Schritten vor: Geben Sie das Ergebnis jedes Zwischenschritts mit der Funktion print() (ausschnittsweise) zur visuellen Kontrolle aus. Ist die Ausgabe plausibel? Nutzen Sie bei der Beurteilung Ihre fachliche Erfahrung. Unwesentliche print()-Anweisungen können Sie später wieder aus dem Skript entfernen.  
-  Für sehr große Datensätze ist eine visuelle Kontrolle nicht immer praktikabel. Hier ist es hilfreich, sich Testdaten zu schreiben, die die erwartete Struktur des Datensatzes widerspiegeln, um damit die einzelnen Schritte zu programmieren. Vergleichen Sie anschließend das Resultat für die Testdaten mit dem für den eigentlichen Datensatz wie im vorherigen Tipp. 
+Zum Schluss noch ein Tipp: Für sehr große Datensätze ist eine visuelle Kontrolle nicht immer praktikabel. Hier ist es hilfreich, sich Testdaten zu schreiben, die die erwartete Struktur des Datensatzes widerspiegeln, um damit die einzelnen Schritte zu programmieren. Vergleichen Sie anschließend das Resultat für die Testdaten mit dem für den eigentlichen Datensatz. 
 
 # Lernzielkontrolle
 
 ## Kompetenzquiz
-
 
 1. Unter dem Dateipfad '01-daten/quiz-aufgabe1.csv' liegt folgender Datensatz.
 
