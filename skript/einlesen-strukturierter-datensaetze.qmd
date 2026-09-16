@@ -555,7 +555,7 @@ print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.
 :::
 
 ::: {#tip-datatype .callout-tip collapse="false"}
-## Datentyp kontollieren und plausibilisieren
+## Datentyp kontrollieren und plausibilisieren
 Beim Einlesen von Datensätzen ist es wichtig, die korrekte Erkennung der Datentypen zu kontrollieren bzw. aktiv zu steuern. Weitere Methoden für die formale Prüfung des Datentyps und für die Kontrolle des Wertebereichs werden in 
 [@sec-numpypandas] vorgestellt.
 ::: 
@@ -680,7 +680,7 @@ Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben be
 
   - welche Datentypen ein Datensatz enthält,
 
-  - verwendete Kodierschemen, Skalen oder mimimal und maximal zulässige Werte,
+  - verwendete Kodierschemen, Skalen oder minimal und maximal zulässige Werte,
 
   - die Bedingungen, unter denen die Daten erhoben wurden,
 
@@ -713,7 +713,7 @@ Datensätze werden mit verschiedenen Zielstellungen angelegt, etwa dass eine beq
 
 :::
 
-Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanlyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
+Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanalyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
 
 ::: {#imp-tidy-data .callout-important}
 ## tidy data
@@ -725,7 +725,7 @@ Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein
 ::::: {}
 "Das System tidy data besteht aus drei Regeln:
 
-1. Jede Variable ist eine Spalte; jede Spalte ist eine Variabe.
+1. Jede Variable ist eine Spalte; jede Spalte ist eine Variable.
 
 2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
 
@@ -749,7 +749,7 @@ Eine kurze Übersicht der Vor- und Nachteile:
 
     - Spaltennamen sind mit einem strukturierten dtype möglich ([siehe Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names))
 
-  * [Pandas](https://bausteine-der-datenanalyse.github.io/w-pandas/output/book/): 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanummerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.
+  * [Pandas](https://bausteine-der-datenanalyse.github.io/w-pandas/output/book/): 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanumerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.
 
     - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
 
@@ -883,7 +883,7 @@ print(f"Differenz daten - daten_int: {prüfsumme.sum()}")
 
 ### Pandas
 Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisiert. Den Funktionen zum Einlesen von Daten kann mit dem Argument `dtype` der Datentyp übergeben werden. Für mehrere Spalten ist dies in Form eines Dictionaries in der Form `{'Spaltenname': 'dtype'}` möglich.  
-Das Atrribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit `pd.Series = pd.Series.astype()` geändert werden.
+Das Attribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit `pd.Series = pd.Series.astype()` geändert werden.
 
 #### Zahnwachstum bei Meerschweinchen
 In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Die Messdaten sind in der Datei ToothGrowth.csv gespeichert (Crampton 1947.)
@@ -1712,11 +1712,11 @@ pd.Timedelta(days = 1, hours = 1)
 
 ``` {python}
 try:
-  print( pd.Timedelta(1, 'YE'))
+  print( pd.Timedelta(1, 'Y'))
 except ValueError as error:
   print(error)
 else:
-  print( pd.Timedelta(1, 'YE'))
+  print( pd.Timedelta(1, 'Y'))
 ```
 
 Zum anderen können Zeitdifferenzen mit einer Zeichenkette erzeugt werden.
@@ -1923,7 +1923,7 @@ print(preise_numeric[0:2, :], preise_numeric.dtype)
 ```
 
 ### Pandas
-Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.info()` kontrolliert.
+Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.DataFrame.info()` kontrolliert.
 
 ``` {python}
 dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
@@ -1931,7 +1931,7 @@ preise = pd.read_csv(filepath_or_buffer = dateipfad)
 print(preise.info())
 ```
 
-Es wird nur eine Spalte erkannt, da im Datensatz das Semikolon als Zeichentrenner verwendet wird, das nun mit dem Argument `sep = ';'` übergeben wird (Standardwert ist das Komma). Durch Aufruf der Funktionen `pd.info()` und `pd.head()` wird der Erfolg kontrolliert.
+Es wird nur eine Spalte erkannt, da im Datensatz das Semikolon als Zeichentrenner verwendet wird, das nun mit dem Argument `sep = ';'` übergeben wird (Standardwert ist das Komma). Durch Aufruf der Funktionen `pd.DataFrame.info()` und `pd.DataFrame.head()` wird der Erfolg kontrolliert.
 
 ``` {python}
 dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
@@ -2136,7 +2136,7 @@ print(data.iloc[0:10, 0:2], "\n") # anzeigen von ein paar Zeilen, um zu schauen 
 # 1. Variante: beim Einlesen schon Datumsformat angeben:
 data = pd.read_csv(dateipfad, sep=";" , parse_dates=[0,1], date_format="%b %d, %Y %I:%M %p")   # Parameter heißt hier date_format, bei 2. Variante heißt er nur "format"
 
-# 2. Variante: Die beiden Spalten zu Anfang, die dtype object haben, seperat ändern nachdem die Datei schon eingelesen wurde:
+# 2. Variante: Die beiden Spalten zu Anfang, die dtype object haben, separat ändern nachdem die Datei schon eingelesen wurde:
 data["Start date"] = pd.to_datetime(data["Start date"], format="%b %d, %Y %I:%M %p")  #%b für Monatsangabe als Kürzel, %I für Stunde im AM/PM Format, %p für AM/PM
 data["End date"] = pd.to_datetime(data["End date"], format="%b %d, %Y %I:%M %p")
 print(data.iloc[0:10, 0:2], "\n")
@@ -2153,7 +2153,7 @@ Musterlösung von Marc Sönnecken. Zur Verbesserung der Lesbarkeit wurde die Aus
 Die Austrian Power Grid AG (APG) veröffentlicht Strommarktdaten unter [https://markttransparenz.apg.at/](https://markttransparenz.apg.at/de/markt/Markttransparenz/erzeugung/Erzeugung-pro-Typ). Unter dem Link können Erzeugungsdaten für das Jahr 2023 heruntergeladen werden.
 
 ::: {#wrn-Strommarkt-Austria .callout-warning appearance="simple" collapse="true"}
-# Markttranzparenzdaten Österreich herunterladen
+# Markttransparenzdaten Österreich herunterladen
 
 Nach der Auswahl des Zeitraums auf Exportieren klicken, dann erscheint die Schaltfläche Download. 
 
@@ -2287,7 +2287,7 @@ print(f"\nDie Zeitverschiebung in der Spalte Zeit bis endet bei Indexposition: {
 
 *fehlende Stunde* 
 
-Die Sommerzeit beginnt am letzen Sonntag im März. Die Stunde liegt nicht in range(0, 24). Diese Bedingung kann in vier Schritten kontrolliert werden:
+Die Sommerzeit beginnt am letzten Sonntag im März. Die Stunde liegt nicht in range(0, 24). Diese Bedingung kann in vier Schritten kontrolliert werden:
 
   - Monat März: `march = pd.Series[pd.Series.dt.month == 3]`
 
@@ -2413,7 +2413,7 @@ Außerdem empfiehlt es sich, schrittweise vorzugehen und für jedes Problem eine
 ::::: {#tip-shiller-data3 .callout-tip collapse="true"}
 ## Vollständige Musterlösung
 
-Zum Einlesen wird die Funktion `pd.read_excel()` verwendet. Mit dem Argument `sheet_name` kann das Tabellenblatt Data ausgewählt werden. Über die Methode pd.head(n = 10) kann der Zeilenindex bestimmt werden, an dem der Tabellenkopf endet und die Daten beginnen. Es handelt sich um die achte Zeile, die in Python den Zeilenindex 7 hat.
+Zum Einlesen wird die Funktion `pd.read_excel()` verwendet. Mit dem Argument `sheet_name` kann das Tabellenblatt Data ausgewählt werden. Über die Methode pd.DataFrame.head(n = 10) kann der Zeilenindex bestimmt werden, an dem der Tabellenkopf endet und die Daten beginnen. Es handelt sich um die achte Zeile, die in Python den Zeilenindex 7 hat.
 
 **Kopf einlesen**  
 
@@ -2567,7 +2567,7 @@ shiller_data.info()
 
 **Datumsformat korrigieren**
 
-Im nächsten Schritt wird das Datumsformat korrigiert. Die Spalte Date enthält Zeichenketten im Format 'YYYY,MM'. Eine Ausnahme ist der Monat Oktober, der im Format 'YYYY.M' kodiert ist. In der Ausgabe mit `print()` ist dies nicht zu sehen, da die Darstellung von 2 Dezimalstellen mit dem Befehl `pd.set_option("display.precision", 2)` eingestellt wurde. Die unterschiedliche Länge der Zeichketten kann mit dem Befehl `shiller_data.loc[0:12, 'Date'].astype('str').str.len()` verdeutlicht werden.
+Im nächsten Schritt wird das Datumsformat korrigiert. Die Spalte Date enthält Zeichenketten im Format 'YYYY,MM'. Eine Ausnahme ist der Monat Oktober, der im Format 'YYYY.M' kodiert ist. In der Ausgabe mit `print()` ist dies nicht zu sehen, da die Darstellung von 2 Dezimalstellen mit dem Befehl `pd.set_option("display.precision", 2)` eingestellt wurde. Die unterschiedliche Länge der Zeichenketten kann mit dem Befehl `shiller_data.loc[0:12, 'Date'].astype('str').str.len()` verdeutlicht werden.
 
 ``` {python}
 
@@ -2975,7 +2975,7 @@ Maskierte Arrays sind eine Erweiterung für NumPy, um Probleme mit fehlenden Wer
 
 &nbsp;
 
-"**nan**, short for 'not a number' [...] was specifically designed to address the problem of missing values, but the reality is that different platforms behave differently, making life more difficult. On some platforms, the presence of **nan** slows calculations 10-100 times. For integer data, no **nan** value exists. [...] Those wishing to avoid potential headaches will be interested in an alternative solution which has a long history in NumPy’s predecessors – **masked arrays**. [...] Despite their additional memory requirement, masked arrays are faster than nans on many floating point units." (SciPy.org Frequently Askend Questions, Zugriff via [waybackmachine](https://web.archive.org/web/20191007223944/https://scipy.org/scipylib/faq.html#does-numpy-support-nan))
+"**nan**, short for 'not a number' [...] was specifically designed to address the problem of missing values, but the reality is that different platforms behave differently, making life more difficult. On some platforms, the presence of **nan** slows calculations 10-100 times. For integer data, no **nan** value exists. [...] Those wishing to avoid potential headaches will be interested in an alternative solution which has a long history in NumPy’s predecessors – **masked arrays**. [...] Despite their additional memory requirement, masked arrays are faster than nans on many floating point units." (SciPy.org Frequently Asked Questions, Zugriff via [waybackmachine](https://web.archive.org/web/20191007223944/https://scipy.org/scipylib/faq.html#does-numpy-support-nan))
 
 &nbsp;
 
@@ -3003,7 +3003,7 @@ Maskierte Arrays (masked arrays) werden durch das Modul `numpy.ma` bereitgestell
 
   1. einem normalen NumPy-Array, das die Daten enthält.
   
-  2. einer Maske, die entweder den Wert `numpy.ma.nomask` hat, wenn kein Wert ungültig ist oder fehlt, oder aus einem NumPy-Array mit Wahrheitswerten für jedes Element des datentragenden NumPy-Arrays besteht: `True` kennzeichnet einen ungültigen/fehlenden Wert, `False` einen gülten Wert.
+  2. einer Maske, die entweder den Wert `numpy.ma.nomask` hat, wenn kein Wert ungültig ist oder fehlt, oder aus einem NumPy-Array mit Wahrheitswerten für jedes Element des datentragenden NumPy-Arrays besteht: `True` kennzeichnet einen ungültigen/fehlenden Wert, `False` einen gültigen Wert.
   
   3. dem Füllwert, mit dem in der Maske mit `True` markierte Werte ersetzt werden. Standardmäßig ist dies die Zeichenkette `'--'`.
   
@@ -3037,7 +3037,7 @@ Der Standardfüllwert ist abhängig vom Datentyp des NumPy-Arrays.
 | object | ‘?’ |
 | string | ‘N/A’ |
 
-Der Standarfüllwert kann mit der Funktion `np.ma.default_fill_value()` ausgegeben werden.
+Der Standardfüllwert kann mit der Funktion `np.ma.default_fill_value()` ausgegeben werden.
 
 ``` {python}
 print(np.ma.default_fill_value(1))
@@ -3125,7 +3125,7 @@ print(maskiertes_array)
 
 ## Übung maskierte Arrays erzeugen
 
-Gegegben sei das NumPy-Array `np.linspace(1, 1000, 18, dtype = 'int')`. **Erzeugen Sie mit dem NumPy-Array ein maskiertes Array.**
+Gegeben sei das NumPy-Array `np.linspace(1, 1000, 18, dtype = 'int')`. **Erzeugen Sie mit dem NumPy-Array ein maskiertes Array.**
 
   a. Maskieren Sie jeden Wert im Intervall 250 bis 750. Wie viele Werte sind maskiert?
   
@@ -3268,7 +3268,7 @@ print(f"{unmask_me}")
 ([NumPy Dokumentation](https://numpy.org/doc/stable/reference/maskedarray.generic.html#unmasking-an-entry))
 
 ## Operationen mit maskierten Arrays
-Arithmetische und vergleichende Operationen mit maskierten Arrays werden nicht auf die maskierten Elemente angewendetet.
+Arithmetische und vergleichende Operationen mit maskierten Arrays werden nicht auf die maskierten Elemente angewendet.
 
 <https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays>
 
@@ -3446,7 +3446,7 @@ HDF5 bedeutet Hierarchical Data Format Version 5. HDF organisiert Daten in einer
 ::: {.border}
 ![HDF5-Verzeichnisstruktur](00-bilder/hdf5_structure4-by-neonscience.org.jpg){width="80%" fig-alt="Darstellung der Verzeichnisstruktur von HDF5. Dargestellt sind das Wurzelverzeichnis, dem Metadaten zugeordnet sind, und darin enthaltene Gruppen, die weitere Gruppen oder Datensätze enthalten. Den Objekten sind jeweils Metadaten zugeordnet."}
 
-An illsturation of a HDF...and associated metadata von U.S National Science Foundation's National Ecological Observatory Network (NEON) ist abrufbar unter <https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5>.
+An illustration of a HDF...and associated metadata von U.S National Science Foundation's National Ecological Observatory Network (NEON) ist abrufbar unter <https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5>.
 ::: 
 
 &nbsp;
@@ -3457,7 +3457,7 @@ Die Integration des Pakets PyTables in Pandas ist auf die Verwendung von Pandas-
 
 ::: {#wrn-hdfdata .callout-warning appearance="simple"}
 ## Datensatz
-In diesem Abschnitt wird ein Teil des Datensatzes IceBridge ATM L1B Elevation and Return Strength, Version 2 genutzt ([kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)). Das [Handbuch ist hier verfügbar](https://nsidc.org/sites/default/files/ilatm1b-v002-userguide_2.pdf). Der Datensatz enhält flugzeugbasierte Lasermessungen für die Höhe des Eisschildes in der Arktis und Antarktis mittels des NASA Airborne Topographic Mapper (ATM). ATM hat eine Abtastrate von 3 bis 5 kHz. Jede Datei enthält die Daten von einigen Minuten Flugdauer. Das geografische Referenzsystem ist das World Geodetic System 1984 (WGS 84)
+In diesem Abschnitt wird ein Teil des Datensatzes IceBridge ATM L1B Elevation and Return Strength, Version 2 genutzt ([kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)). Das [Handbuch ist hier verfügbar](https://nsidc.org/sites/default/files/ilatm1b-v002-userguide_2.pdf). Der Datensatz enthält flugzeugbasierte Lasermessungen für die Höhe des Eisschildes in der Arktis und Antarktis mittels des NASA Airborne Topographic Mapper (ATM). ATM hat eine Abtastrate von 3 bis 5 kHz. Jede Datei enthält die Daten von einigen Minuten Flugdauer. Das geografische Referenzsystem ist das World Geodetic System 1984 (WGS 84)
 
 Die Dateien sind nach dem Schema ILATM1B_YYYYMMDD_HHMMSS.ATM4BT4.h5 benannt:
 
@@ -3479,7 +3479,7 @@ Active Archive Center. https://doi.org/10.5067/19SIM5TXKPGT. [05.12.2024]
 :::
 
 ### PyTables
-Das Paket PyTables wird mit dem Befehl `pip install tables` installiert. Die Funktionen des Pakets sind in Pandas integriert. Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierrüber können HDF-Dateien gelesen und geschrieben werden. DAs HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
+Das Paket PyTables wird mit dem Befehl `pip install tables` installiert. Die Funktionen des Pakets sind in Pandas integriert. Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierüber können HDF-Dateien gelesen und geschrieben werden. Das HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
 
 | Zugriffsmodus | Beschreibung |
 |---|----------------------|
@@ -4165,7 +4165,7 @@ Richtige Antworten: A) und D)
 ## Übungsaufgaben
 
 #### Ein sehr unordentlicher Datensatz
-Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostatt verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei ([Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx)) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
+Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostat verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei ([Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx)) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
   
   - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
   

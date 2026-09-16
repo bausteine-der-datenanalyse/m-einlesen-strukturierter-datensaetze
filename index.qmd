@@ -11,7 +11,7 @@ Bausteine Computergestützter Datenanalyse von Lukas Arnold, Simone Arnold, Flor
 
 Zitiervorschlag
 
-Arnold, Lukas, Simone Arnold, Florian Bagemihl, Matthias Baitsch, Marc Fehr, Franca Hollmann, Maik Poetzsch, und Sebastian Seipel. 2025. „Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze". <https://github.com/bausteine-der-datenanalyse/m-einlesen-strukturierter-datensaetzee>.
+Arnold, Lukas, Simone Arnold, Florian Bagemihl, Matthias Baitsch, Marc Fehr, Franca Hollmann, Maik Poetzsch, und Sebastian Seipel. 2025. „Bausteine Computergestützter Datenanalyse. Methodenbaustein Einlesen strukturierter Datensätze". <https://github.com/bausteine-der-datenanalyse/m-einlesen-strukturierter-datensaetze>.
 
 BibTeX-Vorlage
 

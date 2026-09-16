@@ -152,7 +152,7 @@ List of Timezones (Liste der Bezeichnungen): https://en.wikipedia.org/wiki/List_
 ### Kalender
 **to do**
 
-Die Module calendar, NumPy und Pandas verwenden den um die Zeit vor seiner Einführung 1582 erweiterten Gregorianische Kalender, den [proleptischen Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar). Während das Modul date nur die Jahre 1-9999 nach unserer Zeit unterstützt, erlaubt der Datentyp `datetime64` auch Jahre vor unserer Zeit in [astronomischer Jahresnumerierung](https://en.wikipedia.org/wiki/Astronomical_year_numbering). Das bedeutet, es gibt ein Jahr 0 (das erste Jahr vor unserer Zeit) und vorausgehende Jahre werden mit negativen Zahlen dargestellt (-1 ist das zweite Jahr vor unserer Zeit). [NumPy Dokumentation] (https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions)
+Die Module calendar, NumPy und Pandas verwenden den um die Zeit vor seiner Einführung 1582 erweiterten Gregorianische Kalender, den [proleptischen Gregorianischer Kalender](https://en.wikipedia.org/wiki/Proleptic_Gregorian_calendar). Während das Modul date nur die Jahre 1-9999 nach unserer Zeit unterstützt, erlaubt der Datentyp `datetime64` auch Jahre vor unserer Zeit in [astronomischer Jahresnummerierung](https://en.wikipedia.org/wiki/Astronomical_year_numbering). Das bedeutet, es gibt ein Jahr 0 (das erste Jahr vor unserer Zeit) und vorausgehende Jahre werden mit negativen Zahlen dargestellt (-1 ist das zweite Jahr vor unserer Zeit). [NumPy Dokumentation] (https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime64-conventions-and-assumptions)
 
   - Schaltjahre 
 
