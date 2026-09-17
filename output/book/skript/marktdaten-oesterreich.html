@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Markttransparenzdaten Österreich herunterladen – Bausteine Computergestützter Datenanalyse</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../skript/modul-glob.html" rel="next">
+<link href="../skript/zeitreihen.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-41d1ed59529443dc312b46011c211845.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<link rel="shortcut icon" href="skript/00-bilder/favicon_bcd_new.svg">
+<link rel="icon" type="image/x-icon" href="logo.ico">
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../skript/marktdaten-oesterreich.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Markttransparenzdaten Österreich herunterladen</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../skript/00-bilder/logo_with_text_new.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../skript/00-bilder/logo_with_text_new.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Methodenbaustein: Einlesen strukturierter Datensätze</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodenbaustein Einlesen strukturierter Datensätze</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/einleitung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Einleitung</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/grundlagen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Grundlagen: Merkmale von Datensätzen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/datentypoperationen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Datentypabhängige Operationen und Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/numpy-pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Die Module NumPy und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/zeitreihen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zeitreihen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/marktdaten-oesterreich.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Markttransparenzdaten Österreich herunterladen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/modul-glob.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Zugriff auf mehrere lokale Dateien: Modul glob</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/maskierte-arrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maskierte Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/dateiformate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wissenschaftliche Dateiformate</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/daswichtigste.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Das Wichtigste</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/lernzielkontrolle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lernzielkontrolle</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Markttransparenzdaten Österreich herunterladen</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="1b3f9754" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Nach der Auswahl des Zeitraums auf Exportieren klicken, dann erscheint die Schaltfläche Download.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="00-bilder/APG-erzeugungsdaten-2023-de.png" class="img-fluid figure-img" alt="Ansicht der Eingabefelder, um die österreichischen Strommarktdaten herunterzuladen."></p>
+<figcaption>&nbsp;</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="00-bilder/english/APG-generation-data-2023-en.png" class="img-fluid figure-img" alt="Ansicht der Eingabefelder, um die österreichischen Strommarktdaten in englischer Sprache herunterzuladen."></p>
+<figcaption>&nbsp;</figcaption>
+</figure>
+</div>
+<p>Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingestellten Sprache (Deutsch/English).</p>
+<p>:::</p>
+<p>&nbsp;</p>
+<p>Diesem Skript ist folgende Datei angefügt.</p>
+<div style="font-size: 90%;">
+<table class="table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Daten</th>
+<th>Dateiname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Realisierte Stromerzeugung 2023</td>
+<td>AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In dem Datensatz wird durch die Umstellung von Sommer- auf Winterzeit am letzten Sonntag im Oktober die Stunde 2 Uhr morgens doppelt eingetragen (dafür fehlt eine Stunde bei der Umstellung von Winter- auf Sommerzeit am letzten Sonntag im März). Die doppelte Stunde wird im Datensatz mit 2A bzw. 2B gekennzeichnet. (Mitteilung Austrian Power Grid AG vom 13.08.2024)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="00-bilder/erzeugung-aut-zeitumstellung.png" class="img-fluid figure-img" alt="Dargestellt ist ein Ausschnitt aus dem Datensatz der österreichischen Erzeugungsdaten. In den Spalten Zeit von [CET/CEST] und Zeit bis [CET/CEST] ist der Zeitraum vom 29.10.2023 02:00:00 bis 29.10.2023 03:00:00 gelb markiert, um die im vorausgehenden Text beschriebene Auffälligkeit zu illustrieren."></p>
+<figcaption>Zeitumstellung im österreichischen Datensatz</figcaption>
+</figure>
+</div>
+<p><strong>Lesen Sie die Datei so ein, dass die Spalten mit Datums- und Zeitinformationen als datetime erkannt werden. Lösen Sie die Zeitumstellung so auf, dass jeder Tag 24 Stunden hat.</strong></p>
+<div id="tip-Austria" class="callout callout-style-default callout-tip callout-titled" title="Musterlösung Strommarktdaten Österreich">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;6.1: Musterlösung Strommarktdaten Österreich
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tipp</span>einfache Variante
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Die einfachste Lösung ist es, Zeitreihen zu generieren und die Spalten ‘Zeit von [CET/CEST]’ und ‘Zeit bis [CET/CEST]’ damit zu ersetzen.</p>
+<pre><code>von = pd.date_range(start = "2023-01-01T00:00", end = "2023-12-31T23:45", freq = '15min')
+bis = pd.date_range(start = "2023-01-01T00:15", end = "2024-01-01T00:00", freq = '15min')
+
+print(von[8070:8078], "\n")
+print(bis[8070:8078], "\n")</code></pre>
+</div>
+</div>
+</div>
+<p><strong>Datei einlesen und String-Manipulation</strong></p>
+<p>Zunächst wird die Datei eingelesen. Die Zellen, die sich nicht in datetime umwandeln lassen, können mit Python ausgegeben werden.</p>
+<div id="3c93a8ef" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datei einlesen</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>erzeugung_austria <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> <span class="st">"01-daten/AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                                sep <span class="op">=</span> <span class="st">";"</span>, decimal <span class="op">=</span> <span class="st">","</span>, thousands <span class="op">=</span> <span class="st">"."</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Zellen mit fehlerhaften datetime strings identifizieren</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Spalte 'Zeit von [CET/CEST]'"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>position_element <span class="op">=</span> []</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>]:</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span>:</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    pd.to_datetime(element, <span class="bu">format</span> <span class="op">=</span> <span class="st">"</span><span class="sc">%d</span><span class="st">.%m.%Y %H:%M:%S"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">except</span>:</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(element)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    position_element.append(i)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Die Zellen haben den Zeilenindex: "</span>, position_element, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Spalte 'Zeit bis [CET/CEST]'"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>position_element <span class="op">=</span> []</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>]:</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">try</span>:</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    pd.to_datetime(element, <span class="bu">format</span> <span class="op">=</span> <span class="st">"</span><span class="sc">%d</span><span class="st">.%m.%Y %H:%M:%S"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">except</span>:</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(element)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    position_element.append(i)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Die Zellen haben den Zeilenindex: "</span>, position_element, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Spalte 'Zeit von [CET/CEST]'
+29.10.2023 2A:00:00
+29.10.2023 2A:15:00
+29.10.2023 2A:30:00
+29.10.2023 2A:45:00
+29.10.2023 2B:00:00
+29.10.2023 2B:15:00
+29.10.2023 2B:30:00
+29.10.2023 2B:45:00
+
+Die Zellen haben den Zeilenindex:  [28900, 28901, 28902, 28903, 28904, 28905, 28906, 28907] 
+
+Spalte 'Zeit bis [CET/CEST]'
+29.10.2023 2A:00:00
+29.10.2023 2A:15:00
+29.10.2023 2A:30:00
+29.10.2023 2A:45:00
+29.10.2023 2B:00:00
+29.10.2023 2B:15:00
+29.10.2023 2B:30:00
+29.10.2023 2B:45:00
+
+Die Zellen haben den Zeilenindex:  [28899, 28900, 28901, 28902, 28903, 28904, 28905, 28906] 
+</code></pre>
+</div>
+</div>
+<p>Damit die Datumsspalten korrekt eingelesen werden können, werden die Zeichenfolgen “2A” und “2B” mit der Methode <code>str.replace()</code> durch “02” ersetzt. Dadurch wird eine Dublette im Datensatz erzeugt.</p>
+<div id="c26cb122" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># string replace &amp; als Datum einlesen</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Spalte Zeit von [CET/CEST]</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>] <span class="op">=</span> erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>].<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">'2A'</span>, repl <span class="op">=</span> <span class="st">'02'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>] <span class="op">=</span> erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>].<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">'2B'</span>, repl <span class="op">=</span> <span class="st">'02'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>] <span class="op">=</span> pd.to_datetime(erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">"</span><span class="sc">%d</span><span class="st">.%m.%Y %H:%M:%S"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">## Spalte Zeit bis [CET/CEST]</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>] <span class="op">=</span> erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>].<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">'2A'</span>, repl <span class="op">=</span> <span class="st">'02'</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>] <span class="op">=</span> erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>].<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">'2B'</span>, repl <span class="op">=</span> <span class="st">'02'</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>] <span class="op">=</span> pd.to_datetime(erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">"</span><span class="sc">%d</span><span class="st">.%m.%Y %H:%M:%S"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(erzeugung_austria.info())</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 35040 entries, 0 to 35039
+Data columns (total 15 columns):
+ #   Column                        Non-Null Count  Dtype         
+---  ------                        --------------  -----         
+ 0   Zeit von [CET/CEST]           35040 non-null  datetime64[us]
+ 1   Zeit bis [CET/CEST]           35040 non-null  datetime64[us]
+ 2   Wind [MW]                     35040 non-null  float64       
+ 3   Solar [MW]                    35040 non-null  float64       
+ 4   Biomasse [MW]                 35040 non-null  float64       
+ 5   Gas [MW]                      35040 non-null  float64       
+ 6   Kohle [MW]                    35040 non-null  float64       
+ 7   Öl [MW]                       35040 non-null  float64       
+ 8   Geothermie [MW]               35040 non-null  float64       
+ 9   Pumpspeicher [MW]             35040 non-null  float64       
+ 10  Lauf- und Schwellwasser [MW]  35040 non-null  float64       
+ 11  Speicher [MW]                 35040 non-null  float64       
+ 12  Sonstige Erneuerbare [MW]     35040 non-null  float64       
+ 13  Müll [MW]                     35040 non-null  float64       
+ 14  Andere [MW]                   35040 non-null  float64       
+dtypes: datetime64[us](2), float64(13)
+memory usage: 4.0 MB
+None</code></pre>
+</div>
+</div>
+<p><strong>Indexpositionen der doppelten und der fehlenden Stunde bestimmen</strong></p>
+<p>Im nächsten Schritt werden die Indexposition der doppelten und der fehlenden Stunde bestimmt. Dazu wird ein neues Objekt angelegt, das auf den Speicherbereich der Datumsspalten zugreift (was nicht zwingend erforderlich ist). Die Position der doppelten Stunde wird mit der Methode <code>pd.Series.duplicated()</code> bestimmt, die einen logischen Vektor zurückgibt. Dieser wird zum Slicing und der Ausgabe der Indexposition verwendet. Durch die Subtraktion von 4 wird der Index der ersten Stunde ausgegeben (der Datensatz ist auf Viertelstundenbasis).</p>
+<p><em>doppelte Stunde</em></p>
+<div id="a5f07073" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># neues Objekt anlegen</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>austria_dates <span class="op">=</span> erzeugung_austria[[<span class="st">'Zeit von [CET/CEST]'</span>, <span class="st">'Zeit bis [CET/CEST]'</span>]].copy()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexposition der doppelten Stunde bestimmen</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit von</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>position_doppelte_stunde_von <span class="op">=</span> austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>][austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].duplicated()].index <span class="op">-</span> <span class="dv">4</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die doppelte Stunde (Zeit von):</span><span class="ch">\n</span><span class="sc">{</span>austria_dates<span class="sc">.</span>loc[position_doppelte_stunde_von, <span class="st">'Zeit von [CET/CEST]'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">steht an Indexposition</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>position_doppelte_stunde_von<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die nächste Stunde lautet:</span><span class="ch">\n</span><span class="sc">{</span>austria_dates<span class="sc">.</span>loc[position_doppelte_stunde_von <span class="op">+</span> <span class="dv">4</span>, <span class="st">'Zeit von [CET/CEST]'</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="ss">f"</span><span class="ch">\n\n</span><span class="ss">Beide Stunden sind identisch."</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">### Ende der Verschiebung in Spalte Zeit von</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ende_verschiebung_von <span class="op">=</span> position_doppelte_stunde_von[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die Zeitverschiebung in der Spalte Zeit von endet bei Indexposition: </span><span class="sc">{</span>ende_verschiebung_von<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit bis</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>position_doppelte_stunde_bis <span class="op">=</span> austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>][austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>].duplicated()].index <span class="op">-</span> <span class="dv">4</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n\n</span><span class="ss">Die doppelte Stunde (Zeit bis):</span><span class="ch">\n</span><span class="sc">{</span>austria_dates<span class="sc">.</span>loc[position_doppelte_stunde_bis, <span class="st">'Zeit bis [CET/CEST]'</span>]<span class="sc">}</span><span class="ch">\n</span><span class="ss">steht an Indexposition</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>position_doppelte_stunde_bis<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die nächste Stunde lautet:</span><span class="ch">\n</span><span class="sc">{</span>austria_dates<span class="sc">.</span>loc[position_doppelte_stunde_bis <span class="op">+</span> <span class="dv">4</span>, <span class="st">'Zeit bis [CET/CEST]'</span>]<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="ss">f"</span><span class="ch">\n\n</span><span class="ss">Beide Stunden sind identisch."</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">### Ende der Verschiebung in Spalte Zeit bis</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>ende_verschiebung_bis <span class="op">=</span> position_doppelte_stunde_bis[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die Zeitverschiebung in der Spalte Zeit bis endet bei Indexposition: </span><span class="sc">{</span>ende_verschiebung_bis<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Die doppelte Stunde (Zeit von):
+28900   2023-10-29 02:00:00
+28901   2023-10-29 02:15:00
+28902   2023-10-29 02:30:00
+28903   2023-10-29 02:45:00
+Name: Zeit von [CET/CEST], dtype: datetime64[us]
+steht an Indexposition
+ RangeIndex(start=28900, stop=28904, step=1)
+
+Die nächste Stunde lautet:
+28904   2023-10-29 02:00:00
+28905   2023-10-29 02:15:00
+28906   2023-10-29 02:30:00
+28907   2023-10-29 02:45:00
+Name: Zeit von [CET/CEST], dtype: datetime64[us]
+
+Beide Stunden sind identisch.
+
+Die Zeitverschiebung in der Spalte Zeit von endet bei Indexposition: 28903
+
+
+Die doppelte Stunde (Zeit bis):
+28899   2023-10-29 02:00:00
+28900   2023-10-29 02:15:00
+28901   2023-10-29 02:30:00
+28902   2023-10-29 02:45:00
+Name: Zeit bis [CET/CEST], dtype: datetime64[us]
+steht an Indexposition
+ RangeIndex(start=28899, stop=28903, step=1)
+
+Die nächste Stunde lautet:
+28903   2023-10-29 02:00:00
+28904   2023-10-29 02:15:00
+28905   2023-10-29 02:30:00
+28906   2023-10-29 02:45:00
+Name: Zeit bis [CET/CEST], dtype: datetime64[us]
+
+Beide Stunden sind identisch.
+
+Die Zeitverschiebung in der Spalte Zeit bis endet bei Indexposition: 28902</code></pre>
+</div>
+</div>
+<p><em>fehlende Stunde</em></p>
+<p>Die Sommerzeit beginnt am letzten Sonntag im März. Die Stunde liegt nicht in range(0, 24). Diese Bedingung kann in vier Schritten kontrolliert werden:</p>
+<ul>
+<li><p>Monat März: <code>march = pd.Series[pd.Series.dt.month == 3]</code></p></li>
+<li><p>Sonntage im März: <code>sundays = march[march.dt.dayofweek == 6]</code></p></li>
+<li><p>letzter Sonntag im März: Die letzten 23*4 Einträge sind der letzte Sonntag des Monats (23 weil eine Stunde fehlt).<br>
+<code>last_sunday = sundays[-23*4:]</code></p></li>
+<li><p>fehlende Stunde: <code>np.argwhere(np.invert(pd.Series(range(0,24)).isin(last_sunday.dt.hour)))</code></p></li>
+</ul>
+<div id="f1317e49" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexposition der fehlenden Stunde bestimmen</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit von</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Monat März</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>maske_märz_von <span class="op">=</span> austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].dt.month <span class="op">==</span> <span class="dv">3</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>austria_dates_march_von <span class="op">=</span> austria_dates.loc[maske_märz_von, <span class="st">'Zeit von [CET/CEST]'</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Der Monat März (Zeit von):</span><span class="ch">\n</span><span class="sc">{</span>austria_dates_march_von<span class="sc">.</span>head<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">### letzter Sonntag</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>maske_sonntag_von <span class="op">=</span> (austria_dates_march_von.dt.dayofweek <span class="op">==</span> <span class="dv">6</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>letzter_sonntag_von <span class="op">=</span> (austria_dates_march_von[maske_sonntag_von]) [<span class="op">-</span><span class="dv">23</span><span class="op">*</span><span class="dv">4</span> :]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Der letzte Sonntag im März:</span><span class="ch">\n</span><span class="sc">{</span>letzter_sonntag_von<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">### fehlende Stunde</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(letzter_sonntag_von.dt.hour)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>fehlende_stunde_von <span class="op">=</span> np.argwhere(np.invert(pd.Series(<span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">24</span>)).isin(letzter_sonntag_von.dt.hour))).item() </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Es fehlt die Stunde:</span><span class="ch">\n</span><span class="sc">{</span>fehlende_stunde_von<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(letzter_sonntag_von[letzter_sonntag_von.dt.hour <span class="op">==</span> (fehlende_stunde_von <span class="op">-</span> <span class="dv">1</span>)], letzter_sonntag_von[letzter_sonntag_von.dt.hour <span class="op">==</span> (fehlende_stunde_von <span class="op">+</span> <span class="dv">1</span>)], sep <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">### Beginn der Verschiebung in Spalte Zeit von</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>beginn_verschiebung_von <span class="op">=</span> letzter_sonntag_von[letzter_sonntag_von.dt.hour <span class="op">==</span> (fehlende_stunde_von <span class="op">+</span> <span class="dv">1</span>)].index[<span class="dv">0</span>]</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die Zeitverschiebung in der Spalte Zeit von beginnt bei Indexposition: </span><span class="sc">{</span>beginn_verschiebung_von<span class="sc">}</span><span class="ch">\n\n</span><span class="ss">"</span>)</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit bis</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">### Monat März</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>maske_märz_bis <span class="op">=</span> austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>].dt.month <span class="op">==</span> <span class="dv">3</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>austria_dates_march_bis <span class="op">=</span> austria_dates.loc[maske_märz_bis, <span class="st">'Zeit bis [CET/CEST]'</span>]</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Der Monat März (Zeit bis):</span><span class="ch">\n</span><span class="sc">{</span>austria_dates_march_bis<span class="sc">.</span>head<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)<span class="op">;</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">### letzter Sonntag</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>maske_sonntag_bis <span class="op">=</span> (austria_dates_march_bis.dt.dayofweek <span class="op">==</span> <span class="dv">6</span>)</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>letzter_sonntag_bis <span class="op">=</span> (austria_dates_march_bis[maske_sonntag_bis]) [<span class="op">-</span><span class="dv">23</span><span class="op">*</span><span class="dv">4</span> :]</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Der letzte Sonntag im März:</span><span class="ch">\n</span><span class="sc">{</span>letzter_sonntag_bis<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">### fehlende Stunde</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(letzter_sonntag_bis.dt.hour)</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>fehlende_stunde_bis <span class="op">=</span> np.argwhere(np.invert(pd.Series(<span class="bu">range</span>(<span class="dv">0</span>,<span class="dv">24</span>)).isin(letzter_sonntag_bis.dt.hour))).item() </span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Es fehlt die Stunde:</span><span class="ch">\n</span><span class="sc">{</span>fehlende_stunde_bis<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(letzter_sonntag_bis[letzter_sonntag_bis.dt.hour <span class="op">==</span> (fehlende_stunde_bis <span class="op">-</span> <span class="dv">1</span>)], letzter_sonntag_bis[letzter_sonntag_bis.dt.hour <span class="op">==</span> (fehlende_stunde_bis <span class="op">+</span> <span class="dv">1</span>)], sep <span class="op">=</span> <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="co">### Beginn der Verschiebung in Spalte Zeit bis</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>beginn_verschiebung_bis <span class="op">=</span> letzter_sonntag_bis[letzter_sonntag_bis.dt.hour <span class="op">==</span> (fehlende_stunde_bis <span class="op">+</span> <span class="dv">1</span>)].index[<span class="dv">0</span>]</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Die Zeitverschiebung in der Spalte Zeit bis beginnt bei Indexposition: </span><span class="sc">{</span>beginn_verschiebung_bis<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Der Monat März (Zeit von):
+&lt;bound method NDFrame.head of 5664   2023-03-01 00:00:00
+5665   2023-03-01 00:15:00
+5666   2023-03-01 00:30:00
+5667   2023-03-01 00:45:00
+5668   2023-03-01 01:00:00
+               ...        
+8631   2023-03-31 22:45:00
+8632   2023-03-31 23:00:00
+8633   2023-03-31 23:15:00
+8634   2023-03-31 23:30:00
+8635   2023-03-31 23:45:00
+Name: Zeit von [CET/CEST], Length: 2972, dtype: datetime64[us]&gt;
+
+Der letzte Sonntag im März:
+8064   2023-03-26 00:00:00
+8065   2023-03-26 00:15:00
+8066   2023-03-26 00:30:00
+8067   2023-03-26 00:45:00
+8068   2023-03-26 01:00:00
+               ...        
+8151   2023-03-26 22:45:00
+8152   2023-03-26 23:00:00
+8153   2023-03-26 23:15:00
+8154   2023-03-26 23:30:00
+8155   2023-03-26 23:45:00
+Name: Zeit von [CET/CEST], Length: 92, dtype: datetime64[us]
+
+8064     0
+8065     0
+8066     0
+8067     0
+8068     1
+        ..
+8151    22
+8152    23
+8153    23
+8154    23
+8155    23
+Name: Zeit von [CET/CEST], Length: 92, dtype: int32
+
+Es fehlt die Stunde:
+2
+
+8068   2023-03-26 01:00:00
+8069   2023-03-26 01:15:00
+8070   2023-03-26 01:30:00
+8071   2023-03-26 01:45:00
+Name: Zeit von [CET/CEST], dtype: datetime64[us]
+8072   2023-03-26 03:00:00
+8073   2023-03-26 03:15:00
+8074   2023-03-26 03:30:00
+8075   2023-03-26 03:45:00
+Name: Zeit von [CET/CEST], dtype: datetime64[us]
+
+Die Zeitverschiebung in der Spalte Zeit von beginnt bei Indexposition: 8072
+
+
+Der Monat März (Zeit bis):
+&lt;bound method NDFrame.head of 5663   2023-03-01 00:00:00
+5664   2023-03-01 00:15:00
+5665   2023-03-01 00:30:00
+5666   2023-03-01 00:45:00
+5667   2023-03-01 01:00:00
+               ...        
+8630   2023-03-31 22:45:00
+8631   2023-03-31 23:00:00
+8632   2023-03-31 23:15:00
+8633   2023-03-31 23:30:00
+8634   2023-03-31 23:45:00
+Name: Zeit bis [CET/CEST], Length: 2972, dtype: datetime64[us]&gt;
+
+Der letzte Sonntag im März:
+8063   2023-03-26 00:00:00
+8064   2023-03-26 00:15:00
+8065   2023-03-26 00:30:00
+8066   2023-03-26 00:45:00
+8067   2023-03-26 01:00:00
+               ...        
+8150   2023-03-26 22:45:00
+8151   2023-03-26 23:00:00
+8152   2023-03-26 23:15:00
+8153   2023-03-26 23:30:00
+8154   2023-03-26 23:45:00
+Name: Zeit bis [CET/CEST], Length: 92, dtype: datetime64[us]
+
+8063     0
+8064     0
+8065     0
+8066     0
+8067     1
+        ..
+8150    22
+8151    23
+8152    23
+8153    23
+8154    23
+Name: Zeit bis [CET/CEST], Length: 92, dtype: int32
+
+Es fehlt die Stunde:
+2
+
+8067   2023-03-26 01:00:00
+8068   2023-03-26 01:15:00
+8069   2023-03-26 01:30:00
+8070   2023-03-26 01:45:00
+Name: Zeit bis [CET/CEST], dtype: datetime64[us]
+8071   2023-03-26 03:00:00
+8072   2023-03-26 03:15:00
+8073   2023-03-26 03:30:00
+8074   2023-03-26 03:45:00
+Name: Zeit bis [CET/CEST], dtype: datetime64[us]
+
+Die Zeitverschiebung in der Spalte Zeit bis beginnt bei Indexposition: 8071</code></pre>
+</div>
+</div>
+<p>Mit den gespeicherten Indexpositionen können die betreffenden Zeitstempel verschoben werden:</p>
+<ul>
+<li><p>Spalte Zeit von: 8072 (Objekt beginn_verschiebung_von) bis 28903 (Objekt ende_verschiebung_von)</p></li>
+<li><p>Spalte Zeit bis: 8071 (Objekt beginn_verschiebung_bis) bis 28902 (Objekt ende_verschiebung_bis)</p></li>
+</ul>
+<p>Für das Slicing wird die Methode <code>pd.Series.iloc[]</code> verwendet, die exklusiv indexiert, d.&nbsp;h. die Endpositionen müssen um 1 erhöht werden. Durch Subtraktion von pd.Timedelta(1, unit = ‘h’) wird die Zeitverschiebung aus dem Datensatz entfernt.</p>
+<div id="6a900fd7" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeitverschiebung korrigieren</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit von</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].iloc[beginn_verschiebung_von : ende_verschiebung_von <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].iloc[beginn_verschiebung_von : ende_verschiebung_von <span class="op">+</span> <span class="dv">1</span>].subtract(pd.Timedelta(<span class="dv">1</span>, unit <span class="op">=</span> <span class="st">'h'</span>))</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>] <span class="op">=</span> austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>]</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit bis</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>].iloc[beginn_verschiebung_bis : ende_verschiebung_bis <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>].iloc[beginn_verschiebung_bis : ende_verschiebung_bis <span class="op">+</span> <span class="dv">1</span>].subtract(pd.Timedelta(<span class="dv">1</span>, unit <span class="op">=</span> <span class="st">'h'</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>] <span class="op">=</span> austria_dates[<span class="st">'Zeit bis [CET/CEST]'</span>]</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Kontrolle</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Kontrolle im Datensatz +/- eine Viertelstunde</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Die Spalte Zeit von"</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>].iloc[beginn_verschiebung_von <span class="op">-</span><span class="dv">1</span> : ende_verschiebung_von <span class="op">+</span> <span class="dv">2</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Die Spalte Zeit bis"</span>)</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(erzeugung_austria[<span class="st">'Zeit bis [CET/CEST]'</span>].iloc[beginn_verschiebung_bis <span class="op">-</span><span class="dv">1</span> : ende_verschiebung_bis <span class="op">+</span> <span class="dv">2</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kontrolle im Datensatz +/- eine Viertelstunde
+
+Die Spalte Zeit von
+8071    2023-03-26 01:45:00
+8072    2023-03-26 03:00:00
+8073    2023-03-26 03:15:00
+8074    2023-03-26 03:30:00
+8075    2023-03-26 03:45:00
+                ...        
+28900   2023-10-29 02:00:00
+28901   2023-10-29 02:15:00
+28902   2023-10-29 02:30:00
+28903   2023-10-29 02:45:00
+28904   2023-10-29 02:00:00
+Name: Zeit von [CET/CEST], Length: 20834, dtype: datetime64[us] 
+
+Die Spalte Zeit bis
+8070    2023-03-26 01:45:00
+8071    2023-03-26 03:00:00
+8072    2023-03-26 03:15:00
+8073    2023-03-26 03:30:00
+8074    2023-03-26 03:45:00
+                ...        
+28899   2023-10-29 02:00:00
+28900   2023-10-29 02:15:00
+28901   2023-10-29 02:30:00
+28902   2023-10-29 02:45:00
+28903   2023-10-29 02:00:00
+Name: Zeit bis [CET/CEST], Length: 20834, dtype: datetime64[us] 
+</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_3801/799698374.py:3: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
+Such chained assignment never works to update the original DataFrame or Series, because the intermediate object on which we are setting values always behaves as a copy (due to Copy-on-Write).
+
+Try using '.loc[row_indexer, col_indexer] = value' instead, to perform the assignment in a single step.
+
+See the documentation for a more detailed explanation: https://pandas.pydata.org/pandas-docs/stable/user_guide/copy_on_write.html#chained-assignment
+  austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1] = austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1].subtract(pd.Timedelta(1, unit = 'h'))
+/tmp/ipykernel_3801/799698374.py:8: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
+Such chained assignment never works to update the original DataFrame or Series, because the intermediate object on which we are setting values always behaves as a copy (due to Copy-on-Write).
+
+Try using '.loc[row_indexer, col_indexer] = value' instead, to perform the assignment in a single step.
+
+See the documentation for a more detailed explanation: https://pandas.pydata.org/pandas-docs/stable/user_guide/copy_on_write.html#chained-assignment
+  austria_dates['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis : ende_verschiebung_bis + 1] = austria_dates['Zeit bis [CET/CEST]'].iloc[beginn_verschiebung_bis : ende_verschiebung_bis + 1].subtract(pd.Timedelta(1, unit = 'h'))</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<section id="schwer-cape-ratio---ein-datensatz-voller-tücken" class="level4">
+<h4 class="anchored" data-anchor-id="schwer-cape-ratio---ein-datensatz-voller-tücken">Schwer: CAPE Ratio - ein Datensatz voller Tücken</h4>
+<p>Der Nobelpreisgewinner für Wirtschaftswissenschaften von 2013 Robert Shiller pflegt einen Datensatz mit monatlichen Kursdaten des amerikanischen Aktienindexes S&amp;P500 und weiteren Wirtschaftsindikatoren zur Berechnung des inflationsbereinigten Kurs-Gewinn-Verhältnisses (CAPE Ratio). Der Datensatz ist auf der <a href="https://shillerdata.com/">Webseite</a> von Robert Shiller verfügbar (<a href="https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/ie_data.xls?ver=1712069253887">Direktlink zur XLS-Datei</a>). <strong>Lesen Sie den Datensatz ein.</strong></p>
+<div style="font-size: 90%;">
+<table class="table">
+<thead>
+<tr class="header">
+<th>Daten</th>
+<th>Dateiname</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>monatliche Kursdaten S&amp;P500</td>
+<td>shiller_data.xls</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="tip-shiller-data1" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;6.4: Hinweise und Musterlösung Shiller data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Schauen Sie sich den Datensatz zunächst mit einem Tabellenkalkulationsprogramm an. Bemerkenswerte Auffälligkeiten sind:</p>
+<ul>
+<li><p>Metadaten in den Zeilen 2 und 3, in denen teilweise auch Spaltenbeschriftungen eingetragen sind, sowie am Ende des Datensatzes,</p></li>
+<li><p>mehrzeilige Spaltenbeschriftungen,</p></li>
+<li><p>Leerspalten P und N,</p></li>
+<li><p>Kennzeichnung fehlender Werte durch ‘NA’ und leere Zellen ’’ sowie</p></li>
+<li><p>abweichende Formatierung des Monats Oktober in der Spalte Date ‘YYYY-M’.</p></li>
+</ul>
+<div id="tip-shiller-data2" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;6.3: Lösungshilfe
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Aufgrund der zahlreichen Auffälligkeiten ist es hilfreich, die Daten und die Kopfzeilen getrennt einzulesen. Den korrekten Zeilenindex können Sie entweder der ersten Betrachtung mit einem Tabellenkalkulationsprogramm entnehmen oder indem Sie einfach die ersten 10 oder 20 Zeilen des Datensatzes in Python einlesen. Dadurch können die Daten einfacher überblickt und mit Methoden der String-Bearbeitung manipuliert werden. In der Praxis ist es einfacher, die Spaltenbeschriftungen manuell mit dem Argument <code>names = Sequence of column labels to apply</code> einzutragen bzw. dies mit Hilfe eines Tabellenkalkulationsprogramms zu erledigen.</p>
+<p>Außerdem empfiehlt es sich, schrittweise vorzugehen und für jedes Problem eine separate Lösung, mit Ausschnitten des Datensatzes bzw. mit dafür generierten Testdaten, zu entwickeln.</p>
+<div id="tip-shiller-data3" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;6.2: Vollständige Musterlösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Zum Einlesen wird die Funktion <code>pd.read_excel()</code> verwendet. Mit dem Argument <code>sheet_name</code> kann das Tabellenblatt Data ausgewählt werden. Über die Methode pd.DataFrame.head(n = 10) kann der Zeilenindex bestimmt werden, an dem der Tabellenkopf endet und die Daten beginnen. Es handelt sich um die achte Zeile, die in Python den Zeilenindex 7 hat.</p>
+<p><strong>Kopf einlesen</strong></p>
+<div id="e3d8d7df" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/shiller_data.xls'</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>shiller <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># manuell Ende des Kopfs und Beginn der Daten identifizieren (auskommentiert)</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># print(shiller.head(n = 10), "\n")</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Kopf einlesen</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>shiller_head <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>, skiprows <span class="op">=</span> <span class="dv">1</span>, nrows <span class="op">=</span> <span class="dv">7</span>, header <span class="op">=</span> <span class="va">None</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_head, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_head.info()) <span class="co"># die leeren Spalten werden als numerisch erkannt</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                  0      1         2   \
+0  Stock Market Data Used in "Irrational Exuberan...    NaN       NaN   
+1                                 Robert J. Shiller     NaN       NaN   
+2                                                NaN    NaN       NaN   
+3                                                NaN    NaN       NaN   
+4                                                NaN    S&amp;P       NaN   
+5                                                NaN  Comp.  Dividend   
+6                                               Date      P         D   
+
+         3           4         5          6      7         8       9   ...  \
+0       NaN         NaN       NaN        NaN    NaN       NaN     NaN  ...   
+1       NaN         NaN       NaN        NaN    NaN       NaN     NaN  ...   
+2       NaN         NaN       NaN        NaN    NaN       NaN     NaN  ...   
+3       NaN    Consumer       NaN        NaN    NaN       NaN    Real  ...   
+4       NaN       Price       NaN       Long    NaN       NaN   Total  ...   
+5  Earnings       Index    Date     Interest   Real      Real  Return  ...   
+6         E         CPI  Fraction  Rate GS10  Price  Dividend   Price  ...   
+
+           12  13                  14  15      16       17       18  \
+0  Cyclically NaN         Cyclically  NaN     NaN      NaN      NaN   
+1    Adjusted NaN            Adjusted NaN     NaN      NaN      NaN   
+2       Price NaN  Total Return Price NaN     NaN      NaN      NaN   
+3    Earnings NaN            Earnings NaN     NaN  Monthly     Real   
+4       Ratio NaN               Ratio NaN  Excess    Total    Total   
+5    P/E10 or NaN         TR P/E10 or NaN    CAPE     Bond     Bond   
+6        CAPE NaN             TR CAPE NaN   Yield  Returns  Returns   
+
+                 19                 20                  21  
+0               NaN                NaN                 NaN  
+1               NaN                NaN                 NaN  
+2               NaN                NaN                 NaN  
+3               NaN                NaN                 NaN  
+4           10 Year            10 Year        Real 10 Year  
+5  Annualized Stock  Annualized Bonds   Excess Annualized   
+6       Real Return        Real Return             Returns  
+
+[7 rows x 22 columns] 
+
+&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 7 entries, 0 to 6
+Data columns (total 22 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   0       3 non-null      str    
+ 1   1       3 non-null      str    
+ 2   2       2 non-null      str    
+ 3   3       2 non-null      str    
+ 4   4       4 non-null      str    
+ 5   5       2 non-null      str    
+ 6   6       3 non-null      str    
+ 7   7       2 non-null      str    
+ 8   8       2 non-null      str    
+ 9   9       4 non-null      str    
+ 10  10      2 non-null      str    
+ 11  11      4 non-null      str    
+ 12  12      7 non-null      str    
+ 13  13      0 non-null      float64
+ 14  14      7 non-null      str    
+ 15  15      0 non-null      float64
+ 16  16      3 non-null      str    
+ 17  17      4 non-null      str    
+ 18  18      4 non-null      str    
+ 19  19      3 non-null      str    
+ 20  20      3 non-null      str    
+ 21  21      3 non-null      str    
+dtypes: float64(2), str(20)
+memory usage: 1.3 KB
+None</code></pre>
+</div>
+</div>
+<p><strong>Spaltenbeschriftungen isolieren</strong><br>
+Anschließend kann der Kopf weiter bearbeitet werden, um die Spaltenbeschriftungen zu isolieren. Dafür gibt es verschiedene Möglichkeiten. Weitere Alternativen zur folgenden Variante finden Sie im nachfolgenden Beispiel. Spaltenweise erfolgt die Verkettung der Zeichenketten mit der Methode <code>pd.Series.str.cat()</code>, die nur für <code>pd.Series</code> verfügbar ist (weshalb mit einer Schleife die Spalten einzeln durchlaufen werden) und nur mit dem Datentyp ‘string’ verfügbar ist, was durch die Methode <code>astype('string')</code> sichergestellt wird.</p>
+<p>Anschließend werden nicht zur Spaltenbeschriftung gehörende Zeichenketten mit der Methode <code>str.replace()</code> entfernt. Dabei erweist sich das Argument <code>regex = True</code> als nützlich.</p>
+<div id="37d72bbe" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltenbeschriftung mit Schleife erzeugen</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> pd.Series()</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> column <span class="kw">in</span> shiller_head:</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  shiller_column_labels <span class="op">=</span> pd.concat([shiller_column_labels, pd.Series(shiller_head[column].astype(<span class="st">'string'</span>).<span class="bu">str</span>.cat())])</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeichenketten säubern</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="co">## erste Zelle entfernen Stock Market Data Used in "Irrational Exuberan...</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.astype(<span class="st">'str'</span>).replace(shiller_head.loc[<span class="dv">0</span>, <span class="dv">0</span>], <span class="st">''</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">## 'Robert J. Shiller' entfernen </span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.astype(<span class="st">'str'</span>).replace(shiller_head.loc[<span class="dv">1</span>, <span class="dv">0</span>], <span class="st">''</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="co">## Leerzeichen entfernen</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="co">## regex = True um Leerzeichen innerhalb von Strings zu entfernen</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.astype(<span class="st">'str'</span>).replace(<span class="st">' '</span>, <span class="st">''</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="co">## sehr lange strings ersetzen</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.astype(<span class="st">'str'</span>).replace(<span class="st">'CyclicallyAdjustedPriceEarningsRatioP/E10or'</span>, <span class="st">''</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.astype(<span class="st">'str'</span>).replace(<span class="st">'CyclicallyAdjustedTotalReturnPriceEarningsRatioTRP/E10or'</span>, <span class="st">''</span>, regex <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="co">## Index zurücksetzen</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>shiller_column_labels.reset_index(inplace <span class="op">=</span> <span class="va">True</span>, drop <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_column_labels)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0                                  Date
+1                             S&amp;PComp.P
+2                             DividendD
+3                             EarningsE
+4                 ConsumerPriceIndexCPI
+5                          DateFraction
+6                  LongInterestRateGS10
+7                             RealPrice
+8                          RealDividend
+9                  RealTotalReturnPrice
+10                         RealEarnings
+11                 RealTRScaledEarnings
+12                                 CAPE
+13                                     
+14                               TRCAPE
+15                                     
+16                      ExcessCAPEYield
+17              MonthlyTotalBondReturns
+18                 RealTotalBondReturns
+19      10YearAnnualizedStockRealReturn
+20      10YearAnnualizedBondsRealReturn
+21    Real10YearExcessAnnualizedReturns
+dtype: str</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Hinweis</span>Alternative Vorgehensweisen zur String-Manipulation des Dateikopfs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="verwendung-des-numpy-datentyps-str" class="level4">
+<h4 class="anchored" data-anchor-id="verwendung-des-numpy-datentyps-str">Verwendung des NumPy-Datentyps ‘str’</h4>
+<p>Die Angabe von dtype = ‘str’ führt zur Verwendung des NumPy-Datentyps string (dtype = ‘str’), der veränderlich (mutable) ist. Nur damit funktioniert die Verkettung von Strings mit der Methode <code>PD.df.sum()</code>.</p>
+<div id="97130781" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Der NumPy-Datentyp string ist veränderlich</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>my_array <span class="op">=</span> np.array([[<span class="st">'1'</span>, <span class="st">'2'</span>], [<span class="st">'3'</span>, <span class="st">'4'</span>]])</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>my_array[<span class="dv">0</span>] <span class="op">=</span> [<span class="st">'a'</span>, <span class="st">'b'</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>my_array</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>array([['a', 'b'],
+       ['3', '4']], dtype='&lt;U1')</code></pre>
+</div>
+</div>
+<p>Mit den Pandas-Datentypen ‘string’ und ‘object’ funktioniert das gezeigte Vorgehen nicht. Denn Pandas nutzt den Python-Datentyp ‘string’, der unveränderlich ist. Das bedeutet, es gibt keine Methoden, die eine angelegte Zeichenkette verändern können. Stattdessen geben Methoden wie str.replace() neue strings zurück.</p>
+<pre class="raw"><code>## mit NumPy-Datentyp string
+shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
+
+# Kopf mit NumPy-Datentyp string mit pd.sum() verketten
+# print(shiller_head.astype('str').sum(skipna = True, axis = 0))
+
+## Bereinigung des Datensatzes
+### nan entfernen
+shiller_head = shiller_head.astype('str').replace('nan', '')
+
+### erste Zelle entfernen Stock Market Data Used in "Irrational Exuberan...
+shiller_head = shiller_head.astype('str').replace(shiller_head.loc[0, 0], '')
+
+### 'Robert J. Shiller' entfernen 
+shiller_head = shiller_head.astype('str').replace(shiller_head.loc[1, 0], '')
+
+### Leerzeichen entfernen
+### regex = True um Leerzeichen innerhalb von Strings zu entfernen
+shiller_head = shiller_head.astype('str').replace(' ', '', regex = True)
+
+### sehr lange strings ersetzen
+shiller_head = shiller_head.astype('str').replace('CyclicallyAdjustedPriceEarningsRatioP/E10or', '', regex = True)
+shiller_head = shiller_head.astype('str').replace('CyclicallyAdjustedTotalReturnPriceEarningsRatioTRP/E10or', '', regex = True)
+
+### spaltenweise Zeilen verketten
+shiller_head = shiller_head.astype('str').sum(skipna = True, axis = 0)
+
+print("\nzusammengeführte Spaltennamen\n", shiller_head)</code></pre>
+</section>
+<section id="verwendung-von-df.agg-oder-df.apply" class="level4">
+<h4 class="anchored" data-anchor-id="verwendung-von-df.agg-oder-df.apply">Verwendung von DF.agg() oder DF.apply()</h4>
+<p>Die Pandas-Methode <code>DF.agg()</code> aggregiert einen DataFrame zeilen- oder spaltenweise durch eine spezifizierbare Funktion. Die Pandas-Methode <code>DF.apply()</code> wendet eine Funktion zeilen- oder spaltenweise auf einen DataFrame an. Die Methoden machen also das selbe. Details zur Verwendung des <a href="https://docs.python.org/3/reference/expressions.html#lambda">Lambda-Ausdrucks</a> und der Methode <code>join</code> aus der <a href="https://www.w3schools.com/python/ref_string_join.asp">Pythonbasis</a> finden Sie in den angegebenen Links.</p>
+<pre class="raw"><code>shiller_head = pd.read_excel(io = dateipfad, sheet_name = 'Data', skiprows = 1, nrows = 7, header = None)
+# DF.agg()
+print(shiller_head.agg(lambda x: ''.join(x.astype(str))))
+
+# DF.apply
+print(shiller_head.apply(lambda x: ''.join(x.astype(str))))</code></pre>
+</section>
+</div>
+</div>
+</div>
+<p><strong>Daten einlesen</strong></p>
+<p>Beim Einlesen der Daten wird der Kopf kontrolliert sowie mit der Methode <code>.tail()</code> das Ende der Datenreihe bestimmt, an dem weitere Metadaten vermerkt sind. Diese Metadaten werden anschließend mit dem Argument <code>skipfooter = 1</code> übersprungen.</p>
+<div id="7c290f8a" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/shiller_data.xls'</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>shiller_data <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>, skiprows <span class="op">=</span> <span class="dv">8</span>, header <span class="op">=</span> <span class="va">None</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.head(n <span class="op">=</span> <span class="dv">2</span>), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>shiller_data.tail(n <span class="op">=</span> <span class="dv">5</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        0     1     2    3          4            5         6           7   \
+0  1871.01  4.44  0.26  0.4  12.464061  1871.041667      5.32  111.055650   
+1  1871.02   4.5  0.26  0.4  12.844641  1871.125000  5.323333  109.221413   
+
+         8           9   ...  12  13  14  15  16        17        18  \
+0  6.503259  111.055650  ... NaN NaN NaN NaN NaN  1.004177  1.000000   
+1  6.310571  109.747294  ... NaN NaN NaN NaN NaN  1.004180  0.974424   
+
+         19        20        21  
+0  0.130609  0.092504  0.038106  
+1  0.130858  0.094635  0.036224  
+
+[2 rows x 22 columns] 
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">0</th>
+<th data-quarto-table-cell-role="th">1</th>
+<th data-quarto-table-cell-role="th">2</th>
+<th data-quarto-table-cell-role="th">3</th>
+<th data-quarto-table-cell-role="th">4</th>
+<th data-quarto-table-cell-role="th">5</th>
+<th data-quarto-table-cell-role="th">6</th>
+<th data-quarto-table-cell-role="th">7</th>
+<th data-quarto-table-cell-role="th">8</th>
+<th data-quarto-table-cell-role="th">9</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">12</th>
+<th data-quarto-table-cell-role="th">13</th>
+<th data-quarto-table-cell-role="th">14</th>
+<th data-quarto-table-cell-role="th">15</th>
+<th data-quarto-table-cell-role="th">16</th>
+<th data-quarto-table-cell-role="th">17</th>
+<th data-quarto-table-cell-role="th">18</th>
+<th data-quarto-table-cell-role="th">19</th>
+<th data-quarto-table-cell-role="th">20</th>
+<th data-quarto-table-cell-role="th">21</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1836</th>
+<td>2024.01</td>
+<td>4815.613913</td>
+<td>70.477403</td>
+<td>NaN</td>
+<td>308.417</td>
+<td>2024.041667</td>
+<td>4.06</td>
+<td>4867.776285</td>
+<td>71.240809</td>
+<td>3.221112e+06</td>
+<td>...</td>
+<td>32.045123</td>
+<td>NaN</td>
+<td>34.620305</td>
+<td>NaN</td>
+<td>0.018641</td>
+<td>0.991240</td>
+<td>39.840706</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1837</th>
+<td>2024.02</td>
+<td>5011.9615</td>
+<td>70.651114</td>
+<td>NaN</td>
+<td>310.326</td>
+<td>2024.125000</td>
+<td>4.21</td>
+<td>5035.085170</td>
+<td>70.977077</td>
+<td>3.335737e+06</td>
+<td>...</td>
+<td>33.113433</td>
+<td>NaN</td>
+<td>35.790148</td>
+<td>NaN</td>
+<td>0.016389</td>
+<td>1.003508</td>
+<td>39.248767</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1838</th>
+<td>2024.03</td>
+<td>5170.5725</td>
+<td>70.824826</td>
+<td>NaN</td>
+<td>311.2805</td>
+<td>2024.208333</td>
+<td>4.21</td>
+<td>5178.499934</td>
+<td>70.933413</td>
+<td>3.434666e+06</td>
+<td>...</td>
+<td>34.021664</td>
+<td>NaN</td>
+<td>36.786757</td>
+<td>NaN</td>
+<td>0.015239</td>
+<td>1.004318</td>
+<td>39.265691</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1839</th>
+<td>2024.04</td>
+<td>5243.77</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>311.75775</td>
+<td>2024.291667</td>
+<td>4.2</td>
+<td>5243.770000</td>
+<td>NaN</td>
+<td>3.477956e+06</td>
+<td>...</td>
+<td>34.413463</td>
+<td>NaN</td>
+<td>37.183230</td>
+<td>NaN</td>
+<td>0.014823</td>
+<td>NaN</td>
+<td>39.374882</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">1840</th>
+<td>NaN</td>
+<td>Apr price is Apr 1st close</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>Mar/Apr CPI estimated</td>
+<td>NaN</td>
+<td>Apr GS10 is Mar 29th value</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>...</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 22 columns</p>
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<p>Nachdem die Metadaten entfernt wurden, werden die erkannten Datentypen mit der Methode <code>.info()</code> kontrolliert.</p>
+<div id="e137f315" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>shiller_data <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>, skiprows <span class="op">=</span> <span class="dv">8</span>, header <span class="op">=</span> <span class="va">None</span>, skipfooter <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.head(n <span class="op">=</span> <span class="dv">2</span>), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.tail(n <span class="op">=</span> <span class="dv">2</span>))</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Datentypen bestimmen</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>shiller_data.info()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        0     1     2    3          4            5         6           7   \
+0  1871.01  4.44  0.26  0.4  12.464061  1871.041667  5.320000  111.055650   
+1  1871.02  4.50  0.26  0.4  12.844641  1871.125000  5.323333  109.221413   
+
+         8           9   ...  12  13  14  15  16        17        18  \
+0  6.503259  111.055650  ... NaN NaN NaN NaN NaN  1.004177  1.000000   
+1  6.310571  109.747294  ... NaN NaN NaN NaN NaN  1.004180  0.974424   
+
+         19        20        21  
+0  0.130609  0.092504  0.038106  
+1  0.130858  0.094635  0.036224  
+
+[2 rows x 22 columns] 
+
+           0          1          2   3          4            5     6   \
+1838  2024.03  5170.5725  70.824826 NaN  311.28050  2024.208333  4.21   
+1839  2024.04  5243.7700        NaN NaN  311.75775  2024.291667  4.20   
+
+               7          8             9   ...         12  13         14  15  \
+1838  5178.499934  70.933413  3.434666e+06  ...  34.021664 NaN  36.786757 NaN   
+1839  5243.770000        NaN  3.477956e+06  ...  34.413463 NaN  37.183230 NaN   
+
+            16        17         18  19  20  21  
+1838  0.015239  1.004318  39.265691 NaN NaN NaN  
+1839  0.014823       NaN  39.374882 NaN NaN NaN  
+
+[2 rows x 22 columns]
+&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 1840 entries, 0 to 1839
+Data columns (total 22 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   0       1840 non-null   float64
+ 1   1       1840 non-null   float64
+ 2   2       1839 non-null   float64
+ 3   3       1836 non-null   float64
+ 4   4       1840 non-null   float64
+ 5   5       1840 non-null   float64
+ 6   6       1840 non-null   float64
+ 7   7       1840 non-null   float64
+ 8   8       1839 non-null   float64
+ 9   9       1840 non-null   float64
+ 10  10      1836 non-null   float64
+ 11  11      1836 non-null   float64
+ 12  12      1720 non-null   float64
+ 13  13      0 non-null      float64
+ 14  14      1720 non-null   float64
+ 15  15      0 non-null      float64
+ 16  16      1720 non-null   float64
+ 17  17      1839 non-null   float64
+ 18  18      1840 non-null   float64
+ 19  19      1720 non-null   float64
+ 20  20      1720 non-null   float64
+ 21  21      1720 non-null   float64
+dtypes: float64(22)
+memory usage: 316.4 KB</code></pre>
+</div>
+</div>
+<p><strong>Kopf und Daten zusammenführen</strong></p>
+<p>Die Spalten mit dem Index 13 (Spalte N) und 15 (Spalte P) sind leer, diese werden aus dem Kopf und den Daten entfernt. Alle Spalten werden als Fließkommazahl erkannt. Das bedeutet, die Prozentzeichen in den Spalten mit den Indizes 16 und 19 bis 21 (Q, T:V) wurden durch eine Division durch 100 verarbeitet. Mit Ausnahme der Spalte Date wurde somit alle Datentypen korrekt erkannt.</p>
+<div id="7509e4e8" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # leere Spalten entfernen</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.drop(labels <span class="op">=</span> [<span class="dv">13</span>, <span class="dv">15</span>])</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>shiller_data <span class="op">=</span> shiller_data.drop(labels <span class="op">=</span> [<span class="dv">13</span>, <span class="dv">15</span>], axis <span class="op">=</span> <span class="st">'columns'</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen eintragen</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>shiller_data.columns <span class="op">=</span> shiller_column_labels</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>shiller_data.info()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 1840 entries, 0 to 1839
+Data columns (total 20 columns):
+ #   Column                             Non-Null Count  Dtype  
+---  ------                             --------------  -----  
+ 0   Date                               1840 non-null   float64
+ 1   S&amp;PComp.P                          1840 non-null   float64
+ 2   DividendD                          1839 non-null   float64
+ 3   EarningsE                          1836 non-null   float64
+ 4   ConsumerPriceIndexCPI              1840 non-null   float64
+ 5   DateFraction                       1840 non-null   float64
+ 6   LongInterestRateGS10               1840 non-null   float64
+ 7   RealPrice                          1840 non-null   float64
+ 8   RealDividend                       1839 non-null   float64
+ 9   RealTotalReturnPrice               1840 non-null   float64
+ 10  RealEarnings                       1836 non-null   float64
+ 11  RealTRScaledEarnings               1836 non-null   float64
+ 12  CAPE                               1720 non-null   float64
+ 13  TRCAPE                             1720 non-null   float64
+ 14  ExcessCAPEYield                    1720 non-null   float64
+ 15  MonthlyTotalBondReturns            1839 non-null   float64
+ 16  RealTotalBondReturns               1840 non-null   float64
+ 17  10YearAnnualizedStockRealReturn    1720 non-null   float64
+ 18  10YearAnnualizedBondsRealReturn    1720 non-null   float64
+ 19  Real10YearExcessAnnualizedReturns  1720 non-null   float64
+dtypes: float64(20)
+memory usage: 287.6 KB</code></pre>
+</div>
+</div>
+<p><strong>Datumsformat korrigieren</strong></p>
+<p>Im nächsten Schritt wird das Datumsformat korrigiert. Die Spalte Date enthält Zeichenketten im Format ‘YYYY,MM’. Eine Ausnahme ist der Monat Oktober, der im Format ‘YYYY.M’ kodiert ist. In der Ausgabe mit <code>print()</code> ist dies nicht zu sehen, da die Darstellung von 2 Dezimalstellen mit dem Befehl <code>pd.set_option("display.precision", 2)</code> eingestellt wurde. Die unterschiedliche Länge der Zeichenketten kann mit dem Befehl <code>shiller_data.loc[0:12, 'Date'].astype('str').str.len()</code> verdeutlicht werden.</p>
+<div id="20d38b4f" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  pd.to_datetime(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">"%Y.%m"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> error:</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(error, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  pd.to_datetime(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">"%Y.%m"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>].astype(<span class="st">'str'</span>).<span class="bu">str</span>.<span class="bu">len</span>(), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0     1871.01
+1     1871.02
+2     1871.03
+3     1871.04
+4     1871.05
+5     1871.06
+6     1871.07
+7     1871.08
+8     1871.09
+9     1871.10
+10    1871.11
+11    1871.12
+12    1872.01
+Name: Date, dtype: float64 
+
+time data "1871" doesn't match format "%Y.%m". You might want to try:
+    - passing `format` if your strings have a consistent format;
+    - passing `format='ISO8601'` if your strings are all ISO8601 but not necessarily in exactly the same format;
+    - passing `format='mixed'`, and the format will be inferred for each element individually. You might want to use `dayfirst` alongside this. 
+
+0     7
+1     7
+2     7
+3     7
+4     7
+5     7
+6     7
+7     7
+8     7
+9     6
+10    7
+11    7
+12    7
+Name: Date, dtype: int64 
+</code></pre>
+</div>
+</div>
+<p>Der Datentyp der Spalte ‘Date’ wird als String deklariert. Mit einer Maske werden die Zeichenketten mit Länge 6 bestimmt. An die Zeichenketten mit der Länge 6 wird eine 0 angehängt, um das Datumsformat anzugleichen. Anschließend wird die Spalte mit der Funktion <code>pd.to_datetime(format = "%Y.%m")</code> als datetime eingelesen.</p>
+<div id="c3ffecf1" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datentyp Spalte Date als String setzen </span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># führt zu einer Fehlermeldung:</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>shiller_data[<span class="st">'Date'</span>] <span class="op">=</span> shiller_data[<span class="st">'Date'</span>].astype(<span class="st">'str'</span>)<span class="op">;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>maske <span class="op">=</span> shiller_data[<span class="st">'Date'</span>].<span class="bu">str</span>.<span class="bu">len</span>() <span class="op">==</span> <span class="dv">6</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>shiller_data.loc[maske, <span class="st">'Date'</span>] <span class="op">=</span> shiller_data.loc[maske, <span class="st">'Date'</span>] <span class="op">+</span> <span class="st">'0'</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Ausgabe Länge Zeichenkette</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>].<span class="bu">str</span>.<span class="bu">len</span>())</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>])</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Datentyp Spalte Date als datetime setzen</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>shiller_data[<span class="st">'Date'</span>] <span class="op">=</span> pd.to_datetime(shiller_data[<span class="st">'Date'</span>], <span class="bu">format</span> <span class="op">=</span> <span class="st">"%Y.%m"</span>)<span class="op">;</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>shiller_data.info()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0     7
+1     7
+2     7
+3     7
+4     7
+5     7
+6     7
+7     7
+8     7
+9     7
+10    7
+11    7
+12    7
+Name: Date, dtype: int64
+0     1871.01
+1     1871.02
+2     1871.03
+3     1871.04
+4     1871.05
+5     1871.06
+6     1871.07
+7     1871.08
+8     1871.09
+9     1871.10
+10    1871.11
+11    1871.12
+12    1872.01
+Name: Date, dtype: str
+&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 1840 entries, 0 to 1839
+Data columns (total 20 columns):
+ #   Column                             Non-Null Count  Dtype         
+---  ------                             --------------  -----         
+ 0   Date                               1840 non-null   datetime64[us]
+ 1   S&amp;PComp.P                          1840 non-null   float64       
+ 2   DividendD                          1839 non-null   float64       
+ 3   EarningsE                          1836 non-null   float64       
+ 4   ConsumerPriceIndexCPI              1840 non-null   float64       
+ 5   DateFraction                       1840 non-null   float64       
+ 6   LongInterestRateGS10               1840 non-null   float64       
+ 7   RealPrice                          1840 non-null   float64       
+ 8   RealDividend                       1839 non-null   float64       
+ 9   RealTotalReturnPrice               1840 non-null   float64       
+ 10  RealEarnings                       1836 non-null   float64       
+ 11  RealTRScaledEarnings               1836 non-null   float64       
+ 12  CAPE                               1720 non-null   float64       
+ 13  TRCAPE                             1720 non-null   float64       
+ 14  ExcessCAPEYield                    1720 non-null   float64       
+ 15  MonthlyTotalBondReturns            1839 non-null   float64       
+ 16  RealTotalBondReturns               1840 non-null   float64       
+ 17  10YearAnnualizedStockRealReturn    1720 non-null   float64       
+ 18  10YearAnnualizedBondsRealReturn    1720 non-null   float64       
+ 19  Real10YearExcessAnnualizedReturns  1720 non-null   float64       
+dtypes: datetime64[us](1), float64(19)
+memory usage: 287.6 KB</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../skript/zeitreihen.html" class="pagination-link" aria-label="Zeitreihen">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zeitreihen</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../skript/modul-glob.html" class="pagination-link" aria-label="Zugriff auf mehrere lokale Dateien: Modul glob">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Zugriff auf mehrere lokale Dateien: Modul glob</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

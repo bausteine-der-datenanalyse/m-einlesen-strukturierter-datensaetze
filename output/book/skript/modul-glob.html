@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Zugriff auf mehrere lokale Dateien: Modul glob – Bausteine Computergestützter Datenanalyse</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../skript/maskierte-arrays.html" rel="next">
+<link href="../skript/marktdaten-oesterreich.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-41d1ed59529443dc312b46011c211845.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<link rel="shortcut icon" href="skript/00-bilder/favicon_bcd_new.svg">
+<link rel="icon" type="image/x-icon" href="logo.ico">
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../skript/modul-glob.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Zugriff auf mehrere lokale Dateien: Modul glob</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../skript/00-bilder/logo_with_text_new.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../skript/00-bilder/logo_with_text_new.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Methodenbaustein: Einlesen strukturierter Datensätze</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Methodenbaustein Einlesen strukturierter Datensätze</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/einleitung.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Einleitung</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/grundlagen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Grundlagen: Merkmale von Datensätzen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/datentypoperationen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Datentypabhängige Operationen und Funktionen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/numpy-pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Die Module NumPy und Pandas</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/zeitreihen.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Zeitreihen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/marktdaten-oesterreich.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Markttransparenzdaten Österreich herunterladen</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/modul-glob.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Zugriff auf mehrere lokale Dateien: Modul glob</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/maskierte-arrays.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maskierte Arrays</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/dateiformate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Wissenschaftliche Dateiformate</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/daswichtigste.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Das Wichtigste</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../skript/lernzielkontrolle.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Lernzielkontrolle</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Inhaltsverzeichnis</h2>
+   
+  <ul>
+  <li><a href="#übungen-modul-glob" id="toc-übungen-modul-glob" class="nav-link active" data-scroll-target="#übungen-modul-glob"><span class="header-section-number">7.1</span> Übungen Modul glob</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Zugriff auf mehrere lokale Dateien: Modul glob</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="54bc543e" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="border">
+<p>Das Modul <a href="https://docs.python.org/3/library/glob.html#module-glob">glob</a> erlaubt es, mit der Funktion <code>glob.glob(pathname, *, root_dir = None, recursive = False)</code> aus einem Ordner alle Dateipfade, die dem im Argument <code>pathname</code> spezifizierten Muster entsprechen zurückzugeben. Das Argument <code>pathname</code> kann als Schlüsselwort oder positional übergeben werden, die übrigen Argumente müssen als Schlüsselwort übergeben werden (dies signalisiert das Zeichen <code>*</code>). Die Speicheradresse des Ordners wird mit dem Argument <code>root_dir</code> übergeben, dessen Standardwert das aktuelle Arbeitsverzeichnis ist. Im Argument <code>pathname</code> können Platzhalter, sogenannte Wildcards, verwendet werden, um beliebige Zeichen und Zeichenfolgen zu spezifizieren.</p>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 77%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Wildcard</th>
+<th style="text-align: center;">Funktion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><code>*</code></td>
+<td style="text-align: center;">beliebige Zeichenfolge außer Dateipfadelemente wie <code>/</code> oder <code>.</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>?</code></td>
+<td style="text-align: center;">genau ein beliebiges Zeichen</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><code>[]</code></td>
+<td style="text-align: center;">alle in den Klammern eingeschlossenen Zeichen inklusive der Wildcards <code>*</code> <code>?</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><code>[0-9]</code></td>
+<td style="text-align: center;">alle Ziffern 0 bis 9</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Unter dem Pfad ‘01-daten/glob’ liegen, teils in einem Unterordner, verschiedene Dateien.</p>
+<div id="e020484a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>ordnerpfad <span class="op">=</span> <span class="st">'01-daten/glob'</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'*'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pfadliste)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Unfallorte2020_LinRef.csv', 'Unterordner glob', 'Unfallorte2022_LinRef.csv', 'hintergrund.png', 'ToothGrowth.csv']</code></pre>
+</div>
+</div>
+<p>Das Argument <code>recursive</code> steuert, ob auch Unterordner durchsucht werden. Um auch Unterordner zu durchsuchen, muss es auf True gesetzt und im pathname <code>**</code> spezifiziert werden.</p>
+<div id="3da96930" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'**'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pfadliste)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Unfallorte2020_LinRef.csv', 'Unterordner glob', 'Unterordner glob/Unfallorte2021_LinRef.csv', 'Unterordner glob/Unfallorte2023_LinRef.csv', 'Unfallorte2022_LinRef.csv', 'hintergrund.png', 'ToothGrowth.csv']</code></pre>
+</div>
+</div>
+<p>Im angegebenen Pfad ‘01-daten/glob’ liegen die Dateien ‘hintergrund.png’, ‘ToothGrowth.csv’, ‘Unfallorte2020_LinRef.csv’, ‘Unfallorte2022_LinRef.csv’ sowie der Unterordner ‘Unterordner glob’. In diesem Unterordner liegen die Dateien ‘Unfallorte2021_LinRef.csv’ und ‘Unfallorte2023_LinRef.csv’.</p>
+<p>Um die Suchergebnisse auf die Dateien ‘Unfallorte2020_LinRef.csv’, ‘Unfallorte2021_LinRef.csv’, ‘Unfallorte2022_LinRef.csv’ und ‘Unfallorte2023_LinRef.csv’ zu beschränken, muss der im Argument <code>pathname</code> übergebene Dateipfad angepasst werden. <strong>Schauen Sie in die <a href="https://docs.python.org/3/library/glob.html#module-glob">Dokumentation des Moduls glob</a> und übergeben einen geeigneten Dateipfad.</strong></p>
+<div id="tip-glob" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;7.2: Tipp und Musterlösung
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Tipp: Die gesuchten Dateien beginnen mit dem Buchstaben ‘U’ und enden mit der Dateiendung ‘.csv’. Wie Sie Dateien aus einem Ordner und aus einem Unterordner auslesen, sehen Sie in der verlinkten Dokumentation unter Examples.</p>
+<div id="tip-glob" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;7.1: Musterlösung glob
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="7d113cc9" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'**/U*.csv'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pfadliste)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>['Unfallorte2020_LinRef.csv', 'Unfallorte2022_LinRef.csv', 'Unterordner glob/Unfallorte2021_LinRef.csv', 'Unterordner glob/Unfallorte2023_LinRef.csv']</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Mit den Dateipfaden können die Dateien mit Hilfe einer Schleife in eine Liste eingelesen werden (aus Gründen der Lesbarkeit jeweils 3 Zeilen und 3 Spalten).</p>
+<div id="21230054" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>list_of_files <span class="op">=</span> []</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> ordnerpfad <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> pfad, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  delimiter <span class="op">=</span> <span class="st">';'</span>, nrows <span class="op">=</span> <span class="dv">3</span>, usecols <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  list_of_files.append(zwischenspeicher)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(pfad, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, zwischenspeicher, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unfallorte2020_LinRef.csv 
+    OBJECTID           UIDENTSTLAE  ULAND
+0         1  12200116471201851100     12
+1         2  12200106642131830700     12
+2         3  12200109522101836720     12 
+
+Unfallorte2022_LinRef.csv 
+    OBJECTID          UIDENTSTLAE  ULAND
+0         1  1220204125013262022      1
+1         2  1220529134013152022      1
+2         3  1220508125013982022      1 
+
+Unterordner glob/Unfallorte2021_LinRef.csv 
+    OBJECTID          UIDENTSTLAE  ULAND
+0         1  1210308125013512021      1
+1         2  1210608134013112021      1
+2         3  1210610181013902021      1 
+
+Unterordner glob/Unfallorte2023_LinRef.csv 
+    OID_          UIDENTSTLAE  ULAND
+0     1  1230519134013042023      1
+1     2  1230519134013022023      1
+2     3  1230519125013522023      1 
+</code></pre>
+</div>
+</div>
+<p>Aus der Liste können die Datensätze dann eigenen Objekten zugewiesen werden.</p>
+<div id="187879cf" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>unfalldaten2020 <span class="op">=</span> list_of_files[<span class="dv">0</span>] </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>unfalldaten2021 <span class="op">=</span> list_of_files[<span class="dv">2</span>] </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>unfalldaten2022 <span class="op">=</span> list_of_files[<span class="dv">1</span>] </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>unfalldaten2023 <span class="op">=</span> list_of_files[<span class="dv">3</span>] </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unfalldaten2020, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unfalldaten2020.dtypes)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   OBJECTID           UIDENTSTLAE  ULAND
+0         1  12200116471201851100     12
+1         2  12200106642131830700     12
+2         3  12200109522101836720     12 
+
+OBJECTID        int64
+UIDENTSTLAE    uint64
+ULAND           int64
+dtype: object</code></pre>
+</div>
+</div>
+<p>Die Objekte könnten auch in einem DataFrame zusammengeführt werden.</p>
+<div id="87d34095" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalte OID_ / OBJECTID vereinheitlichen</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>unfalldaten <span class="op">=</span> pd.concat([unfalldaten2020.iloc[: , <span class="dv">1</span>:<span class="dv">3</span>], unfalldaten2022.iloc[: , <span class="dv">1</span>:<span class="dv">3</span>], unfalldaten2023.iloc[: , <span class="dv">1</span>:<span class="dv">3</span>] ], ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>unfalldaten.insert(loc <span class="op">=</span> <span class="dv">0</span>, column <span class="op">=</span> <span class="st">'OBJECTID'</span>, value <span class="op">=</span> pd.Series(<span class="bu">range</span>(<span class="dv">1</span>, unfalldaten.shape[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">1</span>)))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>unfalldaten <span class="op">=</span> unfalldaten.astype(<span class="st">'uint64'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>unfalldaten</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">OBJECTID</th>
+<th data-quarto-table-cell-role="th">UIDENTSTLAE</th>
+<th data-quarto-table-cell-role="th">ULAND</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>12200116471201851392</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>12200106642131830784</td>
+<td>12</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>12200109522101835776</td>
+<td>12</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>1220204125013262080</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>1220529134013152000</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">5</th>
+<td>6</td>
+<td>1220508125013981952</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">6</th>
+<td>7</td>
+<td>1230519134013041920</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">7</th>
+<td>8</td>
+<td>1230519134013021952</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">8</th>
+<td>9</td>
+<td>1230519125013521920</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p><span class="citation" data-cites="Arnold-2023-funktionen-module-dateien">(<a href="#ref-Arnold-2023-funktionen-module-dateien" role="doc-biblioref">Arnold 2023</a>)</span></p>
+</div>
+<section id="übungen-modul-glob" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="übungen-modul-glob"><span class="header-section-number">7.1</span> Übungen Modul glob</h2>
+<section id="leicht-us-state-facts-and-figures" class="level4">
+<h4 class="anchored" data-anchor-id="leicht-us-state-facts-and-figures">Leicht: US State Facts and Figures</h4>
+<p>Im Ordner “01-daten/glob leicht” liegen verschiedene .CSV-Dateien mit Daten zu den US-Bundesstaaten. <strong>Lesen Sie die Dateien in einen neuen Datensatz ein.</strong></p>
+<ul>
+<li><p>Wie heißen die Dateien?</p></li>
+<li><p>Welche Regionen werden in den Datensätzen unterschieden?</p></li>
+<li><p>Wie viele Staaten gehören zu jeder Region?</p></li>
+<li><p>Welche Region ist flächenmäßig die größte?</p></li>
+</ul>
+<div class="border">
+<p>US State Facts and Figures von Becker, R. A., Chambers, J. M. and Wilks, A. R. (1988) The New S Language. Wadsworth &amp; Brooks/Cole. <a href="https://www.rdocumentation.org/packages/datasets/versions/3.6.2/topics/state">rdocumentation.org</a>. Datensätze:</p>
+<ul>
+<li><p>state.abb</p></li>
+<li><p>state.area</p></li>
+<li><p>state.name</p></li>
+<li><p>state.region</p></li>
+</ul>
+<p>Die Datensätze können in R durch Eingabe des Datensatznamens in der Konsole aufgerufen werden.</p>
+</div>
+<div id="tip-musterloesung-glob" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;7.3: Musterlösung US State Facts and Figures
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Mit dem Modul glob werden die Pfade der im Ordner liegenden Dateien in einer Liste gespeichert. In einer Schleife wird mit der Funktion <code>open()</code> jede Datei als Dateiobjekt geöffnet, aus dem der Dateiname und der Dateiinhalte ausgelesen werden, um diese zu betrachten.</p>
+<div id="452510f1" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ordnerpfad <span class="op">=</span> <span class="st">"01-daten/glob leicht"</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'*'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>list_of_files <span class="op">=</span> []</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>names_of_files <span class="op">=</span> []</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dateiobjekt öffnen</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> <span class="bu">open</span>(ordnerpfad <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> pfad, <span class="st">'r'</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dateinamen extrahieren</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  name <span class="op">=</span> os.path.basename(zwischenspeicher.name)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  names_of_files.append(name)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Datei auslesen</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  datei <span class="op">=</span> zwischenspeicher.read()</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  list_of_files.append(datei)</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Ausgabe</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(name, <span class="st">"Encoding:"</span>, zwischenspeicher.encoding)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(datei[<span class="dv">0</span>:<span class="dv">40</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Dateiobjekt schließen</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher.close()</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Dateien heißen:</span><span class="ch">\n</span><span class="sc">{</span>names_of_files<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>state abb.csv Encoding: UTF-8
+"x"
+"1" "AL"
+"2" "AK"
+"3" "AZ"
+"4" "AR"
+ 
+
+state region.csv Encoding: UTF-8
+"x"
+"1" "South"
+"2" "West"
+"3" "West"
+"4 
+
+state name.csv Encoding: UTF-8
+"x"
+"1" "Alabama"
+"2" "Alaska"
+"3" "Ariz 
+
+state area.csv Encoding: UTF-8
+"x"
+"1" 51609
+"2" 589757
+"3" 113909
+"4"  
+
+Die Dateien heißen:
+['state abb.csv', 'state region.csv', 'state name.csv', 'state area.csv']</code></pre>
+</div>
+</div>
+<p>Als nächstes werden die Daten in einem Datensatz ‘states’ gespeichert. Als Spaltennamen bieten sich die Dateinamen ohne Dateiendung an.</p>
+<div id="c433cd2b" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen vorbereiten</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> name <span class="kw">in</span> names_of_files:</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  names_of_files[i] <span class="op">=</span> name[<span class="dv">0</span>:<span class="op">-</span><span class="dv">4</span>]</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  i<span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># DataFrame erstellen</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>list_of_files <span class="op">=</span> []</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> <span class="bu">open</span>(ordnerpfad <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> pfad, <span class="st">'r'</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  states[i] <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> zwischenspeicher, sep <span class="op">=</span> <span class="st">' '</span>, usecols <span class="op">=</span> [<span class="dv">1</span>]) <span class="co"># skiprows = 1 überspringt den ersten Staat</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher.close()</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  i<span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen eintragen</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>states.columns <span class="op">=</span> names_of_files</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Es gibt die Regionen:</span><span class="ch">\n</span><span class="sc">{</span>states[<span class="st">'state region'</span>]<span class="sc">.</span>unique()<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>states.head()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Es gibt die Regionen:
+&lt;StringArray&gt;
+['South', 'West', 'Northeast', 'North Central']
+Length: 4, dtype: str
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">state abb</th>
+<th data-quarto-table-cell-role="th">state region</th>
+<th data-quarto-table-cell-role="th">state name</th>
+<th data-quarto-table-cell-role="th">state area</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>AL</td>
+<td>South</td>
+<td>Alabama</td>
+<td>51609</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>AK</td>
+<td>West</td>
+<td>Alaska</td>
+<td>589757</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>AZ</td>
+<td>West</td>
+<td>Arizona</td>
+<td>113909</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>AR</td>
+<td>South</td>
+<td>Arkansas</td>
+<td>53104</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>CA</td>
+<td>West</td>
+<td>California</td>
+<td>158693</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Im nächsten Schritt können die Anzahl der Staaten und die Fläche je Region bestimmt werden.</p>
+<div id="032c6bee" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Anzahl der Staaten je Region beträgt:</span><span class="ch">\n</span><span class="sc">{</span>states<span class="sc">.</span>groupby(<span class="st">'state region'</span>)[<span class="st">'state name'</span>]<span class="sc">.</span><span class="bu">apply</span>(<span class="bu">len</span>)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Fläche der Regionen beträgt:</span><span class="ch">\n</span><span class="sc">{</span>states<span class="sc">.</span>groupby(<span class="st">'state region'</span>)[<span class="st">'state area'</span>]<span class="sc">.</span><span class="bu">apply</span>(<span class="bu">sum</span>)<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Die Anzahl der Staaten je Region beträgt:
+state region
+North Central    12
+Northeast         9
+South            16
+West             13
+Name: state name, dtype: int64
+
+Die Fläche der Regionen beträgt:
+state region
+North Central     765530
+Northeast         169353
+South             899556
+West             1783960
+Name: state area, dtype: int64
+</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="schwer-dsb-unfallatlas" class="level4">
+<h4 class="anchored" data-anchor-id="schwer-dsb-unfallatlas">Schwer: DSB Unfallatlas</h4>
+<p>Im Skript wurden bereits Daten aus dem DSB Unfallatlas eingelesen. Aus Gründen der Lesbarkeit wurden jedoch nur die ersten drei Zeilen und Spalten eingelesen. Für diese Aufgabe sollen nun die Dateien im Dateipfad ‘01-daten/glob schwer’ vollständig eingelesen und zu einem Datensatz zusammengeführt werden. Ein Problem dabei ist, dass die Spaltenbeschriftungen für den Straßenzustand und die ID-Variable nicht einheitlich sind.</p>
+<div class="border">
+<p>Unfallatlas Deutschland. von Statistische Ämter des Bundes und der Länder steht unter der Lizenz <a href="https://creativecommons.org/licenses/by/4.0/deed.de">CC BY 4.0</a> und ist verfügbar auf dem <a href="https://unfallatlas.statistikportal.de/">Statistikportal des Bundes und der Länder</a>. 2024</p>
+</div>
+<div id="tip-musterloesung-unfallatlas" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tipp&nbsp;7.4: Musterlösung Unfallatlas
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Das Erhebungsjahr ist eine Variable im Datensatz. Dennoch wird gezeigt, wie dieses aus dem Dateinamen ausgelesen werden kann.</p>
+<p>Zuerst werden der Inhalt des Ordners und anschließend die Dateipfade ausgelesen.</p>
+<div id="7eb51d12" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inhalt Ordner auslesen</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ordnerpfad <span class="op">=</span> <span class="st">'01-daten/glob schwer'</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'**'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Im Suchpfad liegen </span><span class="sc">{</span><span class="bu">len</span>(pfadliste)<span class="sc">}</span><span class="ss"> Elemente. Die Bezeichnungen lauten:</span><span class="ch">\n</span><span class="sc">{</span>pfadliste<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Dateipfade auslesen</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>pfadliste <span class="op">=</span> glob.glob(pathname <span class="op">=</span> <span class="st">'**/U*.csv'</span>, root_dir <span class="op">=</span> ordnerpfad, recursive <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Im Suchpfad liegen </span><span class="sc">{</span><span class="bu">len</span>(pfadliste)<span class="sc">}</span><span class="ss"> CSV-Dateien. Die Dateinamen lauten:</span><span class="ch">\n</span><span class="sc">{</span>pfadliste<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Im Suchpfad liegen 6 Elemente. Die Bezeichnungen lauten:
+['Unfallorte2020_LinRef.csv', 'Unterordner glob', 'Unterordner glob/Unfallorte2021_LinRef.csv', 'Unterordner glob/Unfallorte2023_LinRef.csv', 'Unfallorte2022_LinRef.csv', 'DSB_Unfallatlas Metadaten.pdf']
+
+Im Suchpfad liegen 4 CSV-Dateien. Die Dateinamen lauten:
+['Unfallorte2020_LinRef.csv', 'Unfallorte2022_LinRef.csv', 'Unterordner glob/Unfallorte2021_LinRef.csv', 'Unterordner glob/Unfallorte2023_LinRef.csv']
+</code></pre>
+</div>
+</div>
+<p>Als nächstes werden die Jahreszahlen aus den Pfadnamen extrahiert sowie die Spaltennamen ausgelesen.</p>
+<p>Um die Jahreszahlen aus den Dateinamen zu extrahieren, können die Zeichenketten manuell beschnitten werden (Die Jahreszahl steht an den Indexpositionen 10 bis exklusiv 14). Alternativ kann ein regulärer Ausdruck verwendet werden. Reguläre Ausdrücke werden mit dem Modul re verarbeitet. Die Funktion <code>re.search(string = x, pattern = '[0-9]+')</code> sucht im Objekt x nach dem im Argument <code>pattern</code> spezifizierten Ausdruck, hier nach einer Zahl von 0 bis 9 <code>[0-9]</code> und jeder darauf folgenden Zahl <code>+</code>. Die Funktion <code>re.search()</code> erzeugt ein Match-Objekt, dessen Inhalt mit der Methode <code>Match.group()</code> ausgegeben werden kann, die einen string zurückgibt. (siehe <a href="https://docs.python.org/3/library/re.html#match-objects">Dokumentation Modul re</a>)</p>
+<p>Um die Spaltennamen auszulesen, wird die Funktion <code>pd.read_csv()</code> mit den Argumenten <code>nrows = 1, header = 0</code> angewiesen, die erste Zeile auszulesen. Anschließend können die Spaltennamen visuell abgeglichen werden - dies ist im Reiter DataFrame der Spaltennamen umgesetzt. Für größere Datensätze ist dies aber nicht mehr praktikabel. Eine algorithmische Lösung ist im Reiter Spaltennamen finden umgesetzt. Dazu wird jede Spalte des DataFrames gegen alle anderen Spalten mit der Methode <code>pd.Series.isin(df)</code> abgeglichen.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Jahreszahlen und Spaltennamen auslesen</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">DataFrame der Spaltennamen</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Spaltennamen finden</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div id="b4be5cdd" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Die Jahreszahlen auslesen</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>jahreszahlen <span class="op">=</span> []</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> re.search(string <span class="op">=</span> pfad, pattern <span class="op">=</span> <span class="st">'[0-9]+'</span>).group()</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  jahreszahlen.append(<span class="bu">int</span>(zwischenspeicher))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Aus den Dateinamen extrahierte Jahreszahlen:</span><span class="ch">\t</span><span class="sc">{</span>jahreszahlen<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen durch Einlesen der ersten Zeile extrahieren, header = None</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>list_of_columns <span class="op">=</span> []</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> ordnerpfad <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> pfad, </span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  delimiter <span class="op">=</span> <span class="st">';'</span>, nrows <span class="op">=</span> <span class="dv">1</span>, header <span class="op">=</span> <span class="va">None</span>).transpose()</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  list_of_columns.append(zwischenspeicher)</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  i <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>df_of_columns <span class="op">=</span> pd.concat(list_of_columns, axis <span class="op">=</span> <span class="dv">1</span>, ignore_index <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>df_of_columns.columns <span class="op">=</span> jahreszahlen</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Aus den Dateinamen extrahierte Jahreszahlen:    [2020, 2022, 2021, 2023]
+</code></pre>
+</div>
+</div>
+<p>Die Spaltennamen werden im nächsten Reiter ausgegeben.</p>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<p>Mit der Ausgabe des DataFrames können die ungleichen Spaltennamen visuell identifiziert werden.</p>
+<div id="a1e71067" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Ein DataFrame der Spaltennamen:</span><span class="ch">\n</span><span class="sc">{</span>df_of_columns<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Ein DataFrame der Spaltennamen:
+           2020                2022         2021                2023
+0      OBJECTID            OBJECTID     OBJECTID                OID_
+1   UIDENTSTLAE         UIDENTSTLAE  UIDENTSTLAE         UIDENTSTLAE
+2         ULAND               ULAND        ULAND               ULAND
+3       UREGBEZ             UREGBEZ      UREGBEZ             UREGBEZ
+4        UKREIS              UKREIS       UKREIS              UKREIS
+5     UGEMEINDE           UGEMEINDE    UGEMEINDE           UGEMEINDE
+6         UJAHR               UJAHR        UJAHR               UJAHR
+7        UMONAT              UMONAT       UMONAT              UMONAT
+8       USTUNDE             USTUNDE      USTUNDE             USTUNDE
+9    UWOCHENTAG          UWOCHENTAG   UWOCHENTAG          UWOCHENTAG
+10   UKATEGORIE          UKATEGORIE   UKATEGORIE          UKATEGORIE
+11         UART                UART         UART                UART
+12        UTYP1               UTYP1        UTYP1               UTYP1
+13   ULICHTVERH          ULICHTVERH   ULICHTVERH          ULICHTVERH
+14       IstRad  IstStrassenzustand  USTRZUSTAND  IstStrassenzustand
+15       IstPKW              IstRad       IstRad              IstRad
+16      IstFuss              IstPKW       IstPKW              IstPKW
+17      IstKrad             IstFuss      IstFuss             IstFuss
+18      IstGkfz             IstKrad      IstKrad             IstKrad
+19  IstSonstige             IstGkfz      IstGkfz             IstGkfz
+20      LINREFX         IstSonstige  IstSonstige         IstSonstige
+21      LINREFY             LINREFX      LINREFX             LINREFX
+22    XGCSWGS84             LINREFY      LINREFY             LINREFY
+23    YGCSWGS84           XGCSWGS84    XGCSWGS84           XGCSWGS84
+24   STRZUSTAND           YGCSWGS84    YGCSWGS84           YGCSWGS84
+25          NaN                 NaN          NaN                PLST</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<p>Der Abgleich der ungleichen Spaltennamen kann auch algorithmisch gelöst werden.</p>
+<div id="9c2af49c" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltennamen algorithmisch abgleichen</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ungleiche_spaltennamen <span class="op">=</span> pd.Series()</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">## vergleiche jede Spalte gegen alle anderen Spalten</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, df_of_columns.shape[<span class="dv">1</span>]):</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  aktuelle_spalte <span class="op">=</span> df_of_columns.iloc[:, i]</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  vergleichs_df <span class="op">=</span> df_of_columns.drop(df_of_columns.columns[i], axis <span class="op">=</span> <span class="dv">1</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  j <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> vergleichsspalte <span class="kw">in</span> vergleichs_df: <span class="co"># vergleichsspalte ist der Spaltenname (als int) 2020, 2021 usw.</span></span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print(vergleichsspalte)</span></span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    maske_fehlender_spaltennamen <span class="op">=</span> aktuelle_spalte.isin(vergleichs_df.loc[:, vergleichsspalte])</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    maske_fehlender_spaltennamen <span class="op">=</span> np.invert(maske_fehlender_spaltennamen) <span class="co"># pandas hat keine Methode .invert()</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># WENN Spaltennamen fehlen DANN</span></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> maske_fehlender_spaltennamen.<span class="bu">sum</span>() <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>      <span class="bu">print</span>(<span class="ss">f"In den Unfalldaten </span><span class="sc">{</span>df_of_columns<span class="sc">.</span>columns[i]<span class="sc">}</span><span class="ss"> treten die Spaltennamen </span><span class="sc">{</span>aktuelle_spalte[maske_fehlender_spaltennamen]<span class="sc">.</span>values<span class="sc">}</span><span class="ss"> auf, die nicht in den Unfalldaten </span><span class="sc">{</span>vergleichs_df<span class="sc">.</span>columns[j]<span class="sc">}</span><span class="ss"> enthalten sind.</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>      ungleiche_spaltennamen <span class="op">=</span> pd.concat([ungleiche_spaltennamen, pd.Series(aktuelle_spalte[maske_fehlender_spaltennamen].values)])</span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>    j <span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>ungleiche_spaltennamen <span class="op">=</span> ungleiche_spaltennamen.dropna().unique()</span>
+<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Folgende Spaltennamen müssen vereinheitlicht werden:</span><span class="ch">\n</span><span class="sc">{</span>ungleiche_spaltennamen<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In den Unfalldaten 2020 treten die Spaltennamen &lt;StringArray&gt;
+['STRZUSTAND']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2022 enthalten sind.
+
+In den Unfalldaten 2020 treten die Spaltennamen &lt;StringArray&gt;
+['STRZUSTAND']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2021 enthalten sind.
+
+In den Unfalldaten 2020 treten die Spaltennamen &lt;StringArray&gt;
+['OBJECTID', 'STRZUSTAND', nan]
+Length: 3, dtype: str auf, die nicht in den Unfalldaten 2023 enthalten sind.
+
+In den Unfalldaten 2022 treten die Spaltennamen &lt;StringArray&gt;
+['IstStrassenzustand']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2020 enthalten sind.
+
+In den Unfalldaten 2022 treten die Spaltennamen &lt;StringArray&gt;
+['IstStrassenzustand']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2021 enthalten sind.
+
+In den Unfalldaten 2022 treten die Spaltennamen &lt;StringArray&gt;
+['OBJECTID', nan]
+Length: 2, dtype: str auf, die nicht in den Unfalldaten 2023 enthalten sind.
+
+In den Unfalldaten 2021 treten die Spaltennamen &lt;StringArray&gt;
+['USTRZUSTAND']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2020 enthalten sind.
+
+In den Unfalldaten 2021 treten die Spaltennamen &lt;StringArray&gt;
+['USTRZUSTAND']
+Length: 1, dtype: str auf, die nicht in den Unfalldaten 2022 enthalten sind.
+
+In den Unfalldaten 2021 treten die Spaltennamen &lt;StringArray&gt;
+['OBJECTID', 'USTRZUSTAND', nan]
+Length: 3, dtype: str auf, die nicht in den Unfalldaten 2023 enthalten sind.
+
+In den Unfalldaten 2023 treten die Spaltennamen &lt;StringArray&gt;
+['OID_', 'IstStrassenzustand', 'PLST']
+Length: 3, dtype: str auf, die nicht in den Unfalldaten 2020 enthalten sind.
+
+In den Unfalldaten 2023 treten die Spaltennamen &lt;StringArray&gt;
+['OID_', 'PLST']
+Length: 2, dtype: str auf, die nicht in den Unfalldaten 2022 enthalten sind.
+
+In den Unfalldaten 2023 treten die Spaltennamen &lt;StringArray&gt;
+['OID_', 'IstStrassenzustand', 'PLST']
+Length: 3, dtype: str auf, die nicht in den Unfalldaten 2021 enthalten sind.
+
+Folgende Spaltennamen müssen vereinheitlicht werden:
+['STRZUSTAND' 'OBJECTID' 'IstStrassenzustand' 'USTRZUSTAND' 'OID_' 'PLST']</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<p>Die Spaltennamen ‘STRZUSTAND’, ‘IstStrassenzustand’ und ‘USTRZUSTAND’ sowie ‘OBJECTID’, und ‘OID_’ müssen beim Einlesen der Daten vereinheitlicht werden. Die Spalte ‘PLST’ wurde nur im Jahr 2023 erhoben und kann entfallen (siehe Unfallatlas Metadaten). Dafür wird der Methode <code>pd.DataFrame.drop()</code> das Argument <code>errors = 'ignore'</code> übergeben, da in einem Datensatz nicht vorhandene Spalten andernfalls zu einer Fehlermeldung führen.</p>
+<p>Die Spalte ‘UIDENTSTLAE’ enthält sehr große Ganzzahlen, weshalb diese als String eingelesen wird.</p>
+<div id="c868f95d" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Dateien einlesen</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>unfallatlas <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pfad <span class="kw">in</span> pfadliste:</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">### Datei einlesen</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> ordnerpfad <span class="op">+</span> <span class="st">'/'</span> <span class="op">+</span> pfad, </span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  delimiter <span class="op">=</span> <span class="st">';'</span>, dtype <span class="op">=</span> {<span class="st">'UIDENTSTLAE'</span>: <span class="st">'string'</span>})</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">### Spaltennamen vereinheitlichen</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher.rename(columns <span class="op">=</span> {<span class="st">"IstStrassenzustand"</span>: <span class="st">"STRZUSTAND"</span>, <span class="st">"USTRZUSTAND"</span>: <span class="st">"STRZUSTAND"</span>, <span class="st">"OID_"</span>: <span class="st">"OBJECTID"</span>}, inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  zwischenspeicher.drop(columns <span class="op">=</span> <span class="st">"PLST"</span>, inplace <span class="op">=</span> <span class="va">True</span>, errors <span class="op">=</span> <span class="st">'ignore'</span>)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  unfallatlas <span class="op">=</span> pd.concat([unfallatlas, zwischenspeicher])</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Ausgabe</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unfallatlas.info(), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>unfallatlas.head()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+Index: 996742 entries, 0 to 269047
+Data columns (total 25 columns):
+ #   Column       Non-Null Count   Dtype 
+---  ------       --------------   ----- 
+ 0   OBJECTID     996742 non-null  int64 
+ 1   UIDENTSTLAE  996742 non-null  string
+ 2   ULAND        996742 non-null  int64 
+ 3   UREGBEZ      996742 non-null  int64 
+ 4   UKREIS       996742 non-null  int64 
+ 5   UGEMEINDE    996742 non-null  int64 
+ 6   UJAHR        996742 non-null  int64 
+ 7   UMONAT       996742 non-null  int64 
+ 8   USTUNDE      996742 non-null  int64 
+ 9   UWOCHENTAG   996742 non-null  int64 
+ 10  UKATEGORIE   996742 non-null  int64 
+ 11  UART         996742 non-null  int64 
+ 12  UTYP1        996742 non-null  int64 
+ 13  ULICHTVERH   996742 non-null  int64 
+ 14  IstRad       996742 non-null  int64 
+ 15  IstPKW       996742 non-null  int64 
+ 16  IstFuss      996742 non-null  int64 
+ 17  IstKrad      996742 non-null  int64 
+ 18  IstGkfz      996742 non-null  int64 
+ 19  IstSonstige  996742 non-null  int64 
+ 20  LINREFX      996742 non-null  str   
+ 21  LINREFY      996742 non-null  str   
+ 22  XGCSWGS84    996742 non-null  str   
+ 23  YGCSWGS84    996742 non-null  str   
+ 24  STRZUSTAND   996742 non-null  int64 
+dtypes: int64(20), str(4), string(1)
+memory usage: 197.7 MB
+None 
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">OBJECTID</th>
+<th data-quarto-table-cell-role="th">UIDENTSTLAE</th>
+<th data-quarto-table-cell-role="th">ULAND</th>
+<th data-quarto-table-cell-role="th">UREGBEZ</th>
+<th data-quarto-table-cell-role="th">UKREIS</th>
+<th data-quarto-table-cell-role="th">UGEMEINDE</th>
+<th data-quarto-table-cell-role="th">UJAHR</th>
+<th data-quarto-table-cell-role="th">UMONAT</th>
+<th data-quarto-table-cell-role="th">USTUNDE</th>
+<th data-quarto-table-cell-role="th">UWOCHENTAG</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">IstPKW</th>
+<th data-quarto-table-cell-role="th">IstFuss</th>
+<th data-quarto-table-cell-role="th">IstKrad</th>
+<th data-quarto-table-cell-role="th">IstGkfz</th>
+<th data-quarto-table-cell-role="th">IstSonstige</th>
+<th data-quarto-table-cell-role="th">LINREFX</th>
+<th data-quarto-table-cell-role="th">LINREFY</th>
+<th data-quarto-table-cell-role="th">XGCSWGS84</th>
+<th data-quarto-table-cell-role="th">YGCSWGS84</th>
+<th data-quarto-table-cell-role="th">STRZUSTAND</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>12200116471201851100</td>
+<td>12</td>
+<td>0</td>
+<td>68</td>
+<td>468</td>
+<td>2020</td>
+<td>1</td>
+<td>11</td>
+<td>5</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>735840,436700000430000</td>
+<td>5887204,801599999900000</td>
+<td>12,521519179000052</td>
+<td>53,082132832000070</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>12200106642131830700</td>
+<td>12</td>
+<td>0</td>
+<td>61</td>
+<td>112</td>
+<td>2020</td>
+<td>1</td>
+<td>17</td>
+<td>2</td>
+<td>...</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>814106,991899999790000</td>
+<td>5811960,550300000200000</td>
+<td>13,614608653000062</td>
+<td>52,367677682000078</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>12200109522101836720</td>
+<td>12</td>
+<td>0</td>
+<td>67</td>
+<td>144</td>
+<td>2020</td>
+<td>1</td>
+<td>16</td>
+<td>5</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>845207,375699999740000</td>
+<td>5811964,177100000900000</td>
+<td>14,069661201000031</td>
+<td>52,349021128000061</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>12200131722601877310</td>
+<td>12</td>
+<td>0</td>
+<td>69</td>
+<td>76</td>
+<td>2020</td>
+<td>1</td>
+<td>11</td>
+<td>6</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>756844,833999999800000</td>
+<td>5787696,062999999200000</td>
+<td>12,757074839000040</td>
+<td>52,179829995000034</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>12200124632322878920</td>
+<td>12</td>
+<td>0</td>
+<td>62</td>
+<td>224</td>
+<td>2020</td>
+<td>1</td>
+<td>16</td>
+<td>6</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>793616,489599999970000</td>
+<td>5735748,046199999700000</td>
+<td>13,249132448000069</td>
+<td>51,695730215000026</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 25 columns</p>
+</div>
+</div>
+</div>
+<p>&nbsp;</p>
+<p>Abschließend kann der Datensatz aufgeräumt werden:</p>
+<ul>
+<li><p>der Datensatz wird nach dem Jahr sortiert (wichtig: als erstes ausführen),</p></li>
+<li><p>der Index wird zurückgesetzt (wichtig: als zweites),</p></li>
+<li><p>die Spalte ‘OBJECTID’ wird neu erstellt, um die beim Einlesen erzeugten Duplikate zu entfernen und</p></li>
+</ul>
+<div id="2684063a" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datensatz nach Jahr sortieren</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>unfallatlas.sort_values(by <span class="op">=</span> <span class="st">'UJAHR'</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Index zurücksetzen</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>unfallatlas.reset_index(drop <span class="op">=</span> <span class="va">True</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalte 'OBJECTID' neu generieren</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>unfallatlas[<span class="st">'OBJECTID'</span>] <span class="op">=</span> pd.Series(<span class="bu">range</span>(<span class="dv">1</span>, unfallatlas.shape[<span class="dv">0</span>] <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(unfallatlas.info(), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>unfallatlas.head()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'pandas.DataFrame'&gt;
+RangeIndex: 996742 entries, 0 to 996741
+Data columns (total 25 columns):
+ #   Column       Non-Null Count   Dtype 
+---  ------       --------------   ----- 
+ 0   OBJECTID     996742 non-null  int64 
+ 1   UIDENTSTLAE  996742 non-null  string
+ 2   ULAND        996742 non-null  int64 
+ 3   UREGBEZ      996742 non-null  int64 
+ 4   UKREIS       996742 non-null  int64 
+ 5   UGEMEINDE    996742 non-null  int64 
+ 6   UJAHR        996742 non-null  int64 
+ 7   UMONAT       996742 non-null  int64 
+ 8   USTUNDE      996742 non-null  int64 
+ 9   UWOCHENTAG   996742 non-null  int64 
+ 10  UKATEGORIE   996742 non-null  int64 
+ 11  UART         996742 non-null  int64 
+ 12  UTYP1        996742 non-null  int64 
+ 13  ULICHTVERH   996742 non-null  int64 
+ 14  IstRad       996742 non-null  int64 
+ 15  IstPKW       996742 non-null  int64 
+ 16  IstFuss      996742 non-null  int64 
+ 17  IstKrad      996742 non-null  int64 
+ 18  IstGkfz      996742 non-null  int64 
+ 19  IstSonstige  996742 non-null  int64 
+ 20  LINREFX      996742 non-null  str   
+ 21  LINREFY      996742 non-null  str   
+ 22  XGCSWGS84    996742 non-null  str   
+ 23  YGCSWGS84    996742 non-null  str   
+ 24  STRZUSTAND   996742 non-null  int64 
+dtypes: int64(20), str(4), string(1)
+memory usage: 190.1 MB
+None 
+</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">OBJECTID</th>
+<th data-quarto-table-cell-role="th">UIDENTSTLAE</th>
+<th data-quarto-table-cell-role="th">ULAND</th>
+<th data-quarto-table-cell-role="th">UREGBEZ</th>
+<th data-quarto-table-cell-role="th">UKREIS</th>
+<th data-quarto-table-cell-role="th">UGEMEINDE</th>
+<th data-quarto-table-cell-role="th">UJAHR</th>
+<th data-quarto-table-cell-role="th">UMONAT</th>
+<th data-quarto-table-cell-role="th">USTUNDE</th>
+<th data-quarto-table-cell-role="th">UWOCHENTAG</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">IstPKW</th>
+<th data-quarto-table-cell-role="th">IstFuss</th>
+<th data-quarto-table-cell-role="th">IstKrad</th>
+<th data-quarto-table-cell-role="th">IstGkfz</th>
+<th data-quarto-table-cell-role="th">IstSonstige</th>
+<th data-quarto-table-cell-role="th">LINREFX</th>
+<th data-quarto-table-cell-role="th">LINREFY</th>
+<th data-quarto-table-cell-role="th">XGCSWGS84</th>
+<th data-quarto-table-cell-role="th">YGCSWGS84</th>
+<th data-quarto-table-cell-role="th">STRZUSTAND</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>1</td>
+<td>12200108642412834510</td>
+<td>12</td>
+<td>0</td>
+<td>61</td>
+<td>320</td>
+<td>2020</td>
+<td>1</td>
+<td>10</td>
+<td>4</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>826264,570299999790000</td>
+<td>5755426,824799999600000</td>
+<td>13,738432600000067</td>
+<td>51,854055555000059</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>2</td>
+<td>12200117671421850630</td>
+<td>12</td>
+<td>0</td>
+<td>61</td>
+<td>433</td>
+<td>2020</td>
+<td>1</td>
+<td>5</td>
+<td>6</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>810365,242600000460000</td>
+<td>5806241,543899999900000</td>
+<td>13,554547025000033</td>
+<td>52,318554736000067</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>3</td>
+<td>12200125732105867410</td>
+<td>12</td>
+<td>0</td>
+<td>54</td>
+<td>0</td>
+<td>2020</td>
+<td>1</td>
+<td>14</td>
+<td>7</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>777002,181300000290000</td>
+<td>5813905,674799999200000</td>
+<td>13,072695490000058</td>
+<td>52,405128810000065</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>4</td>
+<td>12200103442322822150</td>
+<td>12</td>
+<td>0</td>
+<td>65</td>
+<td>198</td>
+<td>2020</td>
+<td>1</td>
+<td>20</td>
+<td>6</td>
+<td>...</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>787499,573599999770000</td>
+<td>5868790,633300000800000</td>
+<td>13,274381682000069</td>
+<td>52,891773815000079</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>5</td>
+<td>12200121571103860470</td>
+<td>12</td>
+<td>0</td>
+<td>67</td>
+<td>40</td>
+<td>2020</td>
+<td>1</td>
+<td>13</td>
+<td>3</td>
+<td>...</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>854931,717299999670000</td>
+<td>5811354,805099999500000</td>
+<td>14,211196114000074</td>
+<td>52,337363280000034</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+
+<p>5 rows × 25 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-Arnold-2023-funktionen-module-dateien" class="csl-entry" role="listitem">
+Arnold, Simone. 2023. <em>Datenanalyse mit Python. Funktionen Module Dateien.</em> Fachhochschule Dortmund.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../skript/marktdaten-oesterreich.html" class="pagination-link" aria-label="Markttransparenzdaten Österreich herunterladen">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Markttransparenzdaten Österreich herunterladen</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../skript/maskierte-arrays.html" class="pagination-link" aria-label="Maskierte Arrays">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Maskierte Arrays</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
