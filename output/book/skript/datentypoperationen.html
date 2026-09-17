@@ -284,11 +284,11 @@ div.csl-indent {
 </header>
 
 
-<div id="4c4e9aec" class="cell" data-execution_count="1">
+<div id="b3d86ade" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="1d8248ff" class="cell" data-execution_count="2">
+<div id="090e146e" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Der Operator + bewirkt die Addition von Zahlen</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">1</span> <span class="op">+</span> <span class="dv">13</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -300,7 +300,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Die Sortierfunktion arbeitet abhängig vom Datentyp.</p>
-<div id="f0664520" class="cell" data-execution_count="3">
+<div id="2963bd1b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Liste von Monatskürzeln erstellen</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.Series([ <span class="st">'07.06.2000'</span>, <span class="st">'12.01.2000'</span>, <span class="st">'11.02.2000'</span>, <span class="st">'04.09.2000'</span>, <span class="st">'10.03.2000'</span>, <span class="st">'03.10.2000'</span>, <span class="st">'09.04.2000'</span>, <span class="st">'08.05.2000'</span>, <span class="st">'06.07.2000'</span>, <span class="st">'05.08.2000'</span>, <span class="st">'02.11.2000'</span>, <span class="st">'01.12.2000'</span>])</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dates <span class="op">=</span> pd.to_datetime(dates, <span class="bu">format</span> <span class="op">=</span> <span class="st">'</span><span class="sc">%d</span><span class="st">.%m.%Y'</span>)<span class="op">;</span></span>
@@ -344,14 +344,14 @@ Tipp&nbsp;3.1: Datentyp kontrollieren und plausibilisieren
 <section id="nullwert-none" class="level4">
 <h4 class="anchored" data-anchor-id="nullwert-none">Nullwert None</h4>
 <p>Der sogenannte Nullwert in Python ist <code>None</code>, das zu den definierten Schlüsselwörtern in Python gehört.</p>
-<div id="75943589" class="cell" data-execution_count="4">
+<div id="f4053971" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(<span class="va">None</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'NoneType'&gt;</code></pre>
 </div>
 </div>
 <p><code>None</code> repräsentiert nicht existente Werte und Objekte. Leere (aber existente) Objekte gehören nicht zum Datentyp <code>None</code>.</p>
-<div id="3ad9a792" class="cell" data-execution_count="5">
+<div id="d953cf00" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>leere_liste <span class="op">=</span> []</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>leere_liste <span class="op">==</span> <span class="va">None</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -359,7 +359,7 @@ Tipp&nbsp;3.1: Datentyp kontrollieren und plausibilisieren
 </div>
 </div>
 <p><code>None</code> kann Funktionen als Argument übergeben oder von diesen als Rückgabewert ausgegeben werden. Operationen sind mit <code>None</code> jedoch nicht möglich.</p>
-<div id="d44e121f" class="cell" data-execution_count="6">
+<div id="eace913a" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Operationen mit None führen zu Fehlermeldungen</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="va">None</span> <span class="op">+</span> <span class="dv">1</span>)</span>
@@ -373,7 +373,7 @@ Tipp&nbsp;3.1: Datentyp kontrollieren und plausibilisieren
 </div>
 </div>
 <p>Eine Ausnahme ist die Umwandlung in eine Zeichenkette.</p>
-<div id="dbf55bbd" class="cell" data-execution_count="7">
+<div id="93b404f2" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Eine Ausnahme ist die Umwandlung in strings</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="va">None</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">print(a) gibt den Nullwert zurück:</span><span class="ch">\n</span><span class="st">"</span>, a, sep <span class="op">=</span> <span class="st">""</span>)</span>
@@ -395,7 +395,7 @@ str(a) gibt eine Zeichenkette zurück:</code></pre>
 <section id="nan" class="level4">
 <h4 class="anchored" data-anchor-id="nan">NaN</h4>
 <p>Um mit fehlenden Werten innerhalb eines Datensatzes arbeiten zu können, gibt es den Wert <code>NaN</code>, der zur Klasse der Fließkommazahlen gehört. <code>NaN</code> steht für Not a Number und repräsentiert undefinierte oder nicht darstellbare Werte. Beispielsweise berechnet die Methode <code>pd.diff()</code> die Differenz jedes Werts zu seinem Vorgänger. Da der erste Wert keinen Vorgänger hat, wird <code>NaN</code> erzeugt.</p>
-<div id="9185a45f" class="cell" data-execution_count="8">
+<div id="24ef7697" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>my_series <span class="op">=</span> pd.Series([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>])</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>my_series.diff()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
@@ -407,21 +407,21 @@ dtype: float64</code></pre>
 </div>
 </div>
 <p>Anders als <code>None</code> ist <code>NaN</code> kein Standardschlüsselwort in Python. Der Wert <code>NaN</code> wird erzeugt mit <code>float('nan')</code> oder <code>float('NaN')</code>, die Groß- und Kleinschreibung spielt keine Rolle. <code>NaN</code> hat also den Datentyp Fließkommazahl. Die Module math und NumPy bieten mit <code>math.nan</code> und <code>np.nan</code> ebenfalls Funktionen, um <code>NaN</code> zu erzeugen.</p>
-<div id="59126ff6" class="cell" data-execution_count="9">
+<div id="bdf9d8ef" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(<span class="bu">float</span>(<span class="st">'NaN'</span>)))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;class 'float'&gt;</code></pre>
 </div>
 </div>
 <p>Mit dem Wert ‘NaN’ können Operationen ausgeführt werden. Das Ergebnis ist immer <code>NaN</code>.</p>
-<div id="40ea0a51" class="cell" data-execution_count="10">
+<div id="7dfce838" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">float</span>(<span class="st">'NaN'</span>) <span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>nan</code></pre>
 </div>
 </div>
 <p>Einige Funktionen können mit <code>NaN</code> als Platzhalter für fehlende Werte umgehen.</p>
-<div id="bb67515a" class="cell" data-execution_count="11">
+<div id="9f657b84" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python-Basis</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"sum():"</span>, <span class="bu">sum</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="bu">float</span>(<span class="st">'NaN'</span>), <span class="dv">4</span>]), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"max():"</span>, <span class="bu">max</span>([<span class="dv">1</span>, <span class="dv">2</span>, <span class="bu">float</span>(<span class="st">'NaN'</span>), <span class="dv">4</span>]), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
@@ -460,7 +460,7 @@ Hinweis&nbsp;3.1: Achtung Logik!
 <div id="callout-2" class="callout-2-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <p>Die logische Abfrage fehlender Werte unterscheidet sich für <code>None</code> und <code>NaN</code>.</p>
-<div id="4cb623f0" class="cell" data-execution_count="12">
+<div id="575343a4" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bool_values <span class="op">=</span> [<span class="va">None</span>, <span class="bu">float</span>(<span class="st">'NaN'</span>)]</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> bool_values:</span>
@@ -472,7 +472,7 @@ Wahrheitswert von nan ist True</code></pre>
 </div>
 </div>
 <p>Dies gilt auch für die Wertgleichheit.</p>
-<div id="807a1ee5" class="cell" data-execution_count="13">
+<div id="16782ee7" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> element <span class="kw">in</span> bool_values:</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  result <span class="op">=</span> element <span class="op">==</span> element</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">"Wertgleichheit von"</span>, element, <span class="st">"ist"</span>, result)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>

@@ -259,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="1b3f9754" class="cell" data-execution_count="1">
+<div id="370cdc55" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -344,7 +344,7 @@ print(bis[8070:8078], "\n")</code></pre>
 </div>
 <p><strong>Datei einlesen und String-Manipulation</strong></p>
 <p>Zunächst wird die Datei eingelesen. Die Zellen, die sich nicht in datetime umwandeln lassen, können mit Python ausgegeben werden.</p>
-<div id="3c93a8ef" class="cell" data-execution_count="2">
+<div id="23c8e745" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datei einlesen</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>erzeugung_austria <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> <span class="st">"01-daten/AGPT_2022-12-31T23_00_00Z_2023-12-31T23_00_00Z_15M_de_2024-06-10T09_32_38Z.csv"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                                sep <span class="op">=</span> <span class="st">";"</span>, decimal <span class="op">=</span> <span class="st">","</span>, thousands <span class="op">=</span> <span class="st">"."</span>)</span>
@@ -401,7 +401,7 @@ Die Zellen haben den Zeilenindex:  [28899, 28900, 28901, 28902, 28903, 28904, 28
 </div>
 </div>
 <p>Damit die Datumsspalten korrekt eingelesen werden können, werden die Zeichenfolgen “2A” und “2B” mit der Methode <code>str.replace()</code> durch “02” ersetzt. Dadurch wird eine Dublette im Datensatz erzeugt.</p>
-<div id="c26cb122" class="cell" data-execution_count="3">
+<div id="d09eb47c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># string replace &amp; als Datum einlesen</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Spalte Zeit von [CET/CEST]</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>] <span class="op">=</span> erzeugung_austria[<span class="st">'Zeit von [CET/CEST]'</span>].<span class="bu">str</span>.replace(pat <span class="op">=</span> <span class="st">'2A'</span>, repl <span class="op">=</span> <span class="st">'02'</span>)</span>
@@ -445,7 +445,7 @@ None</code></pre>
 <p><strong>Indexpositionen der doppelten und der fehlenden Stunde bestimmen</strong></p>
 <p>Im nächsten Schritt werden die Indexposition der doppelten und der fehlenden Stunde bestimmt. Dazu wird ein neues Objekt angelegt, das auf den Speicherbereich der Datumsspalten zugreift (was nicht zwingend erforderlich ist). Die Position der doppelten Stunde wird mit der Methode <code>pd.Series.duplicated()</code> bestimmt, die einen logischen Vektor zurückgibt. Dieser wird zum Slicing und der Ausgabe der Indexposition verwendet. Durch die Subtraktion von 4 wird der Index der ersten Stunde ausgegeben (der Datensatz ist auf Viertelstundenbasis).</p>
 <p><em>doppelte Stunde</em></p>
-<div id="a5f07073" class="cell" data-execution_count="4">
+<div id="eae70c84" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># neues Objekt anlegen</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>austria_dates <span class="op">=</span> erzeugung_austria[[<span class="st">'Zeit von [CET/CEST]'</span>, <span class="st">'Zeit bis [CET/CEST]'</span>]].copy()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -523,7 +523,7 @@ Die Zeitverschiebung in der Spalte Zeit bis endet bei Indexposition: 28902</code
 <code>last_sunday = sundays[-23*4:]</code></p></li>
 <li><p>fehlende Stunde: <code>np.argwhere(np.invert(pd.Series(range(0,24)).isin(last_sunday.dt.hour)))</code></p></li>
 </ul>
-<div id="f1317e49" class="cell" data-execution_count="5">
+<div id="6c195244" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Indexposition der fehlenden Stunde bestimmen</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit von</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">### Monat März</span></span>
@@ -691,7 +691,7 @@ Die Zeitverschiebung in der Spalte Zeit bis beginnt bei Indexposition: 8071</cod
 <li><p>Spalte Zeit bis: 8071 (Objekt beginn_verschiebung_bis) bis 28902 (Objekt ende_verschiebung_bis)</p></li>
 </ul>
 <p>Für das Slicing wird die Methode <code>pd.Series.iloc[]</code> verwendet, die exklusiv indexiert, d.&nbsp;h. die Endpositionen müssen um 1 erhöht werden. Durch Subtraktion von pd.Timedelta(1, unit = ‘h’) wird die Zeitverschiebung aus dem Datensatz entfernt.</p>
-<div id="6a900fd7" class="cell" data-execution_count="6">
+<div id="8e967a46" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeitverschiebung korrigieren</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Zeit von</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].iloc[beginn_verschiebung_von : ende_verschiebung_von <span class="op">+</span> <span class="dv">1</span>] <span class="op">=</span> austria_dates[<span class="st">'Zeit von [CET/CEST]'</span>].iloc[beginn_verschiebung_von : ende_verschiebung_von <span class="op">+</span> <span class="dv">1</span>].subtract(pd.Timedelta(<span class="dv">1</span>, unit <span class="op">=</span> <span class="st">'h'</span>))</span>
@@ -743,14 +743,14 @@ Name: Zeit bis [CET/CEST], Length: 20834, dtype: datetime64[us]
 </code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>/tmp/ipykernel_3801/799698374.py:3: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
+<pre><code>/tmp/ipykernel_3785/799698374.py:3: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
 Such chained assignment never works to update the original DataFrame or Series, because the intermediate object on which we are setting values always behaves as a copy (due to Copy-on-Write).
 
 Try using '.loc[row_indexer, col_indexer] = value' instead, to perform the assignment in a single step.
 
 See the documentation for a more detailed explanation: https://pandas.pydata.org/pandas-docs/stable/user_guide/copy_on_write.html#chained-assignment
   austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1] = austria_dates['Zeit von [CET/CEST]'].iloc[beginn_verschiebung_von : ende_verschiebung_von + 1].subtract(pd.Timedelta(1, unit = 'h'))
-/tmp/ipykernel_3801/799698374.py:8: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
+/tmp/ipykernel_3785/799698374.py:8: ChainedAssignmentError: A value is being set on a copy of a DataFrame or Series through chained assignment.
 Such chained assignment never works to update the original DataFrame or Series, because the intermediate object on which we are setting values always behaves as a copy (due to Copy-on-Write).
 
 Try using '.loc[row_indexer, col_indexer] = value' instead, to perform the assignment in a single step.
@@ -829,7 +829,7 @@ Tipp&nbsp;6.2: Vollständige Musterlösung
 <div class="callout-body-container callout-body">
 <p>Zum Einlesen wird die Funktion <code>pd.read_excel()</code> verwendet. Mit dem Argument <code>sheet_name</code> kann das Tabellenblatt Data ausgewählt werden. Über die Methode pd.DataFrame.head(n = 10) kann der Zeilenindex bestimmt werden, an dem der Tabellenkopf endet und die Daten beginnen. Es handelt sich um die achte Zeile, die in Python den Zeilenindex 7 hat.</p>
 <p><strong>Kopf einlesen</strong></p>
-<div id="e3d8d7df" class="cell" data-execution_count="7">
+<div id="639cd68f" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/shiller_data.xls'</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>shiller <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -914,7 +914,7 @@ None</code></pre>
 <p><strong>Spaltenbeschriftungen isolieren</strong><br>
 Anschließend kann der Kopf weiter bearbeitet werden, um die Spaltenbeschriftungen zu isolieren. Dafür gibt es verschiedene Möglichkeiten. Weitere Alternativen zur folgenden Variante finden Sie im nachfolgenden Beispiel. Spaltenweise erfolgt die Verkettung der Zeichenketten mit der Methode <code>pd.Series.str.cat()</code>, die nur für <code>pd.Series</code> verfügbar ist (weshalb mit einer Schleife die Spalten einzeln durchlaufen werden) und nur mit dem Datentyp ‘string’ verfügbar ist, was durch die Methode <code>astype('string')</code> sichergestellt wird.</p>
 <p>Anschließend werden nicht zur Spaltenbeschriftung gehörende Zeichenketten mit der Methode <code>str.replace()</code> entfernt. Dabei erweist sich das Argument <code>regex = True</code> als nützlich.</p>
-<div id="37d72bbe" class="cell" data-execution_count="8">
+<div id="1a757f13" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spaltenbeschriftung mit Schleife erzeugen</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> pd.Series()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -981,7 +981,7 @@ dtype: str</code></pre>
 <section id="verwendung-des-numpy-datentyps-str" class="level4">
 <h4 class="anchored" data-anchor-id="verwendung-des-numpy-datentyps-str">Verwendung des NumPy-Datentyps ‘str’</h4>
 <p>Die Angabe von dtype = ‘str’ führt zur Verwendung des NumPy-Datentyps string (dtype = ‘str’), der veränderlich (mutable) ist. Nur damit funktioniert die Verkettung von Strings mit der Methode <code>PD.df.sum()</code>.</p>
-<div id="97130781" class="cell" data-execution_count="9">
+<div id="58e3204b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Der NumPy-Datentyp string ist veränderlich</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>my_array <span class="op">=</span> np.array([[<span class="st">'1'</span>, <span class="st">'2'</span>], [<span class="st">'3'</span>, <span class="st">'4'</span>]])</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>my_array[<span class="dv">0</span>] <span class="op">=</span> [<span class="st">'a'</span>, <span class="st">'b'</span>]</span>
@@ -1036,7 +1036,7 @@ print(shiller_head.apply(lambda x: ''.join(x.astype(str))))</code></pre>
 </div>
 <p><strong>Daten einlesen</strong></p>
 <p>Beim Einlesen der Daten wird der Kopf kontrolliert sowie mit der Methode <code>.tail()</code> das Ende der Datenreihe bestimmt, an dem weitere Metadaten vermerkt sind. Diese Metadaten werden anschließend mit dem Argument <code>skipfooter = 1</code> übersprungen.</p>
-<div id="7c290f8a" class="cell" data-execution_count="10">
+<div id="2d35a490" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/shiller_data.xls'</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Daten einlesen</span></span>
@@ -1220,7 +1220,7 @@ print(shiller_head.apply(lambda x: ''.join(x.astype(str))))</code></pre>
 </div>
 <p>&nbsp;</p>
 <p>Nachdem die Metadaten entfernt wurden, werden die erkannten Datentypen mit der Methode <code>.info()</code> kontrolliert.</p>
-<div id="e137f315" class="cell" data-execution_count="11">
+<div id="d865f791" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>shiller_data <span class="op">=</span> pd.read_excel(io <span class="op">=</span> dateipfad, sheet_name <span class="op">=</span> <span class="st">'Data'</span>, skiprows <span class="op">=</span> <span class="dv">8</span>, header <span class="op">=</span> <span class="va">None</span>, skipfooter <span class="op">=</span> <span class="dv">1</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.head(n <span class="op">=</span> <span class="dv">2</span>), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.tail(n <span class="op">=</span> <span class="dv">2</span>))</span>
@@ -1288,7 +1288,7 @@ memory usage: 316.4 KB</code></pre>
 </div>
 <p><strong>Kopf und Daten zusammenführen</strong></p>
 <p>Die Spalten mit dem Index 13 (Spalte N) und 15 (Spalte P) sind leer, diese werden aus dem Kopf und den Daten entfernt. Alle Spalten werden als Fließkommazahl erkannt. Das bedeutet, die Prozentzeichen in den Spalten mit den Indizes 16 und 19 bis 21 (Q, T:V) wurden durch eine Division durch 100 verarbeitet. Mit Ausnahme der Spalte Date wurde somit alle Datentypen korrekt erkannt.</p>
-<div id="7509e4e8" class="cell" data-execution_count="12">
+<div id="a9f36f53" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># # leere Spalten entfernen</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>shiller_column_labels <span class="op">=</span> shiller_column_labels.drop(labels <span class="op">=</span> [<span class="dv">13</span>, <span class="dv">15</span>])</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>shiller_data <span class="op">=</span> shiller_data.drop(labels <span class="op">=</span> [<span class="dv">13</span>, <span class="dv">15</span>], axis <span class="op">=</span> <span class="st">'columns'</span>)</span>
@@ -1328,7 +1328,7 @@ memory usage: 287.6 KB</code></pre>
 </div>
 <p><strong>Datumsformat korrigieren</strong></p>
 <p>Im nächsten Schritt wird das Datumsformat korrigiert. Die Spalte Date enthält Zeichenketten im Format ‘YYYY,MM’. Eine Ausnahme ist der Monat Oktober, der im Format ‘YYYY.M’ kodiert ist. In der Ausgabe mit <code>print()</code> ist dies nicht zu sehen, da die Darstellung von 2 Dezimalstellen mit dem Befehl <code>pd.set_option("display.precision", 2)</code> eingestellt wurde. Die unterschiedliche Länge der Zeichenketten kann mit dem Befehl <code>shiller_data.loc[0:12, 'Date'].astype('str').str.len()</code> verdeutlicht werden.</p>
-<div id="20d38b4f" class="cell" data-execution_count="13">
+<div id="c7b81379" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(shiller_data.loc[<span class="dv">0</span>:<span class="dv">12</span>, <span class="st">'Date'</span>], <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
@@ -1378,7 +1378,7 @@ Name: Date, dtype: int64
 </div>
 </div>
 <p>Der Datentyp der Spalte ‘Date’ wird als String deklariert. Mit einer Maske werden die Zeichenketten mit Länge 6 bestimmt. An die Zeichenketten mit der Länge 6 wird eine 0 angehängt, um das Datumsformat anzugleichen. Anschließend wird die Spalte mit der Funktion <code>pd.to_datetime(format = "%Y.%m")</code> als datetime eingelesen.</p>
-<div id="c3ffecf1" class="cell" data-execution_count="14">
+<div id="3dab8420" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datentyp Spalte Date als String setzen </span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># führt zu einer Fehlermeldung:</span></span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>shiller_data[<span class="st">'Date'</span>] <span class="op">=</span> shiller_data[<span class="st">'Date'</span>].astype(<span class="st">'str'</span>)<span class="op">;</span></span>

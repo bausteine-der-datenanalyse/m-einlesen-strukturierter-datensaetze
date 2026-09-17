@@ -262,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="168fbfca" class="cell" data-execution_count="1">
+<div id="890ec15f" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.ma <span class="im">as</span> ma</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Jedoch gelingt das Einlesen mit der Pandas-Funktion <code>pd.read_csv(filepath_or_buffer = dateipfad)</code> nicht wie gewünscht.</p>
-<div id="0d671e4c" class="cell" data-execution_count="2">
+<div id="ca2ffd4d" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/quiz-aufgabe1.csv'</span></span>
@@ -334,7 +334,7 @@ None</code></pre>
 <li><p>In einem Ordner liegen folgende Dateien: [‘Datei0.jpg’, ‘Datei1.csv’, ‘Datei2.txt’, ‘Datei3.png’]. Sie möchten alle Dateien mit der Endung .csv und .txt mit dem Modul glob einlesen. Wie könnte der Dateipfad im Argument ‘pathname’ beschrieben werden, um alle Dateien einzulesen <code>glob.glob(pathname = ordnerpfad + '...')</code>?</p></li>
 <li><p>Maske aufheben: Das maskierte Array m_daten soll demaskiert werden. Jedoch bleibt der Befehl <code>m_daten.mask = ma.nomask</code> ohne Erfolg. Was könnte die Ursache sein?</p></li>
 </ol>
-<div id="83642980" class="cell" data-execution_count="4">
+<div id="21e0bafd" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(m_daten, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>m_daten.mask <span class="op">=</span> ma.nomask</span>
@@ -368,7 +368,7 @@ None</code></pre>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Aufgabe 1: pd.read_csv()</p>
-<div id="8b5e98de" class="cell" data-execution_count="5">
+<div id="3d744dbd" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/quiz-aufgabe1.csv'</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>aufgabe1 <span class="op">=</span> pd.read_csv(filepath_or_buffer <span class="op">=</span> dateipfad, sep <span class="op">=</span> <span class="st">';'</span>, parse_dates <span class="op">=</span> [<span class="st">'Geburtsdatum'</span>], dtype <span class="op">=</span> {<span class="st">'Name'</span>: <span class="st">'string'</span>})</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(aufgabe1.info())</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -388,7 +388,7 @@ None</code></pre>
 </div>
 </div>
 <p>Aufgabe 2: Beobachtungen als ungültig markieren</p>
-<div id="80806523" class="cell" data-execution_count="6">
+<div id="7413e181" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bedingung <span class="op">=</span> aufgabe1[<span class="st">'Geburtsdatum'</span>].dt.year <span class="op">&lt;</span> <span class="dv">1980</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bedingung, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -431,7 +431,7 @@ Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen
 </div>
 </div>
 <p>Aufgabe 3: datetime aufsteigend sortieren</p>
-<div id="e1751cf8" class="cell" data-execution_count="7">
+<div id="825aec88" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>aufgabe3 <span class="op">=</span> aufgabe2.copy()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(aufgabe3[<span class="st">'Geburtsdatum'</span>].sort_values(ascending <span class="op">=</span> <span class="va">False</span>), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -450,7 +450,7 @@ None
 </div>
 <p>Aufgabe 4: Welches Datum ist größer und warum?</p>
 <p>Python zählt die Zeit ausgehend von der sogenannten Epoche <code>pd.to_datetime(0)</code>. Jüngere Menschen wurden in größerem Abstand zur Epoche geboren.</p>
-<div id="e22d9098" class="cell" data-execution_count="8">
+<div id="b089e2d8" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>aufgabe4 <span class="op">=</span> pd.DataFrame({<span class="st">'Geburtsdatum'</span>: aufgabe3[<span class="st">'Geburtsdatum'</span>].sort_values(ascending <span class="op">=</span> <span class="va">False</span>)})</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>aufgabe4[<span class="st">'timedelta zur Epoche'</span>] <span class="op">=</span> aufgabe4[<span class="st">'Geburtsdatum'</span>] <span class="op">-</span> pd.to_datetime(<span class="dv">0</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -469,7 +469,7 @@ None
 <code>glob.glob(pathname = 'ordnerpfad' + '*[1-2].*')</code></p>
 <p>Aufgabe 6: masked Array</p>
 <p>Das maskierte Array hat eine hard mask.</p>
-<div id="9b6ceb09" class="cell" data-execution_count="9">
+<div id="6a2a6ce2" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>m_daten.soften_mask()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>m_daten.mask <span class="op">=</span> ma.nomask</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(m_daten, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>

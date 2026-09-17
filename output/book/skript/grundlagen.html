@@ -345,7 +345,7 @@ Definition&nbsp;2.1: Datensatz
 </div>
 <p>&nbsp;</p>
 <p>Beispiele eindimensionaler Datensätze sind ein Einkaufszettel oder die Urliste eines Würfelexperiments. Über den Index kann beispielsweise das Würfelergebnis an der Indexposition 2 ausgegeben werden.</p>
-<div id="feb42fdb" class="cell" data-execution_count="1">
+<div id="8c13b587" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>( <span class="op">*</span>( Augen <span class="op">:=</span> [<span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>] ) )</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Das Würfelergebnis an Indexposition 2 lautet: </span><span class="sc">{</span>Augen[<span class="dv">2</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -399,7 +399,7 @@ Tipp&nbsp;2.2: Musterlösung python.txt
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="14076b1e" class="cell" data-execution_count="2">
+<div id="67af8516" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">"01-daten/"</span> <span class="op">+</span> <span class="st">"python.txt"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dateiobjekt <span class="op">=</span> <span class="bu">open</span>(dateipfad, mode <span class="op">=</span> <span class="st">'r'</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -430,7 +430,7 @@ Auszug aus https://de.wikipedia.org/wiki/Python_(Programmiersprache), abgerufen 
 </div>
 </div>
 <p>Enkodierung UTF-8 auswählen.</p>
-<div id="be72619c" class="cell" data-execution_count="3">
+<div id="7f9de413" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mit europäischen Sonderzeichen kompatible Enkodierung UTF-8 wählen</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dateiobjekt <span class="op">=</span> <span class="bu">open</span>(dateipfad, mode <span class="op">=</span> <span class="st">'r'</span>, encoding <span class="op">=</span> <span class="st">'utf-8'</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -474,7 +474,7 @@ Auszug aus https://de.wikipedia.org/wiki/Python_(Programmiersprache), abgerufen 
 </div>
 <p>&nbsp;</p>
 <p>Typischerweise entspricht in zweidimensionalen Datensätzen jede Spalte einer <strong>Variablen</strong> und jede Zeile einer <strong>Beobachtung</strong>. Variablen speichern alle Werte eines Merkmals, zum Beispiel des Würfelergebnisses. Beobachtungen speichern alle Werte, die für eine Beobachtungseinheit gemessen wurden, z. B. für eine Person. <span class="citation" data-cites="Wickham-2014">(<a href="#ref-Wickham-2014" role="doc-biblioref">Wickham 2014, 3</a>)</span></p>
-<div id="9da713fa" class="cell" data-execution_count="4">
+<div id="5fb153d5" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>messung1 <span class="op">=</span> pd.DataFrame({<span class="st">'Name'</span>: [<span class="st">'Hans'</span>, <span class="st">'Elke'</span>, <span class="st">'Jean'</span>, <span class="st">'Maya'</span>], <span class="st">'Geburtstag'</span>: [<span class="st">'26.02.'</span>, <span class="st">'14.03.'</span>, <span class="st">'30.12.'</span>, <span class="st">'07.09.'</span>], <span class="st">'Würfelfarbe'</span>: [<span class="st">'rosa'</span>, <span class="st">'rosa'</span>, <span class="st">'blau'</span>, <span class="st">'gelb'</span>], <span class="st">'Summe Augen'</span>: [<span class="dv">17</span>, <span class="dv">12</span>, <span class="dv">8</span>, <span class="dv">23</span>]})</span>
@@ -531,14 +531,14 @@ Auszug aus https://de.wikipedia.org/wiki/Python_(Programmiersprache), abgerufen 
 </div>
 <p>&nbsp;</p>
 <p>Über die Angabe der Indizes entlang der 0. (Zeilen) und der 1. Achse (Spalten) kann die Summe der gewürfelten Augen einer Person ausgegeben werden.</p>
-<div id="eca679e3" class="cell" data-execution_count="5">
+<div id="233c610f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Jean würfelte </span><span class="sc">{</span>messung1<span class="sc">.</span>iloc[<span class="dv">2</span>, <span class="dv">3</span>]<span class="sc">}</span><span class="ss"> Augen"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jean würfelte 8 Augen</code></pre>
 </div>
 </div>
 <p>Es ist aber auch möglich, zunächst eine Spalte auszuwählen und dann wie bei einem eindimensionalen Datensatz den Wert an einer Indexposition aufzurufen. Dies wird verkettete Indexierung genannt.</p>
-<div id="40f3a545" class="cell" data-execution_count="6">
+<div id="032876a6" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Jean würfelte </span><span class="sc">{</span>messung1[<span class="st">'Summe Augen'</span>][<span class="dv">2</span>]<span class="sc">}</span><span class="ss"> Augen"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Jean würfelte 8 Augen</code></pre>
@@ -576,7 +576,7 @@ Hinweis&nbsp;2.1: Verkettete Indexierung
 <h3 class="anchored" data-anchor-id="long--und-wide-format">long- und wide-Format</h3>
 <p>Zweidimensionale Datensätze werden zumeist in einer aus Zeilen und Spalten bestehenden Matrix dargestellt. Den zeilenweise eingetragenen Beobachtungen werden Werte für die in den Spalten organisierten Variablen zugeordnet. Diese Art Daten darzustellen, wird wide-Format genannt: Mit jeder zusätzlich gemessenen Variablen wird der Datensatz breiter.</p>
 <p>Eine andere Art Daten zu organisieren und über Daten nachzudenken, ist die Darstellung im long-Format. Einige Programme und Pakete erfordern Daten im long-Format oder profitieren zumindest davon beispielsweise bei der Erstellung von Grafiken. Schauen wir uns zunächst noch einmal den Datensatz messung1 im wide-Format an. Welche Beobachtungseinheiten gibt es? Welche Variablen wurden erhoben?</p>
-<div id="5556fe44" class="cell" data-execution_count="7">
+<div id="d5e0724f" class="cell" data-execution_count="7">
 <div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
@@ -628,7 +628,7 @@ Hinweis&nbsp;2.1: Verkettete Indexierung
 </div>
 <p>&nbsp;</p>
 <p>Vermutlich werden Sie davon ausgehen, dass die Beobachtungseinheiten Hans, Elke, Jean und Maya sind und die Variablen Geburtstag, Würfelfarbe und Summe Augen. Es ist aber auch denkbar, dass die Beobachtungseinheit Person mit 0, 1, 2 und 3 kodiert wurde (dem Zeilenindex des Datensatzes) und die Spalte Name ebenfalls eine der erhobenen Variablen ist. Ebenso könnte es nur zwei Variablen, Würfelfarbe und Summe Augen, geben, während die Spalten Name und Geburtstag die beobachteten Personen kodieren. Stellen Sie sich vor, es gäbe eine zweite Person mit dem Namen Hans. Dann könnten die Würfelergebnisse der Personen mit dem Namen Hans nur über den Geburtstag am 26.02. oder 11.11. korrekt zugeordnet werden.</p>
-<div id="894aa41a" class="cell" data-execution_count="8">
+<div id="e06c235a" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>messung1 <span class="op">=</span> pd.DataFrame({<span class="st">'Name'</span>: [<span class="st">'Hans'</span>, <span class="st">'Elke'</span>, <span class="st">'Jean'</span>, <span class="st">'Maya'</span>, <span class="st">'Hans'</span>], <span class="st">'Geburtstag'</span>: [<span class="st">'26.02.'</span>, <span class="st">'14.03.'</span>, <span class="st">'30.12.'</span>, <span class="st">'07.09.'</span>, <span class="st">'11.11.'</span>], <span class="st">'Würfelfarbe'</span>: [<span class="st">'rosa'</span>, <span class="st">'rosa'</span>, <span class="st">'blau'</span>, <span class="st">'gelb'</span>, <span class="st">'rosa'</span>], <span class="st">'Summe Augen'</span>: [<span class="dv">12</span>, <span class="dv">17</span>, <span class="dv">8</span>, <span class="dv">23</span>, <span class="dv">7</span>]})</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>messung1</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -690,7 +690,7 @@ Hinweis&nbsp;2.1: Verkettete Indexierung
 </div>
 <p>&nbsp;</p>
 <p>Das long-Format macht diese Überlegungen explizit, indem identifizierende Variablen (identification variables, kurz: id vars) und gemessene Variablen (measure variables oder value vars) unterschieden werden. Die Transformation eines Datensatzes aus dem wide-Format ins long-Format wird melting (schmelzen) genannt. Das Modul Pandas bietet die Funktion <code>pd.melt(frame, id_vars = None)</code>. Diese erwartet einen DataFrame. Im optionalen Argument <code>id_vars</code> wird angegeben, welche Spalten die identifizierenden Variablen sind.</p>
-<div id="d4db5d7e" class="cell" data-execution_count="9">
+<div id="c6f94fdd" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>messung1_long <span class="op">=</span> pd.melt(messung1, id_vars <span class="op">=</span> [<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>])</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>messung1_long</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -788,7 +788,7 @@ Hinweis&nbsp;2.1: Verkettete Indexierung
 <p>&nbsp;</p>
 <p>Im long-Format werden die gemessenen Variablen in der Spalte variable aufgeführt und deren Wert in der Spalte value eingetragen. Mit jeder zusätzlich erhobenen Variablen wird der Datensatz länger.</p>
 <p>Wenn Sie die Unterscheidung von identifizierenden und gemessenen Variablen zu Ende denken, kann der Variablenname selbst als eine identifizierende Variable für den Wert in der Spalte value aufgefasst werden. Ein Datensatz kann als eine Struktur verstanden werden, die genau eine gemessene Variable, nämlich value, und eine Anzahl identifizierender Variablen besitzt. Dies kann im long-Format wie folgt dargestellt werden.</p>
-<div id="c7ccf463" class="cell" data-execution_count="10">
+<div id="4c842c5b" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>messung1_all_id <span class="op">=</span> pd.melt(messung1, id_vars <span class="op">=</span> [<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>, <span class="st">'Würfelfarbe'</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>messung1_all_id</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -796,7 +796,7 @@ Hinweis&nbsp;2.1: Verkettete Indexierung
 <p>In dieser Darstellung wird beispielsweise der erste Wert 12 durch Name = Hans, Geburtstag = 26.02., Würfelfarbe = rosa und variable = Summe Augen identifiziert.</p>
 <div class="quarto-layout-panel" data-layout="[70, 30]">
 <div class="quarto-layout-row">
-<div id="3afc616b" class="cell quarto-layout-cell" data-execution_count="11" style="flex-basis: 70.0%;justify-content: center;">
+<div id="ac75030f" class="cell quarto-layout-cell" data-execution_count="11" style="flex-basis: 70.0%;justify-content: center;">
 <div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
@@ -885,7 +885,7 @@ Tipp&nbsp;2.3: Antwort
 </div>
 </div>
 <p>Auch der umgekehrte Fall ist möglich: Werden beim melting keine id_vars angegeben, werden alle Spalten als gemessene Variablen behandelt.</p>
-<div id="68d30e0c" class="cell" data-execution_count="12">
+<div id="52f28977" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>messung1_no_id <span class="op">=</span> pd.melt(messung1)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>messung1_no_id</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1010,7 +1010,7 @@ Tipp&nbsp;2.3: Antwort
 </div>
 <p>&nbsp;</p>
 <p>Die Umkehroperation zum melting wird casting (gießen) oder pivoting (schwenken) genannt. Dabei wird ein im long-Format vorliegender Datensatz in das wide-Format konvertiert. Die Pandas Funktion <code>pd.pivot(data, columns, index)</code> nimmt einen melted DataFrame entgegen und konveriert diesen aus den einzigartigen Werten in columns (= Spaltennamen des DataFrame im wide-Format) und den einzigartigen Werten in index (= Zeilenindex des DataFrame im wide-Format). Wird der Funktion keine Spalte für index übergeben, wird der bestehende Index des melted DataFrame verwendet (der mit 20 Zeilen natürlich viel zu lang ist.) Da das Objekt messung1_no_id keine geeignete Indexspalte besitzt, muss diese vor dem casting erzeugt werden. Dies ist mit der Methode <code>messung1_no_id.groupby('variable').cumcount()</code> möglich, die die Anzahl jeder Ausprägung in der übergebenen Spalte bei 0 beginnend durchzählt. (Ein direktes Ersetzen des Index ist auf diese Weise nicht möglich, da der Index des an <code>pd.pivot(data, columns, index)</code> übergebenen DataFrames keine Doppelungen enthalten darf.)</p>
-<div id="54c064d3" class="cell" data-execution_count="13">
+<div id="6551942d" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pd.pivot() benötigt einen Index oder benutzt den bestehenden Index, des melted_df, der zu lang ist</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Deshalb eine zusätzliche Spalte in messung1_no_id einfügen</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">## einfach: messung1_no_id['new_index'] = list(range(0, 5)) * 4 </span></span>
@@ -1058,7 +1058,7 @@ new_index
 </div>
 </div>
 <p>Das Ergebnis entspricht noch nicht dem ursprünglichen Datensatz im wide-Format. Um das Ausgangsformat wiederherzustellen, müssen die Spalten in die ursprüngliche Reihenfolge gebracht sowie der Index und dessen Beschriftung zurückgesetzt werden.</p>
-<div id="c4dfa403" class="cell" data-execution_count="14">
+<div id="bee93ba4" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalten anordnen, Index zurücksetzen</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>messung1_cast <span class="op">=</span> messung1_cast[[<span class="st">'Name'</span>, <span class="st">'Geburtstag'</span>, <span class="st">'Würfelfarbe'</span>, <span class="st">'Summe Augen'</span>]]</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>messung1_cast.reset_index(drop <span class="op">=</span> <span class="va">True</span>, inplace <span class="op">=</span> <span class="va">True</span>)</span>
@@ -1098,7 +1098,7 @@ Tipp&nbsp;2.4: identifizierende und gemessene Variablen
 <h3 class="anchored" data-anchor-id="übung-zweidimensionale-datensätze">Übung zweidimensionale Datensätze</h3>
 <p>Oben wurde das Objekt messung1_long mit dem Befehl <code>messung1_long = pd.melt(messung1, id_vars = ['Name', 'Geburtstag'])</code> angelegt.<br>
 <strong>Benutzen Sie die Funktion</strong> <code>pd.DataFrame.pivot()</code>, <strong>um den Datensatz messung1 wieder ins wide-Format zu transformieren.</strong></p>
-<div id="b880e9c6" class="cell" data-execution_count="15">
+<div id="62e2a263" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 
@@ -1202,7 +1202,7 @@ Tipp&nbsp;2.5: Musterlösung zweidimensionale Datensätze
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="007c6fd4" class="cell" data-execution_count="16">
+<div id="9f244658" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Spalte new_index einfügen</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>messung1_long[<span class="st">'new_index'</span>] <span class="op">=</span> messung1_long.groupby(<span class="st">'variable'</span>).cumcount()</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1306,7 +1306,7 @@ Tipp&nbsp;2.5: Musterlösung zweidimensionale Datensätze
 [[Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert], [Rotwert, Grünwert, Blauwert]]]</code></pre>
 <p>Bilddateien können mit der Funktion <code>plt.imread()</code> aus dem Modul <code>matplotlib.pyplot</code> eingelesen werden.</p>
 <div class="border">
-<div id="355c0468" class="cell" data-execution_count="17">
+<div id="3e520ea4" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>logo <span class="op">=</span> plt.imread(fname <span class="op">=</span> <span class="st">'00-bilder/python-logo-and-wordmark-cc0-tm.png'</span>)</span>
@@ -1324,7 +1324,7 @@ Tipp&nbsp;2.5: Musterlösung zweidimensionale Datensätze
 </div>
 <p>&nbsp;</p>
 <p>Die Struktur des Datensatzes kann mit dem Attribut <code>.shape</code> abgerufen werden.</p>
-<div id="db7badba" class="cell" data-execution_count="18">
+<div id="114dc994" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(logo), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(logo.shape)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1335,7 +1335,7 @@ Tipp&nbsp;2.5: Musterlösung zweidimensionale Datensätze
 </div>
 </div>
 <p>Die Daten wurden als NumPy.ndarray eingelesen. Das Logo hat 144 Zeilen, 486 Spalten und liegt im RGBA-Farbraum vor. Ein Ausschnitt der Daten sieht so aus:</p>
-<div id="eca626f2" class="cell" data-execution_count="19">
+<div id="55d07626" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(logo[<span class="dv">50</span>:<span class="dv">52</span>, <span class="dv">50</span>:<span class="dv">52</span>, : ])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[[[0.21568628 0.44705883 0.63529414 1.        ]
@@ -1364,7 +1364,7 @@ Tipp&nbsp;2.7: Musterlösung dreidimensionale Datensätze
 </div>
 <div id="callout-9" class="callout-9-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="de7e3b9d" class="cell" data-execution_count="20">
+<div id="424dffa0" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>kanal <span class="op">=</span> [<span class="st">"Rotkanal"</span>, <span class="st">"Grünkanal"</span>, <span class="st">"Blaukanal"</span>]</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize <span class="op">=</span> (<span class="dv">9</span>, <span class="dv">6</span>))</span>
@@ -1402,7 +1402,7 @@ Tipp&nbsp;2.6: Erklärung Bildhintergrund
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Der Bildhintergrund hat in allen Kanälen, auch im Alphakanal, den Farbwert 0. Dieser Teil des Bildes ist deshalb vollständig transparent und wird vom Hintergrund der Internetseite ausgefüllt. Der Bildhintergrund des Logos wirkt deshalb weiß.</p>
-<div id="6751167c" class="cell" data-execution_count="21">
+<div id="80c490dc" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alphakanal</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(logo[ :, :, <span class="dv">3</span>], cmap <span class="op">=</span> <span class="st">'Greys_r'</span>)</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>plt.title(label <span class="op">=</span> <span class="st">'Alphakanal'</span>)</span>

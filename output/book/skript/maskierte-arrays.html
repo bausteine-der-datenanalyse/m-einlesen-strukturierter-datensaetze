@@ -266,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="1cebe792" class="cell" data-execution_count="1">
+<div id="06fcf676" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vorbereitung: Module aus vorherigem Kapitel erneut laden</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>&nbsp;</p>
-<div id="03c723ae" class="cell" data-execution_count="2">
+<div id="42d26f90" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fehlende Werte für Ganzzahlen sind in Pandas kein Problem</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Eine pd.Series vom dtype Int64 mit einem fehlenden Wert:"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(pd.Series([<span class="dv">0</span>, <span class="dv">1</span>, np.nan], dtype <span class="op">=</span> <span class="st">'Int64'</span>), <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span>
@@ -322,7 +322,7 @@ Die Ursache ist der Datentyp von nan: type(np.nan)
 <li><p>dem Füllwert, mit dem in der Maske mit <code>True</code> markierte Werte ersetzt werden. Standardmäßig ist dies die Zeichenkette <code>'--'</code>.</p></li>
 </ol>
 <p>Über die Attribute <code>.data</code> und <code>.mask</code> kann auf das zugrundeliegende NumPy-Array und die Maske zugegriffen werden. Ebenfalls können die Funktionen <code>ma.getmask(maskiertes_array)</code> und <code>ma.getdata(maskiertes_array)</code> genutzt werden. Der Füllwert wird mit der Methode <code>maskiertes_array.filled()</code> eingesetzt. Dies gibt eine Kopie des datentragenden Arrays zurück, die Daten selbst bleiben unverändert.</p>
-<div id="c140b5dc" class="cell" data-execution_count="3">
+<div id="867660d3" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy.ma <span class="im">as</span> ma</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> ma.masked_array(data <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]), mask <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
@@ -384,7 +384,7 @@ Das maskierte Array bleibt unverändert: [1 2 -- --]</code></pre>
 </tbody>
 </table>
 <p>Der Standardfüllwert kann mit der Funktion <code>np.ma.default_fill_value()</code> ausgegeben werden.</p>
-<div id="7aa76b3c" class="cell" data-execution_count="4">
+<div id="fedc5a07" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.ma.default_fill_value(<span class="dv">1</span>))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.ma.default_fill_value(<span class="st">'1'</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -394,7 +394,7 @@ N/A</code></pre>
 </div>
 <p>(<a href="https://numpy.org/doc/2.1/reference/generated/numpy.ma.default_fill_value.html">NumPy Dokumentation</a>)</p>
 <p>Der Füllwert kann über das Attribut <code>maskiertes_array.fill_value</code> geändert werden. Die Übergabe von <code>maskiertes_array.fill_value = None</code> setzt den Füllwert auf den Standardwert zurück.</p>
-<div id="1c77b306" class="cell" data-execution_count="5">
+<div id="3ebf7a92" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Anlegen eines maskierten Arrays vom Datentyp Integer mit einem ganzzahligen Füllwert</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> ma.masked_array(data <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">4</span>), mask <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>], fill_value <span class="op">=</span> <span class="dv">42</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -438,7 +438,7 @@ Der Füllwert None bewirkt den Rückgriff auf einen datentypabhängigen Standard
 <section id="maskierte-arrays-erzeugen" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="maskierte-arrays-erzeugen"><span class="header-section-number">8.1</span> Maskierte Arrays erzeugen</h2>
 <p>Maskierte Arrays können auf zahlreichen Wegen erzeugt werden. Eine vollständige Übersicht erhalten Sie in der <a href="https://numpy.org/doc/stable/reference/maskedarray.generic.html#constructing-masked-arrays">Dokumentation</a>.</p>
-<div id="7af5ac98" class="cell" data-execution_count="6">
+<div id="39d13968" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>])</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Methode ma.asanyarray(array, dtype = ) legt den Datentyp des maskierten Arrays fest.</span><span class="ch">\n</span><span class="ss">"</span></span>
@@ -484,7 +484,7 @@ ma.masked_where(a % 2 != 0, a):
 </div>
 </div>
 <p>Die NumPy-Funktion <code>genfromtxt(usemask = True)</code> erzeugt mit dem entsprechenden Argument ein maskiertes Array.</p>
-<div id="6173926e" class="cell" data-execution_count="7">
+<div id="4c459e5f" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dateipfad <span class="op">=</span> <span class="st">'01-daten/TC01_double_hyphen.csv'</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>daten_double_hypen <span class="op">=</span> np.genfromtxt(dateipfad, missing_values <span class="op">=</span> <span class="st">'--'</span>, usemask <span class="op">=</span> <span class="va">True</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>daten_double_hypen</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -495,7 +495,7 @@ ma.masked_where(a % 2 != 0, a):
 </div>
 </div>
 <p>Eine weitere Möglichkeit, Arraybereiche zu maskieren, ist es, einzelnen Werten oder einem Wertebereich eines maskierten Arrays den Wert <code>ma.masked</code> zuzuweisen.</p>
-<div id="de2fb870" class="cell" data-execution_count="8">
+<div id="cc5151fa" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> ma.masked_array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>])</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>maskiertes_array[<span class="dv">1</span>] <span class="op">=</span> ma.masked</span>
@@ -530,7 +530,7 @@ Tipp&nbsp;8.1: Musterlösung maskierte Arrays erzeugen
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="8f93c82f" class="cell" data-execution_count="9">
+<div id="70cdf71b" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Array erzeugen</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.linspace(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">18</span>, dtype <span class="op">=</span> <span class="st">'int'</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -580,7 +580,7 @@ ma.masked_array(data = a, mask = my_mask</code></pre>
 <section id="unmasking-soft-und-hard-masks" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="unmasking-soft-und-hard-masks"><span class="header-section-number">8.3</span> unmasking, soft und hard masks</h2>
 <p>Ein maskiertes Array kann auf verschiedene Weise demaskiert werden.</p>
-<div id="15ce9c75" class="cell" data-execution_count="10">
+<div id="a1630ca5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>unmask_me <span class="op">=</span> my_ma.copy()</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>unmask_me.mask <span class="op">=</span> ma.nomask</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Maske kann auf ma.nomask oder False gesetzt werden.</span><span class="ch">\n</span><span class="ss">"</span></span>
@@ -610,7 +610,7 @@ unmask_me = np.linspace(1, 1000, 18, dtype = 'int'):
 </div>
 </div>
 <p>Die Demaskierung ist auch für Indexbereiche möglich.</p>
-<div id="1b86420f" class="cell" data-execution_count="11">
+<div id="798bee8c" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>unmask_me <span class="op">=</span> my_ma.copy()</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>unmask_me[<span class="dv">6</span>:<span class="dv">10</span>].mask <span class="op">=</span> ma.nomask</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Maske kann auf ma.nomask oder False gesetzt werden.</span><span class="ch">\n</span><span class="ss">"</span></span>
@@ -641,7 +641,7 @@ unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):
 <section id="soft-und-hard-masks" class="level4">
 <h4 class="anchored" data-anchor-id="soft-und-hard-masks">soft und hard masks</h4>
 <p>Die Maske eines maskierten Arrays ist eine veränderliche, sogenannte soft mask. Um die Maske vor Änderungen zu schützen, kann die Maske mit dem Argument <code>ma.array(data = [data], mask = [mask], hard_mask = True)</code> oder mit der Methode <code>masked_array.harden_mask()</code> in eine hard mask verwandelt werden.</p>
-<div id="eb2f7cd8" class="cell" data-execution_count="12">
+<div id="37780203" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>unmask_me <span class="op">=</span> my_ma.copy()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>unmask_me.harden_mask()</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>unmask_me.mask <span class="op">=</span> ma.nomask</span>
@@ -670,7 +670,7 @@ unmask_me = np.linspace(1, 1000, 18, dtype = 'int'):
 </div>
 </div>
 <p>Eine hard mask schützt einen Indexbereich vor der Demaskierung, auch durch eine Wertzuweisung.</p>
-<div id="440a03e8" class="cell" data-execution_count="13">
+<div id="1e54313f" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>unmask_me <span class="op">=</span> my_ma.copy()</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>unmask_me.harden_mask()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>unmask_me[<span class="dv">6</span>:<span class="dv">10</span>].mask <span class="op">=</span> ma.nomask</span>
@@ -697,7 +697,7 @@ unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):
 </div>
 </div>
 <p>Eine hard mask kann jedoch auf weitere Indexbereiche erweitert werden.</p>
-<div id="336c9293" class="cell" data-execution_count="14">
+<div id="6b574ad8" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>unmask_me[<span class="dv">0</span>:<span class="dv">2</span>] <span class="op">=</span> ma.masked</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Die Maskierungen zusätzlicher Elemente ist mit einer hard mask möglich.</span><span class="ch">\n</span><span class="ss">"</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"</span><span class="sc">{</span>unmask_me<span class="sc">}</span><span class="ss">"</span>) </span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -707,7 +707,7 @@ unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):
 </div>
 </div>
 <p>Eine hard mask kann mit der Methode <code>masked_array.soften_mask()</code> aufgehoben werden.</p>
-<div id="0c992fad" class="cell" data-execution_count="15">
+<div id="829a333b" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>unmask_me.soften_mask()</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>unmask_me.mask <span class="op">=</span> ma.nomask</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>unmask_me<span class="sc">}</span><span class="ss">"</span>) </span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -723,7 +723,7 @@ unmask_me[6:10] = np.linspace(1, 1000, 4, dtype = 'int'):
 <p>Arithmetische und vergleichende Operationen mit maskierten Arrays werden nicht auf die maskierten Elemente angewendet.</p>
 <p><a href="https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays" class="uri">https://numpy.org/doc/stable/reference/maskedarray.generic.html#operations-on-masked-arrays</a></p>
 <p><a href="https://numpy.org/doc/2.1/reference/routines.ma.html" class="uri">https://numpy.org/doc/2.1/reference/routines.ma.html</a></p>
-<div id="bf7014ed" class="cell" data-execution_count="16">
+<div id="fd478027" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Array erzeugen</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> np.linspace(<span class="dv">1</span>, <span class="dv">1000</span>, <span class="dv">18</span>, dtype <span class="op">=</span> <span class="st">'int'</span>)</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> ma.masked_array(a)</span>
@@ -739,7 +739,7 @@ maskiertes_array &gt; 222:
 </div>
 </div>
 <p>Arithmetische und vergleichende Operationen mit maskierten Elementen führen immer zu maskierten Ergebnissen.</p>
-<div id="62b5f1fa" class="cell" data-execution_count="17">
+<div id="91ddeb1f" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"NumPy ist bei Operationen mit np.nan nicht konsistent."</span>)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"np.nan ** 0:</span><span class="ch">\t</span><span class="sc">{</span>np<span class="sc">.</span>nan <span class="op">**</span> <span class="dv">0</span><span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"1 ** np.nan:</span><span class="ch">\t</span><span class="sc">{</span><span class="dv">1</span> <span class="op">**</span> np<span class="sc">.</span>nan<span class="sc">}</span><span class="ss">"</span>)</span>
@@ -764,7 +764,7 @@ maskiertes_array[0] == np.nan:              --</code></pre>
 </div>
 </div>
 <p>Das Modul <code>numpy.ma</code> implementiert die meisten NumPy-Funktionen (siehe <a href="https://numpy.org/doc/2.1/reference/routines.ma.html">NumPy Dokumentation</a>). Funktionen, die nur einen bestimmten Wertebereich als Eingabe akzeptieren, geben den Wert <code>masked</code> zurück, wenn Werte außerhalb des gültigen Bereichs übergeben werden. Ein Beispiel ist die Funktion <code>ma.log()</code>.</p>
-<div id="6199052b" class="cell" data-execution_count="18">
+<div id="65b6e64c" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>ma.log([<span class="op">-</span><span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>masked_array(data=[--, --, 0.0, 0.6931471805599453],
@@ -773,7 +773,7 @@ maskiertes_array[0] == np.nan:              --</code></pre>
 </div>
 </div>
 <p>Auch Operation mit mehreren Arrays sind möglich. Im Ergebnis ist jedes in der Eingabe maskierte Element ebenfalls maskiert.</p>
-<div id="a88280d8" class="cell" data-execution_count="19">
+<div id="e674aa6f" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(a <span class="op">+</span> maskiertes_array)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.logical_or(a, maskiertes_array))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -782,7 +782,7 @@ maskiertes_array[0] == np.nan:              --</code></pre>
 </div>
 </div>
 <p>Zusammenfassende Funktionen wie <code>len()</code> oder <code>ma.unique(masked_array)</code> werden auch auf die maskierten Elemente angewendet.</p>
-<div id="d1e4cfa4" class="cell" data-execution_count="20">
+<div id="61337bb7" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ausgewählte Operationen</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(maskiertes_array))</span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ma.unique(maskiertes_array))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -867,7 +867,7 @@ Tipp&nbsp;8.2: Musterlösung
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="5dd70e98" class="cell" data-execution_count="21">
+<div id="628ab4d7" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. NumPy-Array erstellen und maskieren</span></span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="dv">100</span> <span class="op">+</span> <span class="dv">1</span>).reshape(<span class="dv">10</span>, <span class="dv">10</span>)</span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>maskiertes_array <span class="op">=</span> ma.masked_where(condition <span class="op">=</span> (maskiertes_array <span class="op">%</span> <span class="dv">2</span> <span class="op">!=</span> <span class="dv">0</span>) <span class="op">&amp;</span> (maskiertes_array <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>), a <span class="op">=</span> maskiertes_array)</span>
@@ -886,7 +886,7 @@ Tipp&nbsp;8.2: Musterlösung
 </code></pre>
 </div>
 </div>
-<div id="33552a85" class="cell" data-execution_count="22">
+<div id="d9175468" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Summen bilden</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Summe der maskierten Werte: </span><span class="sc">{</span>maskiertes_array<span class="sc">.</span>data[maskiertes_array.mask]<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ch">\t</span><span class="ss">Summe der unmaskierten Werte: </span><span class="sc">{</span>maskiertes_array<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -894,7 +894,7 @@ Tipp&nbsp;8.2: Musterlösung
 </code></pre>
 </div>
 </div>
-<div id="71039d89" class="cell" data-execution_count="23">
+<div id="30065f7e" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Maske zurücksetzen</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>maskiertes_array.mask <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(maskiertes_array, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
@@ -912,7 +912,7 @@ Tipp&nbsp;8.2: Musterlösung
 </code></pre>
 </div>
 </div>
-<div id="7428b269" class="cell" data-execution_count="24">
+<div id="32cd4fed" class="cell" data-execution_count="24">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Primzahlsieb</span></span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">## 1</span></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>i <span class="op">=</span> <span class="dv">1</span></span>
@@ -1006,7 +1006,7 @@ zusätzlich Vielfache von 7
 </code></pre>
 </div>
 </div>
-<div id="28988301" class="cell" data-execution_count="25">
+<div id="66fd47ef" class="cell" data-execution_count="25">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. verschiedene Aufgaben</span></span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Wie viele Primzahlen sind in dem Array?</span></span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Anzahl Primzahlen:"</span>, sieb.size <span class="op">-</span> sieb.mask.<span class="bu">sum</span>())</span>
