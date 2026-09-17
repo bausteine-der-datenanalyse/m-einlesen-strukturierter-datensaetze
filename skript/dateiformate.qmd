@@ -1,0 +1,584 @@
+# Wissenschaftliche Dateiformate {#sec-spezialformate}
+
+``` {python}
+# Vorbereitung: Module aus vorherigem Kapitel erneut laden
+import pandas as pd
+```
+Wissenschaftliche Datensätze können extrem groß sein. Beispielsweise hat das Kernforschungszentrum CERN im November 2018 15,8 Petabyte Daten aufgezeichnet ([Key Facts and Figures - CERN Data Centre](https://information-technology.web.cern.ch/sites/default/files/CERNDataCentre_KeyInformation_July2022_V3.pdf)). Für den Austausch großer Datenmengen wurden Datenformate wie das Hierarchical Data Format (HDF) und Network Common Data Format (netCDF) entwickelt. Diese erlauben es unter anderem, Datensätze direkt vom Massenspeicher des Computers auszulesen, sodass eine mögliche Begrenzung durch den Arbeitsspeicher vermieden wird.
+
+Im Folgenden werden knapp die Grundfunktionen für das Arbeiten mit HDF5- und netCDF4-Dateien vorgestellt. Detailliertere Informationen finden Sie in der jeweiligen Dokumentation.
+
+## HDF5
+HDF5 bedeutet Hierarchical Data Format Version 5. HDF organisiert Daten in einer Ordnerstruktur, die mit der Ordnerstruktur eines Computers vergleichbar ist, und enthält beschreibende Metadaten, weshalb HDF als selbstbeschreibend gilt. Die HDF-Verzeichnisstruktur wird mit bestimmten Begriffen beschrieben.
+
+  - Gruppen oder `groups` bezeichnen die Verzeichnisse (Unterordner) innerhalb der HDF-Datei. `groups` können weitere Gruppen oder `datasets` enthalten.
+
+  - Dateien oder `datasets` entsprechen einzelnen Dateien.
+
+::: {.border}
+![HDF5-Verzeichnisstruktur](00-bilder/hdf5_structure4-by-neonscience.org.jpg){width="80%" fig-alt="Darstellung der Verzeichnisstruktur von HDF5. Dargestellt sind das Wurzelverzeichnis, dem Metadaten zugeordnet sind, und darin enthaltene Gruppen, die weitere Gruppen oder Datensätze enthalten. Den Objekten sind jeweils Metadaten zugeordnet."}
+
+An illustration of a HDF...and associated metadata von U.S National Science Foundation's National Ecological Observatory Network (NEON) ist abrufbar unter <https://www.neonscience.org/resources/learning-hub/tutorials/about-hdf5>.
+::: 
+
+&nbsp;
+
+In Python können die Pakete [PyTables](https://www.pytables.org/), das von Pandas verwendet wird, und h5py mit HDF5 umgehen. Das Einlesen von HDF5-Dateien funktioniert ähnlich wie das Einlesen von Dateien in der Pythonbasis: Der Zugriff auf die Datei erfolgt mit einem Dateiobjekt, über das verschiedene Methoden zum Lesen und Schreiben bereitgestellt werden. Abschließend wird das Dateiobjekt wieder geschlossen.
+
+Die Integration des Pakets PyTables in Pandas ist auf die Verwendung von Pandas-Objekten ausgelegt. Es wird eine spezifische Dateistruktur genutzt und erwartet. Anders aufgebaute HDF5-Dateien können nicht eingelesen werden. Deshalb wird das Paket hier nur kurz vorgestellt. ([Thema auf stackoverflow](https://stackoverflow.com/questions/71388502/read-hdf5-file-created-with-h5py-using-pandas), [Antwort von Kevin S unter CC-BY-SA 3.0](https://stackoverflow.com/a/33644128))
+
+::: {#wrn-hdfdata .callout-warning appearance="simple"}
+## Datensatz
+In diesem Abschnitt wird ein Teil des Datensatzes IceBridge ATM L1B Elevation and Return Strength, Version 2 genutzt ([kostenlose Registrierung bei NASA Earth erforderlich](https://nsidc.org/data/ilatm1b/versions/2#anchor-data-access-tools)). Das [Handbuch ist hier verfügbar](https://nsidc.org/sites/default/files/ilatm1b-v002-userguide_2.pdf). Der Datensatz enthält flugzeugbasierte Lasermessungen für die Höhe des Eisschildes in der Arktis und Antarktis mittels des NASA Airborne Topographic Mapper (ATM). ATM hat eine Abtastrate von 3 bis 5 kHz. Jede Datei enthält die Daten von einigen Minuten Flugdauer. Das geografische Referenzsystem ist das World Geodetic System 1984 (WGS 84)
+
+Die Dateien sind nach dem Schema ILATM1B_YYYYMMDD_HHMMSS.ATM4BT4.h5 benannt:
+
+  - Datensatz-ID_
+  
+  - Jahr, Monat, Tag der Messung_
+  
+  - Zeitpunkt am Beginn der Messung in Stunden, Minuten, Sekunden_
+
+  - Instrumenten-ID (fünfstellig) und Messwinkel (T2 = 15 Grad, T3 = 23 Grad, T4 = 30 Grad).
+
+  - xxx Dateityp (.h5 = HDF5, h5.xml = zusätzliche Metadatendatei) 
+
+:::: {.border}
+Studinger, M. 2013, updated 2020. IceBridge ATM L1B Elevation and Return Strength, Version 2.
+[Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed
+Active Archive Center. https://doi.org/10.5067/19SIM5TXKPGT. [05.12.2024]
+::::
+:::
+
+### PyTables
+Das Paket PyTables wird mit dem Befehl `pip install tables` installiert. Die Funktionen des Pakets sind in Pandas integriert. Der Zugriff auf HDF-Dateien wird in Pandas über ein [HDFStore-Objekt](https://pandas.pydata.org/docs/user_guide/io.html#hdf5-pytables) bereitgestellt. Hierüber können HDF-Dateien gelesen und geschrieben werden. Das HDFStore-Objekt entspricht dem Wurzelverzeichnis der strukturierten Datei. Die Funktion `pd.HDFStore(path, mode)` nimmt als Argumente den Dateipfad `path` und den Zugriffsmodus `mode` entgegen.
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| 'a' | Standardmodus append: öffnet die Datei im Lese- und Schreibmodus. Falls die Datei nicht vorhanden ist, wird diese erstellt. |
+| 'w' | Schreibzugriff, Erstellen einer neuer Datei, Überschreiben einer bestehenden, gleichnamigen Datei |
+| 'r' | Lesezugriff |
+| 'r+' | Lese- und Schreibzugriff wie 'a', Datei muss aber existieren. |
+
+&nbsp;
+
+Über das HDFStore-Objekt kann der Inhalt der Datei ausgelesen werden, sofern das Format kompatibel ist.
+
+  - Die Methode `hdf.info()` gibt Informationen zum Dateiobjekt aus.
+  
+  - Die Methode `hdf.keys(include = 'pandas')` gibt standardmäßig die Schlüssel der Pandas-Objekte im Wurzelverzeichnis zurück. Mit dem Argument `hdf.keys(include = 'native')` sollten auch native HDF5-Objekte ausgegeben werden können, sofern die HDF5-Datei kompatibel ist.
+  
+  - Der Zugriff auf ausgewählte Schlüssel erfolgt mit der Methode `hdf.get('key')` oder durch `hdf['key']`.
+  
+  - Mit der Methode `hdf.close()` wird das HDFStore-Objekt wieder geschlossen.
+
+::: {#nte-HDFStore .callout-note collapse="true"}
+## inkompatible HDF5-Datei
+
+``` {python}
+# Datei öffnen
+dateipfad = "01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = pd.HDFStore(dateipfad, mode = 'r')
+
+print(hdf.info(), "\n")
+
+# parameter include: str, default ‘pandas’.  When ‘pandas’ return pandas objects. When ‘native’ return native HDF5 Table objects.
+print(hdf.keys(include = 'native'), "\n") 
+print(hdf.keys(include = 'pandas'), "\n") 
+
+print(hdf.groups(), "\n")
+
+# Test hdf.get()
+try:
+  elevation = hdf.get('elevation')
+  print(type(elevation))
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  elevation = hdf.get('elevation')
+  print(type(elevation))
+
+# Test pd.read_hdf()
+try:
+  elevation = pd.read_hdf(path_or_buf = hdf, key = 'elevation')
+  print(type(elevation))
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  elevation = pd.read_hdf(path_or_buf = hdf, key = 'elevation')
+  print(type(elevation))
+
+# HDFStore-Objekt schließen
+hdf.close()
+```
+
+:::
+
+Um die Funktionen zu demonstrieren, wird mit eine HDF5-Datei erstellt. Dazu wird ein HDFStore-Objekt im Modus `append` angelegt und mit der Methode `hdf.put(key, value, format)` ein DataFrame gespeichert.
+
+``` {python}
+# HDF5-Datei anlegen
+df = pd.DataFrame({'Spalte1': [1, 2, 3], 'Spalte2': [4, 5, 6]})
+hdf = pd.HDFStore("01-daten/hdf_file_demo.h5", mode = 'a')
+hdf.put('daten', df, format = 'table')
+
+hdf.close()
+
+# HDF5-Datei einlesen
+hdf2 = pd.HDFStore("01-daten/hdf_file_demo.h5", mode = 'r')
+print(hdf2.info(), "\n")
+print(hdf2.keys(), "\n")
+
+df2 = hdf2.get(key = "/daten")
+print(df2)
+
+hdf2.close()
+```
+
+Eine Liste verfügbarer Funktionen findet sich [in der Dokumentation](https://pandas.pydata.org/docs/reference/io.html#hdfstore-pytables-hdf5).  
+([Numpy Ninja](https://www.numpyninja.com/post/hdf5-file-format-with-pandas))
+
+### h5py
+Das Paket h5py wird mit dem Befehl `pip install h5py` installiert. Das Modul h5py funktioniert ählich wie PyTables. Der Zugriff auf eine HDF5-Datei erfolgt über ein Dateiobjekt, das mit der Funktion `h5py.File(Dateipfad, Zugriffsmodus)` erzeugt wird ([siehe h5py Dokumentation](https://docs.h5py.org/en/latest/high/file.html#file)).
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| r | Lesemodus, Datei muss existieren (default) |
+| r+ | Lese- und Schreibmodus, Datei muss existieren |
+| w | Datei erstellen, bestehende Datei kürzen |
+| w- or x | Datei erstellen, abbrechen wenn Datei bereits besteht |
+| a | Lesen / Schreiben, wenn die Datei besteht, andernfalls Datei erstellen |
+
+&nbsp;
+
+Über das Dateiobjekt erfolgt der Zugriff auf Gruppen und Datensätze. Gruppen sind wie dictionaries aufgebaut, der Zugriff erfolgt also über Schlüssel-Wert-Paare (key: value). Die Schlüssel sind die Namen der Elemente in einer Gruppe, die Werte sind die Elemente selbst (Gruppen oder Datasets).
+
+::: {.border}
+
+"The most fundamental thing to remember when using h5py is:
+
+  **Groups work like dictionaries, and datasets work like NumPy arrays**" ([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html), Hervorhebung im Original)
+
+:::
+
+&nbsp;
+
+Die Gruppennamen können mit der Methode Dateiobjekt.keys() abgerufen werden.
+
+``` {python}
+import h5py
+dateipfad = "01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = h5py.File(dateipfad, mode = 'r')
+
+print(hdf, "\n")
+print(list(hdf.keys()))
+```
+
+Anhand der Schlüssel kann mit der Funktion `isinstance(item, type)` geprüft werden, ob es sich um Gruppen `h5py.Group` oder Datensätze `h5py.Dataset` handelt. Datasets besitzen wie NumPy-Arrays die Attribute `dtype`, `shape`, `size`, `ndim` (und `nbytes`).
+
+``` {python}
+for key in list(hdf.keys()):
+  
+  object = hdf[key]
+  print(f"Schlüssel:\t{key} ist ein {type(object)}")
+  
+  if isinstance(hdf[key], h5py.Dataset):
+    
+    print(f"\tDatentyp: {object.dtype}\n"
+          f"\tStruktur: {object.shape}\t Dimensionen: {object.ndim}\tAnzahl Elemente: {object.size}\n")
+  
+  elif isinstance(hdf[key], h5py.Group):
+    print(f"\tDie Gruppe {key} enthält die Objekte:\n\t {hdf[key].keys()}\n")
+```
+
+Die Objekte `elevation`, `latitude` und `longitude` sind Datensätze. Die Objekte `ancillary_data` und `instrument_parameters` sind Gruppen. Der Zugriff innerhalb von Gruppen erfolgt wie bei der Eingabe eines Dateipfads: `Dateiobjekt['Gruppe/key']`.
+
+Um mit Datasets zu arbeiten muss eine Kopie z. B. durch Slicing erstellt werden.
+
+``` {python}
+try:
+  print(hdf['elevation'] - 1000)
+except TypeError as error:
+  print("Der Direktzugriff führt zu der Fehlermeldung:\n", error)
+
+# Mit einer Kopie kann gearbeitet werden
+print("\nMit einer Kopie geht es:")
+print(hdf['elevation'][:] - 1000)
+
+# Mit Indexbereichen ebenso
+print("\nEbenso mit ausgewählten Indexbereichen:")
+print(hdf['elevation'][0:10])
+```
+
+Am Ende wird das Dateiobjekt geschlossen.
+``` {python}
+hdf.close()
+```
+
+### Übung Zugriff auf H5P-Datasets
+**Berechnen Sie aus der relativen Zeit `hdf['instrument_parameters/rel_time']` im Format 'hhmmss' und dem im Dateinamen enthaltenen Beginn der Messung die tatsächliche Zeit der Messung.** Der Dateipfad lautet: '01-daten/ILATM1B_20191120_041200.ATM6AT6.h5'.  
+*Hinweis: Die relative Zeit liegt in Tausendstelsekunden aufgelöst vor. Aufgrund der hohen Abtastrate von ATM kommen Zeiten in der Regel mehrfach vor.*
+
+::: {#tip-Messzeit .callout-tip collapse="true"}
+## Musterlösung absolute Zeit berechnen
+
+``` {python}
+# HDF-Datei öffnen
+dateipfad = "01-daten/ILATM1B_20191120_041200.ATM6AT6.h5"
+hdf = h5py.File(dateipfad, mode = 'r')
+
+zeitstempel = int(str(hdf)[29:35])
+print(f"Beginn der Messungen: {zeitstempel}\n")
+
+rel_time = hdf['instrument_parameters/rel_time'][:]
+abs_time = rel_time + zeitstempel
+
+print(f"rel_time[-5:]:\n{rel_time[-5:]}\n\nabs_time[-5:]:\n{abs_time[-5:]}")
+
+# HDF-Datei schließen
+hdf.close()
+
+```
+
+:::
+
+#### HDF5 Dateien schreiben
+Um Objekte in eine HDF5-Datei zu schreiben, muss diese im Schreibmodus geöffnet werden.
+
+``` {python}
+hdf_neu = h5py.File('01-daten/hdf_neu.h5', mode = 'w')
+hdf_neu['abs_time'] = abs_time
+hdf_neu.close()
+
+# Kontrolle
+hdf_neu = h5py.File('01-daten/hdf_neu.h5', mode = 'r')
+print(hdf_neu.keys())
+hdf_neu.close()
+
+```
+
+([Dokumentation h5py](https://docs.h5py.org/en/latest/quick.html))
+
+
+## netCDF4
+Das Paket netCDF4 (Network Common Data Format Version 4) wird mit `pip install netCDF4` installiert. netCDF4 basiert auf HDF5, verwendet aber eine eigene Terminologie. Der Zugriff auf eine netCDF4 Datei erfolgt über das Dataset-Objekt, das der Wurzelgruppe entspricht. Eine netCDF-Datei bzw. das Dataset-Objekt besteht aus:
+
+  - Gruppen (groups): Gruppen sind Unterverzeichnisse des Dataset-Objekts und können Variablen, Dimensionen, Attribute und weitere Gruppen enthalten.
+  
+  - Variablen (variables): Variablen entsprechen Datensätzen bzw. NumPy-Arrays.
+
+  - Dimensionen (dimensions): Dimensionen beschreiben Eigenschaften der Variablen wie Name (name), Größe (size), Gruppenzugehörigkeit (group)
+
+  - Attribute (attributes): Attribute beschreiben entweder das gesamte Dataset (globale Attribute) oder einzelne Variablen. Attribute speichern die Metadaten.
+
+    - `Dataset.description = 'Beschreibung des Datensatzes'`
+
+    - `Dataset.history = 'Zeitpunkt der Erstellung'`
+
+    - `Dataset.source = 'Quelle'`
+
+    - `Dataset.units = 'Beschreibung der Messeinheit'`
+
+    - `Dataset.calender = 'gregorianischer Kalender'`
+    
+Diese Elemente sind als Dictionary aufgebaut und erlauben den Zugriff über Schlüssel-Wert-Paare.
+
+::: {#wrn-netcdfdata .callout-wrn appearance="simple"}
+## Datensatz
+In diesem Abschnitt wird ein Datensatz der NASA zur Blitzdichte (Anzahl Blitze pro Quadratkilometer) verwendet [kostenlose Registrierung bei NASA Earth erforderlich](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lohrfc-2.3.2015). Die netCDF4-Datei enthält verschiedene Datensätze (Variablen), die mit satellitengestützten Messinstrumenten erstellt wurden. Blitze im Bereich von +/- 38 Grad um den Äquator wurden mit dem Lightning Imaging Sensor (LIS) des Satelliten der Tropical Rainfall Measuring Mission (TRMM) gemessen. In höheren und niedrigeren Breitengraden wurden Blitze mit dem Optical Transient Detector (OTD) auf Orbview-1 gemessen. Die Daten liegen in einer Auflösung von 0.5 Grad vor. ([Datensatzdokumentation](https://www.earthdata.nasa.gov/data/catalog/ghrc-daac-lolrac-2.3.2015), [Poetzsch 2021](https://refubium.fu-berlin.de/handle/fub188/43384): 182-183)
+
+Die Datensätze folgen dem Namensschema HRFC_COM_FR
+
+  - HRFC = High Resolution Full Climatology
+  
+  - COM = Kombination beider Messinstrumente [LIS, OTD]
+  
+  - FR = Flash Rates [RF = Raw Flash Rates, SF = Scaled Flash Rates]
+
+:::: {.border}
+LIS/OTD 0.5 Degree High Resolution Full Climatology (HRFC) V2.3.2015 von Global Hydrometeorology Resource Center DAAC (GHRC DAAC)
+
+DOI https://doi.org/10.5067/LIS/LIS-OTD/DATA302
+
+::::
+:::
+
+&nbsp;
+
+Ein Dataset-Objekt wird mit der Funktion `nc.Dataset(filename, mode)` geöffnet. Mit dem Argument `filename` wird der Dateipfad übergeben. Im Argument `mode` wird der Zugriffsmodus festgelegt.
+
+| Zugriffsmodus | Beschreibung |
+|---|----------------------|
+| r | Lesemodus, Datei muss existieren (default) |
+| r+ | Update-Modus, Datei wird ggf. angelegt und kann gelesen und geschrieben werden |
+| w | Schreibmodus Datei erstellen, bestehende Datei überschreiben |
+| x | Datei erstellen, abbrechen wenn Datei bereits besteht |
+| a | Anhängen: Datei wird ggf. angelegt, neue Inhalte werden am Ende der Datei angehängt, bestehende Inhalte werden dabei nicht gelöscht. |
+
+&nbsp;
+
+netCDF-Dateien können verschiedene Versionen haben (NETCDF3_CLASSIC, NETCDF3_64BIT_OFFSET, NETCDF3_64BIT_DATA, NETCDF4_CLASSIC, NETCDF4). Um die Version abzurufen, kann das Attribut `cdf.data_model` abgerufen werden.
+
+``` {python}
+import netCDF4 as nc
+
+dateipfad = "01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'r')
+print(f"Dateiversion: {cdf.data_model}\n")
+```
+
+Die wesentlichen Informationen können mit der print-Funktion ausgegeben werden `print(cdf)`. Die Ausgabe ist jedoch besonders für komplexere Dateien unübersichtlich.
+
+Die Gruppen der Datei können mit dem Attribut `print(cdf.groups)` ausgegeben werden.
+
+``` {python}
+print(cdf.groups)
+```
+
+Die Ausgabe ist ein Dictionary, das in diesem Fall leer ist. Die Datei verfügt also über keine Unterverzeichnisse (Gruppen).
+
+Die Variablen (die Datensätze) können mit dem Attribut `print(cdf.variables)` ausgegeben werden, die Ausgabe ist ebenfalls ein Dictionary. Die vollständige Ausgabe findet sich im folgenden Beispiel.
+
+``` {python}
+variables = cdf.variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+    break # Abbruch nach erstem Schlüssel-Wert-Paar
+```
+
+::: {#nte-cdf .callout-note collapse="true"}
+## vollständige Ausgabe cdf.variables
+``` {python}
+variables = cdf.variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+
+```
+
+:::
+
+Ebenso können die Dimensionen (`cdf.dimensions`) und die globalen Attribute des Datasets (`cdf.__dict__` oder als Liste mit `cdf.ncattrs()`) ausgegeben werden. Ebenso können die Attribute einer Variablen ausgegeben werden. Variablen werden direkt über den Schlüssel `variable = cdf['key']` oder mit der Funktion `variable = cdf.variables['key']` abgerufen.
+
+::: {.panel-tabset}
+## Dimensionen
+
+``` {python}
+dimensions = cdf.dimensions
+
+for key, value in dimensions.items():
+    print(key)
+    print(value, "\n")
+```
+
+## globale Attribute
+
+``` {python}
+print(cdf.ncattrs(), "\n")
+global_attributes = cdf.__dict__
+
+for key, value in global_attributes.items():
+    print(key)
+    print(value, "\n")
+```
+
+## Attribute einer Variablen
+
+``` {python}
+variable = cdf['HRFC_OTD_FR']
+# Alternativ:
+# variable = cdf.variables['HRFC_OTD_FR']
+
+print("\nAttribute einer Variablen")
+print(f"Als Liste mit variable.ncattrs():\n{variable.ncattrs()}\n")
+
+print(f"Als Dictionary mit variable.__dict__:\n{variable.__dict__}\n")
+```
+
+:::
+
+### Daten in netCDF4-Dateien schreiben
+Um Daten in eine netCDF4-Datei zu schreiben, muss diese in einem der Schreibmodi geöffnet werden `Dataset = nc.Dataset('pfad', mode = 'a')`. Um eine neue Variable anzulegen, muss eine entsprechende Dimension angelegt werden. Wenn die Variable in einen noch nicht bestehenden Pfad gespeichert werden soll, sind auch die entsprechenden Gruppen anzulegen.
+
+  - Gruppen im Wurzelverzeichnis werden mit der Funktion `Dataset.createGroup("Gruppenname")` angelegt. Unterverzeichnisse werden analog als Pfad angelegt: `Dataset.createGroup("/Gruppenname/Unterverzeichnis")` (führenden '/' beachten).
+
+  - Dimensionen beschreiben die Größe einer Variablen und müssen vor der Variablen angelegt werden (Ein Skalar, also ein Einzelwert, hat keine Dimension): `Dataset.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)`. Durch die Übergabe von None oder 0 als Größe, wird eine unbegrenzt große Dimension angelegt (netCDF4-Variablen verhalten sich wie NumPy-Arrays, besitzen aber keine feste Größe. Das bedeutet, es können weitere Daten angehängt werden.). Um beispielsweise eine zweidimensionale Datenstruktur mit 10 Zeilen und 5 Spalten anzulegen, müssen beide Dimensionen separat deklariert werden: `Dataset.createDimension('Dimension1', 10)`, `Dataset.createDimension('Dimension2', 5)`.
+
+  - Variablen werden mit der Funktion `Dataset.createVariable('Name oder Pfad', 'Datentypkürzel', ('Name der Dimension', )). Die Argumente 'Name oder Pfad' und 'Datentypkürzel' sind Pflichtangaben. Die Dimensionen der Variable wurden zuvor mit `cdf_neu.createDimension('Name der Dimension', Größe der Dimension als Ganzzahl)` definiert und werden als Tupel übergeben. Ein Einzelwert wird erstellt, indem die Angabe der Dimension weggelassen wird. Eine zweidimensionale Datenstruktur lässt sich so anlegen: `Dataset.createVariable('Name oder Pfad der Variablen', 'Datentypkürzel', ('Dimension1', 'Dimension2', ))` [siehe Dokumentation](https://unidata.github.io/netcdf4-python/#variables-in-a-netcdf-file).
+
+| Datentypkürzel | Datentyp |
+|:---:|:---:|
+| 'f4' | 32-bit floating point |
+| 'f8' | 64-bit floating point |
+| 'i4' | 32-bit signed integer |
+| 'i2' | 16-bit signed integer |
+| 'i8' | 64-bit signed integer |
+| 'i1' | 8-bit signed integer |
+| 'u1' | 8-bit unsigned integer |
+| 'u2' | 16-bit unsigned integer |
+| 'u4' | 32-bit unsigned integer |
+| 'u8' | 64-bit unsigned integer |
+| 'S1' | single-character string |
+
+&nbsp;
+
+Im folgenden Code wird das Objekt abs_time aus dem vorherigen Abschnitt in einer netCDF4-Datei gespeichert. Mit den Attributen `variablenname.description`, `variablename.source` und `variablenname.units` werden die Metadaten zur Einheit (hier: Millisekunden) hinterlegt. Dazu wird die Anweisung zum Erstellen der Variable einem Objekt `variablename` zugewiesen.
+
+
+``` {python}
+# Neues Dataset im Schreibmodus öffnen
+cdf_neu = nc.Dataset('01-daten/cdf_neu.nc', mode = 'w')
+
+# Gruppe 'Daten' anlegen
+cdf_neu.createGroup("Daten")
+
+# Dimension anlegen
+cdf_neu.createDimension('abs_time', abs_time.shape[0])
+
+# Variable anlegen als 'f4' 32-bit float und einem Objekt zuweisen.
+variablename = cdf_neu.createVariable('/Daten/abs_time', 'f4', ('abs_time', ))
+
+## Attribute anlegen
+variablename.description = 'sehr wichtige Zeitinformationen'
+variablename.source = 'berechnet aus IceBridge ATM L1B Elevation and Return Strength, Version 2'
+variablename.units = 'Millisekunden'
+
+
+# Dataset schließen
+cdf_neu.close()
+
+# Kontrolle
+cdf_neu = nc.Dataset('01-daten/cdf_neu.nc', mode = 'r')
+print(cdf_neu.groups, "\n")
+
+variables = cdf_neu['/Daten'].variables
+for key, value in variables.items():
+    print(key)
+    print(value, "\n")
+
+cdf_neu.close()
+```
+
+#### Operationen mit Variablen
+Wie bei HDF5-Dateien können Operationen mit Variablen nicht direkt ausgeführt werden.
+
+``` {python}
+try:
+  print(cdf['HRFC_OTD_FR'] - 1)
+except TypeError as error:
+  print("Der Direktzugriff führt zu der Fehlermeldung:\n", error)
+
+# Mit einer Kopie kann gearbeitet werden
+print("\nMit einer Kopie geht es:")
+print(cdf['HRFC_OTD_FR'][ :, :])
+
+# Mit Indexbereichen ebenso
+print("\nEbenso mit ausgewählten Indexbereichen:")
+print(cdf['HRFC_OTD_FR'][30:40, 30:40])
+```
+
+Am Ende wird die netCDF4-Datei geschlossen.
+``` {python}
+cdf.close()
+
+```
+
+### Übung Zugriff auf netCDF-Datasets
+**Greifen Sie in der Datei unter dem Pfad '01-daten/LISOTD_HRFC_V2.3.2015.nc' auf die Variable 'HRFC_LIS_RF' zu.**
+
+  - Geben Sie die Attribute der Variablen aus.
+  
+  - Bestimmen Sie die minimale, maximale und die durchschnittliche Anzahl der Blitze.
+
+  - Zentrieren Sie die Daten (Wert - Mittelwert) und hängen Sie eine neue Variable 'HRFC_LIS_RF_centered' an das Dataset an.
+
+
+::: {#tip-netCDF .callout-tip collapse="true"}
+
+Da die Ausführung des Codes die Datei entsprechend der Aufgabenstellung verändert, ist der Code nicht als Python-Code eingebunden.
+
+``` {.raw}
+# Datei im Modus append einlesen
+dateipfad = "01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'a')
+print(cdf.data_model, "\n")
+
+# Variable einlesen
+lis_rf =  cdf['HRFC_LIS_RF']
+
+# Attribute der Variablen ausgeben
+print("Attribute der Variablen 'HRFC_LIS_RF':", lis_rf.ncattrs(), "\n")
+
+# Daten aus der Variablen auslesen
+lis_rf_data =  cdf['HRFC_LIS_RF'][: , :]
+print(f"min: {lis_rf_data.min()}\tmax: {lis_rf_data.max()}\tmean: {lis_rf_data.mean()}\n")
+
+# Daten zentrieren
+# runden wegen interner Darstellung von Gleitkommazahlen - optional
+lis_rf_data_centered = lis_rf_data - lis_rf_data.mean()
+print(f"min: {lis_rf_data_centered.min()}\tmax: {lis_rf_data_centered.max()}\tmean: {lis_rf_data_centered.mean()}\tmean gerundet: {round(lis_rf_data_centered.mean())}\n")
+
+# Daten an die netCDF4-Datei anhängen
+
+## Dimension anlegen
+## latitute und longitude sind die Dimensionen des 2-dimensionalen Arrays
+## Code kann nur einmal ausgeführt werden, prüfen mit try: legt die Dimension bereits an
+## deshalb Konstruktion mit not in, um zu prüfen, ob Dimension bereites existiert
+
+dimensions = cdf.dimensions
+
+### latitude
+DIMENSION = 'latitude'
+if DIMENSION not in dimensions:
+  print(f"Die Dimension {DIMENSION} existiert nicht und wird angelegt.")
+  cdf.createDimension(DIMENSION, lis_rf_data_centered.shape[0])
+else:
+  print(f"Die Dimension {DIMENSION} existiert bereits.")
+
+### longitude
+DIMENSION = 'longitude'
+if DIMENSION not in dimensions:
+  print(f"Die Dimension {DIMENSION} existiert nicht und wird angelegt.")
+  cdf.createDimension(DIMENSION, lis_rf_data_centered.shape[1])
+else:
+  print(f"Die Dimension {DIMENSION} existiert bereits.")
+
+## Variable 'lis_rf_data_centered' anlegen als 'f4' 32-bit float und dem Objekt variablename zuweisen.
+## latitute und longitude sind die Dimensionen des 2-dimensionalen Arrays
+## Code kann nur einmal ausgeführt werden, prüfen mit try: legt die Variable bereits an, deshalb Konstruktion mit not in
+variables = cdf.variables
+
+VARIABLE = 'lis_rf_data_centered'
+
+if VARIABLE not in variables:
+  print(f"Die Variable {VARIABLE} existiert nicht und wird angelegt.\n")
+  variablename = cdf.createVariable('lis_rf_data_centered', 'f4', ('latitude', 'longitude', ))
+
+  ### Daten einsetzen
+  variablename[ :, :] = lis_rf_data_centered
+
+  ### Attribute anlegen
+  variablename.description = 'zentrierte Blitzanzahl'
+  variablename.units = 'absolute Abweichung vom Mittelwert'
+else:
+  print(f"Die Variable {VARIABLE} existiert bereits.\n")
+
+# Dataset schließen
+cdf.close()
+
+# Kontrolle
+dateipfad = "01-daten/LISOTD_HRFC_V2.3.2015.nc"
+cdf = nc.Dataset(filename = dateipfad, mode = 'r')
+
+variables = cdf.variables
+for key, value in variables.items():
+  print(key)
+  # print(value, "\n")
+
+kontrolle =  cdf['lis_rf_data_centered'][: , :]
+
+print(f"\nTyp der Datenstruktur lis_rf_data_centered: {type(kontrolle)}\nAnzahl der Elemente: {kontrolle.size}\tAnzahl Werte: {kontrolle.mask.sum()}\tMittelwert der Werte: {kontrolle.mean()}")
+```
+::: 
+

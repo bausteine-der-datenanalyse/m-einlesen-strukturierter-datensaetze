@@ -1,0 +1,219 @@
+# Datentypabhängige Operationen und Funktionen
+
+``` {python}
+# Vorbereitung: Module aus vorherigem Kapitel erneut laden
+import pandas as pd
+```
+
+``` {python}
+# Der Operator + bewirkt die Addition von Zahlen
+print(1 + 13)
+
+# Der Operator + bewirkt auch das Verketten von strings
+print(str(1) + str(13))
+
+```
+
+Die Sortierfunktion arbeitet abhängig vom Datentyp.
+``` {python}
+
+# Liste von Monatskürzeln erstellen
+dates = pd.Series([ '07.06.2000', '12.01.2000', '11.02.2000', '04.09.2000', '10.03.2000', '03.10.2000', '09.04.2000', '08.05.2000', '06.07.2000', '05.08.2000', '02.11.2000', '01.12.2000'])
+dates = pd.to_datetime(dates, format = '%d.%m.%Y');
+
+print(f"Eine unsortierte Liste von Monatskürzeln:\n{list(dates.dt.strftime('%b'))}")
+
+print(f"\nDie Liste alphabetisch sortiert:\n{sorted(list(dates.dt.strftime('%b')))}")
+
+print(f"\nDie Liste als datetime-Objekt sortiert:\n{list(dates.sort_values().dt.strftime('%b'))}")
+
+```
+
+:::
+
+::: {#tip-datatype .callout-tip collapse="false"}
+## Datentyp kontrollieren und plausibilisieren
+Beim Einlesen von Datensätzen ist es wichtig, die korrekte Erkennung der Datentypen zu kontrollieren bzw. aktiv zu steuern. Weitere Methoden für die formale Prüfung des Datentyps und für die Kontrolle des Wertebereichs werden in 
+[@sec-numpypandas] vorgestellt.
+::: 
+
+### Fehlende Werte {#sec-missing}
+Ein besonderer Datentyp ist der zur Repräsentation fehlender Werte. In Python wird zwischen nicht existenten und nicht definierten Werten unterschieden.
+
+#### Nullwert None
+Der sogenannte Nullwert in Python ist `None`, das zu den definierten Schlüsselwörtern in Python gehört.
+``` {python}
+print(type(None))
+
+```
+
+`None` repräsentiert nicht existente Werte und Objekte. Leere (aber existente) Objekte gehören nicht zum Datentyp `None`.
+
+``` {python}
+leere_liste = []
+leere_liste == None
+```
+
+`None` kann Funktionen als Argument übergeben oder von diesen als Rückgabewert ausgegeben werden. Operationen sind mit `None` jedoch nicht möglich. 
+``` {python}
+# Operationen mit None führen zu Fehlermeldungen
+try:
+  print(None + 1)
+except TypeError as error:
+  print("Der übergebene Wert führt zu der Fehlermeldung:\n", error)
+else:
+  print(None + 1)
+
+```
+
+Eine Ausnahme ist die Umwandlung in eine Zeichenkette.
+``` {python}
+# Eine Ausnahme ist die Umwandlung in strings
+a = None
+print("\nprint(a) gibt den Nullwert zurück:\n", a, sep = "")
+
+print("\nstr(a) gibt eine Zeichenkette zurück:")
+str(a)
+
+```
+
+#### NaN
+Um mit fehlenden Werten innerhalb eines Datensatzes arbeiten zu können, gibt es den Wert `NaN`, der zur Klasse der Fließkommazahlen gehört. `NaN` steht für Not a Number und repräsentiert undefinierte oder nicht darstellbare Werte. Beispielsweise berechnet die Methode `pd.diff()` die Differenz jedes Werts zu seinem Vorgänger. Da der erste Wert keinen Vorgänger hat, wird `NaN` erzeugt.
+
+``` {python}
+my_series = pd.Series([1, 2, 4, 8])
+my_series.diff()
+```
+
+Anders als `None` ist `NaN` kein Standardschlüsselwort in Python. Der Wert `NaN` wird erzeugt mit `float('nan')` oder `float('NaN')`, die Groß- und Kleinschreibung spielt keine Rolle. `NaN` hat also den Datentyp Fließkommazahl. Die Module math und NumPy bieten mit `math.nan` und `np.nan` ebenfalls Funktionen, um `NaN` zu erzeugen.
+
+``` {python}
+print(type(float('NaN')))
+
+```
+
+Mit dem Wert 'NaN' können Operationen ausgeführt werden. Das Ergebnis ist immer `NaN`.
+``` {python}
+print(float('NaN') + 1)
+```
+
+Einige Funktionen können mit `NaN` als Platzhalter für fehlende Werte umgehen.
+``` {python}
+# Python-Basis
+print("sum():", sum([1, 2, float('NaN'), 4]), "\n")
+print("max():", max([1, 2, float('NaN'), 4]), "\n")
+print("any():", any([1, 2, float('NaN'), 4]), "\n")
+
+# Pandas
+daten_mit_nan = pd.Series([1, 2, float('NaN'), 4])
+print(daten_mit_nan + 1)
+print("\nSumme des Datensates:", daten_mit_nan.sum())
+```
+
+::: {#wrn-logicbasepython .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None` und `NaN`. 
+
+``` {python}
+bool_values = [None, float('NaN')]
+
+for element in bool_values:
+  bool_value = bool(element)
+  print("Wahrheitswert von", element, "ist", bool_value)
+```
+
+Dies gilt auch für die Wertgleichheit.
+``` {python}
+for element in bool_values:
+  result = element == element
+  print("Wertgleichheit von", element, "ist", result)
+```
+
+:::
+
+### Fehlende Werte in der Praxis
+`None` und `NaN` sind pythonspezifische Repräsentationen für nicht existente oder nicht definierte Werte. In der Praxis werden fehlende Werte in Datensätzen auf unterschiedliche Weise gekennzeichnet. 
+
+In Datensätzen übliche Werte sind:
+
+  - kein Eintrag, beispielsweise in kommaseparierten Dateien eine leere Zeichenkette `""`
+
+  - definierte Zeichenfolge: `NA` in der Programmiersprache R, `NULL` in der Datenbanksprache SQL, `.` in der Statistik-Software Stata
+  
+  - (mehrere) manuell gewählte Zeichen oder Ziffern außerhalb des zulässigen Wertebereichs wie -1, -88, -99 (häufig bei Umfragedaten)
+
+Die Art der Kennzeichnung ist jeweils mit Vor- und Nachteilen verbunden. Eine definierte Zeichenfolge für fehlende Werte hilft dabei, Lücken im Datensatz von Fehlern bei der Datenerfassung zu unterscheiden. Dazu ist eine definierte Zeichenfolge wie "NA" besser als eine leere Zeichenkette geeignet. Manuell gewählte Werte erlauben es, bei der automatischen Auswertung eines Datensatzes abhängig von der Situation ein bestimmtes Verhalten für jede Variable festzulegen (z. B. Unterscheidung von nicht zutreffend, Aussage verweigert, weiß nicht, Interview abgebrochen keine Antwort). 
+
+::: {#tip-missingvalues .callout-tip collapse="false"}
+## fehlende Werte
+
+Die Identifizierung und ggf. Bereinigung fehlender Werte ist ein wichtiger Schritt beim Einlesen strukturierter Datensätze. Dabei hilft es, die gängigen Kennzeichnungen für fehlende Werte zu kennen und sich über die Konventionen des jeweiligen Dateiformats bzw. der jeweiligen Disziplin zu informieren. Dennoch ist manchmal ein gewisser Spürsinn unerlässlich. Geeignete Funktionen zur Identifizierung fehlender Werte werden in @sec-numpypandas vorgestellt.
+
+:::
+
+## Metadaten {#sec-metadaten}
+Metadaten sind beschreibende Informationen eines Datensatzes. Metadaten geben beispielsweise an:
+
+  - welche Datentypen ein Datensatz enthält,
+
+  - verwendete Kodierschemen, Skalen oder minimal und maximal zulässige Werte,
+
+  - die Bedingungen, unter denen die Daten erhoben wurden,
+
+  - Herkunft der Daten,
+
+  - Beziehungen zwischen Variablen und Datensätzen,
+  
+  - urheberrechtliche Informationen und Lizenzhinweise.
+
+(vgl. [The HDF Group Help Desk](https://docs.hdfgroup.org/archive/support/HDF5/doc/Advanced/HDF5_Metadata/index.html))
+
+Spezialisierte Dateiformate wie netCDF oder HDF deklarieren Metadaten explizit in dafür vorgesehenen Feldern. Vielen Dateiformaten fehlt eine solche Funktion. Relevante Metadaten stehen deshalb häufig im Dateinamen, in Spaltenbeschriftungen, in zusätzlichen Tabellenblättern oder in separaten Dokumenten (die nicht immer zur Verfügung stehen).
+
+::: {#tip-metadata .callout-tip collapse="false"}
+## Metadaten
+Insbesondere vor dem Einlesen komplexer Datensätze sollten Begleitmaterialien, sofern vorhanden, studiert werden. 
+
+:::
+
+## Tidy data {#sec-tidydata}
+Datensätze werden mit verschiedenen Zielstellungen angelegt, etwa dass eine bequeme Dateneingabe möglich ist. Dies führt aber häufig dazu, dass Datensätze für die skriptbasierte Datenanalyse zunächst aufwändig aufgeräumt werden müssen.
+
+::: {.border layout="[5, 90, 5]"}
+
+&nbsp;
+
+“Tidy datasets are all alike, but every messy dataset is messy in its own way.” [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+&nbsp;
+
+:::
+
+Tidy data ist ein System von Hadley Wickham, das dabei hilft, Datensätze in ein aufgeräumtes (tidy) Format zu bringen. Das Aufräumen von Datensätzen ist eine vorbereitende Tätigkeit mit dem Ziel, während der eigentlichen Datenanalyse möglichst wenig Zeit für das Umformen von Datenstrukturen aufwenden zu müssen. Dadurch soll ein größerer Fokus auf den inhaltlichen Aspekt der Datenanalyse ermöglicht werden. [@R-for-Data-Science, Kapitel 5 Data tidying]
+
+::: {#imp-tidy-data .callout-important}
+## tidy data
+
+:::: {.border layout="[[5, 90, 5], [1]]"}
+
+&nbsp;
+
+::::: {}
+"Das System tidy data besteht aus drei Regeln:
+
+1. Jede Variable ist eine Spalte; jede Spalte ist eine Variable.
+
+2. Jede Beobachtung ist eine Zeile; jede Zeile ist eine Beobachtung.
+
+3. Jeder Wert ist eine Zelle; jede Zelle ist ein einzelner Wert."
+:::::
+
+&nbsp;
+
+[@R-for-Data-Science, Kapitel 5 Data tidying, eigene Übersetzung]
+::::
+:::
+
+Tidy data bezieht sich auf zweidimensionale Datensätze, bietet aber auch darüber hinaus eine Orientierung, um unterschiedlich aufgebaute Datensätze strukturiert einzulesen und für die Datenanalyse vorzubereiten. Tidy data ist kein strikt zu befolgendes Regelwerk. Es ist völlig in Ordnung, eine andere Struktur zu wählen, wenn die Datenanalyse damit leichter durchgeführt werden kann.
+

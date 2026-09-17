@@ -1,0 +1,832 @@
+# Die Module NumPy und Pandas {#sec-numpypandas}
+Die Module NumPy und Pandas erlauben ein effizientes Arbeiten mit Datensätzen. Insbesondere das Lesen- und Schreiben von Dateien und die Verwaltung von Datentypen ist erheblich einfacher als mit der Python-Basis. Außerdem sind die vektorisierten Operationen vielfach schneller als Operationen mit Python. Das Modul Pandas basiert auf NumPy. In den folgenden Abschnitten werden beide Module behandelt.
+
+Eine kurze Übersicht der Vor- und Nachteile:
+
+  * [NumPy](https://bausteine-der-datenanalyse.github.io/w-python-numpy-grundlagen/output/book/): n-dimensionale Array-Struktur mit Unterstützung der am häufigsten verwendeten Datentypen sowie zahlreicher numerischer Formate für spezialisierte wissenschaftliche Berechnungen ([siehe Dokumentation](https://numpy.org/devdocs/reference/arrays.scalars.html)). Ein Array kann immer nur einen Datentyp haben und die Größe von Arrays ist unveränderlich. Dafür werden Operationen etwas schneller als in der DataFrame-Struktur von Pandas ausgeführt.
+
+    - Spaltennamen sind mit einem strukturierten dtype möglich ([siehe Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html#setting-the-names))
+
+  * [Pandas](https://bausteine-der-datenanalyse.github.io/w-pandas/output/book/): 2-dimensionale DataFrame-Struktur im long- und wide-Format. DataFrames können mehrere Datentypen enthalten und die Größe von DataFrames ist veränderlich. Unterstützung von alphanumerischen Spalten- und Indexbeschriftungen. Direktes Abrufen von Dateien aus dem Internet möglich.
+
+    - dreidimensionale DataFrames sind mit einem Multiindex möglich --> das widerspricht aber dem Konzept von Tidy Data
+
+Für beide Module haben sich diese Kürzel etabliert:
+
+``` {python}
+import numpy as np
+import pandas as pd
+
+# Deklarieren der Anzahl der Nachkommastellen
+pd.set_option("display.precision", 2)
+```
+
+::: {#tip-pypandas .callout-tip collapse="false"}
+## Arbeiten mit NumPy und Pandas
+Ob Sie mit NumPy oder mit Pandas arbeiten, hängt von dem vorliegenden Datensatz und persönlichen Präferenzen ab. 
+
+Das Paket Pandas erlaubt es, Daten aus verschiedenen Quellen wie CSV-Dateien oder Excel-Tabellen und mit unterschiedlichen Datentypen in einen DataFrame zu laden. Anschließend können diese mit wenigen Befehlen untersucht und umstrukturiert werden. Komplexe Operationen wie das Umformen von Datensätzen, das Gruppieren und Aggregieren von Daten sowie das Filtern und Sortieren sind effizient möglich.
+
+Bis auf wenige Ausnahmen sind Pandas und NumPy zueinander kompatibel. Es spricht nichts dagegen, Ihre Daten mit Pandas vorzubereiten und anschließend mit NumPy auszuwerten.
+
+:::
+
+## Datentypen
+NumPy unterstützt folgende Datentypen:
+
+|      Datentyp NumPy-Array  |      Datentyp in Python |
+|---|---|
+|     int_    |     int    |
+|     double    |     float    |
+|     cdouble    |     complex    |
+|     bytes_    |     bytes    |
+|     str_    |     str    |
+|     bool_    |     bool    |
+|     datetime64    |     datetime.datetime    |
+|     timedelta64    |     datetime.timedelta    |
+
+[Dokumentation NumPy](https://numpy.org/devdocs/reference/arrays.scalars.html)
+
+In den meisten Fällen verwendet das Modul Pandas die NumPy-Datentypen. Pandas führt aber auch einige zusätzliche Datentypen ein. Eine vollständige Liste finden Sie in der [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/arrays.html). Die wichtigsten zusätzlichen Datentypen sind:
+
+  - [Kategorie](https://pandas.pydata.org/docs/user_guide/categorical.html) `dtype = 'category'`
+
+  - [Zeitzonenbewusstes Datumsformat](https://pandas.pydata.org/docs/reference/api/pandas.Timestamp.html#pandas.Timestamp) `dtype = 'datetime64[ns, US/Eastern]'`
+
+## Dateien lesen und schreiben
+In den Werkzeugbausteinen NumPy und Pandas haben Sie die Funktionen zum Lesen und Schreiben von Dateien kennengelernt.
+
+::: {.panel-tabset}
+## NumPy
+In NumPy können Dateien mit der Funktion `np.loadtxt()` gelesen und mit der Funktion `np.savetxt()` geschrieben werden. 
+
+  - `np.loadtxt(fname = data.txt, delimiter = ";", skiprows= #Reihen)`  
+
+  - `np.savetxt(fname = dateipfad, X = daten, header = kommentar, fmt='%5.2f')`
+
+## Pandas
+In Pandas werden Dateien mit einer Reihe spezialisierter Funktionen gelesen und geschrieben, die einem einheitlichen Schema folgen. Funktionen zum Lesen von Dateien werden in der Form `pd.read_csv` und Funktionen zum Schreiben in der Form `pd.to_csv` aufgerufen. Mit Pandas können auch Dateien aus dem Internet abgerufen werden `pd.read_csv(URL)`.
+
+:::: {.border}
+| Format Type | Data Description | Reader | Writer |
+|:---:|:---:|:---:|:---:|
+| text | CSV | read_csv | to_csv |
+| text | Fixed-Width Text File | read_fwf | NA |
+| text | JSON | read_json | to_json |
+| text | HTML | read_html | to_html |
+| text | LaTeX | Styler.to_latex | NA |
+| text | XML | read_xml | to_xml |
+| text | Local clipboard | read_clipboard | to_clipboard |
+| binary | MS Excel | read_excel | to_excel |
+| binary | OpenDocument | read_excel | NA |
+| binary | HDF5 Format | read_hdf | to_hdf |
+| binary | Feather Format | read_feather | to_feather |
+| binary | Parquet Format | read_parquet | to_parquet |
+| binary | ORC Format | read_orc | to_orc |
+| binary | Stata | read_stata | to_stata |
+| binary | SAS | read_sas | NA |
+| binary | SPSS | read_spss | NA |
+| binary | Python Pickle Format | read_pickle | to_pickle |
+| SQL | SQL | read_sql | to_sql |
+
+([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html))
+::::
+::: 
+
+## Datentypen erkennen und festlegen
+Der Datentyp bestimmt, wie bereits ausgeführt, den zulässigen Wertebereich einer Variablen, zulässige Operationen und die Ausführung von Operatoren und Funktionen in Python. Die Module NumPy und Pandas bieten eine Reihe von Funktionen, um den Datentyp von Variablen zu kontrollieren und festzulegen. 
+
+*Hinweis: Der Datentyp datetime wird in [@sec-zeitreihen] behandelt.*
+
+### NumPy
+Mit NumPy kann der Datentyp eines Arrays beim Einlesen einer Datei mit dem Argument `dtype` festgelegt werden `np.loadtxt(fname = data.txt, dtype = 'float')`. Das Argument `dtype` akzeptiert die Angabe eines Datentyps, Schlüsselwörter oder Kürzel. Weiter Informationen erhalten Sie in der [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.dtypes.html).
+
+| Datentyp | Schlüsselwort | Kürzel | dtype |
+|---|---|---|---|
+| Fließkommazahl | float | f8 | float64 |
+| Ganzzahl | int | i | int32 |
+| Wahrheitswert | bool | ? | bool |
+| Datum | datetime64 | M | datetime64 |
+| Zeichenkette | str | U | U + Ziffer zur Angabe der benötigten Bytes |
+
+Der Datentyp eines Arrays kann mit dem Attribut `np.dtype` bestimmt werden. Der Datentyp eines Objekts kann mit der Methode `np.array = np.array.astype()` geändert werden.
+
+
+Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
+
+``` {python}
+dateipfad = '01-daten/TC01.csv'
+daten = np.loadtxt(dateipfad)
+```
+
+**Prüfen Sie den dtype der Datei und legen Sie eine Kopie des Objekts mit Datentyp Ganzzahl an. Wie kann überprüft werden, ob bei der Umwandlung in Ganzzahlen Nachkommastellen abgeschnitten wurden?**
+
+::: {#tip-numpydatentyp .callout-tip collapse="true"}
+## Musterlösung Datentypumwandlung
+
+``` {python}
+# Ausgabe des Datentyps
+print(daten.dtype)
+
+# Umwandlung in Ganzzahl
+daten_int = daten.astype('int')
+
+# Prüfen auf Datenverlust
+prüfsumme = daten - daten_int
+print(f"Differenz daten - daten_int: {prüfsumme.sum()}")
+
+```
+
+:::
+
+### Pandas
+Das Modul Pandas ist auf den Umgang mit unterschiedlichen Datentypen spezialisiert. Den Funktionen zum Einlesen von Daten kann mit dem Argument `dtype` der Datentyp übergeben werden. Für mehrere Spalten ist dies in Form eines Dictionaries in der Form `{'Spaltenname': 'dtype'}` möglich.  
+Das Attribut zur Ausgabe des Datentyps heißt passenderweise `pd.DataFrame.dtypes` (angefügtes s beachten). Der Datentyp eines Pandas-Datenobjekts kann analog zu NumPy mit `pd.Series = pd.Series.astype()` geändert werden.
+
+#### Zahnwachstum bei Meerschweinchen
+In einer Gruppe von 60 Meerschweinchen (**1. Spalte ohne Beschriftung**) wurde die Länge der zahnbildenden Zellen (Odontoblasten) in Micron gemessen (**len**). Den Tieren wurde zuvor Vitamin C in Form von Ascorbinsäure (VC) oder Orangensaft (VC) verabreicht (**supp**). Die Meerschweinchen erhielten Dosen von 0.5, 1 oder 2 Milligramm Vitamin C pro Tag  (**dose**). Die Messdaten sind in der Datei ToothGrowth.csv gespeichert (Crampton 1947.)
+
+::: {.border}
+Crampton, E. W. 1947. „THE GROWTH OF THE ODONTOBLASTS OF THE INCISOR TOOTH AS A CRITERION OF THE VITAMIN C INTAKE OF THE GUINEA PIG“. The Journal of Nutrition 33 (5): 491–504. <https://doi.org/10.1093/jn/33.5.491> 
+:::
+
+&nbsp;
+
+ **Lesen Sie die Datei wie folgt ein:**
+
+  - Die Spaltenbeschriftung der 1. Spalte soll mit der Beschriftung 'ID' ersetzt werden (ohne Anführungszeichen).
+  
+  - Die Spalten len und dose sollen mit geeigneten numerischen Datentypen, die Spalte supp als Kategorie eingelesen werden.
+
+::: {#tip-meerschweinchen .callout-tip collapse="true"}
+## Musterlösung Meerschweinchen
+``` {python}
+dateipfad = "01-daten/ToothGrowth.csv"
+meerschweinchen = pd.read_csv(filepath_or_buffer = dateipfad, sep = ',', header = 0, \
+  names = ['ID', 'len', 'supp', 'dose'], dtype = {'ID': 'int', 'len': 'float', 'dose': 'float', 'supp': 'category'})
+
+# Ausgabe jedes sechsten Werts
+meerschweinchen.iloc[meerschweinchen.index % 6 == 0]
+```
+
+``` {python}
+print(meerschweinchen.dtypes)
+```
+
+:::
+
+#### Nützliche Funktionen für die deskriptive Datenanalyse
+Pandas bietet einige praktische Funktionen, um den Aufbau eines Datensatzes zu beschreiben.
+
+Das Attribut `.columns` gibt die Spaltenbeschriftungen als Liste zurück. Ebenfalls ist darüber ein Schreibzugriff möglich.
+``` {python}
+print(meerschweinchen.columns)
+meerschweinchen.columns = ['ID', 'Länge', 'Verabreichung', 'Dosis']
+print(meerschweinchen.columns)
+```
+
+Die Methode `pd.DataFrame.describe()` erzeugt eine beschreibende Statistik für einen DataFrame. Standardmäßig werden alle numerischen Spalten berücksichtigt. Mit dem Argument `include` können die zu berücksichtigenden Spalten vorgegeben werden. `include = all` berücksichtigt alle Spalten, was nicht unbedingt sinnvoll ist. Alternativ kann eine Liste zu berücksichtigender Datentypen übergeben werden. Das Argument `exclude` schließt auf die gleiche Weise Datentypen von der Ausgabe aus.
+
+``` {python}
+print(meerschweinchen.describe(), "\n")
+
+print(meerschweinchen.describe(include = 'all'), "\n")
+
+print(meerschweinchen.describe(include = ['float']), "\n")
+```
+
+Die Methode `pd.DataFrame.count()` zählt alle vorhandenen Werte in jeder Spalte oder  mit `pd.DataFrame.count(axis = 'columns')` in jeder Zeile.
+``` {python}
+meerschweinchen.count(axis = 'rows') # der Standardwert von axis ist 'rows'
+```
+
+Die Methode `pd.DataFrame.info()` erzeugt eine Beschreibung des Datensatzes. 
+``` {python}
+meerschweinchen.info()
+```
+
+Die Methode `pd.unique()` listet alle einzigartigen Werte auf.
+``` {python}
+meerschweinchen['Dosis'].unique()
+```
+
+::: {#tip-pandasinfo .callout-tip collapse="false"}
+## Nützliche Funktionen
+Pandas bietet einige praktische Funktionen, um eine eingelesene Datei zu kontrollieren. Machen Sie sich die Verwendung von `pd.dtypes` oder `pd.DataFrame.info()` zur Angewohnheit. 
+:::
+
+### Aufgabe Datentypen
+Das britische Energieministerium veröffentlicht Daten zu den Industriestrompreisen in den Mitgliedsändern der Internationalen Energieagentur.  
+**Lesen Sie Tabellenblatt "5.3.1 (excl. taxes)" aus der Excel-Datei 'skript/01-daten/table_531.xlsx' mit Pandas ein. Schauen Sie in der Dokumentation der Funktion [pd.read_excel](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) nach, wie Sie das korrekte Tabellenblatt auswählen können. Stellen Sie sicher, dass alle Spalten mit einem numerischen Datentyp eingelesen werden.**
+
+::: {.border}
+Department for Energy Security & Net Zero. 2024. Energy Prices International Comparisons. Industrial electricity prices in the IEA. <https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/670121/table_531.xls>
+:::
+
+::: {#tip-taxes .callout-tip collapse="true"}
+## Musterlösung 5.3.1 (excl. taxes)
+
+Überspringen der führenden Zeilen mit dem Argument `header = 8`. Auswahl des Tabellenblatts mit `sheet_name = "5.3.1 (excl. taxes)"` und Kontrolle der erkannten Datentypen mit `taxes.dtypes` 
+``` {python}
+dateipfad = '01-daten/table_531.xlsx'
+
+taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
+  header = 8)
+
+taxes.dtypes
+
+```
+
+Werte in Spalte 'Republic of Türkiye' mit `pd.unique()` ansehen.
+``` {python}
+
+taxes['Republic of Türkiye'].unique()
+
+```
+
+Zeichenkette '..' entfernen und Datentyp mit Methode `pd.astype('float64')` ändern.
+
+  - Variante 1: als fehlenden Wert beim Einlesen deklarieren. 
+  
+  - Variante 2: Nach dem Einlesen Indexposition bestimmen und Wert ersetzen. Das verkettete Slicing `df["col"][row_indexer] = value` wird mit der Pandas Version 3.0 nicht mehr unterstützt und gibt deshalb eine Fehlermeldung aus. Künftig ist folgende Syntax zu verwenden: `df.loc[row_indexer, "col"] = value`.
+
+``` {python}
+# Variante 1: '..' als fehlenden Wert deklarieren
+# taxes = pd.read_excel(io = dateipfad, sheet_name = "5.3.1 (excl. taxes)", \
+#   header = 8, na_values = ['..'])
+
+# Variante 2: Index des Werts bestimmen und mit np.nan überschreiben
+indexposition = taxes['Republic of Türkiye'] == '..'
+
+taxes.loc[indexposition, 'Republic of Türkiye'] = np.nan
+taxes['Republic of Türkiye'] = taxes['Republic of Türkiye'].astype('float64')
+
+taxes.dtypes
+```
+
+:::
+
+## Umgang mit fehlenden Werten
+Eine unerwartet als string oder object eingelesene Spalte weist häufig auf fehlende Werte hin, die durch Sonderzeichen gekennzeichnet sind. Die Module NumPy und Pandas bieten Funktionen, um fehlende Werte bereits beim Einlesen zu erkennen und umzuwandeln.
+
+*Hinweis: Maskierte NumPy-Arrays werden in [@sec-ma] behandelt.*
+
+### NumPy
+Die NumPy-Funktion `np.loadtxt()` wird verwendet, um vollständige Datensätze einzulesen. Fehlende Werte im Datensatz können problematisch sein, da diese entweder zu Fehlermeldungen bezüglich des Datentyps führen oder übersprungen werden, sodass das NumPy-Array kürzer als der eingelesene Datensatz ist. Da NumPy-Arrays immer nur einen Datentyp und eine feste Länge haben, kann das bei der Durchführung von Operationen mit mehreren Arrays zu Fehlern führen.
+
+Folgende Datei ist Ihnen aus dem w-NumPy bekannt.
+
+``` {python}
+dateipfad = '01-daten/TC01.csv'
+daten_ohne_fehlende_werte = np.loadtxt(dateipfad)
+
+print("Daten:", daten_ohne_fehlende_werte)
+print("Struktur:", daten_ohne_fehlende_werte.shape, "dtype:", daten_ohne_fehlende_werte.dtype)
+
+```
+
+Angenommen, Sie haben eine zweite Messung durchgeführt und möchten die Differenz beider Datensätze berechnen. In der zweiten Messung haben Sensorfehler zu fehlenden Werten geführt, die mit `--` markiert sind. Die Funktion `np.loadtxt()` kann jedoch mit fehlenden Werten nicht umgehen und gibt eine Fehlermeldung zurück. 
+
+``` {python}
+
+dateipfad = '01-daten/TC01_double_hyphen.csv'
+
+try:
+  daten_double_hypen = np.loadtxt(dateipfad)
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '--':", daten_double_hypen, "dtype:", daten_double_hypen.dtype) 
+  
+```
+
+#### Die Funktion np.genfromtxt()
+Um Datensätze mit fehlenden Werten einzulesen, wird die Funktion `np.genfromtxt(fname, delimiter = None, missing_values = None, filling_values = None)` verwendet. Dieses durchläuft den Datensatz `fname` in zwei Schleifen, weshalb die Funktion langsamer als `np.loadtxt()` ist. Die erste Schleife teilt den Datensatz zeilenweise am optional übergebenen Trennzeichen `delimiter` in eine Zeichenkette auf. Die zweite Schleife konvertiert jede Zeichenkette in den passenden Datentyp. Mit den optionalen Argumenten `missing_values` und `filling_values` können der Funktion Zeichenfolgen übergeben werden, mit der fehlende Werte markiert sind bzw. ersetzt werden sollen. ([NumPy Dokumentation](https://numpy.org/doc/stable/user/basics.io.genfromtxt.html))
+
+``` {python}
+dateipfad = '01-daten/TC01_double_hyphen.csv'
+daten_double_hypen = np.genfromtxt(dateipfad, missing_values = '--', filling_values = np.nan)
+
+print("\nDaten mit fehlenden Werten '--':", daten_double_hypen)
+print("Struktur:", daten_double_hypen.shape, "dtype:", daten_double_hypen.dtype)
+```
+
+Durch die Umwandlung fehlender Werte in `nan`, sind Operationen mit gleichlangen NumPy-Arrays möglich.
+
+``` {python}
+daten_differenz = daten_ohne_fehlende_werte - daten_double_hypen
+print(daten_differenz)
+```
+
+Die Funktion `np.genfromtxt()` kann beliebige Zeichenketten als fehlenden Wert verarbeiten. Lediglich leere Zellen können problematisch sein, da deren Inhalt `'\n'` als Zeilentrenner verarbeitet wird.
+
+::: {#nte-npgenfromtxt .callout-note collapse="true"}
+## Leere Zellen mit np.genfromtxt()
+
+Enthält eine Datei leere Zellen, können diese nicht eingelesen werden, da diese automatisch übersprungen werden.
+
+``` {python}
+
+# Datei ohne Markierung fehlender Werte
+dateipfad = '01-daten/TC01_empty_lines.csv'
+daten_empty_lines = np.genfromtxt(dateipfad, missing_values = '', filling_values = np.nan) 
+
+print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
+print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
+```
+
+Das Array ist zwei Elemente kürzer. Die Subtraktion von einem längeren NumPy-Array scheitert mit einer Fehlermeldung.
+
+``` {python}
+
+try:
+  result = daten_ohne_fehlende_werte - daten_empty_lines
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(result)
+
+```
+
+In diesem Fall muss auf die Stringbearbeitung aus der Python-Basis zurückgegriffen werden. Die bearbeitete Liste kann wie gewohnt mit `np.genfromtxt()` eingelesen werden.
+
+``` {python}
+
+# Einlesen über Datenobjekt
+datenobjekt_empty_lines = open(dateipfad, 'r', encoding = 'utf-8')
+daten_empty_lines = datenobjekt_empty_lines.readlines()
+datenobjekt_empty_lines.close()
+
+print("Das ausgelesene Datenobjekt (Ausschnitt):\n", daten_empty_lines[0:10])
+
+# Stringbearbeitung mit replace('\n', '')
+for i in range(len(daten_empty_lines)):
+
+  if daten_empty_lines[i] == '\n':
+    daten_empty_lines[i] = 'platzhalter'
+  else:
+    daten_empty_lines[i] = daten_empty_lines[i].replace('\n', '')
+
+print("\nNach der Stringbearbeitung (Ausschnitt):\n", daten_empty_lines[0:10])
+
+# Einlesen mit np.genfromtxt
+daten_empty_lines = np.genfromtxt(daten_empty_lines, missing_values = 'platzhalter', filling_values = np.nan)
+print("\nDaten mit fehlenden Werten '':", daten_empty_lines)
+print("Struktur:", daten_empty_lines.shape, "dtype:", daten_empty_lines.dtype)
+```
+
+:::
+
+Besonders bei Dateien mit mehreren Spalten führen leere Zellen schnell zu Fehlern. Hier ist es erforderlich, den Zeichentrenner mit dem Argument `delimiter` zu spezifizieren. Aus der Dokumentation:  
+"When spaces are used as delimiters, or when no delimiter has been given as input, there should not be any missing data between two fields." ([NumPy Dokumentation](https://numpy.org/doc/stable/reference/generated/numpy.genfromtxt.html))
+
+::: {#nte-npgenfromtxt .callout-note collapse="true"}
+## Leere Zellen in mehreren Spalten mit np.genfromtxt()
+Ohne Spezifikation des Arguments `delimiter` wird nur eine Spalte eingelesen, die ausschließlich `np.nan` enthält.
+``` {python}
+# ohne Spezifikation von delimiter
+dateipfad = '01-daten/TC01_missing_values_multi_column.csv'
+daten_empty_lines2 = np.genfromtxt(dateipfad, missing_values = '', filling_values = np.nan, ndmin = 2)
+
+print("Struktur:", daten_empty_lines2.shape, "dtype:", daten_empty_lines2.dtype)
+print("Die ersten drei Zeilen:\n", daten_empty_lines2[0:3])
+
+```
+
+Wird das Argument `delimiter = ','` übergeben, wird die Datei korrekt eingelesen.
+``` {python}
+# mit Spezifikation von delimiter
+daten_empty_lines2 = np.genfromtxt(dateipfad, delimiter = ',', missing_values = '', filling_values = np.nan, ndmin = 2)
+
+print("Struktur:", daten_empty_lines2.shape, "dtype:", daten_empty_lines2.dtype)
+print("\nDaten mit fehlenden Werten '':\n", daten_empty_lines2)
+```
+
+:::
+
+#### Fehlende Werte in NumPy erzeugen, prüfen, finden, ersetzen, löschen
+Das Modul NumPy bietet Funktionen, um mit fehlenden Werten zu arbeiten.
+
+  - `np.nan` erzeugt einen fehlenden Wert.
+
+  - `np.isnan()` prüft auf einen fehlenden Wert und gibt einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück.
+
+  - `np.nonzero(np.isnan(array))` gibt ein Tuple zurück, das ein Array mit den Indexpositionen der Elemente mit dem Wert 'nan' enthält. Auf das Array kann mit `np.nonzero(np.isnan(array))[0]` zugegriffen werden. Je nach Situation kann die Umwandlung in eine Liste nützlich sein `np.nonzero(np.isnan(array))[0].tolist()`.  
+  Eine ähnliche Funktion ist `np.argwhere(np.isnan(array))`, deren Ausgabe aber nicht für das Slicing mehrdimensionaler Arrays geeignet ist (siehe folgendes Beispiel).  
+
+::: {#nte-npargwhere .callout-note collapse="true"}
+## Die Funktion np.argwhere()
+
+Eine andere Funktion, um die Indexposition eines Werts zu bestimmen, ist die Funktion `np.argwhere()`. Der Aufruf der Funktion `np.argwhere(np.isnan(array))` gibt ein NumPy-Array mit den Indexposition Elemente mit dem Wert `nan` zurück. 
+
+``` {python}
+array = np.array([[1, np.nan, np.nan], [4, 5, np.nan]])
+print(array)
+
+np.argwhere(np.isnan(array))
+```
+
+Das mit `np.argwhere()` erzeugte Array ist aber nicht geeignet, um Arraybereiche auszuwählen.
+
+``` {python}
+try:
+  array[np.argwhere(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.argwhere(np.isnan(array))]) 
+
+```
+
+Zum Vergleich mit `np.nonzero()`
+
+``` {python}
+try:
+  array[np.nonzero(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.nonzero(np.isnan(array))]) 
+
+
+```
+
+:::: {#wrn-npargwhere .callout-warning appearance="simple" collapse="false"}
+## Die Funktion np.arghwhere()
+Die Auswahl von Array-Bereichen mit `np.argwhere()` funktioniert für eindimensionale Arrays.
+``` {python}
+array = np.array([1, np.nan, np.nan, 4, 5])
+
+try:
+  array[np.argwhere(np.isnan(array))]
+except IndexError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(array[np.argwhere(np.isnan(array))]) 
+```
+
+::::
+:::
+
+  - `nan_to_num(x = array, nan = 0.0)` ersetzt im Array x `nan` durch den Wert 0.0 oder durch den im Argument `nan` übergebenen Wert. (Hinweis: `nan_to_num()` ersetzt standardmäßig auch `np.inf` durch große positive sowie `-np.inf` durch große negative Zahlen.)  
+  Die Ersetzung eines bestimmten Werts ist auch mit einem logischen Vektor möglich (siehe folgendes Beispiel).
+
+::: {#nte-vectorslicing .callout-note collapse="true"}
+## Wertzuweisung mit logischem Vektor
+Die Ersetzung eines bestimmten Werts ist auch durch die Auswahl bestimmter Array-Bereiche durch einen logischen Vektor möglich.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+b = np.isnan(a)
+
+print(b)
+
+a[b] = 0
+
+print(a)
+```
+
+Dabei können mehrere Bedingungen mit der Funktion `np.logical_or(x1, x2)` als logisches ODER kombiniert werden.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+bedingung1 = np.isnan(a)
+
+bedingung2 = a >= 5
+
+bedingung = np.logical_or(bedingung1, bedingung2)
+
+a[bedingung] = 0
+
+print(a)
+```
+
+Auch ein logisches UND ist möglich (aber in Verbindung mit np.nan nicht sinnvoll). Der Operator * bewirkt das gleiche wie der logische Operator `and` oder die Funktion `np.logical_and(x1, x2)`.
+``` {python}
+a = np.array([1, 2, 3, np.nan, 5, 6, np.nan])
+
+bedingung1 = a < 4
+
+bedingung2 = a >= 1
+
+bedingung = bedingung1 * bedingung2
+
+a[bedingung] = 0
+
+print(a)
+```
+
+:::
+
+  - `np.delete(arr = array, obj)` gibt ein neues (kürzeres) Array ohne die im Parameter obj spezifizierten Array-Bereiche zurück. Alle Elemente mit dem Wert `nan` werden so gelöscht: `np.delete(array, obj = np.nonzero(np.isnan(array)))`  
+
+NumPy wandelt `None` nicht automatisch in `nan` um. NumPy kann den Datentyp des Objekts deshalb nicht bestimmen und gibt `dtype=object` aus:
+
+``` {python}
+
+np_array_with_none = np.array([1, 2, None, 4])
+print(np_array_with_none, np_array_with_none.dtype)
+
+```
+
+**Aufgabe: Wie kann im Array np_array_with_none `None` durch `np.nan` ersetzt werden?**
+
+::: {#tip-numpynone .callout-tip collapse="true"}
+## Lösung
+Eine logische Abfrage von `None` ist möglich. Auf diese Weise kann ein logisches Array erzeugt werden, das zur Auswahl der Indexpositionen verwendet wird, deren Werte ersetzt werden sollen.
+``` {python}
+np_array_with_none = np.array([1, 2, None, 4])
+print(np_array_with_none)
+
+np_array_with_nan = np_array_with_none.copy()
+
+print(f"\nArray mit logischer Abfrage von None:\n{np_array_with_none == None}")
+np_array_with_nan[np_array_with_none == None] = np.nan
+print(f"\nArray mit None ersetzt durch nan:\n{np_array_with_nan, np_array_with_nan.dtype}")
+```
+
+::: 
+
+&nbsp;
+
+#### Operationen mit fehlenden Werten
+Operationen mit `nan` ergeben immer `nan`. Deshalb gibt es in NumPy viele Funktionen, die `nan` automatisch ignorieren bzw. durch einen geeigneten Wert ersetzen. Diese sind bereits am Funktionsnamen erkennbar. Beispielsweise liefern `np.nansum()` und `np.nancumsum()` die Summe bzw. die kumulierte Summe eines Arrays. In der kumulierten Summe werden `nan` durch das laufende Ergebnis ersetzt. Eine vollständige Liste der NumPy-Funktionen finden Sie in der [Dokumentation](https://numpy.org/doc/stable/reference/routines.html).
+
+``` {python}
+print(f"Array mit nan:\n{np_array_with_nan}\n")
+
+print(f"Summe des Arrays:\n{np.sum(np_array_with_nan)}\n")
+
+print(f"nan-Summe des Arrays:\n{np.nansum(np_array_with_nan)}\n")
+
+print(f"kumulierte Summe des Arrays:\n{np.cumsum(np_array_with_nan)}\n")
+
+print(f"kumulierte nan-Summe des Arrays:\n{np.nancumsum(np_array_with_nan)}\n")
+```
+
+### Pandas
+Die Pandas-Funktionen zum Lesen von Dateien können mit fehlenden Werten umgehen. Standardmäßig werden folgende Werte als fehlende Werte erkannt:  
+`['-1.#IND', '1.#QNAN', '1.#IND', '-1.#QNAN', '#N/A N/A', '#N/A', 'N/A', 'n/a', 'NA', '<NA>', '#NA', 'NULL', 'null', 'NaN', '-NaN', 'nan', '-nan', 'None', '']`
+
+Weitere Werte können mit dem Argument `na_values = []` als fehlende Werte definiert werden. Mit dem Argument `keep_default_na = False` kann festgelegt werden, dass ausschließlich die in `na_values = []` übergebenen Werte als fehlende Werte interpretiert werden sollen. Standardmäßig werden mit dem Argument `na_filter = True` auch leere Zellen als NA eingelesen. Vollständig leere Zeilen werden jedoch standardmäßig übersprungen. Dies kann mit dem Argument `skip_blank_lines = False` geändert werden. ([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/io.html#io-navaluesconst))  
+
+``` {python}
+dateipfad = '01-daten/TC01_double_hyphen.csv'
+
+try:
+  daten_double_hypen = pd.read_csv(dateipfad, na_values = ['--'])
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '--':\n", daten_double_hypen, daten_double_hypen.shape) 
+
+```
+
+Mit dem Argument `skip_blank_lines = False` werden leere Zeilen ebenfalls eingelesen. 
+``` {python}
+dateipfad = '01-daten/TC01_empty_lines.csv'
+
+try:
+  daten_empty_lines = pd.read_csv(dateipfad, skip_blank_lines = False)
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '':\n", daten_empty_lines, daten_empty_lines.shape) 
+
+```
+
+Pandas verwendet abhängig vom Datentyp verschiedene Werte zur Kennzeichnung fehlender Werte.
+
+  - `numpy.nan` für NumPy-Datentypen. Hierbei wird der Datentyp automatisch in `np.float64` oder `object` konvertiert.
+
+  - `pd.NA` für Zeichenketten und Ganzzahlen. Der Datentyp bleibt erhalten.
+
+Einlesen der Datei TC01_empty_lines.csv als string:
+``` {python}
+dateipfad = '01-daten/TC01_empty_lines.csv'
+
+try:
+  daten_empty_lines = pd.read_csv(dateipfad, skip_blank_lines = False, dtype = 'string')
+except ValueError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print("Daten mit fehlenden Werten '':\n", daten_empty_lines, daten_empty_lines.shape) 
+
+```
+
+`NA` kann zwar auch als fehlender Wert für Gleitkommazahlen und andere NumPy Datentypen verwendet werden. Allerdings wird dafür ein Pandas-Datentyp benötigt (siehe das folgende Beispiel).
+
+::: {#nte-pdNA .callout-note collapse="true"}
+## pd.Series mit np.nan und pd.NA
+Eine pd.Series mit `np.nan` wird automatisch in `dtype: float64` umgewandelt: 
+``` {python}
+
+try:
+  test = pd.Series([1, 2, np.nan])
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+Eine pd.Series mit `pd.NA` wird als `dtype: object` eingelesen: 
+``` {python}
+
+try:
+  test = pd.Series([1, 2, pd.NA])
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+Der `dtype` kann für eine Series mit `pd.NA` festgelegt werden: 
+``` {python}
+
+try:
+  test = pd.Series([1, 2, pd.NA], dtype = 'Int32')
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+Abhängig vom Datentyp kommt es auf den korrekten `dtype` (NumPy oder Pandas) an, erkennbar an der Groß- und Kleinschreibung. `pd.NA` mit Numpy-Fließkommazahl: 
+``` {python}
+
+try:
+  test = pd.Series([1, 2, pd.NA], dtype = 'float64')
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+`pd.NA` mit Pandas-Fließkommazahl:
+``` {python}
+
+try:
+  test = pd.Series([1, 2, pd.NA], dtype = 'Float64')
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+`np.nan` mit Numpy-Fließkommazahl:
+``` {python}
+
+try:
+  test = pd.Series([1, 2, np.nan], dtype = 'float64')
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+`np.nan` mit Pandas-Fließkommazahl:
+``` {python}
+
+try:
+  test = pd.Series([1, 2, np.nan], dtype = 'Float64')
+except TypeError as error:
+  print("Die Eingabe führt zu der Fehlermeldung:\n", error)
+else:
+  print(test) 
+
+```
+
+:::
+
+&nbsp;
+
+::: {#wrn-logicpandas .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA`. 
+
+``` {python}
+
+bool_values = [None, float('nan'), pd.NA]
+
+for element in bool_values:
+  try:
+    bool_value = bool(element)
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wahrheitswert von", element, "ist", bool_value)
+
+```
+
+Dies gilt auch für die Wertgleichheit.
+``` {python}
+
+bool_values = [None, float('nan'), pd.NA]
+
+for element in bool_values:
+  try:
+    result = element == element
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wertgleichheit von", element, "ist", result)
+
+```
+
+::: 
+
+([Pandas Dokumentation](https://pandas.pydata.org/docs/user_guide/missing_data.html))
+
+#### Fehlende Werte in Pandas erzeugen, prüfen, finden, ersetzen, löschen
+Das Modul Pandas wandelt `None` automatisch in `nan` um. Das Modul Pandas bietet wie das Modul NumPy verschiedene Funktionen, um mit fehlenden Werten zu arbeiten.
+
+  - `pd.NA` erzeugt einen fehlenden Wert (Groß- und Kleinschreibung beachten: `pd.na` funktioniert nicht)
+  
+  - Die Funktionen `pd.isnull()` und `pd.isna()` prüfen auf einen fehlenden Wert und geben einen Wahrheitswert bzw. ein NumPy-Array mit dtype bool zurück. Die Funktionen `pd.notna()` und `pd.notnull()` prüfen den umgekehrten Fall.
+
+  - Die Funktion `np.nonzero(pd.isna())` verwendet die NumPy-Funktion `np.nonzero()` und gibt ein Array mit den Indexpositionen der Elemente mit fehlenden Werten zurück (die Pandas-Funktion pd.nonzero() wird nicht mehr unterstützt).
+
+  - `pd.Series.fillna(value = 0)` ersetzt fehlende Werte mit dem im Argument `value` übergebenen Wert. Die Methoden `pd.ffill()` und `pd.bfill()` ersetzen fehlende Werte mit dem letzten bzw. dem nächsten gültigen Wert. Die Methode `pd.Series.interpolate()` ersetzt fehlende Werte durch Interpolation, wofür ein Datentyp definiert sein muss (`dtype = object` funktioniert nicht). Standardmäßig wird linear interpoliert, es stehen aber verschiedene Methoden zur Verfügung (siehe [Pandas Dokumentation](https://pandas.pydata.org/docs/reference/api/pandas.Series.interpolate.html))
+
+  - Die Methode `pd.Series.dropna()` gibt eine neue (kürzere) Series ohne fehlende Wert zurück.
+
+#### Operationen mit fehlenden Werten
+Operationen mit `pd.NA` ergeben in der Regel `pd.NA`. Es gibt jedoch einige Ausnahmen:
+
+``` {python}
+print(pd.NA ** 0)
+print(1 ** pd.NA)
+
+```
+
+Die Methode `pd.Series.sum()` behandelt `pd.NA` als 0, die Methode `pd.Series.prod()` als 1.
+``` {python}
+print(pd.Series([pd.NA]).sum())
+print(pd.Series([pd.NA]).prod())
+
+```
+
+Reduzierende Methoden wie `pd.Series.min()` oder `pd.Series.mean()` sowie zusammenfassende Methoden wie `pd.Series.cumsum()` oder `pd.Series.cumprod()` überspringen `pd.NA`.
+``` {python}
+print(pd.Series([pd.NA]).min())
+print(pd.Series([pd.NA]).mean())
+print(pd.Series([pd.NA]).cumsum())
+print(pd.Series([pd.NA]).cumprod())
+```
+
+Das Verhalten von Methoden wie `pd.Series.sum()` und von Methoden wie `pd.Series.min()` hat für Datenreihen einen vergleichbaren Effekt, produziert für einzelne Werte jedoch unterschiedliche Ergebnisse.
+
+### Aufgabe fehlende Werte
+Der Deutsche Wetterdienst misst deutschlandweit verschiedene Wetterdaten. In der Datei 'produkt_st_stunde_20230831_20240630_01303.txt' sind stündliche Stationsmessungen der Solarstrahlung in Essen-Bredeney gespeichert.
+
+| Spaltenname | Beschreibung |
+|---|---|
+| STATIONS_ID | Stationsnummer |
+| QN_592 | Qualitätsniveau der Daten |
+| ATMO_LBERG | Stundensumme der atmosphärischen Gegenstrahlung |
+| FD_LBERG | Stundensumme der diffusen solaren Strahlung |
+| FG_LBERG | Stundensumme der Globalstrahlung |
+| SD_LBERG | Stundensumme der Sonnenscheindauer |
+| ZENIT | Zenitwinkel der Sonne 0 - 180 Grad |
+
+::: {.border}
+Deutscher Wetterdienst. 2024. Stündliche Stationsmessung der Solarstrahlung (global/diffus) und der atmosphärischen Gegenstrahlung für Deutschland. <https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/solar/stundenwerte_ST_01303_row.zip> Die Spalten MESS_DATUM, MESS_DATUM_WOZ und eor wurden entfernt.
+:::
+
+&nbsp;
+
+**Bestimmen Sie die Kodierung fehlender Werte und ersetzen Sie diese durch `np.nan` bzw. `pd.NA`. Wie viele Werte wurden ersetzt?**  
+
+::: {#tip-musterlösungfehlendewerte .callout-tip collapse="true"}
+## Musterlösung fehlende Werte
+
+Mit der Methode `df.info()` ist erkennbar, dass der Datensatz vollständig ist.
+``` {python}
+dateipfad = "01-daten/produkt_st_stunde_20230831_20240630_01303.txt"
+solar = pd.read_csv(dateipfad, sep = ";")
+
+solar.info()
+```
+
+Mit der Methode `df.describe()` wird die deskriptive Statistik für numerische Spalten erstellt.  
+``` {python}
+solar.describe()
+```
+
+Drei Spalten weisen als minimalen Wert -999 auf, der inhaltlich nicht sinnvoll ist. Wie oft kommt der Wert -999 in den Spalten vor?
+
+``` {python}
+counting_df = solar[['ATMO_LBERG', 'FD_LBERG', 'FG_LBERG']] == -999
+print(counting_df.sum())
+print("Summe:\t\t ", counting_df.sum().sum())
+```
+
+:::
+

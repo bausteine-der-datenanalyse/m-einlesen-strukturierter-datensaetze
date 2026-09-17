@@ -1,0 +1,180 @@
+# Lernzielkontrolle
+
+``` {python}
+# Vorbereitung: Module aus vorherigem Kapitel erneut laden
+import numpy.ma as ma
+```
+
+## Kompetenzquiz
+
+1. Unter dem Dateipfad '01-daten/quiz-aufgabe1.csv' liegt folgender Datensatz.
+
+| ID | Name | Geburtsdatum | Gehalt |
+|---|---|---|---|
+| 1 | Anna | 1986-04-12 | 55000 |
+| 2 | Bernd | 1990-05-23 | 62000 |
+| 3 | Carla | 1982-11-30 | 71000 |
+| 4 | David | 1975-03-15 | 58000 |
+
+Jedoch gelingt das Einlesen mit der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` nicht wie gewünscht.
+
+``` {python}
+import pandas as pd
+
+dateipfad = '01-daten/quiz-aufgabe1.csv'
+aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad)
+print(aufgabe1.info())
+```
+
+Welche Argumente müssen der Pandas-Funktion `pd.read_csv(filepath_or_buffer = dateipfad)` übergeben werden, damit der Datensatz korrekt eingelesen wird?
+
+2. Ein Fehler bei der Datenerhebung soll korrigiert werden. Kennzeichnen Sie alle Beobachtungen für Personen, die vor 1980 geboren wurden als ungültig.
+
+3. Sortieren Sie die Spalte Geburtsdatum aufsteigend (jüngste Person zuerst). Sortieren Sie den gesamten Dataframe aufsteigend.
+
+4. Warum ist das Geburtsdatum der jüngsten Person "größer" als das der nächstälteren Person?
+
+5. In einem Ordner liegen folgende Dateien: ['Datei0.jpg', 'Datei1.csv', 'Datei2.txt', 'Datei3.png']. Sie möchten alle Dateien mit der Endung .csv und .txt mit dem Modul glob einlesen. Wie könnte der Dateipfad im Argument 'pathname' beschrieben werden, um alle Dateien einzulesen `glob.glob(pathname = ordnerpfad + '...')`?
+
+6. Maske aufheben: Das maskierte Array m_daten soll demaskiert werden. Jedoch bleibt der Befehl `m_daten.mask = ma.nomask` ohne Erfolg. Was könnte die Ursache sein?
+
+``` {python}
+#| include: false
+m_daten = ma.MaskedArray([1, 2, 3, 4])
+m_daten[2] = ma.masked
+m_daten.harden_mask()
+```
+
+``` {python}
+print(m_daten, "\n")
+
+m_daten.mask = ma.nomask
+print(m_daten, "\n")
+```
+
+7. Welche Aussagen treffen zu?
+
+    A) HDF5 und netCDF4 sind speziell für den Umgang mit großen, komplexen wissenschaftlichen Datensätzen optimiert und unterstützen mehrdimensionale Arrays.
+
+    B) HDF5 ist eine hierarchische Datenstruktur, deren Aufbau der Verzeichnisstruktur eines Computers gleicht. NetCDF4 ist dagegen eine flache Datenstruktur und unterstützt verzeichnisartige Datenstrukturen nicht.
+
+    C) Beide Formate, HDF5 und netCDF4, können ausschließlich ein- und zweidimensionale Datensätze speichern.
+
+    D) Mit HDF5 und netCDF4 können umfangreiche Metadaten hinterlegt werden. Die Formate gelten deshalb als selbstbeschreibend.
+
+
+
+::: {.callout-tip collapse="true"}
+## Lösungen
+
+Aufgabe 1: pd.read_csv()
+
+``` {python}
+dateipfad = '01-daten/quiz-aufgabe1.csv'
+aufgabe1 = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', parse_dates = ['Geburtsdatum'], dtype = {'Name': 'string'})
+print(aufgabe1.info())
+```
+
+Aufgabe 2: Beobachtungen als ungültig markieren
+
+``` {python}
+bedingung = aufgabe1['Geburtsdatum'].dt.year < 1980
+print(bedingung, "\n")
+
+# pd.NA für Zeichenketten und Ganzzahlen
+## NumPy-Datentyp int64 führt zur Umwandlung des Datentyps der Spalte Gehalt
+aufgabe2 = aufgabe1.copy()
+aufgabe2.loc[bedingung, :] = pd.NA
+print("NumPy-Datentyp int64 führt zur Umwandlung des Datentyps der Spalte Gehalt")
+print(aufgabe2, "\n")
+# 3  NaN   <NA>          NaT      NaN
+
+## Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen
+aufgabe2 = aufgabe1.copy()
+aufgabe2['Gehalt'] = aufgabe2['Gehalt'].astype('Int64')
+aufgabe2['ID'] = aufgabe2['ID'].astype('Int64')
+aufgabe2.loc[bedingung, :] = pd.NA
+print("Pandas-Datentyp Int64 unterstützt fehlende Werte für Ganzzahlen")
+print(aufgabe2)
+# 3  NaN   <NA>          NaT    <NA>
+```
+
+Aufgabe 3: datetime aufsteigend sortieren
+
+``` {python}
+aufgabe3 = aufgabe2.copy()
+print(aufgabe3['Geburtsdatum'].sort_values(ascending = False), "\n")
+
+# Sortieren des DataFrames
+print(aufgabe3.sort_values(by = 'Geburtsdatum', ascending = False, inplace = True), "\n")
+
+```
+
+Aufgabe 4: Welches Datum ist größer und warum?
+
+Python zählt die Zeit ausgehend von der sogenannten Epoche `pd.to_datetime(0)`. Jüngere Menschen wurden in größerem Abstand zur Epoche geboren.
+
+``` {python}
+aufgabe4 = pd.DataFrame({'Geburtsdatum': aufgabe3['Geburtsdatum'].sort_values(ascending = False)})
+aufgabe4['timedelta zur Epoche'] = aufgabe4['Geburtsdatum'] - pd.to_datetime(0)
+
+print(aufgabe4)
+
+```
+
+Aufgabe 5: glob
+
+`glob.glob(pathname = 'ordnerpfad' + '?????[1-2].*')` oder  
+`glob.glob(pathname = 'ordnerpfad' + 'Datei[1-2].*')` oder  
+`glob.glob(pathname = 'ordnerpfad' + '*[1-2].*')`
+
+Aufgabe 6: masked Array
+
+Das maskierte Array hat eine hard mask.
+
+``` {python}
+m_daten.soften_mask()
+m_daten.mask = ma.nomask
+print(m_daten, "\n")
+```
+
+Aufgabe 7: HDF5 und netCDF4
+
+Richtige Antworten: A) und D)
+
+::: 
+
+## Übungsaufgaben
+
+#### Ein sehr unordentlicher Datensatz
+Das Statistische Amt der Europäischen Union Eurostat führt die amtlichen europäischen Statistiken. In der [bei Eurostat verfügbaren](https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Natural_gas_price_statistics#Natural_gas_prices_for_non-household_consumers) Datei ([Direktlink auf XLSX-Datei](https://ec.europa.eu/eurostat/statistics-explained/images/3/32/SE_figures_for_Gas_2023S2_v3.xlsx)) sind die Preise für Erdgas für die Mitgliedstaaten und verschiedene mit der Europäischen Union assoziierte Staaten erfasst. Lesen Sie das Tabellenblatt 'Table 1' entweder so ein, dass 
+  
+  - alle Werte mit einem sinnvollen numerischen Datentyp eingelesen werden.
+  
+  - ENTWEDER in einer zweidimensionalen Struktur jede Zeile eine Beobachtung und jede Beobachtung eine Zeile sowie jede Spalte eine Variable und jede Variable eine Spalte ist.  
+
+  - ODER wählen Sie eine sinnvolle mehrdimensionale Struktur.
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|---|
+| Preise für Erdgas | "01-daten/SE_figures_for_Gas_2023S2_v3.xlsx" |
+:::
+
+#### Ein schwieriges Format
+Das statistische Bundesamt veröffentlicht eine Statistik der erteilten Baugenehmigungen, die zum Zeitpunkt der Erstellung diese Bausteins für die Jahre 2015 bis 2023 vorliegt. Die Daten können hier abgerufen werden: <https://www-genesis.destatis.de/datenbank/online/table/31111-0006/sequenz=tabelleErgebnis&selectionname=31111-0006&zeitscheiben=1>.
+
+Laden Sie mindestens zwei Jahrgänge herunter und lesen Sie die Dateien in einem gemeinsamen Datensatz ein. Ordnen Sie jedem Wert das Jahr der Beobachtung zu, indem Sie eine Variable 'Jahr' einfügen und den Datensatz entsprechend strukturieren.
+
+  - Wie können Sie das Jahr aus dem Datensatz auslesen?
+
+  - Liegen alle Variablen in Spalten vor?
+
+Dem Skript liegen die Dateien in folgendem Pfad bei:
+
+::: {style="font-size: 90%;"}
+| Daten | Ordnerpfad |
+|---|---|
+| Baugenehmigungen verschiedener Jahre | "01-daten/baugenehmigungen" |
+:::
+

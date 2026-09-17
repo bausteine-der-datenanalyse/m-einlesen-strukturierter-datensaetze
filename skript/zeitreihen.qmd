@@ -1,0 +1,587 @@
+# Zeitreihen {#sec-zeitreihen}
+
+``` {python}
+# Vorbereitung: Module aus vorherigem Kapitel erneut laden
+import numpy as np
+import pandas as pd
+```
+
+## Datum und Zeit in NumPy und Pandas
+Die Module NumPy und Pandas nutzen den Datentyp `datetime64`, um Datums- und Zeitinformationen zu verarbeiten.
+
+::: {.panel-tabset}
+## NumPy
+`datetime64`-Objekte werden mit der Funktion `np.datetime64()` angelegt, der Datentyp wird in der Ausgabe von Python auch durch den Buchstaben M repräsentiert. `datetime64`-Objekte können auf zwei Arten angelegt werden:
+
+  - Eine Zeichenkette nach [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) als Repräsentation eines Datums in der festgelegten Reihenfolge Jahr, Monat, Tag, Stunde, Minute, Sekunde, Millisekunde im Format `YYYY-MM-DD 12:00:00.000`. Als Zeichentrenner zwischen Datum und Uhrzeit sind ein Leerzeichen oder der Buchstabe T zulässig. Der Datentyp und die kleinste verwendete Einheit werden im Attribut `dtype` gespeichert.
+  
+``` {python} 
+print(np.datetime64('2024'), np.datetime64('2024').dtype)
+print(np.datetime64('2024-10-31'), np.datetime64('2024-10-31').dtype)
+print(np.datetime64('2024-10-31T12:24:59.999'), np.datetime64('2024-10-31T12:24:59.999').dtype)
+```
+
+  - Als Zahl relativ zur Epoche und unter Angabe einer Zeiteinheit. Die verfügbaren Zeiteinheiten sind years ('Y'), months ('M'), weeks ('W'), days ('D') sowie hours ('h'), minutes ('m'), seconds ('s'), milliseconds ('ms') und weitere sekundenbasierte Einheiten bis zur Attosekunde (siehe [NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-units)).
+
+``` {python} 
+print(np.datetime64(10 * 1000, 'D'), np.datetime64(10 * 1000, 'D').dtype)
+print(np.datetime64(1000 * 1000, 'h'), np.datetime64(1000 * 1000, 'h').dtype)
+print(np.datetime64(1000 * 1000 * 1000, 's'), np.datetime64(1000 * 1000 * 1000, 's').dtype)
+```
+
+Außerdem können Datetime-Formate anderer Module in `np.datetime64()` umgewandelt werden.
+
+Beim Anlegen eines Arrays, kann die Zeiteinheit gewählt werden.
+
+``` {python}
+my_array = np.array(['2007-07-13', '2006-01-13', '2010-08-13'], dtype = 'datetime64[s]')
+print(my_array, my_array.dtype)
+```
+
+Der Datentyp `datetime64` ist mit den meisten NumPy-Funktionen kompatibel.
+
+``` {python}
+np.arange('2005-02', '2005-03', dtype = 'datetime64[D]')
+```
+
+([NumPy Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html))
+
+## Pandas
+
+In Pandas werden `datetime64`-Objekte mit den Funktionen `pd.to_datetime()` oder `pd.date_range()` angelegt.  
+*Hinweis: Eine weitere Möglichkeit ist die Funktion `pd.Timestamp()`, die umfangreichere Möglichkeiten zur Erzeugung eines Zeitpunkts bietet, aber kein string-parsing unterstützt.*
+
+`pd.to_datetime()` erzeugt Werte des Datentyps `datetime64[ns]` (mit `pd.to_datetime()` erzeugte Skalare (Einzelwerte) werden als Timestamp (Zeitpunkt) ausgegeben, die kein Attribut `dtype` haben). Die Funktion `pd.to_datetime()` akzeptiert als Eingabewerte:
+
+  - datetime-Objekte anderer Module.
+
+  - Zahlen und eine Zeiteinheit `pd.to_datetime(1, unit = None)` (Standard sind Nanosekunden). Das Argument `unit` nimmt die Werte 'ns', 'ms', 's', 'm', 'h', 'D', 'W' für Nanosekunde, Millisekunde, Sekunde, Minute, Stunde, Tag, Woche und 'MS' oder 'ME' für einen Monat (für Monatsanfang oder Monatsende) sowie für das Jahr 'YS' oder 'YE' (für Jahresanfang oder Jahresende) entgegen. Erzeugt wird ein Zeitpunkt relativ zur Epoche.
+  
+``` {python}
+print(pd.to_datetime(1000, unit = 'D'))
+print(pd.to_datetime(1000 * 1000, unit = 'h'))
+print(pd.to_datetime(1000 * 1000 * 1000, unit = 's'))
+```
+
+  - Zeichenketten, die ein Datum oder ein Datum mit Uhrzeit ausdrücken, formatiert nach [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html).
+
+``` {python}
+print(pd.to_datetime('2017'))
+print(pd.to_datetime('2017-01-01T00'))
+print(pd.to_datetime('2017-01-01 00:00:00'))
+```
+
+  - Anders formatierte Zeichenketten mit dem Argument format = `"%d/%m/%Y"` (siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior)).
+
+``` {python}
+print(pd.to_datetime('Monday, 12. August `24', format = "%A, %d. %B `%y"))
+print(pd.to_datetime('Monday, 12. August 2024, 12:15 Uhr CET', format = "%A, %d. %B %Y, %H:%M Uhr %Z"))
+```
+
+  - Dictionary oder DataFrame.
+
+``` {python}
+print(pd.to_datetime({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]}), "\n")
+print(pd.to_datetime(pd.DataFrame({'year':[2020, 2024], 'month': [1, 11], 'day': [1, 21]})))
+```
+
+Die Funktion `pd.date_range()` erzeugt ein Array vom Typ `DatetimeIndex` mit dtype `datetime64`. Genau drei der folgenden vier Argumente sind für die Erzeugung erforderlich: 
+
+  - start: Beginn der Reihe.
+
+  - end: Ende der Reihe (inklusiv)
+
+  - freq: Schrittweite (bspw. Jahr, Tag, Geschäftstag, Stunde oder Vielfache wie '6h' - siehe [Liste verfügbarer strings](https://pandas.pydata.org/docs/user_guide/timeseries.html#timeseries-offset-aliases))
+
+  - periods: Anzahl der zu erzeugenden Werte.
+
+``` {python}
+#| warning: false
+
+print(pd.date_range(start = '2017', end = '2024', periods = 3), "\n")
+
+print(pd.date_range(start = '2017', end = '2024', freq = 'YE'), "\n")
+
+print(pd.date_range(end = '2024', freq = 'h', periods = 3))
+```
+
+:::
+
+Zeitdifferenzen werden über einen eigenen Datentyp dargestellt (siehe folgendes Beispiel).  
+<!-- **Notiz für mich: Anwendungsfall Zeitzonen verschieben unabhängig von einer Zeitzone (und ohne die Zeitzonensyntax)** -->
+
+::: {.callout-note collapse="true"}
+## Zeitdifferenzen in NumPy und Pandas
+
+:::: {.panel-tabset}
+
+## NumPy
+Zeitdifferenzen werden mit dem Datentyp `timedelta64` abgebildet. Dieser wird wie `datetime64` durch Angabe einer Ganzzahl und einer Zeiteinheit angelegt.
+
+``` {python}
+np.timedelta64(1, 'D')
+```
+
+Objekte der Typen `datetime64` und `timedelta64` ermöglichen es, Operationen mit Datum und Zeit durchzuführen (weitere Beispiele in der [NumPy-Dokumentation](https://numpy.org/doc/stable/reference/arrays.datetime.html#datetime-and-timedelta-arithmetic)).
+
+``` {python}
+print(np.datetime64('today') - np.datetime64('2000-01-01', 'D'))
+print(np.datetime64('now') - np.datetime64('2000-01-01', 'h'))
+
+print("\n\nEine einfache Zeitverschiebung:", np.datetime64('now') - np.timedelta64(1, 'h'))
+print("Wie viele Tage hat die Woche?", np.timedelta64(1,'W') / np.timedelta64(1,'D'))
+```
+
+## Pandas
+Zeitdifferenzen können zum einen wie in NumPy durch Angabe einer Ganzzahl und einer Zeiteinheit angelegt werden. Außerdem ist die Übergabe mit Argumenten möglich (zulässige Argumente sind: weeks, days, hours, minutes, seconds, milliseconds, microseconds, nanoseconds).
+
+``` {python}
+pd.Timedelta(1, 'D')
+pd.Timedelta(days = 1, hours = 1)
+```
+
+**Wichtig:** Anders als in NumPy werden Zeitdifferenzen in Monaten und Jahren nicht mehr von Pandas unterstützt.
+
+``` {python}
+try:
+  print( pd.Timedelta(1, 'Y'))
+except ValueError as error:
+  print(error)
+else:
+  print( pd.Timedelta(1, 'Y'))
+```
+
+Zum anderen können Zeitdifferenzen mit einer Zeichenkette erzeugt werden.
+``` {python}
+print(pd.Timedelta('10sec'))
+print(pd.Timedelta('10min'))
+print(pd.Timedelta('10hours'))
+print(pd.Timedelta('10days'))
+print(pd.Timedelta('10w'))
+```
+
+Mit Hilfe einer Zeitdifferenz können Zeitreihen leicht verschoben werden.
+
+``` {python}
+pd.date_range(start = '2024-01-01T00:00', end = '2024-01-01T02:00', freq = '15min') + pd.Timedelta('30min')
+```
+
+::::
+
+&nbsp;
+
+**Wie alt sind Sie in Tagen? Wie alt in Sekunden? Rechnen Sie mit NumPy oder Pandas.**
+
+:::: {#tip-alter .callout-tip collapse="true"}
+## Tipp Pandas und Musterlösung Alter
+
+Für eine elegante Lösung in Pandas schauen Sie sich die verfügbaren Methoden und Attribute von Timedelta-Objekten an.
+
+``` {.raw}
+dir(pd.Timedelta(0))
+```
+
+::::: {#tip-loesungalter .callout-tip collapse="true"}
+## Musterlösung
+
+Ersetzen sie in der Lösung die Zeichenkette 'YYYY-MM-DD' bzw., wenn Sie die Uhrzeit Ihrer Geburt kennen, die Zeichenkette 'YYYY-MM-DDTHH:MM' durch ihren Geburtstag.
+
+#### NumPy
+In NumPy können die Schlüsselwörter `np.datetime64('today')` und `np.datetime64('now')` verwendet werden. Die Ausgabe ist in Tagen bzw. in Sekunden aufgelöst.
+
+``` {.raw}
+print(np.datetime64('today') - np.datetime64('YYYY-MM-DD', 'D'))
+print(np.datetime64('now') - np.datetime64('YYYY-MM-DDTHH:MM', 's'))
+```
+
+#### Pandas
+In Pandas werden die Schlüsselwörter `pd.to_datetime('today')` und `pd.to_datetime('now')` in Nanosekunden aufgelöst.  
+
+``` {.raw}
+(pd.to_datetime('today') - pd.to_datetime('YYYY-MM-DD')).days
+(pd.to_datetime('now') - pd.to_datetime('YYYY-MM-DDTHH:MM')).total_seconds()
+```
+
+:::::
+::::
+:::
+
+## Zeitreihen einlesen
+Insbesondere das Modul Pandas bietet effiziente Möglichkeiten, um Datumsformate korrekt einzulesen. Im Folgenden wird das Einlesen von Zeitreihen mit NumPy und Pandas anhand von Strommarktdaten demonstriert. In @sec-übungenzeitreihen stehen verschiedene Übungsaufgaben zur Verfügung.
+
+Die Bundesnetzagentur veröffentlicht verschiedene Strommarktdaten, darunter die Großhandelspreise. Die Strommarktdaten der Bundesnetzagentur müssen manuell auf [https://www.smard.de/](https://www.smard.de/home/downloadcenter/download-marktdaten/) heruntergeladen werden. In diesem Skript werden Daten für das Jahr 2023 benutzt.
+
+::: {style="font-size: 90%;"}
+| Daten | Dateiname |
+|---|---|
+| Großhandelspreise 2023 | Gro_handelspreise_202301010000_202401010000_Stunde.csv |
+| Großhandelspreise 2023 (Englisch) | Day-ahead_prices_202301010000_202401010000_Hour.csv |
+:::
+
+::: {#wrn-SMARD .callout-warning appearance="simple" collapse="true"}
+## SMARD Daten herunterladen
+
+:::: {layout="[[50, 50], [50, 50], [1]]"}
+
+Beim der Auswahl des Zeitraums auf Akzeptieren klicken. 
+
+Daten in Originalauflösung auswählen und auf Download klicken.
+
+![&nbsp;](00-bilder/smard-accept.png)
+
+![&nbsp;](00-bilder/smard-day-ahead-prices.png)
+
+Das Datumsformat der Dateien ist abhängig von der auf der Internetseite eingestellten Sprache (Deutsch/English).
+::::
+:::
+
+::: {.panel-tabset}
+
+### NumPy
+Der Versuch, die Datei mit `np.loadtxt()` einzulesen, führt zu verschiedenen Fehlermeldungen (Datentyp ist nicht numerisch, Spaltenzahl kann nicht ermittelt werden). Diesen wird durch Spezifizierung des Datentyps `dtype = str` und der Beschränkung auf die erste Zeile `max_rows = 1` begegnet.
+
+``` {python}
+dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1)
+preise
+```
+
+Auf diese Weise kann die erste Zeile eingelesen und das Semikolon als Zeichentrenner identifiziert werden. Außerdem sind Fehler mit der Zeichenkodierung auffällig. Deshalb werden der Zeichentrenner mit `delimiter = ';'` und die Kodierung der Datei mit `encoding = 'UTF-8'` übergeben.
+
+``` {python}
+dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 1, delimiter = ';', encoding = 'UTF-8')
+preise
+```
+
+Es verbleibt die Zeichenkette "\\ufeff" am Beginn des Arrays. Diese kennzeichnet die [Byte-Reihenfolge](https://de.wikipedia.org/wiki/Byte-Reihenfolge) der Datei. Diese kann mit der Übergabe der Kodierung `encoding = 'UTF-8-sig'` übersprungen werden ([Mark Tolonen auf stackoverflow.com](https://stackoverflow.com/a/72466627), [Python Dokumentation](https://docs.python.org/3/library/codecs.html)). Auf diese Weise wird die erste Zeile korrekt eingelesen, sodass die Anzahl der einzulesenden Zeilen mit `max_rows = 2` erweitert werden kann, um die Datentypen zu identifizieren.
+
+``` {python}
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', max_rows = 2, delimiter = ';', encoding = 'UTF-8-sig')
+preise
+```
+
+Die ersten beiden Spalten enthalten Datums- und Zeitinformationen, die folgenden numerische Werte, wobei eine Spalte mit '-' kodierte fehlende Werte enthält. Als Dezimaltrennzeichen wird das Komma verwendet. Da NumPy-Arrays immer nur einen Datentyp enthalten können, muss der Datensatz entsprechend aufgeteilt werden. Für die viertletzte Spalte ist zu prüfen, ob diese ausschließlich fehlende Werte enthält.
+
+Zunächst wird der Datensatz vollständig als string eingelesen, die Spaltenbeschriftungen werden mit `skiprows = 1` übersprungen.
+
+``` {python}
+preise = np.loadtxt(fname = dateipfad, dtype = 'str', delimiter = ';', encoding = 'UTF-8-sig', skiprows = 1)
+```
+
+Anschließend werden im ersten Schritt die Datumsspalten isoliert. NumPy unterstützt keine String-Formatierung, die Zeitstempel müssen deshalb manuell von '01.01.2023 00:00' in die Formatierung nach ISO 8601 'YYYY-MM-DDThh:mm' konvertiert werden.
+
+``` {python}
+# Datumsspalten isolieren
+preise_date = preise[ : , 0:2]
+
+# Zeichenkette manuell ins Format ISO 8601 bringen
+## Spalte 0
+### neues Array anlegen
+preise_datumvon = np.array([], dtype = 'datetime64')
+
+for element in preise_date[ : , 0]:
+
+  # string umstellen
+  neues_element = element[6:10] + '-' + \
+  element[3:5] + '-' + \
+  element[0:2] + 'T' + \
+  element[11:13] +  ':' + \
+  element[14:]
+
+  # in datetime64 konvertieren
+  neues_element = np.datetime64(neues_element)
+
+  # anhängen
+  preise_datumvon = np.append(preise_datumvon, neues_element)
+
+## Spalte 1
+### neues Array anlegen
+preise_datumbis = np.array([], dtype = 'datetime64')
+
+for element in preise_date[ : , 1]:
+
+  # string umstellen
+  neues_element = element[6:10] + '-' + \
+  element[3:5] + '-' + \
+  element[0:2] + 'T' + \
+  element[11:13] +  ':' + \
+  element[14:]
+
+  # in datetime64 konvertieren
+  neues_element = np.datetime64(neues_element)
+
+  # anhängen
+  preise_datumbis = np.append(preise_datumbis, neues_element)
+
+# die letzten 4 Elemente angucken
+print(preise_datumvon[-4:], preise_datumvon.dtype)
+print(preise_datumbis[-4:], preise_datumbis.dtype)
+
+```
+
+Im zweiten Schritt wird geprüft, ob die viertletzte Spalte ausschließlich fehlende Werte enthält. Die Position der Spalte ist zwar bekannt, wird aber dennoch mit der Funktion `np.argwhere()` ermittelt. Mit der Funktion `len(np.unique())` werden die einzigartigen Werte abgezählt. 
+
+``` {python}
+# numerische Spalten isolieren
+preise_numeric = preise[ : , 2:]
+
+# Position der Spalte mit fehlendem Wert '-' in der nullten Zeile finden
+position = np.argwhere(preise_numeric[0, : ] == '-')
+print("Spaltenindex:", position)
+
+# prüfen, welche Werte in der Spalte vorkommen
+print("Anzahl einzigartiger Werte:", len(np.unique(preise_numeric[:, position])))
+
+```
+
+Da die viertletzte Spalte ausschließlich das Zeichen '-' enthält, kann die Spalte entfernt werden. Anschließend kann der Datentyp als Fließkommazahl deklariert werden. Dazu ist es erforderlich, mit `np.char.replace(preise_numeric, ',', '.')` das Dezimaltrennzeichen Komma durch den Punkt zu ersetzen. Die Spaltennamen müssen separat gespeichert werden.
+
+``` {python}
+# Spalte mit fehlenden Werten entfernen
+preise_numeric = np.delete(arr = preise_numeric, obj = position, axis = 1) # axis 1 = columns
+
+# Dezimaltrennzeichen ersetzen
+preise_numeric = np.char.replace(preise_numeric, ',', '.')
+preise_numeric = preise_numeric.astype('float64')
+
+# Spaltennamen speichern
+preise_numeric_colnames = np.loadtxt(fname = dateipfad, dtype = 'str', delimiter = ';', encoding = 'UTF-8-sig', max_rows = 1)
+preise_numeric_colnames = preise_numeric_colnames[2:] # Datumsspalten entfernen
+preise_numeric_colnames = np.delete(arr = preise_numeric_colnames, obj = position)
+
+print(preise_numeric_colnames, "\n")
+print(preise_numeric[0:2, :], preise_numeric.dtype)
+```
+
+### Pandas
+Zunächst wird die Datei der Großhandelspreise mit der Funktion `pd.read_csv()` eingelesen und der Erfolg durch Aufruf der Funktionen `pd.DataFrame.info()` kontrolliert.
+
+``` {python}
+dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = pd.read_csv(filepath_or_buffer = dateipfad)
+print(preise.info())
+```
+
+Es wird nur eine Spalte erkannt, da im Datensatz das Semikolon als Zeichentrenner verwendet wird, das nun mit dem Argument `sep = ';'` übergeben wird (Standardwert ist das Komma). Durch Aufruf der Funktionen `pd.DataFrame.info()` und `pd.DataFrame.head()` wird der Erfolg kontrolliert.
+
+``` {python}
+dateipfad = "01-daten/Gro_handelspreise_202301010000_202401010000_Stunde.csv"
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';')
+print(preise.info())
+preise.head()
+```
+
+&nbsp;
+
+In der Ausgabe ist am Datentyp object erkennbar, dass für keine Spalte der Datentyp erkannt wurde. In der Darstellung der ersten Zeilen des Datensatzes ist das Komma als Dezimaltrennzeichen zu sehen, der Standardwert der Funktion `pd.read_csv()` ist aber der Punkt. Nach Übergabe des Dezimaltrennzeichens sollten die numerischen Spalten korrekt erkannt werden.
+
+``` {python}
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',')
+print(preise.info())
+```
+
+Der Datentyp der Spalte DE/AT/LU [€/MWh] Originalauflösungen wird nicht als float64 erkannt. In der Ausgabe ist zu sehen, dass wenigstens in den ersten Zeilen fehlende Werte durch '-' markiert sind. Mittels der Methode `.describe()` kann überprüft werden, ob die Spalte überhaupt numerische Werte enthält.
+
+``` {python}
+preise['DE/AT/LU [€/MWh] Originalauflösungen'].describe()
+```
+
+Da dies nicht der Fall ist, kann die Spalte entfernt werden. Anschließend können die ersten beiden Spalten mit der Funktion `pd.to_datetime()` in ein Datumsformat konvertiert werden. Eine Zelle enthält Zeichenketten im Schema '01.01.2023 00:00'. Mit Hilfe der [strftime-Dokumentation](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior) kann der Funktion das Datumsformat übergeben werden.
+
+``` {python}
+preise.drop(labels = 'DE/AT/LU [€/MWh] Originalauflösungen', axis = 'columns', inplace = True)
+
+## Datumsspalten konvertieren
+preise['Datum von'] = pd.to_datetime(preise['Datum von'], format = "%d.%m.%Y %H:%M")
+preise['Datum bis'] = pd.to_datetime(preise['Datum bis'], format = "%d.%m.%Y %H:%M")
+print(preise.info())
+```
+
+Wenn der innere Aufbau einer Datei bekannt ist, können die notwendigen Parameter auch direkt beim Einlesen mit `pd.read_csv` übergeben werden (Argumente `usecols`, `parse_dates` und `date_format`).
+
+``` {python}
+preise = pd.read_csv(filepath_or_buffer = dateipfad, sep = ';', decimal = ',',
+                     usecols = list(range(0, 15)) + list(range(16, 19)), # Auswahl der einzulesenden Spalten
+                     parse_dates = ['Datum von', 'Datum bis'], date_format = "%d.%m.%Y %H:%M") # Formatierung des Datums
+print(preise.info())
+
+```
+:::
+
+## Zugriff auf Zeitreihen
+Pandas bietet zahlreiche Attribute und Methoden, um Informationen aus `datetime64`-Objekten auszulesen. NumPy unterstützt vergleichbare Funktionen derzeit nicht nativ. Eine Übersicht aller verfügbaren Attribute und Methoden liefert  `dir(pd.to_datetime(0))`.
+
+``` {python}
+# Attribute
+print("Jahr:", pd.to_datetime(0).year)
+print("Monat:", pd.to_datetime(0).month)
+print("Tag:", pd.to_datetime(0).day)
+print("Stunde:", pd.to_datetime(0).hour)
+print("Minute:", pd.to_datetime(0).minute)
+print("Sekunde:", pd.to_datetime(0).second)
+print("Tag des Jahres:", pd.to_datetime(0).dayofyear)
+print("Wochentag:", pd.to_datetime(0).dayofweek)
+print("Tage im Monat:", pd.to_datetime(0).days_in_month)
+print("Schaltjahr:", pd.to_datetime(0).is_leap_year)
+
+# Methoden
+print("\nDatum:", pd.to_datetime(0).date())
+print("Zeit:", pd.to_datetime(0).time())
+print("Wochentag (0-6):", pd.to_datetime(0).weekday())
+print("Monatsname:",  pd.to_datetime(0).month_name())
+```
+
+Für `pd.Series` erfolgt der Zugriff über den .dt-Operator (siehe [.dt accessor](https://pandas.pydata.org/docs/user_guide/basics.html#basics-dt-accessors)). Der Zugriff auf verschiedene Informationen über ein Attribut (ohne Klammern) oder über eine Methode (mit Klammern) unterscheidet sich jedoch teilweise (siehe folgendes Beispiel).
+
+:::: {.callout-note collapse="true"}
+## Der dt-Operator
+
+``` {python}
+# Attribute
+print("Datum:", pd.Series(pd.to_datetime(0)).dt.date) # Unterschied
+print("Zeit:", pd.Series(pd.to_datetime(0)).dt.time) # Unterschied
+print("Jahr", pd.Series(pd.to_datetime(0)).dt.year)
+print("Monat", pd.Series(pd.to_datetime(0)).dt.month)
+print("Tag", pd.Series(pd.to_datetime(0)).dt.day)
+print("Stunde", pd.Series(pd.to_datetime(0)).dt.hour)
+print("Minute", pd.Series(pd.to_datetime(0)).dt.minute)
+print("Sekunde", pd.Series(pd.to_datetime(0)).dt.second)
+
+print("\nTag des Jahres", pd.Series(pd.to_datetime(0)).dt.dayofyear)
+print("Wochentag:", pd.Series(pd.to_datetime(0)).dt.dayofweek)
+print("Wochentag:", pd.Series(pd.to_datetime(0)).dt.weekday) # Unterschied
+print("Tage im Monat:", pd.Series(pd.to_datetime(0)).dt.days_in_month)
+print("Schaltjahr:", pd.Series(pd.to_datetime(0)).dt.is_leap_year)
+
+# Methoden
+print("\nName des Monats:", pd.Series(pd.to_datetime(0)).dt.month_name())
+
+```
+
+::::
+
+Die im vorherigen Abschnitt eingelesenen Großhandelspreise für Strom 2023 sollen auf die Unterschiede an Werktagen und am Wochenende untersucht werden. **Vergleichen Sie den durchschnittlichen Strompreis im Gebiet Deutschland/Luxemburg an Werktagen (Montag - Freitag) mit dem durchschnittlichen Strompreis am Wochenende.**
+
+::: {#tip-Durchschnittspreis .callout-tip collapse="true"}
+## Musterlösung Strompreisvergleich
+
+``` {python}
+## Zugriff mit .dt für pd.Series
+# Werktage und Wochenende unterscheiden
+werktags = preise['Datum von'].dt.weekday.isin(list(range(0, 5)))
+wochenende = preise['Datum von'].dt.weekday.isin(list(range(5, 7)))
+
+print(werktags.head())
+print(wochenende.head())
+
+# Preise vergleichen
+preis_werktags = preise.loc[werktags, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
+preis_wochenende = preise.loc[wochenende, 'Deutschland/Luxemburg [€/MWh] Originalauflösungen'].mean()
+
+print(f"\nDurchschnittspreis werktags: {preis_werktags:.2f} [€/MWh]\nDurchschnittspreis am Wochenende: {preis_wochenende:.2f} [€/MWh]")
+```
+
+:::
+
+## Fehlende Werte in Zeitreihen
+NumPy und Pandas unterstützen `NaT` für `np.datetime64`, `np.timedelta64`
+
+  - NumPy: <https://numpy.org/doc/stable/reference/arrays.datetime.html>  
+  `NAT`, in any combination of lowercase/uppercase letters, for a “Not A Time” 
+  
+  - Pandas: <https://pandas.pydata.org/docs/user_guide/missing_data.html>
+
+::: {#wrn-logicNaT .callout-warning appearance="simple" collapse="false"}
+## Achtung Logik!
+
+Die logische Abfrage fehlender Werte unterscheidet sich für `None`, `np.nan` und `pd.NA` und `pd.NaT`. 
+``` {python}
+bool_values = [None, float('nan'), pd.NA, pd.NaT]
+
+for element in bool_values:
+  try:
+    bool_value = bool(element)
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wahrheitswert von", element, "ist", bool_value)
+```
+
+Dies gilt auch für die Wertgleichheit.
+``` {python}
+for element in bool_values:
+  try:
+    result = element == element
+  except TypeError as error:
+      print(error)
+  else:
+    print("Wertgleichheit von", element, "ist", result)
+```
+
+:::
+
+## Übungen: Zeitreihen einlesen {#sec-übungenzeitreihen}
+
+::: {.border layout="[[5, 90, 5], [1], [1]]"}
+
+&nbsp;
+
+"everybody I know has war stories about cleaning up lousy datasets"  
+Nicholas J. Cox
+
+&nbsp;
+
+&nbsp;
+
+Cox, Nicholas J. 2004: Exploratory Data Mining and Data Cleaning. Book Review 9. In: Journal of Statistical Software 2004, Volume 11. <https://www.jstatsoft.org/article/view/v011b09/30>
+
+:::
+
+Die folgenden Übungen trainieren die Anwendung der in diesem Kapitel vorgestellten Werkzeuge und können mit NumPy oder mit Pandas gelöst werden.
+
+#### Leicht: Englisches Datumsformat einlesen
+
+**Aufgabe: Lesen Sie die Datei Dateipfad: '01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv' so ein, dass die Datentypen korrekt erkannt werden. (Hinweise zur Datei siehe @wrn-SMARD, siehe [Dokumentation strftime zur string-Formatierung](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior))**
+
+
+::: {#tip-strompreise .callout-tip collapse="true"}
+## Musterlösung Strompreise
+
+:::: {.border}
+
+``` {python}
+import pandas as pd
+
+dateipfad = "01-daten/Day-ahead_prices_202301010000_202401010000_Hour.csv"
+
+data = pd.read_csv(dateipfad, sep=";")   # Semikolon als Trennzeichen muss angegeben werden
+data.info() # -> man sieht, dass Spalten 0 "Start date" und 1 "End date" als Dtype "object" erkannt werden
+print("\n")
+
+print(data.iloc[0:10, 0:2], "\n") # anzeigen von ein paar Zeilen, um zu schauen wie die ersten beiden "Object" Spalten aufgebaut sind
+# Ausgabe lautet:
+# Start date: Jan 1, 2023 12:00 AM
+# End date Jan 1, 2023 1:00 AM
+# also bieten sich zwei Varianten an:
+
+# 1. Variante: beim Einlesen schon Datumsformat angeben:
+data = pd.read_csv(dateipfad, sep=";" , parse_dates=[0,1], date_format="%b %d, %Y %I:%M %p")   # Parameter heißt hier date_format, bei 2. Variante heißt er nur "format"
+
+# 2. Variante: Die beiden Spalten zu Anfang, die dtype object haben, separat ändern nachdem die Datei schon eingelesen wurde:
+data["Start date"] = pd.to_datetime(data["Start date"], format="%b %d, %Y %I:%M %p")  #%b für Monatsangabe als Kürzel, %I für Stunde im AM/PM Format, %p für AM/PM
+data["End date"] = pd.to_datetime(data["End date"], format="%b %d, %Y %I:%M %p")
+print(data.iloc[0:10, 0:2], "\n")
+
+data.info()
+
+```
+
+Musterlösung von Marc Sönnecken. Zur Verbesserung der Lesbarkeit wurde die Ausgabe mit `print(data.head(10))` ersetzt durch `print(data.iloc[0:10, 0:2], "\n") `. Um sich einen Überblick über einen Datensatz zu verschaffen, ist die Methode `.head()` jedoch besser geeignet
+::::
+:::
+
+#### Mittel: Strommarktdaten Österreich
+Die Austrian Power Grid AG (APG) veröffentlicht Strommarktdaten unter [https://markttransparenz.apg.at/](https://markttransparenz.apg.at/de/markt/Markttransparenz/erzeugung/Erzeugung-pro-Typ). Unter dem Link können Erzeugungsdaten für das Jahr 2023 heruntergeladen werden.
+
+::: {#wrn-Strommarkt-Austria .callout-warning appearance="simple" collapse="true"}
